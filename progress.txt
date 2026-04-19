@@ -73,3 +73,14 @@
   - Model `HtmlSection` dari parser cukup fleksibel untuk widget rendering tanpa coupling ke layar tertentu.
   - Pemisahan widget rendering memperjelas jalur refactor ContentScreen di story integrasi berikutnya.
 ---
+
+## 2026-04-20 00:15:00 - US-003
+- Implemented: Menambahkan error boundary parsing di _buildContent() serta fallback null-safe untuk excerpt, content, dan image URL di ContentScreen.
+- Files changed:
+  - lib/screens/cms/content_screen.dart
+  - test/screens/content_screen_test.dart
+  - prd.json
+- Learnings:
+  - Guard parse di level UI mencegah crash dari payload konten yang tidak terduga tanpa merusak alur loading global.
+  - Fallback `trim + empty check` pada field opsional API membuat render lebih stabil untuk variasi respon backend.
+---
