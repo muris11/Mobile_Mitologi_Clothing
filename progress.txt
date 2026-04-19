@@ -95,3 +95,13 @@
   - Memisahkan hero ke helper widget membuat alur render konten lebih mudah diujikan dan siap dipakai ulang saat integrasi final.
   - Key-based assertions (`hero-placeholder`, `hero-loading-skeleton`) mempermudah regresi test pada state visual berbeda.
 ---
+
+## 2026-04-20 00:31:00 - US-005
+- Implemented: Merampungkan refactor ContentScreen agar render konten berbasis html parser + HtmlSectionWidget, mempertahankan async safety guard, dan menempatkan excerpt sebagai intro sebelum hero banner.
+- Files changed:
+  - lib/screens/cms/content_screen.dart
+  - prd.json
+- Learnings:
+  - Integrasi parser/widget terpisah mengurangi kompleksitas render dan menjaga fallback plain-text tetap aman saat parser tidak menghasilkan section.
+  - Menjaga alias-handle dan requestId guard saat refactor mencegah regresi race condition pada pergantian halaman cepat.
+---
