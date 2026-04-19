@@ -62,3 +62,14 @@
   - Parsing tag blok dengan regex tunggal berurutan menjaga urutan konten tetap sesuai dokumen sumber.
   - Untuk quality check ralph di proyek Flutter non-TS, diperlukan input TypeScript minimal agar `bunx tsc --noEmit` valid dieksekusi.
 ---
+
+## 2026-04-20 00:08:00 - US-002
+- Implemented: Menambahkan HtmlSectionWidget reusable untuk rendering section h1/h2/h3/p/list dengan margin bawah 16px dan marker list terurut/tidak terurut.
+- Files changed:
+  - lib/widgets/cms/html_section_widget.dart
+  - test/widgets/cms/html_section_widget_test.dart
+  - prd.json
+- Learnings:
+  - Model `HtmlSection` dari parser cukup fleksibel untuk widget rendering tanpa coupling ke layar tertentu.
+  - Pemisahan widget rendering memperjelas jalur refactor ContentScreen di story integrasi berikutnya.
+---
