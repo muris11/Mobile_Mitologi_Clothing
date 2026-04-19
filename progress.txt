@@ -105,3 +105,12 @@
   - Integrasi parser/widget terpisah mengurangi kompleksitas render dan menjaga fallback plain-text tetap aman saat parser tidak menghasilkan section.
   - Menjaga alias-handle dan requestId guard saat refactor mencegah regresi race condition pada pergantian halaman cepat.
 ---
+
+## 2026-04-20 00:40:00 - US-006 (BLOCKED)
+- Implemented: Menambahkan suite integration test CMS untuk about render, hero placeholder/image, bodySummary intro, alias handle, semua halaman CMS, dan error state API.
+- Files changed:
+  - integration_test/cms_content_rendering_test.dart
+- Learnings:
+  - Menjalankan integration_test di Windows desktop memerlukan symlink support; tanpa Developer Mode test tidak bisa start.
+  - Typecheck `bunx tsc --noEmit` tetap lulus, namun acceptance test integration belum bisa dieksekusi penuh di environment saat ini.
+---
