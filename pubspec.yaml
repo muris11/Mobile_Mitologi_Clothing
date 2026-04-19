@@ -1,0 +1,75 @@
+name: mitologi_clothing_mobile
+description: Mitologi Clothing E-Commerce Mobile App - Premium fashion shopping experience with AI recommendations
+
+publish_to: "none"
+
+version: 1.0.0+1
+
+environment:
+  sdk: ^3.5.0
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+  # State Management
+  provider: ^6.1.2
+
+  # Navigation
+  go_router: ^14.2.0
+
+  # HTTP & API
+  http: ^1.2.2
+  dio: ^5.7.0
+
+  # UI Components
+  google_fonts: ^6.2.1
+  cached_network_image: ^3.4.1
+  shimmer: ^3.0.0
+  carousel_slider: ^5.0.0
+  flutter_svg: ^2.0.10+1
+  lottie: ^3.1.2
+
+  # Functionality
+  flutter_secure_storage: ^9.2.2
+  shared_preferences: ^2.3.2
+  image_picker: ^1.1.2
+  webview_flutter: ^4.9.0
+  url_launcher: ^6.3.1
+  intl: ^0.19.0
+
+  # Icons
+  cupertino_icons: ^1.0.8
+  material_symbols_icons: ^4.2801.0
+
+  # Utils
+  uuid: ^4.5.1
+  json_annotation: ^4.9.0
+  equatable: ^2.0.5
+
+  # Deep Linking
+  app_links: ^6.3.2
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+  integration_test:
+    sdk: flutter
+  flutter_lints: ^5.0.0
+  build_runner: ^2.4.13
+  json_serializable: ^6.9.0
+  flutter_launcher_icons: ^0.14.4
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  image_path: "assets/images/logo.png"
+  min_sdk_android: 21
+  remove_alpha_ios: true
+
+flutter:
+  uses-material-design: true
+
+  assets:
+    - assets/images/
+    - assets/icons/

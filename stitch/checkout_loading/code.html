@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aurelian Silk — Memproses Pembayaran</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#1d1f1c",
+                    "tertiary-fixed": "#e3e3de",
+                    "inverse-primary": "#afc8f0",
+                    "inverse-on-surface": "#f2f1ed",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-highest": "#e3e2df",
+                    "primary": "#000613",
+                    "surface-container": "#efeeea",
+                    "surface-variant": "#e3e2df",
+                    "surface-container-high": "#e9e8e4",
+                    "primary-container": "#001f3f",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#6f88ad",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#040604",
+                    "secondary": "#735c00",
+                    "on-surface-variant": "#43474e",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#faf9f5",
+                    "background": "#faf9f5",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-dim": "#dbdad6",
+                    "primary-fixed": "#d4e3ff",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1b1c1a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-fixed": "#ffe088",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-secondary-container": "#745c00",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary-fixed-dim": "#afc8f0",
+                    "surface-tint": "#476083",
+                    "outline": "#74777f",
+                    "on-primary-fixed": "#001c3a",
+                    "outline-variant": "#c4c6cf",
+                    "surface-container-low": "#f4f4f0",
+                    "on-secondary-fixed-variant": "#574500",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c1a",
+                    "secondary-container": "#fed65b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-container {
+            perspective: 1000px;
+        }
+        .premium-loader {
+            width: 80px;
+            height: 80px;
+            border: 2px solid transparent;
+            border-top-color: #735c00;
+            border-radius: 50%;
+            position: relative;
+        }
+        .premium-loader::after {
+            content: '';
+            position: absolute;
+            top: 5px;
+            left: 5px;
+            right: 5px;
+            bottom: 5px;
+            border: 2px solid transparent;
+            border-top-color: #000613;
+            border-radius: 50%;
+            opacity: 0.5;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container">
+<!-- TopAppBar -->
+<header class="bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0px_4px_20px_rgba(27,28,26,0.04)]">
+<div class="flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-950 dark:text-slate-50 cursor-pointer">arrow_back</span>
+<h1 class="font-noto-serif italic font-bold text-slate-900 dark:text-white">Aurelian Silk</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-950 dark:text-slate-50">lock</span>
+</div>
+</div>
+</header>
+<main class="min-h-screen pt-16 pb-24 flex items-center justify-center relative overflow-hidden">
+<!-- 3D Subtle Background Elements -->
+<div class="absolute inset-0 pointer-events-none">
+<div class="absolute top-[10%] left-[-10%] w-[60%] h-[60%] bg-surface-container-high rounded-full blur-[120px] opacity-40"></div>
+<div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-secondary-container/10 rounded-full blur-[100px] opacity-30"></div>
+<!-- Abstract Floating Material Forms -->
+<div class="absolute top-1/4 right-10 w-32 h-32 rounded-xl bg-white/20 backdrop-blur-sm shadow-xl rotate-12 border border-white/10 hidden md:block" data-alt="abstract transparent glass rectangle floating in space with soft reflections and silk texture"></div>
+<div class="absolute bottom-1/4 left-12 w-24 h-24 rounded-full bg-secondary/5 backdrop-blur-md shadow-inner -rotate-12 border border-secondary/5 hidden md:block" data-alt="floating golden translucent sphere with subtle satin sheen and soft ambient lighting"></div>
+</div>
+<!-- Processing Canvas -->
+<div class="relative z-10 w-full max-w-md px-6 text-center">
+<div class="perspective-container flex flex-col items-center">
+<!-- Premium Loading Animation -->
+<div class="relative mb-12">
+<div class="premium-loader animate-spin"></div>
+<div class="absolute inset-0 flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+</div>
+<!-- Textual Content -->
+<div class="space-y-4">
+<h2 class="font-headline text-2xl font-bold tracking-tight text-primary">Sedang Memproses Pembayaran...</h2>
+<p class="text-on-surface-variant max-w-[280px] mx-auto text-sm leading-relaxed font-medium">Mohon tidak menutup halaman ini atau menekan tombol kembali untuk menjaga keamanan transaksi Anda.</p>
+</div>
+<!-- Detail Card (Nesting Level 2) -->
+<div class="mt-12 w-full bg-surface-container-lowest rounded-xl p-6 shadow-[0px_20px_40px_rgba(27,28,26,0.06)] border border-outline-variant/10">
+<div class="flex items-center justify-between mb-4">
+<span class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Ringkasan Pesanan</span>
+<span class="text-xs text-secondary font-bold">#AS-99281</span>
+</div>
+<div class="flex items-center gap-4 py-4 border-y border-outline-variant/10">
+<div class="w-16 h-16 rounded-lg bg-surface-container overflow-hidden flex-shrink-0">
+<img alt="Sutra Premium" class="w-full h-full object-cover" data-alt="close-up of a luxurious navy blue silk fabric draped elegantly with soft highlights and deep shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASv872KZMKGW1dWYfEDPX5I6XA7XMbqSTdADGrs-BWc69832GPaUiCMH7UQT27UmX6hO2KnTDbBEEq1XUSQi9Aimd85YVlewJhJYM3R5zD07qHf7A_Q4k2xpH3IzO74iDJHL3a08XQ_6L2o9j9QWxTxbdUKCp_Y8PcAgD_1jkk6v1ikgdwj-zX8Cs-pbTvgLoV9SoVLMgphJRq8Atlm7CsN-v4fm0jHPy4MlAsgN26F0ImkhxbyRSOEuoqFf92m1HTmD646tgFGc8"/>
+</div>
+<div class="text-left">
+<p class="font-headline font-bold text-primary">Kaftan Sutra Aurelian</p>
+<p class="text-sm text-on-surface-variant">Midnight Navy — Satu Ukuran</p>
+</div>
+<div class="ml-auto">
+<p class="font-bold text-primary">Rp 4.250.000</p>
+</div>
+</div>
+<div class="mt-4 flex items-center gap-2 text-on-surface-variant text-xs justify-center">
+<span class="material-symbols-outlined text-[16px]">verified_user</span>
+<p>Pembayaran Terenkripsi &amp; Aman</p>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl fixed bottom-0 w-full z-50 rounded-t-[32px] shadow-[0px_-10px_40px_rgba(27,28,26,0.06)]">
+<div class="fixed bottom-0 left-0 w-full flex justify-around items-center px-8 pb-6 pt-4">
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-amber-700 transition-colors">
+<span class="material-symbols-outlined">home</span>
+<span class="font-manrope text-[10px] font-medium uppercase tracking-widest mt-1">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-amber-700 transition-colors">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-manrope text-[10px] font-medium uppercase tracking-widest mt-1">Koleksi</span>
+</div>
+<!-- Active State Logic: Mapping 'Checkout' to 'Keranjang' for context -->
+<div class="flex flex-col items-center justify-center text-slate-950 dark:text-white font-bold">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_bag</span>
+<span class="font-manrope text-[10px] font-medium uppercase tracking-widest mt-1">Keranjang</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-amber-700 transition-colors">
+<span class="material-symbols-outlined">person</span>
+<span class="font-manrope text-[10px] font-medium uppercase tracking-widest mt-1">Akun</span>
+</div>
+</div>
+</nav>
+</body></html>

@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#1d1f1c",
+                        "tertiary-fixed": "#e3e3de",
+                        "inverse-primary": "#afc8f0",
+                        "inverse-on-surface": "#f2f1ed",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-highest": "#e3e2df",
+                        "primary": "#000613",
+                        "surface-container": "#efeeea",
+                        "surface-variant": "#e3e2df",
+                        "surface-container-high": "#e9e8e4",
+                        "primary-container": "#001f3f",
+                        "on-tertiary-container": "#858783",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#6f88ad",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#040604",
+                        "secondary": "#735c00",
+                        "on-surface-variant": "#43474e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#faf9f5",
+                        "background": "#faf9f5",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "surface-dim": "#dbdad6",
+                        "primary-fixed": "#d4e3ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#faf9f5",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1b1c1a",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "on-secondary-fixed": "#241a00",
+                        "secondary-fixed": "#ffe088",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-secondary-container": "#745c00",
+                        "secondary-fixed-dim": "#e9c349",
+                        "primary-fixed-dim": "#afc8f0",
+                        "surface-tint": "#476083",
+                        "outline": "#74777f",
+                        "on-primary-fixed": "#001c3a",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-low": "#f4f4f0",
+                        "on-secondary-fixed-variant": "#574500",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c1a",
+                        "secondary-container": "#fed65b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-form-card {
+            box-shadow: 0px 20px 40px rgba(27, 28, 26, 0.06);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl shadow-[0px_4px_20px_rgba(27,28,26,0.04)]">
+<div class="flex items-center justify-between px-6 h-16 w-full">
+<button class="hover:opacity-70 transition-opacity scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-950 dark:text-slate-50">arrow_back</span>
+</button>
+<h1 class="font-headline text-lg tracking-tight text-slate-950 dark:text-slate-50">Tambah Alamat</h1>
+<div class="w-10"></div> <!-- Placeholder for centering -->
+</div>
+</nav>
+<main class="pt-24 pb-32 px-6 max-w-lg mx-auto">
+<!-- Editorial Header Section -->
+<header class="mb-10">
+<div class="w-12 h-1 bg-secondary mb-4"></div>
+<h2 class="font-headline text-3xl font-bold leading-tight mb-2">Lokasi Baru</h2>
+<p class="text-on-surface-variant text-sm font-medium">Pastikan detail pengiriman Anda akurat untuk pengalaman kurasi terbaik.</p>
+</header>
+<!-- Form Canvas -->
+<div class="space-y-8">
+<!-- Address Label Cluster -->
+<section class="space-y-4">
+<label class="font-label text-[10px] uppercase tracking-widest text-secondary font-bold">Label Alamat</label>
+<div class="flex gap-3 overflow-x-auto pb-2 no-scrollbar">
+<button class="px-6 py-3 rounded-xl bg-primary text-on-primary text-sm font-semibold whitespace-nowrap transition-all duration-300">Rumah</button>
+<button class="px-6 py-3 rounded-xl bg-surface-container-low text-on-surface-variant text-sm font-semibold whitespace-nowrap hover:bg-surface-container-high transition-all duration-300">Kantor</button>
+<button class="px-6 py-3 rounded-xl bg-surface-container-low text-on-surface-variant text-sm font-semibold whitespace-nowrap hover:bg-surface-container-high transition-all duration-300">Apartemen</button>
+</div>
+</section>
+<!-- Input Fields - Surface Nesting Design -->
+<form class="space-y-6">
+<!-- Receiver Details -->
+<div class="bg-surface-container-low p-6 rounded-[24px] space-y-5">
+<div class="space-y-2">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider px-1" for="nama_penerima">Nama Penerima</label>
+<input class="w-full bg-surface-container-lowest border-none rounded-xl px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-secondary/40 transition-shadow" id="nama_penerima" placeholder="cth. Jean Aurelian" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider px-1" for="nomor_hp">Nomor HP</label>
+<div class="flex items-center bg-surface-container-lowest rounded-xl px-4 py-3">
+<span class="text-on-surface-variant font-semibold mr-3 border-r border-outline-variant/20 pr-3">+62</span>
+<input class="w-full bg-transparent border-none p-0 text-on-surface placeholder:text-outline-variant focus:ring-0" id="nomor_hp" placeholder="812 3456 7890" type="tel"/>
+</div>
+</div>
+</div>
+<!-- Geography Details -->
+<div class="bg-surface-container-lowest perspective-form-card p-6 rounded-[32px] space-y-5">
+<div class="space-y-2">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider px-1" for="alamat_lengkap">Alamat Lengkap</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-secondary/40 transition-shadow resize-none" id="alamat_lengkap" placeholder="Nama jalan, nomor rumah, detail gedung..." rows="3"></textarea>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider px-1" for="kota">Kota</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-secondary/40 transition-shadow" id="kota" placeholder="cth. Jakarta" type="text"/>
+</div>
+<div class="space-y-2">
+<label class="block text-xs font-bold text-on-surface-variant uppercase tracking-wider px-1" for="kode_pos">Kode Pos</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-3 text-on-surface placeholder:text-outline-variant focus:ring-1 focus:ring-secondary/40 transition-shadow" id="kode_pos" placeholder="12345" type="text"/>
+</div>
+</div>
+</div>
+<!-- Toggle Switch Section -->
+<div class="flex items-center justify-between px-2 py-4">
+<div class="space-y-0.5">
+<h4 class="text-sm font-bold text-on-surface">Jadikan Alamat Utama</h4>
+<p class="text-xs text-on-surface-variant">Alamat ini akan otomatis terpilih untuk pesanan berikutnya.</p>
+</div>
+<label class="relative inline-flex items-center cursor-pointer">
+<input checked="" class="sr-only peer" type="checkbox" value=""/>
+<div class="w-11 h-6 bg-surface-container-high peer-focus:outline-none rounded-full peer peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-secondary"></div>
+</label>
+</div>
+</form>
+</div>
+<!-- Sticky Interaction Zone -->
+<div class="fixed bottom-0 left-0 w-full p-6 bg-white/85 backdrop-blur-xl z-40 flex flex-col gap-4">
+<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-bold text-sm uppercase tracking-widest shadow-lg active:scale-[0.98] transition-transform flex items-center justify-center gap-3">
+                Simpan Alamat
+                <span class="material-symbols-outlined text-[20px]">save_as</span>
+</button>
+</div>
+</main>
+<!-- Contextual Visual Accent - Overlapping Image Element -->
+<div class="absolute top-0 right-0 -z-10 w-48 h-48 opacity-10 pointer-events-none">
+<img class="w-full h-full object-cover rounded-bl-[100px]" data-alt="Abstract minimal architectural detail with soft shadows on warm beige wall in daylight" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-1EWcHXvusrqMsadzNwdS4or4M1O-ai_5-10nL8oCLRSZrjLEmmGUYVQCgcNLhHzEwZDZjZW4ZcFPjHcsMIzmqqAmS-TmOlmRenGJ9VCOB9OSVQetii6UEJMVLbG2iuo1f1XNT1ZcHdmtgK34kiYk7zmmnIuVP3dR1AcfF4JSTZ5USpGUBzTyfe28F4x3vgm2lla8yG2xZLkhei-0QqRyzGudtsEYwgH6RIP14DaXDYL0u2tvLzRmSlZfagIR-94uWRKMtC54IAg"/>
+</div>
+</body></html>

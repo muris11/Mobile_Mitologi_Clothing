@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#001f3f",
+                    "on-secondary-container": "#745c00",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e3e2df",
+                    "tertiary": "#040604",
+                    "surface-container-low": "#f4f4f0",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e3e2df",
+                    "secondary-fixed": "#ffe088",
+                    "primary-fixed-dim": "#afc8f0",
+                    "inverse-primary": "#afc8f0",
+                    "tertiary-fixed": "#e3e3de",
+                    "surface": "#faf9f5",
+                    "on-surface-variant": "#43474e",
+                    "primary-fixed": "#d4e3ff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#476083",
+                    "on-surface": "#1b1c1a",
+                    "on-secondary-fixed": "#241a00",
+                    "tertiary-container": "#1d1f1c",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-primary-fixed": "#001c3a",
+                    "secondary": "#735c00",
+                    "error-container": "#ffdad6",
+                    "on-background": "#1b1c1a",
+                    "inverse-on-surface": "#f2f1ed",
+                    "secondary-container": "#fed65b",
+                    "surface-container": "#efeeea",
+                    "primary": "#000613",
+                    "outline-variant": "#c4c6cf",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary": "#ffffff",
+                    "background": "#faf9f5",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-dim": "#dbdad6",
+                    "inverse-surface": "#2f312e",
+                    "outline": "#74777f",
+                    "on-primary-container": "#6f88ad"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-[0px_20px_40px_rgba(27,28,26,0.04)] flex items-center justify-between px-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#000613]" data-icon="menu">menu</span>
+<h1 class="font-['Noto_Serif'] text-xl font-bold text-[#000613]">The Atelier</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#000613]" data-icon="search">search</span>
+</div>
+</header>
+<!-- Background Content (Product List Simulation) -->
+<main class="pt-24 px-6 pb-32">
+<div class="mb-8">
+<h2 class="font-headline text-3xl font-bold tracking-tight mb-2">Curated Items</h2>
+<p class="text-on-surface-variant font-body">Menampilkan koleksi pilihan terbaik untuk ruang Anda.</p>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Simulated Cards -->
+<div class="flex flex-col gap-3">
+<div class="aspect-[3/4] bg-surface-container-low rounded-xl overflow-hidden relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="minimalist wooden chair with curved backrest on a clean studio background with soft architectural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD3dtnMXf5KjSykl-X3NvBuGiGOKRBIu_VnkWBkYjTsGk1PSGNoC8rXt390N6zxVuWAXqhPGkeILeX8JgK-25zWZ1zOBNlcjGmG_dc3shS_-r2Xb_mxk6y8ow1_1Hnh-W6KLOWHaaxfU5vuoUoDlJ2g3BlQXKCmlV-ADwyc-l1A_oS1ncs7pncx8S8QjYjtp3V3QD9oMjvuIPbj4DNGVhBSH6wrODMSFnRqc-gJD2ffi2PCuAbMEPME1Q7GvsZ50txh8po4JedrU0I"/>
+<div class="absolute top-3 right-3 bg-white/90 p-1.5 rounded-full backdrop-blur">
+<span class="material-symbols-outlined text-sm" data-icon="favorite">favorite</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline text-sm font-semibold">Kursi Kayu Jati</h3>
+<p class="text-secondary font-bold text-xs">Rp 2.400.000</p>
+</div>
+</div>
+<div class="flex flex-col gap-3">
+<div class="aspect-[3/4] bg-surface-container-low rounded-xl overflow-hidden relative shadow-sm">
+<img class="w-full h-full object-cover" data-alt="modern ceramic vase set with organic shapes and matte textures on a marble surface" src="https://lh3.googleusercontent.com/aida-public/AB6AXuApquBKY3Yl540o_zlHScSzs_8TM2ItUKVqqmUAHiyGsS64NLCilUdpD1TdfqaZdzr25xznUR22V9OVifTxjTAn91RVaqqoq7h_rSEsc5NvvTbhsvKWmLBzwjyhM1Ed85YPbjKVHY9Yn_bwRnG--6ABYjKJ8Ub-kfn-y2d3LK0ivKLaI3c6HmnSy-ZC_kRBF9RYz5RAIL7CZnxNN8MsCrJC3MBfCnKOhFmDH_LMOgPQHPIfzZhEOS_bZvdGxgYB_OAJK634ZU55f2E"/>
+<div class="absolute top-3 right-3 bg-white/90 p-1.5 rounded-full backdrop-blur">
+<span class="material-symbols-outlined text-sm" data-icon="favorite">favorite</span>
+</div>
+</div>
+<div>
+<h3 class="font-headline text-sm font-semibold">Vas Keramik Organik</h3>
+<p class="text-secondary font-bold text-xs">Rp 850.000</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Overlay / Backdrop -->
+<div class="fixed inset-0 bg-[#000613]/40 z-[60] backdrop-blur-sm"></div>
+<!-- Filter Bottom Sheet -->
+<div class="fixed bottom-0 left-0 w-full z-[70] bg-surface-container-lowest rounded-t-[32px] shadow-[0px_-10px_40px_rgba(0,0,0,0.15)] max-h-[795px] overflow-hidden flex flex-col">
+<!-- Handle -->
+<div class="flex justify-center py-4">
+<div class="w-12 h-1 bg-outline-variant/30 rounded-full"></div>
+</div>
+<!-- Header -->
+<div class="px-8 pb-4 flex items-center justify-between">
+<h2 class="font-headline text-2xl font-bold tracking-tight">Filter Produk</h2>
+<button class="p-2 hover:bg-surface-container-low rounded-full transition-colors">
+<span class="material-symbols-outlined" data-icon="close">close</span>
+</button>
+</div>
+<!-- Scrollable Content -->
+<div class="flex-1 overflow-y-auto px-8 pb-32 no-scrollbar">
+<!-- Kategori Section -->
+<div class="mb-8">
+<h3 class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Kategori</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-5 py-2.5 rounded-full bg-primary text-on-primary text-sm font-medium">Semua</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-all">Kursi</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-all">Meja</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-all">Dekorasi</button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-all">Lampu</button>
+</div>
+</div>
+<!-- Material Section -->
+<div class="mb-8">
+<h3 class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Material</h3>
+<div class="flex flex-wrap gap-2">
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="forest">forest</span> Kayu
+                    </button>
+<button class="px-5 py-2.5 rounded-full bg-primary text-on-primary text-sm font-medium flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="layers" style="font-variation-settings: 'FILL' 1;">layers</span> Kulit
+                    </button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="texture">texture</span> Sutra
+                    </button>
+<button class="px-5 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-high transition-all flex items-center gap-2">
+<span class="material-symbols-outlined text-lg" data-icon="format_paint">format_paint</span> Keramik
+                    </button>
+</div>
+</div>
+<!-- Harga Section -->
+<div class="mb-8">
+<h3 class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Rentang Harga</h3>
+<!-- Range Slider Visual Representation -->
+<div class="relative h-12 flex items-center mb-6">
+<div class="absolute w-full h-1 bg-surface-container-high rounded-full"></div>
+<div class="absolute left-[20%] right-[30%] h-1 bg-secondary rounded-full"></div>
+<div class="absolute left-[20%] w-5 h-5 bg-white border-2 border-secondary rounded-full shadow-md -translate-x-1/2"></div>
+<div class="absolute right-[30%] w-5 h-5 bg-white border-2 border-secondary rounded-full shadow-md translate-x-1/2"></div>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<div class="space-y-2">
+<label class="text-[11px] font-medium text-on-surface-variant ml-4">Harga Minimum</label>
+<div class="bg-surface-container-low rounded-xl px-4 py-3 flex items-center group focus-within:ring-1 ring-secondary/40 transition-all">
+<span class="text-xs font-bold text-on-surface-variant mr-2">Rp</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold w-full" type="text" value="500.000"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="text-[11px] font-medium text-on-surface-variant ml-4">Harga Maksimum</label>
+<div class="bg-surface-container-low rounded-xl px-4 py-3 flex items-center group focus-within:ring-1 ring-secondary/40 transition-all">
+<span class="text-xs font-bold text-on-surface-variant mr-2">Rp</span>
+<input class="bg-transparent border-none p-0 focus:ring-0 text-sm font-semibold w-full" type="text" value="15.000.000"/>
+</div>
+</div>
+</div>
+</div>
+<!-- Extra Selection (Bento Style) -->
+<div class="mb-8">
+<h3 class="font-label text-[11px] font-bold uppercase tracking-[0.2em] text-on-surface-variant mb-4">Warna Populer</h3>
+<div class="grid grid-cols-4 gap-3">
+<div class="aspect-square bg-[#3d2b1f] rounded-lg shadow-sm border-4 border-white"></div>
+<div class="aspect-square bg-[#c2b280] rounded-lg shadow-sm"></div>
+<div class="aspect-square bg-[#001f3f] rounded-lg shadow-sm"></div>
+<div class="aspect-square bg-[#faf9f5] rounded-lg shadow-sm border border-outline-variant/20"></div>
+</div>
+</div>
+</div>
+<!-- Action Buttons -->
+<div class="absolute bottom-0 left-0 w-full p-8 bg-surface-container-lowest/90 backdrop-blur-md flex items-center gap-4">
+<button class="flex-1 py-4 text-sm font-bold text-on-surface-variant hover:text-primary transition-colors">Reset</button>
+<button class="flex-[2] py-4 px-8 bg-primary text-on-primary rounded-xl text-sm font-bold shadow-lg shadow-primary/20 hover:scale-[1.02] active:scale-[0.98] transition-all">
+                Terapkan Filter
+            </button>
+</div>
+</div>
+<!-- Bottom Nav (Hidden by Bottom Sheet logic but usually present) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center pt-4 pb-8 px-8 bg-[#ffffff]/85 backdrop-blur-2xl z-40 rounded-t-[32px] shadow-[0px_-10px_30px_rgba(27,28,26,0.06)]">
+<div class="flex flex-col items-center justify-center text-[#735c00] scale-110 transition-transform">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Curated</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60">
+<span class="material-symbols-outlined mb-1" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Search</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60">
+<span class="material-symbols-outlined mb-1" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Cart</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Profile</span>
+</div>
+</nav>
+</body></html>

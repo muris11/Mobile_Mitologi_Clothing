@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Notifikasi - ATELIER</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "secondary": "#735c00",
+                    "inverse-on-surface": "#f2f1ed",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-primary-fixed": "#001c3a",
+                    "inverse-primary": "#afc8f0",
+                    "secondary-fixed": "#ffe088",
+                    "primary-fixed": "#d4e3ff",
+                    "secondary-container": "#fed65b",
+                    "inverse-surface": "#2f312e",
+                    "surface-dim": "#dbdad6",
+                    "outline-variant": "#c4c6cf",
+                    "outline": "#74777f",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e3e2df",
+                    "on-surface": "#1b1c1a",
+                    "primary-container": "#001f3f",
+                    "error-container": "#ffdad6",
+                    "background": "#faf9f5",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "surface": "#faf9f5",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-background": "#1b1c1a",
+                    "surface-tint": "#476083",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-container-low": "#f4f4f0",
+                    "on-surface-variant": "#43474e",
+                    "on-secondary-container": "#745c00",
+                    "primary": "#000613",
+                    "tertiary-fixed": "#e3e3de",
+                    "tertiary": "#040604",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#6f88ad",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#efeeea",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-secondary-fixed": "#241a00",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-variant": "#e3e2df",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary-fixed-variant": "#2f486a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<button class="text-[#000613] hover:opacity-70 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="text-[#000613] font-['Noto_Serif'] font-bold tracking-widest text-lg">Notifikasi</h1>
+<button class="text-[#000613] hover:opacity-70 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="more_vert">more_vert</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto">
+<!-- Section Header -->
+<div class="mb-8">
+<p class="text-secondary font-medium text-sm tracking-widest uppercase mb-1">Update Terbaru</p>
+<h2 class="text-3xl font-headline font-bold text-primary">Aktivitas Anda</h2>
+</div>
+<!-- Notification List -->
+<div class="space-y-6">
+<!-- Category: Today -->
+<div class="space-y-4">
+<h3 class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold px-1">Hari Ini</h3>
+<!-- Card: Pesanan Dikirim -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_20px_40px_rgba(27,28,26,0.03)] flex gap-4 items-start transition-all duration-300 hover:shadow-[0px_20px_40px_rgba(27,28,26,0.06)] group">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center flex-shrink-0 group-hover:bg-primary transition-colors duration-300">
+<span class="material-symbols-outlined text-primary group-hover:text-white transition-colors duration-300" data-icon="local_shipping">local_shipping</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary text-base">Pesanan Dikirim</h4>
+<span class="text-[10px] text-outline font-medium">10:24</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed mb-3">Paket Anda dengan nomor resi #AT77291 telah diserahkan ke kurir dan sedang dalam perjalanan.</p>
+<button class="text-secondary font-bold text-xs flex items-center gap-1 hover:gap-2 transition-all">
+                            Lacak Pesanan <span class="material-symbols-outlined text-[14px]" data-icon="chevron_right">chevron_right</span>
+</button>
+</div>
+</div>
+<!-- Card: Promo Spesial -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_20px_40px_rgba(27,28,26,0.03)] flex gap-4 items-start border-l-2 border-secondary">
+<div class="w-12 h-12 rounded-full bg-secondary-fixed/30 flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary text-base">Promo Spesial</h4>
+<span class="text-[10px] text-outline font-medium">08:15</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">Nikmati penawaran terbatas eksklusif untuk member Atelier. Diskon hingga 30% untuk koleksi sutra terbaru.</p>
+</div>
+</div>
+</div>
+<!-- Category: Yesterday -->
+<div class="space-y-4 pt-4">
+<h3 class="text-[10px] uppercase tracking-[0.2em] text-on-surface-variant font-bold px-1">Kemarin</h3>
+<!-- Card: Info Pembayaran -->
+<div class="bg-surface-container-low/50 rounded-xl p-5 flex gap-4 items-start opacity-80">
+<div class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center flex-shrink-0">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="account_balance_wallet">account_balance_wallet</span>
+</div>
+<div class="flex-1">
+<div class="flex justify-between items-start mb-1">
+<h4 class="font-bold text-primary text-base">Info Pembayaran</h4>
+<span class="text-[10px] text-outline font-medium">15:50</span>
+</div>
+<p class="text-on-surface-variant text-sm leading-relaxed">Pembayaran untuk pesanan #AT77288 telah kami terima. Terima kasih telah berbelanja di Atelier.</p>
+</div>
+</div>
+<!-- Featured Empty State Contextual Element -->
+<div class="relative overflow-hidden rounded-xl bg-primary h-32 flex items-center px-8">
+<div class="z-10">
+<h4 class="text-white font-headline font-bold text-lg leading-tight">Kurasi Personal<br/>Hanya Untukmu</h4>
+<p class="text-on-primary-container text-xs mt-1">Lihat koleksi yang kami pilihkan.</p>
+</div>
+<div class="absolute right-0 top-0 h-full w-1/2 opacity-40">
+<img alt="Luxury silk fabric texture" class="h-full w-full object-cover" data-alt="Close-up of premium silk fabric texture with soft ripples and elegant lighting in neutral tones" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBnPTyyl9wSRHyC9i6FTzMBUb_pzKLBNP2Y0lf0zTph0A1VVqU-O1MHIhxan3mQexfHD0cRX1HQYKAEKVE1cJFNKCclgUtCGKkHWibhqA0NJfI6OPPQ7YbJf5FRvoIPmFYe8L51tXKuR0-QwpU6Gu2xDB6P3BfmqmfQPhgBZQy_h2YH6o6oq73IDi8-TRre29thz4r0-mQKeRRAEAeFQiWkxVIDHL2hVqvb84chNS803w0twoZM8IZ__3auKVKSLtZ0LztMvb7XvzU"/>
+<div class="absolute inset-0 bg-gradient-to-l from-transparent to-primary"></div>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Shell) -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 px-4 pb-safe bg-[#ffffff]/85 backdrop-blur-[20px] z-50 rounded-t-[20px] shadow-[0px_-10px_30px_rgba(0,0,0,0.03)] shadow-2xl">
+<a class="flex flex-col items-center justify-center text-[#43474e] hover:text-[#000613] active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="home_app_logo">home_app_logo</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-wider mt-1">Atelier</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] hover:text-[#000613] active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-wider mt-1">Discover</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] hover:text-[#000613] active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-wider mt-1">Wishlist</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] hover:text-[#000613] active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-wider mt-1">Profile</span>
+</a>
+</nav>
+<!-- Header Shadow Logic (Hidden spacer) -->
+<div class="h-16"></div>
+</body></html>

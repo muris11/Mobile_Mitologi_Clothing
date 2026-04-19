@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#745c00",
+                    "primary-container": "#001f3f",
+                    "on-primary-container": "#6f88ad",
+                    "inverse-primary": "#afc8f0",
+                    "outline-variant": "#c4c6cf",
+                    "tertiary-fixed": "#e3e3de",
+                    "on-background": "#1b1c1a",
+                    "on-surface": "#1b1c1a",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-fixed": "#ffe088",
+                    "on-tertiary-container": "#858783",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "on-error-container": "#93000a",
+                    "on-surface-variant": "#43474e",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-error": "#ffffff",
+                    "background": "#faf9f5",
+                    "surface-variant": "#e3e2df",
+                    "secondary": "#735c00",
+                    "inverse-surface": "#2f312e",
+                    "surface": "#faf9f5",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#476083",
+                    "surface-bright": "#faf9f5",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "tertiary": "#040604",
+                    "surface-container-highest": "#e3e2df",
+                    "primary-fixed": "#d4e3ff",
+                    "error": "#ba1a1a",
+                    "outline": "#74777f",
+                    "inverse-on-surface": "#f2f1ed",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#efeeea",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "tertiary-container": "#1d1f1c",
+                    "secondary-container": "#fed65b",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#e9e8e4",
+                    "primary": "#000613",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-dim": "#dbdad6",
+                    "surface-container-low": "#f4f4f0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .premium-blur {
+            backdrop-filter: blur(20px);
+        }
+        .satin-glow {
+            background: linear-gradient(135deg, #000613 0%, #001f3f 100%);
+        }
+        .ghost-border {
+            border: 1px solid rgba(116, 119, 127, 0.1);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased overflow-hidden h-screen flex flex-col">
+<!-- Top Navigation Anchor -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-[0px_10px_30px_rgba(27,28,26,0.04)] flex items-center justify-between px-6 h-16">
+<button class="text-primary hover:opacity-70 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-headline text-xl tracking-widest uppercase text-primary">Aurelian Silk</h1>
+<div class="w-6"></div> <!-- Spacer for centering -->
+</header>
+<!-- Main Content: Focused Transactional State -->
+<main class="flex-1 flex flex-col items-center justify-center px-8 pt-16 pb-12">
+<!-- Perspective Icon Composition -->
+<div class="relative mb-12 flex items-center justify-center">
+<!-- Background Layer -->
+<div class="absolute w-48 h-48 bg-surface-container-low rounded-full scale-110 opacity-50 blur-2xl"></div>
+<!-- Main Icon Circle -->
+<div class="relative w-32 h-32 rounded-full bg-surface-container-lowest shadow-[0px_20px_40px_rgba(27,28,26,0.06)] flex items-center justify-center group">
+<div class="absolute inset-0 rounded-full border border-secondary/10 scale-125"></div>
+<div class="absolute inset-0 rounded-full border border-secondary/5 scale-150"></div>
+<span class="material-symbols-outlined text-secondary text-6xl" data-icon="error_outline">error_outline</span>
+</div>
+</div>
+<!-- Textual Identity -->
+<div class="text-center max-w-sm">
+<h2 class="font-headline text-3xl font-bold text-primary mb-4 tracking-tight leading-tight">
+                Pembayaran Gagal
+            </h2>
+<p class="text-on-surface-variant text-lg font-body leading-relaxed mb-8 opacity-80">
+                Kami mohon maaf, terdapat kendala teknis saat memproses transaksi Anda. Silakan periksa saldo atau koneksi internet Anda dan coba lagi.
+            </p>
+</div>
+<!-- Bento-style Info Card -->
+<div class="w-full max-w-md bg-surface-container-low p-6 rounded-xl ghost-border mb-10 space-y-4">
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-on-surface-variant mt-1" data-icon="receipt">receipt</span>
+<div>
+<p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-1">Nomor Pesanan</p>
+<p class="font-headline text-primary font-semibold">#AS-99281-CUR</p>
+</div>
+</div>
+<div class="flex items-start gap-4">
+<span class="material-symbols-outlined text-on-surface-variant mt-1" data-icon="credit_card">credit_card</span>
+<div>
+<p class="text-xs uppercase tracking-widest text-on-surface-variant font-bold mb-1">Metode Pembayaran</p>
+<p class="font-headline text-primary font-semibold">Visa Ending in 4242</p>
+</div>
+</div>
+</div>
+<!-- Action Architecture -->
+<div class="w-full max-w-md space-y-4">
+<button class="w-full satin-glow text-on-primary font-bold py-5 rounded-xl shadow-lg active:scale-95 transition-transform duration-300 flex items-center justify-center gap-3">
+<span class="material-symbols-outlined" data-icon="refresh">refresh</span>
+<span class="font-label uppercase tracking-widest text-sm">Coba Lagi</span>
+</button>
+<button class="w-full bg-surface-container-highest text-primary font-bold py-5 rounded-xl active:scale-95 transition-transform duration-300 font-label uppercase tracking-widest text-sm">
+                Hubungi Layanan Pelanggan
+            </button>
+</div>
+</main>
+<!-- Bottom Contextual Footer -->
+<footer class="pb-10 pt-4 px-8 text-center">
+<p class="text-on-surface-variant text-[11px] font-medium uppercase tracking-[0.2em] opacity-60">
+            Aurelian Silk Concierge Service • Tersedia 24/7
+        </p>
+</footer>
+<!-- Image for atmospheric context (hidden, for design reference) -->
+<img class="hidden" data-alt="Close-up of fine silk fabric texture with soft shadows and golden highlights reflecting a luxury fashion atelier environment" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCjZRTFAeTe25aY6hBrToq06V1IFUI4g2VzWdy5LrwytQOVu5G_ixPw_CScLFfjJdWbrChxAvc6Vbe5cS86ApI8ijSCVLHtCYPXpxv0fJEIl7kHJinC01Rc_h7x-jf6mgloccv3WwE4W312Nuz3D8yQSRzNl6tkBD2QRD9wtwyMula66x1SjrH9XONb8TWwORhkGGGMI6JdjpzSTmEZ6DSN2HZVk1k_spH2wqzlfrbVkgaiX27kZ4svARP_qB5ZNWY2Tm649OOfvkA"/>
+</body></html>

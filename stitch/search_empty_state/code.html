@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-container": "#001f3f",
+                        "on-secondary-container": "#745c00",
+                        "error": "#ba1a1a",
+                        "surface-variant": "#e3e2df",
+                        "tertiary": "#040604",
+                        "surface-container-low": "#f4f4f0",
+                        "on-tertiary": "#ffffff",
+                        "surface-container-highest": "#e3e2df",
+                        "secondary-fixed": "#ffe088",
+                        "primary-fixed-dim": "#afc8f0",
+                        "inverse-primary": "#afc8f0",
+                        "tertiary-fixed": "#e3e3de",
+                        "surface": "#faf9f5",
+                        "on-surface-variant": "#43474e",
+                        "primary-fixed": "#d4e3ff",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "on-tertiary-container": "#858783",
+                        "on-error-container": "#93000a",
+                        "surface-tint": "#476083",
+                        "on-surface": "#1b1c1a",
+                        "on-secondary-fixed": "#241a00",
+                        "tertiary-container": "#1d1f1c",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-primary-fixed": "#001c3a",
+                        "secondary": "#735c00",
+                        "error-container": "#ffdad6",
+                        "on-background": "#1b1c1a",
+                        "inverse-on-surface": "#f2f1ed",
+                        "secondary-container": "#fed65b",
+                        "surface-container": "#efeeea",
+                        "primary": "#000613",
+                        "outline-variant": "#c4c6cf",
+                        "on-error": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "surface-bright": "#faf9f5",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "on-primary": "#ffffff",
+                        "background": "#faf9f5",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-high": "#e9e8e4",
+                        "surface-dim": "#dbdad6",
+                        "inverse-surface": "#2f312e",
+                        "outline": "#74777f",
+                        "on-primary-container": "#6f88ad"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .tonal-elevation {
+            box-shadow: 0px 20px 40px rgba(27, 28, 26, 0.04);
+        }
+        .shadow-ambient {
+            box-shadow: 0px -10px 30px rgba(27, 28, 26, 0.06);
+        }
+        .tap-highlight-transparent {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 dark:bg-[#000613]/85 backdrop-blur-xl flex items-center justify-between px-6 py-4 w-full shadow-[0px_20px_40px_rgba(27,28,26,0.04)]">
+<div class="flex items-center gap-4">
+<button class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5] hover:opacity-70 transition-opacity scale-95 active:duration-150">menu</button>
+<span class="font-['Noto_Serif'] text-xl font-bold text-[#000613] dark:text-[#faf9f5]">The Atelier</span>
+</div>
+<div class="flex items-center gap-6">
+<nav class="hidden md:flex gap-8 items-center">
+<a class="text-[#43474e] dark:text-[#c4c6cf] font-['Manrope'] text-sm tracking-widest hover:opacity-70 transition-opacity" href="#">CURATED</a>
+<a class="text-[#735c00] font-semibold font-['Manrope'] text-sm tracking-widest" href="#">SEARCH</a>
+<a class="text-[#43474e] dark:text-[#c4c6cf] font-['Manrope'] text-sm tracking-widest hover:opacity-70 transition-opacity" href="#">CART</a>
+<a class="text-[#43474e] dark:text-[#c4c6cf] font-['Manrope'] text-sm tracking-widest hover:opacity-70 transition-opacity" href="#">PROFILE</a>
+</nav>
+<button class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5] hover:opacity-70 transition-opacity scale-95 active:duration-150">search</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-4xl mx-auto">
+<!-- Search Bar Section -->
+<section class="mb-12">
+<div class="relative flex items-center bg-surface-container-low rounded-xl px-4 py-3 outline-variant/20 border border-outline-variant/20">
+<span class="material-symbols-outlined text-outline">search</span>
+<input class="bg-transparent border-none focus:ring-0 w-full font-body text-on-surface ml-3" placeholder="Cari di Atelier..." type="text" value="Elektronik"/>
+<button class="material-symbols-outlined text-outline hover:text-secondary">close</button>
+</div>
+</section>
+<!-- Empty State Container -->
+<section class="flex flex-col items-center text-center py-12">
+<div class="relative mb-10 w-64 h-64 flex items-center justify-center">
+<div class="absolute inset-0 bg-secondary/5 rounded-full blur-3xl"></div>
+<!-- Artistic Empty State Illustration -->
+<div class="relative z-10 flex flex-col items-center">
+<div class="w-48 h-48 rounded-[32px] bg-surface-container-lowest shadow-[0px_20px_40px_rgba(27,28,26,0.06)] flex items-center justify-center rotate-3 border border-outline-variant/10">
+<span class="material-symbols-outlined text-7xl text-outline-variant/50" style="font-variation-settings: 'wght' 200;">search_off</span>
+</div>
+<div class="absolute -bottom-4 -right-4 w-24 h-24 rounded-2xl bg-surface-container-low shadow-lg flex items-center justify-center -rotate-12 border border-outline-variant/20">
+<span class="material-symbols-outlined text-4xl text-secondary/40">inventory_2</span>
+</div>
+</div>
+</div>
+<h1 class="font-headline text-3xl font-bold mb-4 text-primary">Produk Tidak Ditemukan</h1>
+<p class="font-body text-on-surface-variant max-w-md mb-10 leading-relaxed">
+                Maaf, kami tidak menemukan hasil untuk <span class="font-bold text-primary italic">'Elektronik'</span>. Coba kata kunci lain atau jelajahi koleksi terpopuler kami.
+            </p>
+<button class="px-8 py-4 bg-primary text-on-primary rounded-xl font-bold tracking-tight shadow-[0px_20px_40px_rgba(27,28,26,0.06)] hover:opacity-90 transition-all scale-100 active:scale-95">
+                Kembali ke Beranda
+            </button>
+</section>
+<!-- Recommendations Grid -->
+<section class="mt-20">
+<div class="flex items-center justify-between mb-8">
+<h2 class="font-headline text-xl font-bold tracking-tight">Rekomendasi Untuk Anda</h2>
+<span class="w-12 h-[1px] bg-outline-variant/30"></span>
+</div>
+<div class="grid grid-cols-2 gap-6">
+<!-- Product Card 1 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-[20px] overflow-hidden bg-surface-container-low mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="minimalist handcrafted ceramic vase with organic curves in warm cream tones on a linen tablecloth with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhmO9MmhC3L1ZmbgJl_EMXAEvZJn0RlnCtqprAfJa1f4BfcNdYfiG36Zbmm21TU-Q3td0xkcyOFyWE-iO2x1o9jER2pFQ5VWpTyWHTDrUUlEXdN2OOHJnDISHrqJqOXi0OXfc37tZpSEsPsEUWr8e1eBtZo6nRyIporj-n56WKYW2oxh_HVLeKMTV_ZcXegKd2vh3hl_28PNtBYj1Ko3eloWp1fFlD0nLzrmPEuBhe5gTyiWL_cd57VPPZpQWBEUgw_JI3F_puZ7s"/>
+<div class="absolute top-4 right-4">
+<button class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold">Vase Seramik Organik</h3>
+<p class="font-body text-secondary font-bold mt-1">Rp 850.000</p>
+</div>
+<!-- Product Card 2 -->
+<div class="group">
+<div class="relative aspect-[4/5] rounded-[20px] overflow-hidden bg-surface-container-low mb-4">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="high-quality linen lounge set in muted olive green hanging on a minimalist wooden rack in a sun-drenched studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDSw7LOpj-n1twzDaJRkbVtIsSm9bd_-kMCWby6xJpYJxW1eYBRZ8UTvEM5WQl3xtWAOBypElE0ueH_ahiFq9yxsnfllIC7pvKcWmx8YAFl4XL7UuKgOFZFyl9-MQdKZ10XSg9CBy9OuTo6OX_zGjO83nXvV7AYwpkhsvSR4bTij7wqKwRQ9gbAjIa_sY7YMIUlQCPLvias4hOMqxZjf8b9UEYoiSH1twMYkuyOjI4zaq6n72Y-ji30yu4X_Yx2v5jFh1-naKz6BrA"/>
+<div class="absolute top-4 right-4">
+<button class="w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-primary shadow-sm">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+</div>
+<h3 class="font-headline text-lg font-bold">Set Linen Studio</h3>
+<p class="font-body text-secondary font-bold mt-1">Rp 1.250.000</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<footer class="fixed bottom-0 w-full z-50 bg-[#ffffff]/85 dark:bg-[#000613]/85 backdrop-blur-2xl rounded-t-[32px] shadow-[0px_-10px_30px_rgba(27,28,26,0.06)] flex justify-around items-center pt-4 pb-8 px-8">
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined mb-1">auto_awesome</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Curated</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#735c00] dark:text-[#735c00] scale-110 transition-transform tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined mb-1">shopping_bag</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Profile</span>
+</a>
+</footer>
+</body></html>

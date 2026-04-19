@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "inverse-primary": "#afc8f0",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-secondary-fixed-variant": "#574500",
+                    "secondary": "#735c00",
+                    "on-surface": "#1b1c1a",
+                    "surface": "#faf9f5",
+                    "on-surface-variant": "#43474e",
+                    "on-secondary": "#ffffff",
+                    "background": "#faf9f5",
+                    "tertiary-container": "#1d1f1c",
+                    "on-primary-container": "#6f88ad",
+                    "on-background": "#1b1c1a",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "surface-dim": "#dbdad6",
+                    "surface-container": "#efeeea",
+                    "primary-container": "#001f3f",
+                    "on-secondary-container": "#745c00",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary": "#000613",
+                    "outline": "#74777f",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e3e2df",
+                    "surface-container-high": "#e9e8e4",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#ffe088",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "surface-container-low": "#f4f4f0",
+                    "tertiary-fixed": "#e3e3de",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#040604",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-tertiary-container": "#858783",
+                    "surface-tint": "#476083",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#c4c6cf",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-variant": "#e3e2df",
+                    "primary-fixed": "#d4e3ff",
+                    "inverse-on-surface": "#f2f1ed",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#faf9f5",
+                    "secondary-container": "#fed65b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .font-serif { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Top Navigation Anchor (Shared Component) -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl flex justify-between items-center px-6 h-16 shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-xl font-serif tracking-[0.3em] text-slate-900 dark:text-slate-50 uppercase">AURELIAN</h1>
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</header>
+<!-- Content Canvas (Simulated Background) -->
+<main class="pt-24 pb-32 px-6 max-w-md mx-auto">
+<div class="space-y-6">
+<div class="flex items-center gap-4 mb-8">
+<span class="material-symbols-outlined text-secondary">location_on</span>
+<h2 class="text-2xl font-serif font-bold text-primary">Daftar Alamat</h2>
+</div>
+<!-- Address Card (Example of Tonal Layering) -->
+<div class="bg-surface-container-low p-6 rounded-xl space-y-3 relative overflow-hidden group">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold tracking-widest uppercase text-secondary">Utama</span>
+<span class="material-symbols-outlined text-outline-variant">edit</span>
+</div>
+<h3 class="font-bold text-primary">Apartemen Menteng</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                    Jl. HOS Cokroaminoto No.79, Menteng, Kec. Menteng, Kota Jakarta Pusat, Daerah Khusus Ibukota Jakarta 10310
+                </p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl space-y-3 relative overflow-hidden">
+<div class="flex justify-between items-start">
+<span class="text-xs font-bold tracking-widest uppercase text-on-surface-variant">Kantor</span>
+<span class="material-symbols-outlined text-outline-variant">edit</span>
+</div>
+<h3 class="font-bold text-primary">The Langham Office</h3>
+<p class="text-sm text-on-surface-variant leading-relaxed">
+                    District 8, SCBD Lot 28, Jakarta Selatan
+                </p>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation Bar (Shared Component) -->
+<nav class="fixed bottom-0 left-0 w-full z-40 flex justify-around items-center pt-3 pb-8 px-4 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl shadow-[0_-10px_40px_rgba(0,0,0,0.05)] rounded-t-[32px] md:hidden">
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-slate-900 dark:hover:text-slate-100 transition-all duration-500 ease-in-out">
+<span class="material-symbols-outlined">home</span>
+<span class="font-sans text-[10px] uppercase tracking-wider mt-1">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-slate-900 dark:hover:text-slate-100 transition-all duration-500 ease-in-out">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-sans text-[10px] uppercase tracking-wider mt-1">Koleksi</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 hover:text-slate-900 dark:hover:text-slate-100 transition-all duration-500 ease-in-out">
+<span class="material-symbols-outlined">receipt_long</span>
+<span class="font-sans text-[10px] uppercase tracking-wider mt-1">Pesanan</span>
+</div>
+<!-- Active State Logic: Mapping to Account/Akun for Profile-related actions -->
+<div class="flex flex-col items-center justify-center text-yellow-700 dark:text-yellow-500 font-bold transition-all duration-500 ease-in-out">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-sans text-[10px] uppercase tracking-wider mt-1">Akun</span>
+</div>
+</nav>
+<!-- MODAL OVERLAY (Destructive Modal Example) -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center px-6">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-sm"></div>
+<!-- Modal Container -->
+<div class="relative w-full max-w-sm bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-[0_20px_40px_rgba(27,28,26,0.12)] border border-outline-variant/10">
+<!-- Modal Image / Aesthetic Anchor -->
+<div class="h-32 w-full overflow-hidden relative">
+<div class="absolute inset-0 bg-gradient-to-b from-error/10 to-transparent"></div>
+<img class="w-full h-full object-cover mix-blend-multiply opacity-30" data-alt="abstract macro close-up of flowing dark silk fabric with soft red light hitting the folds, luxurious and moody" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDBxoxY-JoW12ZMMABCfbmJ3xnKxf6S9CYdOaO3NKdq1mDsWvnhZ7_122O0eHgBlYPkDsxjOjI1pnmvTh5By4FuYLD9jrjMPVobF5gdMFNlbnaHl21iwiJ7F653LVv1aIAEW7c2pXgeId8MNaBUlRfCPdX9on6VIavJ1eAFnV1YpKrjAXKOQ4txmdZotywdg4xdVhERtqSByN25n4NBvhM9bFTCsCNIIvQf-BbeXdi1MX23jUGfxhcYofs63Fpxi7gpD8fJQ_e9ntE"/>
+<div class="absolute inset-0 flex items-center justify-center">
+<div class="w-16 h-16 bg-error-container/80 backdrop-blur-md rounded-full flex items-center justify-center shadow-lg">
+<span class="material-symbols-outlined text-error text-3xl">delete_forever</span>
+</div>
+</div>
+</div>
+<!-- Modal Content -->
+<div class="p-8 text-center space-y-4">
+<h3 class="text-2xl font-serif font-bold text-primary tracking-tight">Hapus Alamat?</h3>
+<p class="text-on-surface-variant text-base font-light leading-relaxed">
+                    Alamat yang dihapus tidak dapat dipulihkan kembali. Pastikan Anda tidak memiliki pesanan aktif yang menggunakan alamat ini.
+                </p>
+</div>
+<!-- Modal Actions -->
+<div class="px-8 pb-8 flex flex-col gap-3">
+<button class="w-full bg-error text-on-error py-4 rounded-xl font-bold tracking-wide shadow-lg shadow-error/20 hover:opacity-90 active:scale-[0.98] transition-all">
+                    Hapus
+                </button>
+<button class="w-full bg-surface-container-high text-primary py-4 rounded-xl font-semibold tracking-wide hover:bg-surface-container-highest active:scale-[0.98] transition-all">
+                    Batalkan
+                </button>
+</div>
+<!-- Corner Aesthetic Detail -->
+<div class="absolute -bottom-4 -right-4 w-24 h-24 bg-secondary/5 rounded-full blur-2xl"></div>
+</div>
+</div>
+<!-- Navigation Drawer (Hidden initially, presented here for structural completeness) -->
+<div class="hidden fixed inset-0 z-[110]">
+<div class="absolute inset-0 bg-black/20 backdrop-blur-sm"></div>
+<aside class="w-80 flex flex-col p-8 bg-[#faf9f5] dark:bg-slate-900 rounded-r-[40px] h-full shadow-2xl relative">
+<div class="flex flex-col mb-12">
+<div class="w-16 h-16 rounded-full overflow-hidden mb-4 border-2 border-secondary/20">
+<img class="w-full h-full object-cover" data-alt="close up studio portrait of an elegant person with minimalist jewelry in soft warm lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAaC8O8uKT5DdqalJrcQCkRSHi9Hu3eV5LIZ5oLzC_dvv1XqXA_V2lMLe8PeHsZTc9792wO6OTYEV012Ir3lUSs9n8I2OAMD_bg6ShrE7xqJkCp9_KZRl-NKu32n4kya-GYm0J6utUZp23ns4j9jH9NK6TXn29JdX1y2cCpih4zaAVAjNOvwOMPxYmxIIIVG1G-e7O3_2hG4mQLdNQ6HQdo9Nezy4j2Wmtl3-4DuA3o6nTfXVe88YAwkavgtPXxG_soS5QnZYT-_as"/>
+</div>
+<h4 class="font-serif italic text-yellow-700 text-lg">Selamat Datang</h4>
+<p class="font-sans font-light tracking-wide text-slate-600 dark:text-slate-400">Pelanggan Eksklusif</p>
+</div>
+<nav class="space-y-4 flex-1">
+<a class="flex items-center gap-4 p-3 text-slate-600 dark:text-slate-400 hover:translate-x-2 transition-transform ease-out duration-300" href="#">
+<span class="material-symbols-outlined">straighten</span>
+<span class="font-sans font-light tracking-wide">Panduan Ukuran</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-slate-600 dark:text-slate-400 hover:translate-x-2 transition-transform ease-out duration-300" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-sans font-light tracking-wide">Lokasi Butik</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-slate-600 dark:text-slate-400 hover:translate-x-2 transition-transform ease-out duration-300" href="#">
+<span class="material-symbols-outlined">support_agent</span>
+<span class="font-sans font-light tracking-wide">Bantuan</span>
+</a>
+<a class="flex items-center gap-4 p-3 text-slate-600 dark:text-slate-400 hover:translate-x-2 transition-transform ease-out duration-300" href="#">
+<span class="material-symbols-outlined">potted_plant</span>
+<span class="font-sans font-light tracking-wide">Kebijakan Pengembalian</span>
+</a>
+</nav>
+<button class="mt-auto flex items-center gap-4 p-3 text-slate-400 hover:text-error transition-colors">
+<span class="material-symbols-outlined">logout</span>
+<span class="font-sans font-light tracking-wide">Keluar</span>
+</button>
+</aside>
+</div>
+</body></html>

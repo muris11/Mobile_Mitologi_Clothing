@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "surface-variant": "#e3e2df",
+                    "primary-fixed": "#d4e3ff",
+                    "on-secondary-container": "#745c00",
+                    "outline-variant": "#c4c6cf",
+                    "surface-tint": "#476083",
+                    "tertiary-container": "#1d1f1c",
+                    "secondary-container": "#fed65b",
+                    "background": "#faf9f5",
+                    "on-primary": "#ffffff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "primary": "#000613",
+                    "on-error": "#ffffff",
+                    "on-secondary-fixed": "#241a00",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-surface": "#2f312e",
+                    "error": "#ba1a1a",
+                    "on-surface-variant": "#43474e",
+                    "primary-fixed-dim": "#afc8f0",
+                    "secondary": "#735c00",
+                    "on-background": "#1b1c1a",
+                    "tertiary": "#040604",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "surface-container-high": "#e9e8e4",
+                    "tertiary-fixed": "#e3e3de",
+                    "error-container": "#ffdad6",
+                    "primary-container": "#001f3f",
+                    "on-secondary": "#ffffff",
+                    "surface-container-highest": "#e3e2df",
+                    "surface-container-low": "#f4f4f0",
+                    "on-primary-fixed": "#001c3a",
+                    "surface": "#faf9f5",
+                    "inverse-primary": "#afc8f0",
+                    "surface-dim": "#dbdad6",
+                    "surface-bright": "#faf9f5",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-tertiary-container": "#858783",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-primary-container": "#6f88ad",
+                    "surface-container": "#efeeea",
+                    "on-error-container": "#93000a",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-on-surface": "#f2f1ed",
+                    "outline": "#74777f",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#1b1c1a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .star-filled {
+            font-variation-settings: 'FILL' 1;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-tap-highlight-color: transparent;
+        }
+        .serif-text { font-family: 'Noto Serif', serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-sm">
+<div class="flex items-center justify-between px-6 h-16 w-full max-w-screen-xl mx-auto">
+<button class="active:scale-95 transition-transform hover:opacity-70 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-[#000613]" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Noto_Serif'] text-xl tracking-tight text-[#000613] font-bold">Tulis Ulasan</h1>
+<button class="active:scale-95 transition-transform hover:opacity-70 transition-opacity flex items-center justify-center">
+<span class="material-symbols-outlined text-[#000613]" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-md mx-auto">
+<!-- Product Context Card -->
+<section class="mb-10 flex items-center gap-5 p-4 rounded-xl bg-surface-container-low shadow-[0_10px_30px_rgba(27,28,26,0.02)]">
+<div class="w-20 h-20 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-highest">
+<img class="w-full h-full object-cover" data-alt="Close-up of a premium minimalist lifestyle product, soft warm studio lighting, elegant craftsmanship" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC76y2AJtLFXeGtQMK2ekRb94NXDi7ORzt-0gqfNAwbImMb5BxiMtRmF1IT-SQ2yUwGc75A2OfBz_cm4fld_hTB1FGyMuIQOMg2olGjEGscSt5ovSU8RM5ZNzo2lGobnfyvgo-8JM4N4ul0NZwkm67Y3sCuYO1czjUezNLGko05SyeuxPawZd1YjgAHogvgOEr5KPGak78_tVOOQlgbUUuvyYdrKLu6Rq5E2S5TY-l6fk3xx96vTPLth4TvcMjmSQ9qG38gmBLPcGM"/>
+</div>
+<div>
+<h2 class="serif-text text-lg font-bold text-primary leading-tight">Serenity Silk Robe</h2>
+<p class="text-on-surface-variant text-sm mt-1">Edisi Koleksi Terbatas</p>
+</div>
+</section>
+<!-- Rating Section -->
+<section class="mb-10 text-center">
+<h3 class="serif-text text-xl mb-4 text-primary">Berikan Rating</h3>
+<div class="flex justify-center gap-3">
+<span class="material-symbols-outlined text-4xl text-secondary star-filled cursor-pointer active:scale-90 transition-transform" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-4xl text-secondary star-filled cursor-pointer active:scale-90 transition-transform" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-4xl text-secondary star-filled cursor-pointer active:scale-90 transition-transform" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-4xl text-secondary star-filled cursor-pointer active:scale-90 transition-transform" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-4xl text-secondary cursor-pointer active:scale-90 transition-transform" data-icon="star">star</span>
+</div>
+<p class="text-secondary font-semibold mt-4 text-sm tracking-wider uppercase">Sangat Memuaskan</p>
+</section>
+<!-- Content Input Section -->
+<section class="space-y-6">
+<div class="relative">
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-4">Pengalaman Anda</label>
+<textarea class="w-full h-48 p-6 bg-surface-container-low text-on-surface rounded-[24px] border-none focus:ring-1 focus:ring-secondary/40 placeholder:text-on-surface-variant/50 font-body text-base leading-relaxed shadow-inner" placeholder="Tulis pengalaman Anda menggunakan produk ini..."></textarea>
+</div>
+<!-- Photo Upload Section -->
+<div>
+<label class="block text-xs font-bold uppercase tracking-widest text-on-surface-variant mb-3 ml-4">Lampirkan Foto</label>
+<div class="flex gap-4">
+<button class="w-24 h-24 rounded-xl border-2 border-dashed border-outline-variant/30 flex flex-col items-center justify-center bg-surface-container-low hover:bg-surface-container-high transition-colors active:scale-95">
+<span class="material-symbols-outlined text-secondary text-3xl mb-1" data-icon="add_a_photo">add_a_photo</span>
+<span class="text-[10px] font-bold text-on-surface-variant uppercase tracking-tighter">Unggah</span>
+</button>
+<div class="relative w-24 h-24 rounded-xl overflow-hidden shadow-md group">
+<img class="w-full h-full object-cover" data-alt="Luxury watch detailed texture, warm amber backlighting, shallow depth of field" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDnQf2hgcACU8MTWNjwMw-9aEkOqF9aNI3uPxeVLJRrybz-z52be4EB30LLMahKCnia25f4sbhE-tl-mgXwLMd2IhKtI2g2Ln563kPlGqHZwebAxS1tLhYeis3NVf78MkMpiCpIS4UY1murTlWFQY6EcnNwCbh3f7B6hvTZsiRDsp8KBVnLUMGME27gZE_gcMFupf5ZdvVNPjxw86D6woXuLiVQHUMza6Unz3xMJPZGQ7FgMjBXRadzCLySCF1GZC4ggHxDdjoDvWo"/>
+<div class="absolute inset-0 bg-primary/20 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
+<span class="material-symbols-outlined text-white" data-icon="close">close</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Submit Button Section -->
+<div class="mt-12">
+<button class="w-full h-16 bg-primary text-on-primary rounded-xl font-bold text-lg flex items-center justify-center gap-3 shadow-[0_15px_30px_rgba(0,6,19,0.15)] active:scale-[0.98] transition-all relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-r from-primary via-[#001f3f] to-primary opacity-50"></div>
+<span class="relative z-10">Kirim Ulasan</span>
+<span class="material-symbols-outlined relative z-10 text-xl" data-icon="send">send</span>
+</button>
+<p class="text-center text-xs text-on-surface-variant mt-6 px-8 leading-relaxed opacity-60">
+                Dengan mengirimkan ulasan, Anda menyetujui Ketentuan Layanan dan Kebijakan Privasi kami.
+            </p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 rounded-t-[32px] bg-[#ffffff]/85 backdrop-blur-2xl shadow-[0_-20px_40px_rgba(27,28,26,0.06)]">
+<div class="flex justify-around items-center px-8 pb-8 pt-4">
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-50 hover:text-[#000613] transition-colors tap-highlight-transparent">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-50 hover:text-[#000613] transition-colors tap-highlight-transparent">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Koleksi</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#735c00] scale-110 transition-all tap-highlight-transparent">
+<span class="material-symbols-outlined" data-icon="rate_review" style="font-variation-settings: 'FILL' 1;">rate_review</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Ulasan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-50 hover:text-[#000613] transition-colors tap-highlight-transparent">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-semibold uppercase tracking-widest mt-1">Profil</span>
+</div>
+</div>
+</nav>
+</body></html>

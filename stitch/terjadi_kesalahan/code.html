@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>AURELIAN — Terjadi Kesalahan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "inverse-primary": "#afc8f0",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-secondary-fixed-variant": "#574500",
+                    "secondary": "#735c00",
+                    "on-surface": "#1b1c1a",
+                    "surface": "#faf9f5",
+                    "on-surface-variant": "#43474e",
+                    "on-secondary": "#ffffff",
+                    "background": "#faf9f5",
+                    "tertiary-container": "#1d1f1c",
+                    "on-primary-container": "#6f88ad",
+                    "on-background": "#1b1c1a",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "surface-dim": "#dbdad6",
+                    "surface-container": "#efeeea",
+                    "primary-container": "#001f3f",
+                    "on-secondary-container": "#745c00",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary": "#000613",
+                    "outline": "#74777f",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-highest": "#e3e2df",
+                    "surface-container-high": "#e9e8e4",
+                    "on-error": "#ffffff",
+                    "secondary-fixed": "#ffe088",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "surface-container-low": "#f4f4f0",
+                    "tertiary-fixed": "#e3e3de",
+                    "on-tertiary": "#ffffff",
+                    "tertiary": "#040604",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-tertiary-container": "#858783",
+                    "surface-tint": "#476083",
+                    "error": "#ba1a1a",
+                    "outline-variant": "#c4c6cf",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-variant": "#e3e2df",
+                    "primary-fixed": "#d4e3ff",
+                    "inverse-on-surface": "#f2f1ed",
+                    "on-error-container": "#93000a",
+                    "surface-bright": "#faf9f5",
+                    "secondary-container": "#fed65b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .font-serif { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 200, 'GRAD' 0, 'opsz' 48;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0_4px_30px_rgba(0,0,0,0.03)] flex justify-between items-center px-6 h-16">
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="text-xl font-serif tracking-[0.3em] text-slate-900 dark:text-slate-50 uppercase">AURELIAN</h1>
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex items-center justify-center px-8 pt-16 pb-32">
+<div class="max-w-md w-full text-center">
+<!-- Perspective Icon Section -->
+<div class="relative mb-12">
+<div class="absolute inset-0 bg-secondary/5 blur-3xl rounded-full scale-150"></div>
+<div class="relative flex justify-center">
+<div class="w-32 h-32 bg-surface-container-lowest rounded-full shadow-[0px_20px_40px_rgba(27,28,26,0.06)] flex items-center justify-center transform hover:scale-105 transition-transform duration-500">
+<span class="material-symbols-outlined text-5xl text-secondary" data-icon="auto_awesome_motion" style="font-variation-settings: 'wght' 200;">auto_awesome_motion</span>
+</div>
+</div>
+</div>
+<!-- Error Content -->
+<div class="space-y-6">
+<h2 class="font-headline text-3xl font-bold tracking-tight text-primary">Terjadi Kesalahan</h2>
+<p class="font-body text-on-surface-variant leading-relaxed px-4">
+                    Maaf, terjadi kendala teknis yang tidak terduga. Kami sedang berusaha memperbaikinya agar Anda dapat kembali menjelajahi koleksi kami.
+                </p>
+<!-- Support Detail Card -->
+<div class="bg-surface-container-low p-6 rounded-xl text-left border border-outline-variant/10 shadow-sm mt-8">
+<div class="flex items-center gap-4">
+<div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center">
+<span class="material-symbols-outlined text-primary text-xl" data-icon="support_agent">support_agent</span>
+</div>
+<div>
+<p class="text-xs font-bold tracking-widest uppercase text-on-surface-variant mb-1">Butuh Bantuan?</p>
+<p class="text-sm font-body text-primary">Tim kurator kami siap membantu Anda.</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="mt-12">
+<button class="w-full bg-primary text-on-primary py-4 px-8 rounded-xl font-body font-medium tracking-wide shadow-lg hover:opacity-90 active:scale-95 transition-all duration-300">
+                    Kembali ke Beranda
+                </button>
+<button class="mt-4 text-secondary font-medium tracking-wide hover:underline transition-all">
+                    Hubungi Layanan Pelanggan
+                </button>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Suppressed based on Transactional/Focused logic, but here following the "Return to Home" context if needed as shell) -->
+<!-- Applying BottomNavBar from JSON for consistency as it's a top-level destination anchor -->
+<nav class="fixed bottom-0 left-0 w-full z-50 flex justify-around items-center pt-3 pb-8 px-4 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl rounded-t-[32px] shadow-[0_-10px_40px_rgba(0,0,0,0.05)] md:hidden">
+<div class="flex flex-col items-center justify-center text-yellow-700 dark:text-yellow-500 font-bold transition-all duration-500 ease-in-out">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-sans text-[10px] uppercase tracking-wider">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 transition-all duration-500 ease-in-out">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-sans text-[10px] uppercase tracking-wider">Koleksi</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 transition-all duration-500 ease-in-out">
+<span class="material-symbols-outlined mb-1" data-icon="receipt_long">receipt_long</span>
+<span class="font-sans text-[10px] uppercase tracking-wider">Pesanan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-600 transition-all duration-500 ease-in-out">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-sans text-[10px] uppercase tracking-wider">Akun</span>
+</div>
+</nav>
+<!-- Background Decorative Elements -->
+<div class="fixed top-0 right-0 -z-10 opacity-40">
+<div class="w-96 h-96 bg-secondary/5 rounded-full blur-[100px] -mr-48 -mt-48"></div>
+</div>
+<div class="fixed bottom-0 left-0 -z-10 opacity-40">
+<div class="w-96 h-96 bg-primary/5 rounded-full blur-[100px] -ml-48 -mb-48"></div>
+</div>
+</body></html>

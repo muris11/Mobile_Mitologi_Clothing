@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Memuat Keranjang...</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#040604",
+                    "on-secondary-container": "#745c00",
+                    "on-surface": "#1b1c1a",
+                    "on-tertiary-container": "#858783",
+                    "inverse-surface": "#2f312e",
+                    "secondary-container": "#fed65b",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-error": "#ffffff",
+                    "primary": "#000613",
+                    "surface-variant": "#e3e2df",
+                    "surface-container-highest": "#e3e2df",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "background": "#faf9f5",
+                    "secondary": "#735c00",
+                    "tertiary-container": "#1d1f1c",
+                    "primary-container": "#001f3f",
+                    "surface-tint": "#476083",
+                    "tertiary-fixed": "#e3e3de",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c4c6cf",
+                    "error-container": "#ffdad6",
+                    "surface": "#faf9f5",
+                    "on-background": "#1b1c1a",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary-fixed": "#001c3a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "inverse-on-surface": "#f2f1ed",
+                    "surface-bright": "#faf9f5",
+                    "surface-container-low": "#f4f4f0",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#574500",
+                    "inverse-primary": "#afc8f0",
+                    "secondary-fixed": "#ffe088",
+                    "on-surface-variant": "#43474e",
+                    "surface-dim": "#dbdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "surface-container-high": "#e9e8e4",
+                    "primary-fixed": "#d4e3ff",
+                    "on-error-container": "#93000a",
+                    "outline": "#74777f",
+                    "surface-container": "#efeeea",
+                    "on-primary-container": "#6f88ad"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .shimmer {
+            background: linear-gradient(90deg, #efeeea 25%, #f4f4f0 50%, #efeeea 75%);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite linear;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#ffffff]/85 dark:bg-[#000613]/85 backdrop-blur-xl flex items-center justify-between px-6 h-16 w-full shadow-sm shadow-[#1b1c1a]/5">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5] hover:opacity-70 transition-opacity">arrow_back</span>
+<h1 class="font-['Noto_Serif'] text-lg tracking-tight text-[#000613] dark:text-[#faf9f5]">Keranjang</h1>
+</div>
+<span class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5] hover:opacity-70 transition-opacity">more_vert</span>
+</header>
+<main class="pt-20 pb-32 px-6 max-w-2xl mx-auto">
+<!-- Status Title -->
+<div class="mb-8">
+<h2 class="font-headline text-2xl font-bold text-primary mb-2">Memuat Keranjang...</h2>
+<div class="w-1/3 h-1 shimmer rounded-full opacity-30"></div>
+</div>
+<!-- Skeleton List -->
+<div class="space-y-6">
+<!-- Loading Card 1 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm shadow-[#1b1c1a]/5 flex gap-4">
+<div class="w-24 h-24 rounded-lg shimmer shrink-0"></div>
+<div class="flex-1 space-y-3 py-1">
+<div class="h-5 w-3/4 shimmer rounded-md"></div>
+<div class="h-4 w-1/2 shimmer rounded-md opacity-60"></div>
+<div class="flex justify-between items-end pt-2">
+<div class="h-6 w-24 shimmer rounded-md"></div>
+<div class="h-8 w-20 shimmer rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Loading Card 2 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm shadow-[#1b1c1a]/5 flex gap-4">
+<div class="w-24 h-24 rounded-lg shimmer shrink-0"></div>
+<div class="flex-1 space-y-3 py-1">
+<div class="h-5 w-2/3 shimmer rounded-md"></div>
+<div class="h-4 w-1/3 shimmer rounded-md opacity-60"></div>
+<div class="flex justify-between items-end pt-2">
+<div class="h-6 w-28 shimmer rounded-md"></div>
+<div class="h-8 w-20 shimmer rounded-full"></div>
+</div>
+</div>
+</div>
+<!-- Loading Card 3 -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-sm shadow-[#1b1c1a]/5 flex gap-4">
+<div class="w-24 h-24 rounded-lg shimmer shrink-0"></div>
+<div class="flex-1 space-y-3 py-1">
+<div class="h-5 w-3/4 shimmer rounded-md"></div>
+<div class="h-4 w-1/2 shimmer rounded-md opacity-60"></div>
+<div class="flex justify-between items-end pt-2">
+<div class="h-6 w-24 shimmer rounded-md"></div>
+<div class="h-8 w-20 shimmer rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Summary Placeholder Section -->
+<div class="mt-10 p-6 bg-surface-container-low rounded-xl space-y-4">
+<div class="flex justify-between">
+<div class="h-4 w-24 shimmer rounded-md opacity-70"></div>
+<div class="h-4 w-20 shimmer rounded-md opacity-70"></div>
+</div>
+<div class="flex justify-between">
+<div class="h-4 w-32 shimmer rounded-md opacity-70"></div>
+<div class="h-4 w-16 shimmer rounded-md opacity-70"></div>
+</div>
+<div class="pt-4 flex justify-between border-t border-outline-variant/10">
+<div class="h-6 w-28 shimmer rounded-md"></div>
+<div class="h-6 w-32 shimmer rounded-md"></div>
+</div>
+</div>
+</main>
+<!-- Floating Checkout Placeholder (Supressed as it's a loading state, but matching layout) -->
+<div class="fixed bottom-[88px] left-0 w-full px-6 z-40">
+<div class="bg-primary text-on-primary w-full h-14 rounded-xl flex items-center justify-center opacity-20 pointer-events-none">
+<div class="h-5 w-40 bg-white/20 rounded-md shimmer"></div>
+</div>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-[#ffffff]/85 dark:bg-[#000613]/85 backdrop-blur-xl z-50 rounded-t-[20px] shadow-[0_-10px_30px_rgba(27,28,26,0.04)]">
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Belanja</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#735c00] dark:text-[#735c00] font-bold scale-110 active:scale-90 transition-transform" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Keranjang</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Wishlist</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all active:scale-90 duration-200" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Akun</span>
+</a>
+</nav>
+</body></html>

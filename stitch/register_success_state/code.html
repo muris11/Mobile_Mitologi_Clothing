@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#faf9f5",
+                    "secondary-fixed": "#ffe088",
+                    "secondary": "#735c00",
+                    "primary-fixed": "#d4e3ff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "error-container": "#ffdad6",
+                    "surface": "#faf9f5",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#dbdad6",
+                    "tertiary": "#040604",
+                    "on-surface-variant": "#43474e",
+                    "secondary-container": "#fed65b",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "primary": "#000613",
+                    "on-surface": "#1b1c1a",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-low": "#f4f4f0",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c1a",
+                    "outline": "#74777f",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-tint": "#476083",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-bright": "#faf9f5",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "surface-variant": "#e3e2df",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-secondary-container": "#745c00",
+                    "on-primary-container": "#6f88ad",
+                    "on-secondary-fixed": "#241a00",
+                    "inverse-on-surface": "#f2f1ed",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#e3e3de",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "outline-variant": "#c4c6cf",
+                    "surface-container-highest": "#e3e2df",
+                    "on-primary-fixed": "#001c3a",
+                    "primary-container": "#001f3f",
+                    "inverse-primary": "#afc8f0",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#efeeea"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-container {
+            perspective: 1000px;
+        }
+        .floating-accent {
+            filter: blur(80px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-background min-h-screen flex flex-col items-center justify-center relative overflow-hidden">
+<!-- Decorative Atmospheric Elements -->
+<div class="absolute top-[-10%] left-[-5%] w-96 h-96 rounded-full bg-secondary-fixed-dim/20 floating-accent"></div>
+<div class="absolute bottom-[-5%] right-[-5%] w-[500px] h-[500px] rounded-full bg-primary-fixed/10 floating-accent"></div>
+<!-- Success Canvas -->
+<main class="relative z-10 w-full max-w-lg px-8 flex flex-col items-center text-center">
+<!-- 3D Checkmark Success Asset -->
+<div class="perspective-container relative mb-12">
+<!-- Background Halo -->
+<div class="absolute inset-0 bg-secondary/5 rounded-full scale-150 blur-2xl"></div>
+<!-- Success Icon with 3D Depth Treatment -->
+<div class="relative w-32 h-32 md:w-40 md:h-40 flex items-center justify-center bg-surface-container-lowest rounded-full shadow-[0px_20px_40px_rgba(27,28,26,0.06)] border border-outline-variant/10">
+<div class="absolute inset-0 rounded-full bg-gradient-to-tr from-secondary/5 to-transparent opacity-50"></div>
+<span class="material-symbols-outlined text-secondary text-7xl md:text-8xl drop-shadow-[0_8px_12px_rgba(115,92,0,0.25)]" style="font-variation-settings: 'FILL' 1, 'wght' 200;">
+                    check_circle
+                </span>
+<!-- Particle Accents -->
+<div class="absolute -top-2 -right-4 w-3 h-3 rounded-full bg-secondary/30"></div>
+<div class="absolute top-10 -right-8 w-2 h-2 rounded-full bg-primary/20"></div>
+<div class="absolute -bottom-4 left-0 w-4 h-4 rounded-full bg-secondary/10"></div>
+<div class="absolute top-1/2 -left-12 w-2 h-2 rounded-full bg-secondary-fixed-dim/40"></div>
+</div>
+</div>
+<!-- Content Section -->
+<section class="space-y-6">
+<div class="space-y-2">
+<h1 class="font-headline text-4xl md:text-5xl text-primary tracking-tight font-light">
+                    Registrasi Berhasil!
+                </h1>
+<div class="h-0.5 w-16 bg-secondary/40 mx-auto rounded-full"></div>
+</div>
+<p class="text-on-surface-variant text-lg md:text-xl font-light leading-relaxed max-w-sm mx-auto">
+                Selamat! Akun Anda telah berhasil dibuat. Silakan masuk untuk mulai berbelanja.
+            </p>
+</section>
+<!-- Action Section -->
+<section class="mt-16 w-full max-w-xs space-y-4">
+<a class="group relative block w-full bg-primary text-on-primary py-5 rounded-xl font-body text-sm tracking-widest uppercase transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-[0px_10px_30px_rgba(0,6,19,0.15)]" href="#">
+<span class="relative z-10">Masuk Sekarang</span>
+<!-- Satin Sheen Effect -->
+<div class="absolute inset-0 bg-gradient-to-r from-transparent via-white/5 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-700"></div>
+</a>
+<div class="pt-4">
+<p class="text-on-surface-variant text-xs uppercase tracking-[0.2em] font-medium opacity-60">
+                    The Tactile Atelier
+                </p>
+</div>
+</section>
+</main>
+<!-- Contextual Graphic Overlay -->
+<div class="absolute bottom-12 left-12 hidden lg:block opacity-40">
+<div class="w-24 h-[1px] bg-outline-variant/30 mb-8"></div>
+<p class="font-headline italic text-primary text-xl">Curated Experience.</p>
+</div>
+<!-- Background Material Texture -->
+<div class="fixed inset-0 pointer-events-none opacity-[0.03]" style="background-image: url('https://lh3.googleusercontent.com/aida-public/AB6AXuAZRXXzXiREsX6XrBz0waFdjaBcHzOr2mVpZlTmFQLPDIqSFdCjIpvOowa0fXdMOv1coYOry70PY1f0cpCj6K4Bw2MkbFdSOacMT666wj4c0vuE5e_zysOYgc1Q-uuBXxGR8TWAzvqmo2FTOWGxG2qfdwsyK6fADMY2kQBrMCUG5N5Nc64-LwWpabIUfb-eadKr4xxHLfTJNqSGsxVe-z7qC-1bGP7hLY_VWgPKqtXwY3Ke-qxoN9IAIxYG6wjrbaipWHi6IlfQTvc');"></div>
+<!-- Shared Components Logic Filter: Suppression of Nav Shell
+         Per the mandate: "Automatic Suppression: You MUST exclude the navigation shell if the page intent is: Success/Confirmation splash screens."
+    -->
+</body></html>

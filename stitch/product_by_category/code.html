@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#001f3f",
+                    "on-secondary-container": "#745c00",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e3e2df",
+                    "tertiary": "#040604",
+                    "surface-container-low": "#f4f4f0",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e3e2df",
+                    "secondary-fixed": "#ffe088",
+                    "primary-fixed-dim": "#afc8f0",
+                    "inverse-primary": "#afc8f0",
+                    "tertiary-fixed": "#e3e3de",
+                    "surface": "#faf9f5",
+                    "on-surface-variant": "#43474e",
+                    "primary-fixed": "#d4e3ff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#476083",
+                    "on-surface": "#1b1c1a",
+                    "on-secondary-fixed": "#241a00",
+                    "tertiary-container": "#1d1f1c",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-primary-fixed": "#001c3a",
+                    "secondary": "#735c00",
+                    "error-container": "#ffdad6",
+                    "on-background": "#1b1c1a",
+                    "inverse-on-surface": "#f2f1ed",
+                    "secondary-container": "#fed65b",
+                    "surface-container": "#efeeea",
+                    "primary": "#000613",
+                    "outline-variant": "#c4c6cf",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary": "#ffffff",
+                    "background": "#faf9f5",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-dim": "#dbdad6",
+                    "inverse-surface": "#2f312e",
+                    "outline": "#74777f",
+                    "on-error-container": "#93000a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "2xl": "1rem",
+                    "3xl": "1.5rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-card:hover {
+            transform: translateY(-8px) scale(1.02);
+            transition: all 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .glass-effect {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface">
+<!-- Top Navigation Bar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-[0px_20px_40px_rgba(27,28,26,0.04)] flex items-center justify-between px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="text-[#000613] hover:opacity-70 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-['Noto_Serif'] text-xl font-bold text-[#000613]">The Atelier</h1>
+</div>
+<nav class="hidden md:flex gap-8">
+<a class="text-[#735c00] font-semibold font-['Noto_Serif'] text-sm tracking-tight" href="#">Curated</a>
+<a class="text-[#43474e] hover:opacity-70 transition-opacity font-['Noto_Serif'] text-sm tracking-tight" href="#">Eksplorasi</a>
+<a class="text-[#43474e] hover:opacity-70 transition-opacity font-['Noto_Serif'] text-sm tracking-tight" href="#">Atelier</a>
+</nav>
+<div class="flex items-center gap-4">
+<button class="text-[#000613] hover:opacity-70 transition-opacity active:scale-95">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32">
+<!-- Hero Banner Section -->
+<section class="px-6 mb-12">
+<div class="relative h-[397px] rounded-3xl overflow-hidden shadow-[0px_20px_40px_rgba(27,28,26,0.06)]">
+<img alt="Koleksi Ruang Tamu" class="w-full h-full object-cover" data-alt="luxurious modern living room with organic textures, beige linen sofa, marble coffee table, and soft morning sunlight through sheer curtains" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhDqeOZQueRapqqz-xKX4b33QozkJVd_nAd0yKqbbpTju6yrwVD6a4MCbRZxyE_eKmQdcWJGQMjTAKJV1dm2b_weNpiVl4fyUa43Qw8x7tOG2ztz048V_fSVPG-LHuTsKbzsQe2TNH17FU9aOvN_7_4bFiKtl48Gs7-sUs3NESPLoht2hqHT75tVMTy0a5OksglLxg2wnqW5_shEf0lu-50oKioHRAbZZPZ-HjHnK9rzmXeR-pmUs7MTE8p_qbnJI30CJFwKBe_LY"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></div>
+<div class="absolute bottom-10 left-10 text-white">
+<p class="font-label text-xs uppercase tracking-[0.3em] mb-2 opacity-90">Kategori</p>
+<h2 class="font-headline text-4xl md:text-6xl font-bold tracking-tight">Koleksi Ruang Tamu</h2>
+</div>
+</div>
+</section>
+<!-- Filter & Sort Bar -->
+<section class="px-6 mb-8 flex items-center justify-between">
+<div class="flex items-center gap-2 text-on-surface-variant">
+<span class="font-label text-sm font-semibold uppercase tracking-widest">Ruang Tamu</span>
+<span class="text-outline-variant opacity-30 px-2">|</span>
+<span class="font-body text-sm italic">24 Produk Ditemukan</span>
+</div>
+<div class="flex gap-4">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low rounded-full hover:bg-surface-container-highest transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="tune">tune</span>
+<span class="font-label text-sm font-bold uppercase tracking-wider">Filter</span>
+</button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low rounded-full hover:bg-surface-container-highest transition-all active:scale-95">
+<span class="material-symbols-outlined text-sm" data-icon="swap_vert">swap_vert</span>
+<span class="font-label text-sm font-bold uppercase tracking-wider">Urutkan</span>
+</button>
+</div>
+</section>
+<!-- Product Grid - Bento Style -->
+<section class="px-6 grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Large Featured Card -->
+<div class="md:col-span-8 group">
+<div class="perspective-card relative bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-[0px_10px_30px_rgba(27,28,26,0.04)] h-full">
+<div class="aspect-[16/9] overflow-hidden">
+<img alt="Sofa Minimalis Arka" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="large dark green velvet luxury sofa against a clean off-white wall with minimalist decor and architectural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDwANpb0-iEAId2x69d7pEDfOYpS1mWQX43i8qT3IMhxz4EIts1RRpfGEl6HGG6j36M7rUlO9QjnXBVoEzDhqkzMhwtRjTsq-arM84fsFCW-WUZ5gVXeI3k9KKNS_kdIymMYf_g8fklPIkKsWMvWzqNS-Ms5L61UJbcMTIoqLpt3ILMDN_JSKc9QDxN2c2P5GUbeML9a6tfHjrdnveerMh0zH2kp48uKuB6_uH4pt0GBClDJYCw2uWVi_WJJ83WpXBADNMrnRgpW7E"/>
+</div>
+<div class="p-8 flex justify-between items-end">
+<div>
+<p class="font-label text-secondary text-sm font-bold uppercase tracking-widest mb-2">Pilihan Kurator</p>
+<h3 class="font-headline text-3xl font-bold text-primary mb-2">Sofa Minimalis Arka</h3>
+<p class="text-on-surface-variant font-body mb-4 max-w-md">Kenyamanan abadi dengan desain lekukan organik yang menyatu dengan estetika kontemporer.</p>
+<span class="font-label text-xl font-bold text-primary">Rp 18.500.000</span>
+</div>
+<button class="bg-primary text-white p-5 rounded-2xl shadow-xl hover:bg-primary-container active:scale-90 transition-all">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Side Card 1 -->
+<div class="md:col-span-4 group">
+<div class="perspective-card relative bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-[0px_10px_30px_rgba(27,28,26,0.04)] h-full">
+<div class="aspect-square overflow-hidden">
+<img alt="Meja Kopi Obsidian" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="modern circular black marble coffee table with subtle white veining and metallic gold base in a bright airy room" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBp1y3mq7s03H36N1IZFXhPneaMU5b-pr71gyaBud6l81z6LfZTbl-qJw_5mdZRkZ0x35Ke4Hbz8vuL9PpC7Im4SyYRZaGIcYB5xLulZy_R2esKVydqF3-1tL8ZrcHRy-uB2GX16ilaEvCTujlTLn9IF1ZWrLUmymAgfCzXiSZd4k0qTSmG5DdkqoegWiE7Lg6uO4e27TcccMv2GcPBtR1DGCTZcUttPE8F-M7M2PM1qbY6Y-Emk8BZTEzgawnwD5GCjFpIC7CvyfY"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline text-xl font-bold text-primary mb-1">Meja Kopi Obsidian</h3>
+<p class="text-on-surface-variant font-body text-sm mb-4">Marmer hitam pilihan dari pengrajin lokal.</p>
+<div class="flex justify-between items-center">
+<span class="font-label font-bold text-secondary">Rp 4.250.000</span>
+<span class="material-symbols-outlined text-outline-variant" data-icon="favorite">favorite</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Grid Item 3 -->
+<div class="md:col-span-4 group">
+<div class="perspective-card relative bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-[0px_10px_30px_rgba(27,28,26,0.04)]">
+<div class="aspect-[4/5] overflow-hidden">
+<img alt="Lampu Berdiri Aura" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="sculptural standing floor lamp with a linen shade and brushed brass stem in a cozy reading nook" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrRhYcIY_SmgnxfiUA6cfuUu4EfN4jheMHqMcKRHzAFYvGUoIb53YAG6vTdKthKVpkE3zIXFXSZzn8xhGqbjpWRbtLrnbPUsuf-hU5cWOoHtvZkAkMUy0BXg28CDxzUrM68iYXioUOCby3LAdOLk-Stw4QpgRRVOy1GginEoQs6R9b5D1K_XbdceW3Kfq5WFyAJYjKwiEqUja1eYQKNmJi73TXY3u1y0_RHHG50BETnZHFC1O3XdkmC454908gnV5d9LQ8zFPPmJk"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline text-xl font-bold text-primary mb-1">Lampu Berdiri Aura</h3>
+<div class="flex justify-between items-center mt-4">
+<span class="font-label font-bold text-primary">Rp 2.700.000</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Grid Item 4 -->
+<div class="md:col-span-4 group">
+<div class="perspective-card relative bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-[0px_10px_30px_rgba(27,28,26,0.04)]">
+<div class="aspect-[4/5] overflow-hidden">
+<img alt="Kursi Lengan Nordic" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="mid-century modern grey armchair with light oak wood frame on a cream textured rug" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCKV-ahNYONd0Am51yvL_T-LKqh20SURHsS0yYYMwTFv-945DlZxctGhafF_xMnBTSojYTjdfeEO2AP4E7vS01uYutICOAvYbbggCuwdMnpnmCF7qEozAnVyG1hohtwwuBTrFEx_VtRgERJXjz9T6KJACzoPYc5MAW6JlWGfbsAIxwmYGhmU_uoSGxwSaRVchOH5VtiYs2c7jRhiKO0XhtF1Rul_PmOPWJNe-qtcNuZxEut8jUEXXHASRShjn7xLBTraxs4jl2GztQ"/>
+</div>
+<div class="p-6">
+<h3 class="font-headline text-xl font-bold text-primary mb-1">Kursi Lengan Nordic</h3>
+<div class="flex justify-between items-center mt-4">
+<span class="font-label font-bold text-primary">Rp 6.800.000</span>
+<button class="w-10 h-10 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Grid Item 5 (Wide Editorial) -->
+<div class="md:col-span-4 group">
+<div class="perspective-card relative bg-surface-container-low rounded-[32px] overflow-hidden shadow-[0px_10px_30px_rgba(27,28,26,0.04)] p-8 flex flex-col justify-between h-full">
+<div>
+<span class="material-symbols-outlined text-secondary text-4xl mb-6" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="font-headline text-2xl font-bold text-primary mb-4 leading-tight">Lengkapi Estetika Ruangan Anda</h3>
+<p class="text-on-surface-variant font-body">Dapatkan konsultasi desain interior gratis untuk setiap pembelian koleksi eksklusif kami.</p>
+</div>
+<button class="mt-8 border border-primary/20 rounded-full py-4 font-label text-sm font-bold uppercase tracking-widest hover:bg-primary hover:text-white transition-all">
+                        Hubungi Desainer
+                    </button>
+</div>
+</div>
+</section>
+</main>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-[#ffffff]/85 backdrop-blur-2xl rounded-t-[32px] shadow-[0px_-10px_30px_rgba(27,28,26,0.06)] flex justify-around items-center pt-4 pb-8 px-8">
+<a class="flex flex-col items-center justify-center text-[#735c00] scale-110 transition-transform" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest mt-1">Curated</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest mt-1">Search</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all relative" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="absolute top-0 right-0 w-2 h-2 bg-secondary rounded-full"></span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest mt-1">Cart</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

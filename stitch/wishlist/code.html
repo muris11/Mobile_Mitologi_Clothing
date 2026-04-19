@@ -1,0 +1,224 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#f2f1ed",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f4f4f0",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#574500",
+                    "background": "#faf9f5",
+                    "secondary": "#735c00",
+                    "outline": "#74777f",
+                    "tertiary-fixed": "#e3e3de",
+                    "outline-variant": "#c4c6cf",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary": "#000613",
+                    "on-error": "#ffffff",
+                    "on-background": "#1b1c1a",
+                    "tertiary": "#040604",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-primary": "#afc8f0",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-bright": "#faf9f5",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "surface-tint": "#476083",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-dim": "#dbdad6",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-container": "#efeeea",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-container-highest": "#e3e2df",
+                    "primary-container": "#001f3f",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-primary-container": "#6f88ad",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e3e2df",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-container": "#fed65b",
+                    "on-secondary-container": "#745c00",
+                    "surface": "#faf9f5",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#d4e3ff",
+                    "on-surface-variant": "#43474e",
+                    "inverse-surface": "#2f312e",
+                    "on-surface": "#1b1c1a",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tap-highlight-transparent {
+            -webkit-tap-highlight-color: transparent;
+        }
+        .asymmetric-item:nth-child(even) {
+            margin-top: 2rem;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface antialiased min-h-screen">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-[0px_4px_20px_rgba(27,28,26,0.04)]">
+<div class="flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-70 transition-opacity scale-95 active:duration-150">
+<span class="material-symbols-outlined text-[#000613]" data-icon="menu">menu</span>
+</button>
+</div>
+<h1 class="font-['Noto_Serif'] text-lg font-semibold tracking-tight text-[#000613]">Daftar Keinginan</h1>
+<div class="flex items-center gap-4">
+<button class="hover:opacity-70 transition-opacity scale-95 active:duration-150">
+<span class="material-symbols-outlined text-[#000613]" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pt-24 pb-32 px-6">
+<!-- Hero Section / Title -->
+<div class="mb-10 text-center">
+<p class="font-label text-xs uppercase tracking-[0.2em] text-secondary mb-2">Simpanan Anda</p>
+<h2 class="font-headline text-3xl font-bold text-primary">Keinginan Terpilih</h2>
+</div>
+<!-- Asymmetric Product Grid -->
+<div class="grid grid-cols-2 gap-x-6 gap-y-12">
+<!-- Item 1 -->
+<div class="asymmetric-item relative group">
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low shadow-[0px_10px_30px_rgba(27,28,26,0.04)] transition-all duration-500 hover:shadow-xl">
+<img alt="Syal Sutra Emerald" class="w-full aspect-[4/5] object-cover" data-alt="luxurious emerald green silk scarf with intricate golden floral patterns draped over a minimalist wooden stand" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDKq74vfi04JKyZQn8QI17TrucsuWbwL06Ytllo2bPWseCqA_zI4YbPWaSLHEfK3wxHnkU78ht5i1FkYzGKorxy8BYYCYEd2lQ-SATdSZ6IU0vNixTJxTfi356JCQvQZgUYvCPuLYQaXRh9Ub0Pu1YfcP3aNQYmGCpR3BvF7pjXCwv1jYvG4ABZAmP0bVx2wehHX3H_MZhcUv5j8Zb00dCflHyUZYtv0pI9dQrVSruxTGw2cRf5fhW5w0Q-EeTBScog1PIK_3yXcnY"/>
+<div class="absolute top-3 right-3 flex flex-col gap-2">
+<button class="w-8 h-8 rounded-full bg-surface-container-lowest/90 backdrop-blur shadow-sm flex items-center justify-center text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<div class="mt-4 px-1">
+<h3 class="font-headline text-base font-semibold leading-tight text-primary">Syal Sutra Emerald</h3>
+<p class="font-body text-sm text-secondary mt-1 font-bold">Rp 1.250.000</p>
+<button class="mt-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary border-b border-primary/10 pb-1 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+                        Tambah ke Keranjang
+                    </button>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="asymmetric-item relative group">
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low shadow-[0px_10px_30px_rgba(27,28,26,0.04)] transition-all duration-500 hover:shadow-xl">
+<img alt="Vas Keramik Minimalis" class="w-full aspect-[4/5] object-cover" data-alt="premium minimalist ceramic vase with organic curves in a soft cream finish set against a textured beige wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBy442kObaroU0h7duXVernEWiwyXqJIAqEQZGkNvbNA3_lOUdjpgZ-c_fkaz5ODBmYr-XKzk_Qlnb26aeySi8QpTuUIkX5PXLm5D9Vc3Ilpy53NICpe-COp7gmN4M5ZEFU_Femnu9_-A8Stcw-RQMdc9Or8Ujk6H01qp-zPQhXhjpgHS1RslASwyyCWQYS6Hzdp4pznxuxxiN2MvXYapgyt3MzJLTHIOQvqmDgETeKMaPiNCbBSW2l-FW0nKYaICDkmQqJVFddywU"/>
+<div class="absolute top-3 right-3 flex flex-col gap-2">
+<button class="w-8 h-8 rounded-full bg-surface-container-lowest/90 backdrop-blur shadow-sm flex items-center justify-center text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<div class="mt-4 px-1">
+<h3 class="font-headline text-base font-semibold leading-tight text-primary">Vas Keramik Atelier</h3>
+<p class="font-body text-sm text-secondary mt-1 font-bold">Rp 850.000</p>
+<button class="mt-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary border-b border-primary/10 pb-1 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+                        Tambah ke Keranjang
+                    </button>
+</div>
+</div>
+<!-- Item 3 -->
+<div class="asymmetric-item relative group">
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low shadow-[0px_10px_30px_rgba(27,28,26,0.04)] transition-all duration-500 hover:shadow-xl">
+<img alt="Sweater Cashmere" class="w-full aspect-[4/5] object-cover" data-alt="luxury off-white cashmere sweater folded neatly on a marble surface with soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA3mSa1xdvikan5fOv_CGOTywnHE8ZsNRexe_tAv68ZsXo_nc95MrNRwJA-pBvVKFmgi0k5AILPAl8acDugRhGoK4YykF_oietzrsOdlgVRSuNSbNBboowEVpRmalAPEOJPrpTEi42QTFEJ_zR1vFwOHB70uH2DXOdvx8eFjv0a4iZYz5heZX0CL6Wy9tHxa1L6C5hQsuX3oJ7-K11epO0wb2dgfsP0D-DBZ48eIf0RgzkbPHSbSo6m55GAv-TOL4BHyrOye-TxPAM"/>
+<div class="absolute top-3 right-3 flex flex-col gap-2">
+<button class="w-8 h-8 rounded-full bg-surface-container-lowest/90 backdrop-blur shadow-sm flex items-center justify-center text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<div class="mt-4 px-1">
+<h3 class="font-headline text-base font-semibold leading-tight text-primary">Kasmir Rajut Putih</h3>
+<p class="font-body text-sm text-secondary mt-1 font-bold">Rp 3.400.000</p>
+<button class="mt-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary border-b border-primary/10 pb-1 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+                        Tambah ke Keranjang
+                    </button>
+</div>
+</div>
+<!-- Item 4 -->
+<div class="asymmetric-item relative group">
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low shadow-[0px_10px_30px_rgba(27,28,26,0.04)] transition-all duration-500 hover:shadow-xl">
+<img alt="Gelang Emas" class="w-full aspect-[4/5] object-cover" data-alt="elegant gold plated cuff bracelet with minimalist engraving placed on a black velvet cushion" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOdLwakrCTxxskiXmKuufAZpvTb4LOxw29QUkzTRtj35Ra7NpNbuYB9n-3zDpoGmJoZ1RMk_z5eHykpaYi-VmhOBi2ubDJq2whz1xVCrlT_EC6clroZndcC2RFMELeVlwZrcJHbZQ7lhiRLA0kmVH6EgD1u8wGr9eP1AZ1uZfr2Bau_dY8P2RvPbgqgEFAa-4JL9k28J1TvSkv-MVyuGSTcKDgnKQM6Qna7Lcq2sZO86Q7zhtyDQ4Z-74WgCpp9OCrghv-zz4OozY"/>
+<div class="absolute top-3 right-3 flex flex-col gap-2">
+<button class="w-8 h-8 rounded-full bg-surface-container-lowest/90 backdrop-blur shadow-sm flex items-center justify-center text-error hover:scale-110 transition-transform">
+<span class="material-symbols-outlined text-sm" data-icon="close">close</span>
+</button>
+</div>
+</div>
+<div class="mt-4 px-1">
+<h3 class="font-headline text-base font-semibold leading-tight text-primary">Gelang Khas Aurelian</h3>
+<p class="font-body text-sm text-secondary mt-1 font-bold">Rp 2.150.000</p>
+<button class="mt-3 flex items-center gap-2 text-xs font-bold uppercase tracking-widest text-primary border-b border-primary/10 pb-1 hover:border-primary transition-colors">
+<span class="material-symbols-outlined text-sm" data-icon="add_shopping_cart">add_shopping_cart</span>
+                        Tambah ke Keranjang
+                    </button>
+</div>
+</div>
+</div>
+<!-- Empty State Hint (Subtle) -->
+<div class="mt-20 pt-10 border-t border-outline-variant/10 text-center">
+<p class="font-body text-xs text-on-surface-variant italic opacity-60">"Setiap pilihan adalah cermin dari keanggunan sejati."</p>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-[#ffffff]/85 backdrop-blur-2xl rounded-t-[32px] shadow-[0px_-10px_40px_rgba(27,28,26,0.06)]">
+<div class="flex justify-around items-center px-8 h-20 pb-4 w-full">
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Cari</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#735c00] scale-110 transition-transform tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Keinginan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Profil</span>
+</a>
+</div>
+</nav>
+</body></html>

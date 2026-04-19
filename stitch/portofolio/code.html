@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d4e3ff",
+                        "surface-container-highest": "#e3e2df",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#001f3f",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "tertiary-container": "#1d1f1c",
+                        "on-tertiary-container": "#858783",
+                        "on-surface-variant": "#43474e",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-background": "#1b1c1a",
+                        "secondary": "#735c00",
+                        "on-primary-container": "#6f88ad",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-primary": "#afc8f0",
+                        "surface-container-low": "#f4f4f0",
+                        "surface-container": "#efeeea",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-bright": "#faf9f5",
+                        "surface": "#faf9f5",
+                        "primary": "#000613",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "surface-tint": "#476083",
+                        "surface-variant": "#e3e2df",
+                        "surface-container-high": "#e9e8e4",
+                        "on-secondary-fixed-variant": "#574500",
+                        "tertiary": "#040604",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f2f1ed",
+                        "secondary-fixed": "#ffe088",
+                        "outline": "#74777f",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#e3e3de",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "inverse-surface": "#2f312e",
+                        "secondary-container": "#fed65b",
+                        "background": "#faf9f5",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-surface": "#1b1c1a",
+                        "outline-variant": "#c4c6cf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body { font-family: 'Manrope', sans-serif; background-color: #faf9f5; }
+        .serif-text { font-family: 'Noto Serif', serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-background selection:bg-secondary-fixed">
+<!-- TopAppBar -->
+<header class="bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0_20_40px_rgba(27,28,26,0.06)]">
+<div class="flex justify-between items-center w-full px-6 py-4">
+<button class="text-slate-900 dark:text-slate-100 hover:opacity-70 transition-opacity duration-300">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-serif text-2xl uppercase tracking-widest text-slate-900 dark:text-slate-100">Atelier</h1>
+<button class="text-slate-900 dark:text-slate-100 hover:opacity-70 transition-opacity duration-300">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 px-4 max-w-7xl mx-auto">
+<!-- Hero Section -->
+<section class="mb-12 text-center">
+<h2 class="serif-text text-4xl md:text-5xl font-bold text-primary mb-4 tracking-tight">Portfolio</h2>
+<p class="text-on-surface-variant max-w-2xl mx-auto font-body text-lg">
+                Kurasi karya terbaik kami yang memadukan keahlian tangan tradisional dengan estetika sutra modern untuk klien istimewa.
+            </p>
+</section>
+<!-- Category Filter -->
+<div class="flex flex-wrap justify-center gap-3 mb-12">
+<button class="px-6 py-2 rounded-full bg-primary text-on-primary font-medium text-sm transition-all shadow-sm">Semua</button>
+<button class="px-6 py-2 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-medium text-sm transition-all">Gaun Pengantin</button>
+<button class="px-6 py-2 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-medium text-sm transition-all">Busana Pesta</button>
+<button class="px-6 py-2 rounded-full bg-surface-container text-on-surface hover:bg-surface-container-high font-medium text-sm transition-all">Aksesori</button>
+</div>
+<!-- Bento Portfolio Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Featured Case Study -->
+<div class="md:col-span-8 group relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-[0_20px_40px_rgba(27,28,26,0.06)] h-[500px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Close-up of a luxurious white silk bridal gown with intricate hand-stitched lace and pearl details in soft natural morning light." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBleUqzyCCB79Ck5jY8sFdwLo9JPoIjClIcgCEParnioRCEn-AtxolFiBJIraFTXQ66ydNfNvVMrsoL54uXROCuHGrJaBU_rwJN-6i-uTMJrB7sPyw3ANqPoFdG6nnm90ivD15WPzFDx1iGZp1csc_l3nTqb55FOEf5N4461jWTka8WNvP8ZMzHr_-Jd2RcxhSsS8IRRWQsk3NLHl1llK8oxvj2RKpiD_oe1R1wRHwKEPmuDFreD1R2UCW63c2MBaLpfjfq2EYsmC0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 text-white">
+<span class="text-secondary-fixed text-xs font-bold tracking-[0.2em] uppercase mb-2">Koleksi Signature</span>
+<h3 class="serif-text text-2xl font-bold mb-2">The Celestial Bride</h3>
+<p class="font-body text-sm text-surface-variant max-w-md">Eksplorasi sutra murni yang dipadukan dengan teknik bordir tangan selama 400 jam pengerjaan.</p>
+</div>
+</div>
+<!-- Side Item 1 -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-[0_20px_40px_rgba(27,28,26,0.06)] h-[500px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Ethereal pale gold silk fabric flowing like water against a warm neutral background, capturing high-end textile textures." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrocIJH-_4ELWgkZrAMF3ufTz1WuzxNCy1_OeaaNajyMaAzr1OcXZ8Fp1RjdHFQupHWXnlSR2c7CRhalEPoOUJTnA69NAzdGhj6cySfHePCLYLiB6nVD1P-b_KrIdhfiS_UV-C_PozHHHYk0rvK39KkowxwxfOH-Wn1aaPb2FChpSXkzUd2DlRwpGUkT7uJS3mjqBS8A_zRWP3b9T4I-WeUTWXEqily2Q-iO2i9uyYWOxpghsLE2Y1TTGipp2jSnHeSs-3K6ACq5k"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex flex-col justify-end p-8 text-white">
+<span class="text-secondary-fixed text-xs font-bold tracking-[0.2em] uppercase mb-2">Tekstil</span>
+<h3 class="serif-text text-xl font-bold mb-1">Silk Drape Study</h3>
+<p class="font-body text-xs text-surface-variant">Kekuatan tekstur dalam balutan cahaya lembut.</p>
+</div>
+</div>
+<!-- Grid Item 3 -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-[0_20px_40px_rgba(27,28,26,0.06)] h-[400px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Artisan hands working on a wooden frame, meticulously hand-painting intricate floral patterns on charcoal black silk." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDzcDAIh9B5bnusz1ZfyniivS_2tYQDzWTwVI2XQIa1moLl_0rIo5UF9J10yAWOTTU4rdGD_zVFwx6sJs_zuf4vp7YylC2E8xBdbxCRhJrcvMdp4WIAefsWZr1DMla1YgvCC2Mva5vCVTyGGB5D4Z8FyLwpO5ngDUsIAACENkQqt3yseerqQ5Eij6bZPAN48vyQAuukQA2yuInlnKKLdt6Starb6w3sLueyTlBpjddaqZ4FPgOPJ_ErBh9z0MK_QYAix-Utpjy2py8"/>
+<div class="absolute inset-1 w-[calc(100%-8px)] h-[calc(100%-8px)] border border-white/20 rounded-lg pointer-events-none opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-white/90 backdrop-blur-md transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+<h4 class="serif-text font-bold text-primary">Hand-Painted Noir</h4>
+<p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Seni Lukis Tangan</p>
+</div>
+</div>
+<!-- Grid Item 4 - Wide -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-[0_20px_40px_rgba(27,28,26,0.06)] h-[400px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="High fashion studio shot of a model wearing a minimalist emerald green silk scarf draped elegantly over a shoulder." src="https://lh3.googleusercontent.com/aida-public/AB6AXuBoWoZFPbumb7dXVSZLEvspfdsjw26BBxF60Ok0kckwqh64qYoQphXqJtGaakaB1J1EwirNGerwX-RRq3W0cZfLZ1Xpe64B-EndCnGpeQ_eZfZ8cBKBnC_crsMxu0U7Zi9XE89LhNMfdM9Avrr4_1UAZJwwtXduMKyzRsSFE40y-ENmUzNfCls5MwLCdJZSL3M5Qc7u9jBnoj2vxtoivMsqk-BQuU61iwXspwHNZ8DFlJa-j30kUagYLjK6fW20CJPM3H4r-QphnvI"/>
+<div class="absolute inset-0 bg-secondary/10 opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-white/90 backdrop-blur-md transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+<h4 class="serif-text font-bold text-primary">Emerald Minimalist</h4>
+<p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Aksesori Eksklusif</p>
+</div>
+</div>
+<!-- Grid Item 5 -->
+<div class="md:col-span-4 group relative overflow-hidden rounded-xl bg-surface-container-lowest shadow-[0_20px_40px_rgba(27,28,26,0.06)] h-[400px]">
+<img class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="Detailed view of gold thread embroidery on deep navy silk, reflecting light like metallic jewelry." src="https://lh3.googleusercontent.com/aida-public/AB6AXuDF4h0bYDO5h0R3nFScEVr9IPeCpnJhVXRRoO7vE6IRY1NdH7FVUAAGHrYjOT9xFeAushkSczXVJhoLa-qPVrXiFPPVOCNJG3hKm_D72tXQzjFy6R70UnTAUMELBuYtBvbJ-6czkzN6g9_n5AZ9Um398MPzbk9dqPuYVdmiR4sva1T_bJpQuQKs9NeydQ8b-wWysd1QGBO16jUnJt8qB5CZj95QuSNF0oBcYCqmrA6cKMUqKwnZf5ntKuxm3jC8nV0xMja6WeYWw70"/>
+<div class="absolute bottom-0 left-0 right-0 p-6 bg-white/90 backdrop-blur-md transform translate-y-full group-hover:translate-y-0 transition-transform duration-500">
+<h4 class="serif-text font-bold text-primary">Royal Navy Gold</h4>
+<p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Custom Embroidery</p>
+</div>
+</div>
+</div>
+<!-- Call to Action Section -->
+<section class="mt-24 p-12 rounded-[32px] bg-surface-container-low text-center flex flex-col items-center">
+<span class="material-symbols-outlined text-secondary text-4xl mb-4" data-icon="auto_awesome">auto_awesome</span>
+<h3 class="serif-text text-3xl font-bold text-primary mb-4">Ingin Proyek Kustom Anda Sendiri?</h3>
+<p class="text-on-surface-variant max-w-xl mb-8">Konsultasikan visi desain Anda dengan kurator kami dan wujudkan mahakarya sutra yang personal.</p>
+<button class="bg-primary text-on-primary px-10 py-4 rounded-xl font-bold tracking-wide shadow-lg hover:scale-105 transition-transform">MULAI KONSULTASI</button>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl z-50 rounded-t-[32px] shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Koleksi</span>
+</a>
+<!-- Active State: Portfolio -->
+<a class="flex flex-col items-center justify-center text-yellow-700 dark:text-yellow-600 scale-110" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-bold mt-1">Portfolio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="concierge">concierge</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Layanan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-opacity" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Akun</span>
+</a>
+</nav>
+</body></html>

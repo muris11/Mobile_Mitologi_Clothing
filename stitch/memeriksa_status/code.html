@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-primary": "#ffffff",
+                    "on-secondary-container": "#745c00",
+                    "primary-container": "#001f3f",
+                    "on-primary-container": "#6f88ad",
+                    "inverse-primary": "#afc8f0",
+                    "outline-variant": "#c4c6cf",
+                    "tertiary-fixed": "#e3e3de",
+                    "on-background": "#1b1c1a",
+                    "on-surface": "#1b1c1a",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-fixed": "#ffe088",
+                    "on-tertiary-container": "#858783",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "on-error-container": "#93000a",
+                    "on-surface-variant": "#43474e",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-error": "#ffffff",
+                    "background": "#faf9f5",
+                    "surface-variant": "#e3e2df",
+                    "secondary": "#735c00",
+                    "inverse-surface": "#2f312e",
+                    "surface": "#faf9f5",
+                    "surface-container-lowest": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-tint": "#476083",
+                    "surface-bright": "#faf9f5",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "tertiary": "#040604",
+                    "surface-container-highest": "#e3e2df",
+                    "primary-fixed": "#d4e3ff",
+                    "error": "#ba1a1a",
+                    "outline": "#74777f",
+                    "inverse-on-surface": "#f2f1ed",
+                    "error-container": "#ffdad6",
+                    "surface-container": "#efeeea",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "tertiary-container": "#1d1f1c",
+                    "secondary-container": "#fed65b",
+                    "on-secondary": "#ffffff",
+                    "surface-container-high": "#e9e8e4",
+                    "primary": "#000613",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-dim": "#dbdad6",
+                    "surface-container-low": "#f4f4f0"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "xxl": "20px",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .spinner-ring {
+            border: 2px solid transparent;
+            border-top-color: #735c00;
+            border-radius: 50%;
+            width: 80px;
+            height: 80px;
+            animation: spin 2s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .shimmer {
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.4), transparent);
+            background-size: 200% 100%;
+            animation: shimmer 2s infinite;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-fixed selection:text-on-secondary-fixed antialiased">
+<!-- Top Navigation Anchor (Suppressing active nav for transactional focus) -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-[0px_10px_30px_rgba(27,28,26,0.04)]">
+<div class="flex items-center justify-between px-6 h-16 w-full">
+<button class="text-primary hover:opacity-70 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<span class="font-headline text-xl tracking-widest uppercase text-primary">Aurelian Silk</span>
+<div class="w-6"></div> <!-- Spacer for center alignment -->
+</div>
+</header>
+<main class="min-h-screen flex flex-col items-center justify-center px-8 pt-20 pb-12">
+<!-- Processing Visual Container -->
+<div class="relative w-full max-w-sm flex flex-col items-center">
+<!-- Perspective Decorative Elements -->
+<div class="absolute -top-12 -left-4 w-24 h-24 bg-secondary/5 rounded-full blur-3xl"></div>
+<div class="absolute top-20 -right-8 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>
+<!-- Custom Sophisticated Loading Indicator -->
+<div class="relative mb-12 flex items-center justify-center h-48 w-48">
+<!-- Outer Ring (Steady) -->
+<div class="absolute inset-0 border-[1px] border-secondary/20 rounded-full"></div>
+<!-- Inner Decorative Circles (Perspective/Layering) -->
+<div class="absolute inset-4 border-[0.5px] border-primary/10 rounded-full"></div>
+<!-- The Animated Spinner -->
+<div class="spinner-ring absolute"></div>
+<!-- Brand Mark Center -->
+<div class="bg-surface-container-lowest shadow-[0px_20px_40px_rgba(27,28,26,0.06)] rounded-full h-24 w-24 flex items-center justify-center z-10 border border-outline-variant/10">
+<span class="material-symbols-outlined text-secondary text-4xl" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+</div>
+<!-- Content Area -->
+<div class="text-center space-y-6 z-20">
+<h1 class="font-headline text-3xl font-bold text-primary tracking-tight leading-tight">
+                    Memeriksa Status Pembayaran
+                </h1>
+<p class="text-on-surface-variant font-body leading-relaxed max-w-[280px] mx-auto opacity-80">
+                    Mohon tunggu sebentar selagi kami memproses transaksi eksklusif Anda melalui jalur aman.
+                </p>
+<!-- Status Progress Indicator (Modern Linear) -->
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden relative">
+<div class="absolute top-0 left-0 h-full w-1/2 bg-gradient-to-r from-primary to-secondary rounded-full shimmer"></div>
+</div>
+<div class="flex items-center justify-center gap-2 text-secondary font-label text-sm font-semibold tracking-wider uppercase">
+<span class="material-symbols-outlined text-sm">lock</span>
+                    Keamanan Terenkripsi
+                </div>
+</div>
+</div>
+<!-- Transaction Details Card (Nesting Surface Container) -->
+<div class="mt-16 w-full max-w-sm bg-surface-container-low rounded-xxl p-6 space-y-4">
+<div class="flex justify-between items-center pb-2">
+<span class="text-on-surface-variant text-sm font-medium">Nomor Pesanan</span>
+<span class="text-primary font-bold font-body">#AS-928410</span>
+</div>
+<!-- Subtle Separation via Surface Nesting (No Borders) -->
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_10px_25px_rgba(0,0,0,0.02)]">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 bg-surface-container-low rounded-lg overflow-hidden flex-shrink-0">
+<img alt="Premium Silk Scarf" class="w-full h-full object-cover" data-alt="Close up of a luxury ivory silk fabric with intricate golden thread embroidery in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrjS9_TFyRzD5Mtn8HDbhWNPKwK4uNT4QjrE212H1WMd1UmdmJgbvRVvDH3bSZDI1rGmhkGDLbETqigtZpMgRyw65qFonNx9JA8jV4A-6KXuPv9MkJKttzPLvPzLFrjoc87tIvj9bM8HDrQqu462Vn4rBgpwYzY75BeX7e45_6sSWNkeMbl8zL28B_tAZ-5Vyo2dqB5ReOviCBRPhJbWDmMeJ67ZZ69IWAc9IVdrdkizYsEXK4Zx3Bsy4Lht3R6TrY7PhOxsP7Um8"/>
+</div>
+<div class="flex-1">
+<h3 class="text-sm font-semibold text-primary truncate">Sutra Emas Signature</h3>
+<p class="text-xs text-on-surface-variant">Koleksi Royal Atelier</p>
+</div>
+<div class="text-right">
+<span class="text-secondary font-bold text-sm">Rp 4.250k</span>
+</div>
+</div>
+</div>
+<div class="pt-2 flex flex-col gap-3">
+<div class="flex justify-between text-xs text-on-surface-variant uppercase tracking-widest font-semibold">
+<span>Metode Pembayaran</span>
+<span>Virtual Account</span>
+</div>
+<div class="flex justify-between text-xs text-on-surface-variant uppercase tracking-widest font-semibold">
+<span>Estimasi Selesai</span>
+<span>~ 30 Detik</span>
+</div>
+</div>
+</div>
+<!-- Support Section -->
+<div class="mt-auto pt-12 text-center">
+<button class="text-on-surface-variant hover:text-secondary transition-colors font-label text-xs uppercase tracking-widest font-bold">
+                Butuh Bantuan? Hubungi Kurator Kami
+            </button>
+</div>
+</main>
+<!-- Bottom Navigation Suppressed for Focus Screen -->
+<!-- But if required by rules, it would be here with inactive states -->
+</body></html>

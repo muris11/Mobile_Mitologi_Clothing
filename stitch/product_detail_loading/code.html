@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detail Produk - Loading State</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Manrope:wght@400;500;600&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-background": "#1b1c1a",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "on-tertiary-container": "#858783",
+                        "error-container": "#ffdad6",
+                        "inverse-on-surface": "#f2f1ed",
+                        "outline": "#74777f",
+                        "tertiary-fixed": "#e3e3de",
+                        "primary": "#000613",
+                        "on-secondary": "#ffffff",
+                        "surface-container-lowest": "#ffffff",
+                        "on-surface-variant": "#43474e",
+                        "background": "#faf9f5",
+                        "primary-container": "#001f3f",
+                        "surface-container-high": "#e9e8e4",
+                        "inverse-surface": "#2f312e",
+                        "outline-variant": "#c4c6cf",
+                        "on-error-container": "#93000a",
+                        "on-secondary-fixed": "#241a00",
+                        "on-primary-container": "#6f88ad",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-secondary-fixed-variant": "#574500",
+                        "error": "#ba1a1a",
+                        "primary-fixed": "#d4e3ff",
+                        "on-secondary-container": "#745c00",
+                        "secondary-fixed-dim": "#e9c349",
+                        "tertiary-container": "#1d1f1c",
+                        "surface-tint": "#476083",
+                        "surface-container-low": "#f4f4f0",
+                        "inverse-primary": "#afc8f0",
+                        "surface-variant": "#e3e2df",
+                        "surface-container": "#efeeea",
+                        "surface": "#faf9f5",
+                        "on-error": "#ffffff",
+                        "secondary-container": "#fed65b",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-bright": "#faf9f5",
+                        "secondary": "#735c00",
+                        "surface-container-highest": "#e3e2df",
+                        "secondary-fixed": "#ffe088",
+                        "tertiary": "#040604",
+                        "surface-dim": "#dbdad6",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "on-tertiary": "#ffffff",
+                        "on-surface": "#1b1c1a",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .animate-shimmer {
+            background: linear-gradient(90deg, #efeeea 25%, #e3e2df 50%, #efeeea 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface">
+<!-- TopAppBar Shell -->
+<nav class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl flex items-center justify-between px-6 py-4 w-full shadow-[0px_2px_15px_rgba(0,0,0,0.02)] no-border">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-50 cursor-pointer" data-icon="arrow_back">arrow_back</span>
+<h1 class="font-['Noto_Serif'] text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50">Detail Produk</h1>
+</div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-50 cursor-pointer" data-icon="favorite">favorite</span>
+</div>
+</nav>
+<!-- Main Content Canvas -->
+<main class="pt-20 pb-32 px-4 max-w-2xl mx-auto space-y-8">
+<!-- Perspective Carousel Skeleton -->
+<section class="relative h-96 w-full flex items-center justify-center overflow-hidden">
+<!-- Side Image (Left) -->
+<div class="absolute left-0 w-1/4 h-80 rounded-xl opacity-40 scale-90 animate-shimmer"></div>
+<!-- Center Image -->
+<div class="relative w-3/4 h-full rounded-[32px] shadow-[0px_20px_40px_rgba(27,28,26,0.06)] animate-shimmer z-10"></div>
+<!-- Side Image (Right) -->
+<div class="absolute right-0 w-1/4 h-80 rounded-xl opacity-40 scale-90 animate-shimmer"></div>
+</section>
+<!-- Product Header Information -->
+<div class="space-y-4 px-2">
+<div class="flex justify-between items-start">
+<div class="space-y-3 w-2/3">
+<!-- Title Skeleton -->
+<div class="h-8 w-full rounded-lg animate-shimmer"></div>
+<div class="h-8 w-1/2 rounded-lg animate-shimmer"></div>
+</div>
+<!-- Price Skeleton -->
+<div class="h-8 w-24 rounded-lg animate-shimmer"></div>
+</div>
+<!-- Ratings & Category Skeleton -->
+<div class="flex items-center gap-4">
+<div class="h-4 w-16 rounded-full animate-shimmer"></div>
+<div class="h-4 w-24 rounded-full animate-shimmer"></div>
+</div>
+</div>
+<!-- Description Section -->
+<div class="bg-surface-container-low rounded-[24px] p-6 space-y-4">
+<div class="h-5 w-32 rounded animate-shimmer"></div>
+<div class="space-y-2">
+<div class="h-4 w-full rounded animate-shimmer"></div>
+<div class="h-4 w-full rounded animate-shimmer"></div>
+<div class="h-4 w-3/4 rounded animate-shimmer"></div>
+</div>
+</div>
+<!-- Variations / Bento Style Info -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-highest rounded-xl p-4 flex flex-col gap-3">
+<div class="h-4 w-12 rounded animate-shimmer"></div>
+<div class="flex gap-2">
+<div class="w-8 h-8 rounded-full animate-shimmer"></div>
+<div class="w-8 h-8 rounded-full animate-shimmer"></div>
+<div class="w-8 h-8 rounded-full animate-shimmer"></div>
+</div>
+</div>
+<div class="bg-surface-container-highest rounded-xl p-4 flex flex-col gap-3">
+<div class="h-4 w-12 rounded animate-shimmer"></div>
+<div class="h-6 w-20 rounded animate-shimmer"></div>
+</div>
+</div>
+<!-- Sticky Purchase Bar (Simulated Above Nav) -->
+<div class="fixed bottom-24 left-0 w-full px-6 z-40">
+<div class="bg-surface-container-lowest shadow-2xl rounded-3xl p-4 flex items-center justify-between gap-4">
+<div class="flex flex-col gap-1">
+<div class="h-3 w-16 rounded animate-shimmer"></div>
+<div class="h-6 w-24 rounded animate-shimmer"></div>
+</div>
+<div class="h-14 w-40 bg-primary rounded-xl opacity-20 animate-shimmer"></div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Shell -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-3 pb-8 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl z-50 rounded-t-[32px] shadow-[0px_-10px_40px_rgba(27,28,26,0.06)] no-border">
+<!-- Home -->
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Beranda</span>
+</div>
+<!-- Cari -->
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Cari</span>
+</div>
+<!-- Pesanan -->
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Pesanan</span>
+</div>
+<!-- Wishlist -->
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Wishlist</span>
+</div>
+<!-- Profil -->
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 transition-colors">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Profil</span>
+</div>
+</nav>
+</body></html>

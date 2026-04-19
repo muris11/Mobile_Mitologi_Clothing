@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#1b1c1a",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#d4e3ff",
+                    "surface": "#faf9f5",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#fed65b",
+                    "on-secondary-container": "#745c00",
+                    "on-surface-variant": "#43474e",
+                    "inverse-surface": "#2f312e",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-primary-container": "#6f88ad",
+                    "surface-container-highest": "#e3e2df",
+                    "primary-container": "#001f3f",
+                    "surface-variant": "#e3e2df",
+                    "on-secondary-fixed": "#241a00",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-dim": "#dbdad6",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-container": "#efeeea",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-bright": "#faf9f5",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-tint": "#476083",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary": "#000613",
+                    "outline-variant": "#c4c6cf",
+                    "tertiary-fixed": "#e3e3de",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "tertiary": "#040604",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-primary": "#afc8f0",
+                    "on-error": "#ffffff",
+                    "on-background": "#1b1c1a",
+                    "surface-container-low": "#f4f4f0",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f2f1ed",
+                    "outline": "#74777f",
+                    "secondary": "#735c00",
+                    "background": "#faf9f5",
+                    "on-secondary-fixed-variant": "#574500"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; }
+        .font-serif { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tap-highlight-transparent { -webkit-tap-highlight-color: transparent; }
+        .tonal-shift-bottom { box-shadow: 0 4px 20px -5px rgba(0,0,0,0.05); }
+        .tonal-elevation-top { box-shadow: 0 -10px 30px rgba(0,0,0,0.03); }
+        .inner-glow { box-shadow: inset 0 1px 1px rgba(255,255,255,0.2); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar Component -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl shadow-[0_20_40px_rgba(27,28,26,0.06)]">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-950 hover:opacity-70 transition-opacity cursor-pointer">menu</span>
+<span class="text-2xl font-serif italic text-slate-950">Atelier</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-950 hover:opacity-70 transition-opacity cursor-pointer">smart_toy</span>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-6 pt-24 pb-32 max-w-2xl mx-auto w-full">
+<!-- AI Illustration & Hero Section -->
+<div class="w-full flex flex-col items-center text-center space-y-8">
+<div class="relative group">
+<div class="absolute -inset-4 bg-secondary-fixed opacity-20 blur-3xl rounded-full"></div>
+<div class="relative w-48 h-48 rounded-full overflow-hidden surface-container-lowest shadow-[0px_20px_40px_rgba(27,28,26,0.06)] flex items-center justify-center">
+<img alt="Abstract 3D digital art" class="w-full h-full object-cover opacity-90" data-alt="Abstract 3D digital art with soft flowing silk textures in deep navy and gold, studio lighting, elegant composition" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4xpra5AQ_kxPXZ3W_jIko0Ax3yz8mRnVSK_gJSokb2MFz-vHE5dtJrudM68jjEAf5lHKks_hh5ZkijDFhCH6_irwL-FOcGyV9Zaw7u_qUxsgY0y_9MMFOlKCKnwqNiku_cpqOENIim-aWBVUyCfSMUCXTDZiVhNc9Tt20XRgAH1HB2LXaGsny7skD9ByCApzlq65xjioTd59FTP3xze2HDWwnqiQmkJmP_MVoiftHF14joM6Haiwb8oCtmF2qpAbullYTrmAOy0M"/>
+<div class="absolute inset-0 flex items-center justify-center bg-primary/10">
+<span class="material-symbols-outlined text-6xl text-primary" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+</div>
+</div>
+<div class="space-y-4">
+<h1 class="text-3xl md:text-4xl font-serif italic text-primary leading-tight">
+                    Halo, Saya Asisten <br/>Atelier Anda
+                </h1>
+<p class="text-on-surface-variant leading-relaxed max-w-md mx-auto">
+                    Biarkan saya membantu Anda menemukan koleksi yang paling sesuai dengan gaya unik Anda. Tanyakan apa saja tentang produk kami.
+                </p>
+</div>
+<!-- Prompt Chips Grid (Asymmetric) -->
+<div class="w-full pt-6">
+<p class="text-xs font-bold tracking-widest uppercase text-outline mb-6">Mulai Percakapan</p>
+<div class="flex flex-wrap justify-center gap-3">
+<button class="px-5 py-3 rounded-xl bg-surface-container-low text-primary border border-outline-variant/20 hover:bg-surface-container-highest transition-all duration-300 flex items-center gap-2 group">
+<span class="material-symbols-outlined text-secondary text-lg">personalized_recommendations</span>
+<span class="text-sm font-medium">Rekomendasi gaya untuk pesta</span>
+</button>
+<button class="px-5 py-3 rounded-xl bg-surface-container-lowest text-primary shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-outline-variant/10 hover:shadow-md transition-all duration-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">search_check</span>
+<span class="text-sm font-medium">Cari gaun sutra premium</span>
+</button>
+<button class="px-5 py-3 rounded-xl bg-surface-container-low text-primary border border-outline-variant/20 hover:bg-surface-container-highest transition-all duration-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">local_shipping</span>
+<span class="text-sm font-medium">Status pesanan terakhir saya</span>
+</button>
+<button class="px-5 py-3 rounded-xl bg-surface-container-lowest text-primary shadow-[0px_4px_12px_rgba(0,0,0,0.03)] border border-outline-variant/10 hover:shadow-md transition-all duration-300 flex items-center gap-2">
+<span class="material-symbols-outlined text-secondary text-lg">magic_button</span>
+<span class="text-sm font-medium">Tren musim ini</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Sticky Chat Input Box -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 w-full max-w-xl px-6 z-40">
+<div class="bg-surface-container-lowest/90 backdrop-blur-xl border border-outline-variant/20 p-2 pl-6 rounded-full shadow-[0px_20px_40px_rgba(27,28,26,0.12)] flex items-center gap-3">
+<input class="flex-grow bg-transparent border-none focus:ring-0 text-on-surface placeholder:text-outline text-sm" placeholder="Tanyakan sesuatu pada AI..." type="text"/>
+<button class="w-10 h-10 rounded-full bg-primary text-on-primary flex items-center justify-center inner-glow active:scale-95 transition-transform">
+<span class="material-symbols-outlined text-lg">arrow_upward</span>
+</button>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Component -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl rounded-t-[32px] shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+<div class="flex justify-around items-center px-4 pt-3 pb-8">
+<!-- Beranda -->
+<div class="flex flex-col items-center gap-1 text-slate-400 cursor-pointer tap-highlight-transparent transition-all duration-300 hover:text-amber-700">
+<span class="material-symbols-outlined">home_app_logo</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Beranda</span>
+</div>
+<!-- Cari -->
+<div class="flex flex-col items-center gap-1 text-slate-400 cursor-pointer tap-highlight-transparent transition-all duration-300 hover:text-amber-700">
+<span class="material-symbols-outlined">search</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Cari</span>
+</div>
+<!-- AI Style (Active) -->
+<div class="flex flex-col items-center gap-1 text-slate-950 after:content-[''] after:w-1 after:h-1 after:bg-amber-600 after:rounded-full cursor-pointer tap-highlight-transparent transition-all duration-300">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">AI Style</span>
+</div>
+<!-- Pesanan -->
+<div class="flex flex-col items-center gap-1 text-slate-400 cursor-pointer tap-highlight-transparent transition-all duration-300 hover:text-amber-700">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Pesanan</span>
+</div>
+<!-- Profil -->
+<div class="flex flex-col items-center gap-1 text-slate-400 cursor-pointer tap-highlight-transparent transition-all duration-300 hover:text-amber-700">
+<span class="material-symbols-outlined">person</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Profil</span>
+</div>
+</div>
+</nav>
+</body></html>

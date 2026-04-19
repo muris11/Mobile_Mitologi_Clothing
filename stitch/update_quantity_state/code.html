@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Aurelian Silk - Keranjang</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#040604",
+                    "on-secondary-container": "#745c00",
+                    "on-surface": "#1b1c1a",
+                    "on-tertiary-container": "#858783",
+                    "inverse-surface": "#2f312e",
+                    "secondary-container": "#fed65b",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-error": "#ffffff",
+                    "primary": "#000613",
+                    "surface-variant": "#e3e2df",
+                    "surface-container-highest": "#e3e2df",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "background": "#faf9f5",
+                    "secondary": "#735c00",
+                    "tertiary-container": "#1d1f1c",
+                    "primary-container": "#001f3f",
+                    "surface-tint": "#476083",
+                    "tertiary-fixed": "#e3e3de",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c4c6cf",
+                    "error-container": "#ffdad6",
+                    "surface": "#faf9f5",
+                    "on-background": "#1b1c1a",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary-fixed": "#001c3a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "inverse-on-surface": "#f2f1ed",
+                    "surface-bright": "#faf9f5",
+                    "surface-container-low": "#f4f4f0",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#574500",
+                    "inverse-primary": "#afc8f0",
+                    "secondary-fixed": "#ffe088",
+                    "on-surface-variant": "#43474e",
+                    "surface-dim": "#dbdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "surface-container-high": "#e9e8e4",
+                    "primary-fixed": "#d4e3ff",
+                    "on-error-container": "#93000a",
+                    "outline": "#74777f",
+                    "surface-container": "#efeeea",
+                    "on-primary-container": "#6f88ad"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .bg-glass {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .ghost-border {
+            border: 1px solid rgba(196, 198, 207, 0.2);
+        }
+        .ambient-shadow {
+            box-shadow: 0px 20px 40px rgba(27, 28, 26, 0.06);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen pb-32">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#ffffff]/85 dark:bg-[#000613]/85 backdrop-blur-xl shadow-sm shadow-[#1b1c1a]/5 flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5] cursor-pointer" data-icon="arrow_back">arrow_back</span>
+<h1 class="font-['Noto_Serif'] text-lg tracking-tight font-bold text-[#000613] dark:text-[#faf9f5]">Keranjang</h1>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5] cursor-pointer" data-icon="more_vert">more_vert</span>
+</div>
+</header>
+<main class="pt-20 px-6 max-w-2xl mx-auto">
+<!-- Brand Identification -->
+<div class="mb-8 text-center md:text-left">
+<span class="font-headline text-3xl font-bold tracking-tighter text-primary">Aurelian Silk</span>
+<p class="text-on-surface-variant text-sm mt-1">Edisi Koleksi Terbatas</p>
+</div>
+<!-- Cart Items Container -->
+<div class="space-y-6">
+<!-- Item 1: Updating State -->
+<div class="bg-surface-container-lowest rounded-xl p-4 ambient-shadow relative overflow-hidden">
+<div class="flex gap-4">
+<div class="w-24 h-32 rounded-lg overflow-hidden flex-shrink-0 bg-surface-container-low">
+<img class="w-full h-full object-cover" data-alt="Close-up of premium gold silk fabric with elegant folds and subtle sheen under soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnL-LLTKT44YL9aqUEGlPDKF6yiaFBWgwigChBiqWlg-uAG_TqeNXbop0dOMWzst8XyMV6uxkpqgX-Ca-w7Gn1sqpYOSoxMxVv8cQ-tM_r-ENUyBmzF118sIMI5TTPOuO1t29AD7GnuWB-HBz_5OEC9yFKbZNTD8gWsLRI2Bx7Rc7AxAcTamtp0_tamH58Eu2zHR0f1h7JW9NFt0QfsCEBmT9hlgEdAhzdztYm88TdQPgUOzGbgTi7S_2DyMUCbS9vxSmWNTVy1Uk"/>
+</div>
+<div class="flex-grow flex flex-col justify-between py-1">
+<div>
+<h3 class="font-headline font-bold text-lg text-primary leading-tight">Selendang Sutra Aurora</h3>
+<p class="text-sm text-secondary font-medium mt-1">Rp 1.450.000</p>
+<p class="text-xs text-on-surface-variant mt-1">Warna: Emas Champagne</p>
+</div>
+<div class="flex items-center justify-between mt-4">
+<!-- Stepper with Active Update State -->
+<div class="flex items-center bg-surface-container-low rounded-full px-2 py-1 gap-4 opacity-60">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="font-bold text-sm min-w-[1rem] text-center">2</span>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<!-- Subtle Spinner / Loading State -->
+<div class="flex items-center gap-2 text-secondary">
+<span class="material-symbols-outlined animate-spin text-lg" data-icon="progress_activity">progress_activity</span>
+<span class="text-[10px] font-bold uppercase tracking-widest">Memperbarui</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: Static -->
+<div class="bg-surface-container-low/50 rounded-xl p-4 ghost-border flex gap-4 transition-all hover:bg-surface-container-lowest hover:ambient-shadow">
+<div class="w-24 h-32 rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover opacity-90" data-alt="Minimalist luxury silk eye mask on a cream linen background with soft morning shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByF1fxnqXv6rpfzl214oiwTASMk4vbw6nGSNRNi2we1lSYHuDcecBb2evtSbU0g9tmNY8ITCWGzE2y43pbOHZAWlI_UMTB64QDLAJbNj4cgHFun8xsvjzfD7XJ9TlYq_IC11tdHb1LGWg3q4p3oz-0Qcm9mhGZXPmiJkBu_UpgG4_3fkt7I9U1nQ1o3dDIMYdevmBoL3mEVPPXeNACuRJfj3u1ogozv0x2fKVbLCY3y8BzQaAFRQhVpWUFWpvRuPqM5l6081_YIg0"/>
+</div>
+<div class="flex-grow flex flex-col justify-between py-1">
+<div>
+<h3 class="font-headline font-bold text-lg text-primary leading-tight opacity-80">Masker Tidur Pure Mulberry</h3>
+<p class="text-sm text-on-surface-variant font-medium mt-1">Rp 350.000</p>
+<p class="text-xs text-on-surface-variant mt-1">Ukuran: Universal</p>
+</div>
+<div class="flex items-center justify-between mt-4">
+<div class="flex items-center bg-surface-container-high rounded-full px-2 py-1 gap-4">
+<button class="w-8 h-8 flex items-center justify-center text-on-surface hover:text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="remove">remove</span>
+</button>
+<span class="font-bold text-sm min-w-[1rem] text-center">1</span>
+<button class="w-8 h-8 flex items-center justify-center text-on-surface hover:text-secondary">
+<span class="material-symbols-outlined text-sm" data-icon="add">add</span>
+</button>
+</div>
+<button class="text-error/60 hover:text-error transition-colors">
+<span class="material-symbols-outlined text-xl" data-icon="delete">delete</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Order Summary (Bento-lite) -->
+<div class="mt-12 p-6 bg-surface-container rounded-2xl space-y-4">
+<h4 class="font-headline font-bold text-xl text-primary mb-2">Ringkasan Pesanan</h4>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm">Subtotal (3 Produk)</span>
+<span class="text-sm font-medium">Rp 3.250.000</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm">Pengiriman Estimasi</span>
+<span class="text-sm font-medium">Rp 45.000</span>
+</div>
+<div class="pt-4 mt-2 border-t border-outline-variant/20 flex justify-between items-center">
+<span class="font-bold text-primary">Total Pembayaran</span>
+<span class="font-headline font-bold text-xl text-secondary">Rp 3.295.000</span>
+</div>
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold tracking-wide mt-4 flex items-center justify-center gap-3 active:scale-95 transition-transform">
+                Lanjut ke Pembayaran
+                <span class="material-symbols-outlined text-sm" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- Updating Toast Indicator -->
+<div class="fixed bottom-24 left-1/2 -translate-x-1/2 z-40 w-[90%] max-w-xs">
+<div class="bg-primary text-on-primary px-4 py-3 rounded-full shadow-2xl flex items-center justify-center gap-3 animate-pulse">
+<div class="w-2 h-2 bg-secondary rounded-full"></div>
+<span class="text-xs font-label font-bold uppercase tracking-widest">Memperbarui keranjang...</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-[#ffffff]/85 dark:bg-[#000613]/85 backdrop-blur-xl rounded-t-[20px] shadow-[0_-10px_30px_rgba(27,28,26,0.04)] z-50">
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all active:scale-90 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all active:scale-90 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Belanja</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#735c00] dark:text-[#735c00] font-bold scale-110 active:scale-90 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_cart" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Keranjang</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all active:scale-90 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Wishlist</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all active:scale-90 tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Akun</span>
+</a>
+</nav>
+</body></html>

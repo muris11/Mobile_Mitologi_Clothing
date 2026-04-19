@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier - Loading</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "secondary": "#735c00",
+                    "inverse-on-surface": "#f2f1ed",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-primary-fixed": "#001c3a",
+                    "inverse-primary": "#afc8f0",
+                    "secondary-fixed": "#ffe088",
+                    "primary-fixed": "#d4e3ff",
+                    "secondary-container": "#fed65b",
+                    "inverse-surface": "#2f312e",
+                    "surface-dim": "#dbdad6",
+                    "outline-variant": "#c4c6cf",
+                    "outline": "#74777f",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-error-container": "#93000a",
+                    "surface-container-highest": "#e3e2df",
+                    "on-surface": "#1b1c1a",
+                    "primary-container": "#001f3f",
+                    "error-container": "#ffdad6",
+                    "background": "#faf9f5",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "surface": "#faf9f5",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-background": "#1b1c1a",
+                    "surface-tint": "#476083",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-container-low": "#f4f4f0",
+                    "on-surface-variant": "#43474e",
+                    "on-secondary-container": "#745c00",
+                    "primary": "#000613",
+                    "tertiary-fixed": "#e3e3de",
+                    "tertiary": "#040604",
+                    "error": "#ba1a1a",
+                    "on-primary-container": "#6f88ad",
+                    "on-tertiary": "#ffffff",
+                    "surface-container": "#efeeea",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-secondary-fixed": "#241a00",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-variant": "#e3e2df",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary-fixed-variant": "#2f486a"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        @keyframes shimmer {
+            0% { background-position: -200% 0; }
+            100% { background-position: 200% 0; }
+        }
+        .skeleton {
+            background: linear-gradient(90deg, #efeeea 25%, #e3e2df 50%, #efeeea 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        .skeleton-dark {
+            background: linear-gradient(90deg, #e3e2df 25%, #dbdad6 50%, #e3e2df 75%);
+            background-size: 200% 100%;
+            animation: shimmer 1.5s infinite;
+        }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body selection:bg-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full">
+<button class="text-[#000613] hover:opacity-70 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="text-2xl font-['Noto_Serif'] text-[#000613] tracking-[0.2em] font-bold">ATELIER</h1>
+<button class="text-[#000613] hover:opacity-70 transition-opacity active:scale-95 transition-transform duration-200">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</header>
+<main class="pt-16 pb-24">
+<!-- Hero Skeleton -->
+<section class="px-6 mt-6">
+<div class="skeleton w-full aspect-[4/5] rounded-[32px] shadow-2xl relative overflow-hidden">
+<div class="absolute bottom-10 left-8 right-8 space-y-4">
+<div class="skeleton-dark h-8 w-3/4 rounded-lg"></div>
+<div class="skeleton-dark h-4 w-1/2 rounded-md"></div>
+<div class="skeleton-dark h-12 w-32 rounded-xl"></div>
+</div>
+</div>
+</section>
+<!-- Categories Section -->
+<section class="mt-12 px-6">
+<h2 class="font-headline text-xl font-bold mb-6 text-primary">Kategori</h2>
+<div class="flex gap-4 overflow-x-hidden">
+<!-- Category Placeholders -->
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="skeleton w-20 h-20 rounded-full"></div>
+<div class="skeleton w-14 h-3 rounded-full"></div>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="skeleton w-20 h-20 rounded-full"></div>
+<div class="skeleton w-14 h-3 rounded-full"></div>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="skeleton w-20 h-20 rounded-full"></div>
+<div class="skeleton w-14 h-3 rounded-full"></div>
+</div>
+<div class="flex-shrink-0 flex flex-col items-center gap-3">
+<div class="skeleton w-20 h-20 rounded-full"></div>
+<div class="skeleton w-14 h-3 rounded-full"></div>
+</div>
+</div>
+</section>
+<!-- Featured Products Bento (Skeleton) -->
+<section class="mt-12 px-6">
+<div class="flex justify-between items-end mb-6">
+<h2 class="font-headline text-xl font-bold text-primary">Produk Terlaris</h2>
+<span class="text-secondary font-label text-sm font-semibold tracking-wider">LIHAT SEMUA</span>
+</div>
+<div class="grid grid-cols-2 gap-4">
+<!-- Bento Item 1: Large -->
+<div class="col-span-2">
+<div class="bg-surface-container-lowest p-4 rounded-[24px] space-y-4 shadow-sm">
+<div class="skeleton w-full aspect-video rounded-xl"></div>
+<div class="space-y-2">
+<div class="skeleton h-5 w-2/3 rounded-md"></div>
+<div class="flex justify-between items-center">
+<div class="skeleton h-4 w-1/4 rounded-md"></div>
+<div class="skeleton h-8 w-8 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Bento Item 2: Square -->
+<div class="col-span-1">
+<div class="bg-surface-container-lowest p-4 rounded-[24px] space-y-4 shadow-sm">
+<div class="skeleton w-full aspect-square rounded-xl"></div>
+<div class="space-y-2">
+<div class="skeleton h-4 w-full rounded-md"></div>
+<div class="skeleton h-3 w-1/2 rounded-md"></div>
+</div>
+</div>
+</div>
+<!-- Bento Item 3: Square -->
+<div class="col-span-1">
+<div class="bg-surface-container-lowest p-4 rounded-[24px] space-y-4 shadow-sm">
+<div class="skeleton w-full aspect-square rounded-xl"></div>
+<div class="space-y-2">
+<div class="skeleton h-4 w-full rounded-md"></div>
+<div class="skeleton h-3 w-1/2 rounded-md"></div>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Newsletter / Editorial Peek -->
+<section class="mt-12 px-6 mb-12">
+<div class="bg-surface-container-low rounded-[32px] p-8 text-center space-y-4">
+<div class="skeleton-dark h-8 w-3/4 mx-auto rounded-lg"></div>
+<div class="skeleton-dark h-4 w-full mx-auto rounded-md"></div>
+<div class="skeleton-dark h-4 w-5/6 mx-auto rounded-md"></div>
+<div class="pt-4">
+<div class="skeleton-dark h-12 w-full rounded-xl"></div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center h-20 px-4 pb-safe bg-[#ffffff]/85 glass-nav z-50 rounded-t-[20px] shadow-2xl">
+<!-- Atelier (Active) -->
+<a class="flex flex-col items-center justify-center text-[#735c00] font-bold active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="home_app_logo" style="font-variation-settings: 'FILL' 1;">home_app_logo</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-wider mt-1">Atelier</span>
+</a>
+<!-- Discover -->
+<a class="flex flex-col items-center justify-center text-[#43474e] hover:text-[#000613] active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-wider mt-1">Discover</span>
+</a>
+<!-- Wishlist -->
+<a class="flex flex-col items-center justify-center text-[#43474e] hover:text-[#000613] active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-wider mt-1">Wishlist</span>
+</a>
+<!-- Profile -->
+<a class="flex flex-col items-center justify-center text-[#43474e] hover:text-[#000613] active:scale-90 transition-all duration-300 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] uppercase tracking-wider mt-1">Profile</span>
+</a>
+</nav>
+</body></html>

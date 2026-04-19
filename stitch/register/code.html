@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Daftar Akun Baru - The Tactile Atelier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#faf9f5",
+                        "secondary-fixed": "#ffe088",
+                        "secondary": "#735c00",
+                        "primary-fixed": "#d4e3ff",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "error-container": "#ffdad6",
+                        "surface": "#faf9f5",
+                        "on-tertiary-container": "#858783",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "tertiary": "#040604",
+                        "on-surface-variant": "#43474e",
+                        "secondary-container": "#fed65b",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "primary": "#000613",
+                        "on-surface": "#1b1c1a",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-low": "#f4f4f0",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c1a",
+                        "outline": "#74777f",
+                        "tertiary-container": "#1d1f1c",
+                        "surface-tint": "#476083",
+                        "surface-container-high": "#e9e8e4",
+                        "surface-bright": "#faf9f5",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "surface-variant": "#e3e2df",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-container": "#6f88ad",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e3e3de",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-highest": "#e3e2df",
+                        "on-primary-fixed": "#001c3a",
+                        "primary-container": "#001f3f",
+                        "inverse-primary": "#afc8f0",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#efeeea"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-card {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-background selection:bg-secondary-fixed">
+<!-- Top Navigation Bar -->
+<header class="bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0_4px_30px_rgba(0,0,0,0.03)] flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-50 cursor-pointer hover:opacity-70 transition-opacity">arrow_back</span>
+<h1 class="text-2xl font-serif text-slate-900 dark:text-slate-50 tracking-widest uppercase">The Tactile Atelier</h1>
+</div>
+<div class="flex items-center">
+<span class="text-slate-500 dark:text-slate-400 font-sans text-[10px] uppercase tracking-[0.1em] font-medium mr-2">Masuk</span>
+</div>
+</header>
+<main class="pt-24 pb-12 min-h-screen flex items-center justify-center px-6">
+<div class="max-w-6xl w-full grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+<!-- Visual Section: Left Column (Asymmetric Desktop Layout) -->
+<div class="hidden lg:block lg:col-span-5 relative h-[600px]">
+<div class="absolute inset-0 bg-surface-container-low rounded-[40px] perspective-card overflow-hidden shadow-2xl">
+<img class="w-full h-full object-cover opacity-90 scale-110" data-alt="Interior of a luxury artisan workshop with warm sunlight, textured walls, and minimalist aesthetic decor" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnSbiWUjIHF0TRMuN2Mk3WFS_YWQhpl7BBQpGUwQsC-CFTPk7ssAR45rjn4YzPnozTTRaXA8Uh3gL6WgeplJC525ujAMlnt-7yeoNBGOdqNEQAInXSE8hwlkx09OyUPjObdOlPqwbAn5MRUJRpqgxr2xY2CarVnCNR_QQ4yJCh8h0v9TScG-pTxpEITqu4v9mnSrq1G3gWwLyDN3qdWd5d79dLdRhUUDga9yXe87aso20Vvwupec-lPN3O7J2dzGXlUBrjEu1dTO0"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent"></div>
+<div class="absolute bottom-12 left-10 text-white p-6 backdrop-blur-md bg-white/10 rounded-2xl border border-white/20">
+<p class="font-headline text-2xl font-light mb-2 italic">"Crafting space for your digital identity."</p>
+<p class="text-xs uppercase tracking-[0.3em] font-medium opacity-80">The Atelier Experience</p>
+</div>
+</div>
+<!-- Overlapping Decorative Element -->
+<div class="absolute -top-6 -right-6 w-32 h-32 bg-secondary-fixed-dim/30 rounded-full blur-3xl"></div>
+<div class="absolute top-20 -left-10 w-48 h-48 bg-primary/5 rounded-full blur-2xl"></div>
+</div>
+<!-- Form Section: Right Column -->
+<div class="lg:col-span-7 flex flex-col space-y-8 lg:pl-12">
+<header class="space-y-3">
+<span class="text-secondary font-medium tracking-[0.2em] text-xs uppercase">Bergabung Bersama Kami</span>
+<h2 class="text-4xl font-headline font-light tracking-tight text-primary">Daftar Akun Baru</h2>
+<p class="text-on-surface-variant max-w-md font-light leading-relaxed">
+                        Mulailah perjalanan kurasi Anda. Nikmati akses eksklusif ke koleksi atelier kami.
+                    </p>
+</header>
+<form class="space-y-6 max-w-xl">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Nama Lengkap -->
+<div class="space-y-1 relative">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/70 ml-2">Nama Lengkap</label>
+<input class="w-full px-6 py-4 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-secondary/40 transition-all placeholder:text-outline-variant/50 text-on-surface" placeholder="Contoh: Julian Thorne" type="text"/>
+</div>
+<!-- Email -->
+<div class="space-y-1 relative">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/70 ml-2">Email</label>
+<input class="w-full px-6 py-4 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-secondary/40 transition-all placeholder:text-outline-variant/50 text-on-surface" placeholder="email@atelier.com" type="email"/>
+</div>
+</div>
+<!-- Nomor HP -->
+<div class="space-y-1 relative">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/70 ml-2">Nomor HP</label>
+<div class="relative flex items-center">
+<span class="absolute left-6 text-on-surface-variant/60 font-medium">+62</span>
+<input class="w-full pl-16 pr-6 py-4 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-secondary/40 transition-all placeholder:text-outline-variant/50 text-on-surface" placeholder="812 3456 7890" type="tel"/>
+</div>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Password -->
+<div class="space-y-1 relative">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/70 ml-2">Password</label>
+<div class="relative">
+<input class="w-full px-6 py-4 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-secondary/40 transition-all text-on-surface" placeholder="••••••••" type="password"/>
+<span class="material-symbols-outlined absolute right-4 top-4 text-on-surface-variant/50 cursor-pointer text-xl">visibility</span>
+</div>
+</div>
+<!-- Konfirmasi Password -->
+<div class="space-y-1 relative">
+<label class="block text-[10px] uppercase tracking-widest font-bold text-on-surface-variant/70 ml-2">Konfirmasi Password</label>
+<div class="relative">
+<input class="w-full px-6 py-4 bg-surface-container-low rounded-xl border-none focus:ring-2 focus:ring-secondary/40 transition-all text-on-surface" placeholder="••••••••" type="password"/>
+<span class="material-symbols-outlined absolute right-4 top-4 text-on-surface-variant/50 cursor-pointer text-xl">visibility_off</span>
+</div>
+</div>
+</div>
+<!-- Consent / Policy -->
+<div class="flex items-start gap-3 px-2 py-2">
+<input class="mt-1 w-5 h-5 rounded border-outline-variant text-primary focus:ring-primary/20 bg-surface-container-low transition-all" id="terms" type="checkbox"/>
+<label class="text-xs text-on-surface-variant/80 font-light leading-relaxed" for="terms">
+                            Saya menyetujui <a class="text-secondary font-medium hover:underline" href="#">Ketentuan Layanan</a> dan <a class="text-secondary font-medium hover:underline" href="#">Kebijakan Privasi</a> The Tactile Atelier.
+                        </label>
+</div>
+<!-- Actions -->
+<div class="pt-4 flex flex-col sm:flex-row items-center gap-6">
+<button class="w-full sm:w-auto px-12 py-5 bg-primary text-on-primary rounded-xl font-medium tracking-widest uppercase text-xs hover:shadow-xl transition-all active:scale-95 bg-gradient-to-br from-primary to-[#001c3a]">
+                            Daftar
+                        </button>
+<p class="text-on-surface-variant text-sm font-light">
+                            Sudah punya akun? 
+                            <a class="text-secondary font-semibold ml-1 tracking-wide hover:underline transition-all underline-offset-4" href="#">Masuk</a>
+</p>
+</div>
+</form>
+<!-- Social Register Alternative -->
+<div class="max-w-xl pt-10 border-t border-outline-variant/10">
+<p class="text-[10px] uppercase tracking-[0.2em] font-bold text-outline-variant/60 text-center mb-6">Atau gunakan akun sosial</p>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-3 py-4 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/5 hover:bg-surface-container-high transition-all">
+<img alt="Google" class="w-4 h-4 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCA6faEQ3260pXeOABrAUbn8S6RDA4HGlx9eiEBXXkHb-Uka8JApzwjhtL8gX-qNIXprC8rHWRxkWxL04g4_ksDfLiensw0ebUuojgPWJDCdRp61wt0soUegtxaJoIJu5IdC19BGsrtwwijogj06hTnhHa87Ij79SJvSXYVr3ZoVDtCm3QfZ5jifWrma2QQZ5kTTHujrlRYrwX3BrW7S5j-YcGWssUb-C5RlCi49zTtobE_0x0lxZYCZms3skK9SPrtF6ZCWbNsklY"/>
+<span class="text-xs font-medium tracking-wider uppercase">Google</span>
+</button>
+<button class="flex items-center justify-center gap-3 py-4 bg-surface-container-lowest rounded-xl shadow-sm border border-outline-variant/5 hover:bg-surface-container-high transition-all">
+<img alt="Facebook" class="w-4 h-4 grayscale" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCdXFkFsobF4RlrqEsbrdplOQ3gr6Sxuqk-DnQ6L5eIW56oRMsh2vsDtTT9rBwfPfq56Nt4o4scoAJ7SgdWjyhvPWsaeEhldUHWHpOKTOsHHHzzGM9yVPFVAiKuIFEocp3TtrxP6q04h7xjKeFOskqocb2Zv5K7WQb6Y3Wbj-n8IHplp8c0bNBFTfoSyecPoLDEGJwPLQluYsI4Iv1fP96Wp8Ln_ddSEj4hsrEEoMyiZWIkminnRQ22sxCUdUDjWckhkJSrgJk0M2I"/>
+<span class="text-xs font-medium tracking-wider uppercase">Facebook</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</main>
+<!-- Decorative Elements -->
+<div class="fixed bottom-0 right-0 p-12 opacity-5 pointer-events-none select-none hidden lg:block">
+<h3 class="font-serif text-[12rem] leading-none text-primary transform rotate-90 origin-bottom-right">T T A</h3>
+</div>
+</body></html>

@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "inverse-primary": "#afc8f0",
+                        "secondary-fixed-dim": "#e9c349",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "on-secondary-fixed-variant": "#574500",
+                        "secondary": "#735c00",
+                        "on-surface": "#1b1c1a",
+                        "surface": "#faf9f5",
+                        "on-surface-variant": "#43474e",
+                        "on-secondary": "#ffffff",
+                        "background": "#faf9f5",
+                        "tertiary-container": "#1d1f1c",
+                        "on-primary-container": "#6f88ad",
+                        "on-background": "#1b1c1a",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "surface-dim": "#dbdad6",
+                        "surface-container": "#efeeea",
+                        "primary-container": "#001f3f",
+                        "on-secondary-container": "#745c00",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary": "#000613",
+                        "outline": "#74777f",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e3e2df",
+                        "surface-container-high": "#e9e8e4",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#ffe088",
+                        "on-secondary-fixed": "#241a00",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "surface-container-low": "#f4f4f0",
+                        "tertiary-fixed": "#e3e3de",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#040604",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-tertiary-container": "#858783",
+                        "surface-tint": "#476083",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c4c6cf",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-variant": "#e3e2df",
+                        "primary-fixed": "#d4e3ff",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf9f5",
+                        "secondary-container": "#fed65b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen">
+<!-- Top Navigation Anchor (Shared Component Mapping) -->
+<header class="bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl text-slate-900 dark:text-slate-50 fixed top-0 w-full z-50 shadow-[0_4px_30px_rgba(0,0,0,0.03)] flex justify-between items-center px-6 h-16">
+<button class="hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<div class="text-xl font-serif tracking-[0.3em] text-slate-900 dark:text-slate-50 uppercase">AURELIAN</div>
+<button class="hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</header>
+<!-- Background Content Canvas (Simulating Checkout Screen) -->
+<main class="pt-24 pb-32 px-6 max-w-md mx-auto">
+<section class="space-y-8 opacity-40 grayscale pointer-events-none">
+<div class="space-y-2">
+<h1 class="text-3xl font-headline font-bold">Ringkasan Pesanan</h1>
+<p class="text-on-surface-variant font-body">Selesaikan pembelian produk eksklusif Anda.</p>
+</div>
+<!-- Asymmetric Bento-Style Checkout Preview -->
+<div class="grid grid-cols-2 gap-4">
+<div class="col-span-2 bg-surface-container-lowest rounded-xl p-4 shadow-sm">
+<div class="flex gap-4 items-center">
+<div class="w-20 h-20 bg-surface-container rounded-lg overflow-hidden">
+<img alt="Silk Scarf" class="w-full h-full object-cover" data-alt="close up of premium white silk fabric with subtle golden embroidery details reflecting soft warm natural studio light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCr__mC2h8zU1Kf29zrc_6bWLvT1hJPBXF0wesyCP6BLtAJatsMt0hOPn-3tdgYwdTQ0uldR-WyIMx4FZ1cxcVHYZdrlBC6BdTPQQXTloqriGHKSEh_oQ86RnMq0G1sEoQ_5avAk5CcsvF59wnNFpX4FT7FyoUv_9sAnQl5Vr_2xvSfjWt47QbI91gJt78e9xgQp0qB5XxS2Jbai6k0nDA5nQ7kp4SZiqIoLloj8gI2rieuEbO-PcOi5x-HhDOHp8U6gjmrJNYAWb0"/>
+</div>
+<div class="flex-1">
+<h3 class="font-headline text-lg">Aurelian Silk Scarf</h3>
+<p class="text-secondary font-medium">Rp 2.450.000</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Pengiriman</p>
+<p class="text-sm font-semibold">Express Boutique</p>
+</div>
+<div class="bg-surface-container-low p-4 rounded-xl">
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant mb-1">Metode Bayar</p>
+<p class="text-sm font-semibold">Virtual Account</p>
+</div>
+</div>
+</section>
+</main>
+<!-- Confirmation Modal Overlay -->
+<div class="fixed inset-0 z-[60] flex items-center justify-center px-6">
+<!-- Backdrop -->
+<div class="absolute inset-0 bg-primary/40 backdrop-blur-md"></div>
+<!-- Modal Content -->
+<div class="relative w-full max-w-sm bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-[0px_20px_40px_rgba(27,28,26,0.15)] p-8 text-center">
+<!-- Decorative Icon Container -->
+<div class="mb-6 inline-flex items-center justify-center w-16 h-16 rounded-full bg-surface-container-low">
+<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">payments</span>
+</div>
+<!-- Content Hierarchy -->
+<h2 class="text-2xl font-headline font-bold text-primary mb-4">Konfirmasi Pesanan</h2>
+<p class="text-on-surface-variant leading-relaxed mb-8 px-2 font-body font-light">
+                Apakah Anda yakin ingin melanjutkan pembayaran? Pesanan akan segera diproses setelah transaksi berhasil.
+            </p>
+<!-- Actions Layout -->
+<div class="flex flex-col gap-3">
+<!-- Primary Action -->
+<button class="w-full py-4 bg-primary text-on-primary rounded-xl font-body font-bold text-sm tracking-wide shadow-[0_4px_12px_rgba(0,6,19,0.2)] hover:bg-primary/90 transition-colors active:scale-95 duration-300">
+                    Ya, Lanjutkan
+                </button>
+<!-- Secondary Action -->
+<button class="w-full py-4 bg-transparent text-secondary font-body font-bold text-sm tracking-wide hover:bg-secondary/5 rounded-xl transition-colors active:scale-95 duration-300">
+                    Batal
+                </button>
+</div>
+<!-- Signature Perspective Accent -->
+<div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-24 h-1 bg-secondary/20 rounded-full blur-sm"></div>
+</div>
+</div>
+<!-- Bottom Navigation Shell (Suppressed for focused modal interaction as per UX rules, but mapped if needed) -->
+<!-- Suppressed: Task-Focused / Focus journey -->
+</body></html>

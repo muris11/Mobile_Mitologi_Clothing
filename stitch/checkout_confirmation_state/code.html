@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-container": "#1d1f1c",
+                        "tertiary-fixed": "#e3e3de",
+                        "inverse-primary": "#afc8f0",
+                        "inverse-on-surface": "#f2f1ed",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-highest": "#e3e2df",
+                        "primary": "#000613",
+                        "surface-container": "#efeeea",
+                        "surface-variant": "#e3e2df",
+                        "surface-container-high": "#e9e8e4",
+                        "primary-container": "#001f3f",
+                        "on-tertiary-container": "#858783",
+                        "on-error": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "on-secondary": "#ffffff",
+                        "on-primary-container": "#6f88ad",
+                        "on-primary": "#ffffff",
+                        "tertiary": "#040604",
+                        "secondary": "#735c00",
+                        "on-surface-variant": "#43474e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface": "#faf9f5",
+                        "background": "#faf9f5",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "surface-dim": "#dbdad6",
+                        "primary-fixed": "#d4e3ff",
+                        "on-tertiary": "#ffffff",
+                        "surface-bright": "#faf9f5",
+                        "on-error-container": "#93000a",
+                        "on-surface": "#1b1c1a",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "on-secondary-fixed": "#241a00",
+                        "secondary-fixed": "#ffe088",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-secondary-container": "#745c00",
+                        "secondary-fixed-dim": "#e9c349",
+                        "primary-fixed-dim": "#afc8f0",
+                        "surface-tint": "#476083",
+                        "outline": "#74777f",
+                        "on-primary-fixed": "#001c3a",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-low": "#f4f4f0",
+                        "on-secondary-fixed-variant": "#574500",
+                        "error-container": "#ffdad6",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c1a",
+                        "secondary-container": "#fed65b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .perspective-card {
+            transform: perspective(1000px) rotateX(2deg);
+        }
+        .ghost-border {
+            border: 1px solid rgba(196, 198, 207, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen flex flex-col items-center">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl shadow-[0px_4px_20px_rgba(27,28,26,0.04)] h-16 flex items-center justify-between px-6">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-70 transition-opacity scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-950">arrow_back</span>
+</button>
+<h1 class="font-noto-serif text-lg tracking-tight text-slate-950">Konfirmasi Pesanan</h1>
+</div>
+<div class="font-noto-serif italic font-bold text-slate-900">Aurelian Silk</div>
+</header>
+<main class="w-full max-w-xl px-6 pt-24 pb-40 flex-grow">
+<!-- Hero Order Context -->
+<section class="mb-10 text-center">
+<p class="font-label text-secondary uppercase tracking-[0.2em] text-[10px] mb-2 font-bold">Ringkasan Akhir</p>
+<h2 class="font-headline text-3xl font-bold text-primary mb-4">Langkah Terakhir.</h2>
+<div class="h-1 w-12 bg-secondary mx-auto rounded-full"></div>
+</section>
+<!-- Main Confirmation Card (Layering Principle Level 2) -->
+<div class="bg-surface-container-lowest rounded-[32px] p-8 shadow-[0px_20px_40px_rgba(27,28,26,0.06)] ghost-border">
+<!-- Items Preview (Bento-ish Minimalist List) -->
+<div class="space-y-6 mb-10">
+<div class="flex gap-4 items-center">
+<div class="w-20 h-24 rounded-xl overflow-hidden bg-surface-container shadow-sm flex-shrink-0">
+<img alt="Luxury Silk Scarf" class="w-full h-full object-cover" data-alt="Close-up of a luxurious cream-colored silk scarf with gold embroidery on a minimalist wooden hanger in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCumepzB_oz8xA0gW2GtrITlWxFwN-HAweop-tDSxxFr-QC2uFejUWqVpvz6gEyq-KZaKC9qrfe1oEdjUP34xxt6nJEdQ1FnLbI-ICPdweEGIdnsRFZZV7MzPlhVnZ2buXeCPgorFpvi6Wqh-Un-UNNrMYzT0Q3vGAvkGI_ilwKdoADcnbCjW0ix-30fVJsNca-riI9saiVit5JmLPLBU1agAQHj10BB7B6waj9AnPAp7qEfUnIAXNgM8_AWsqRi8E4CrjnOIiMt-k"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-headline text-lg font-bold text-primary">Sutra Kencana Scarf</h4>
+<p class="text-on-surface-variant text-sm">Varian: Gold Midnight</p>
+<div class="flex justify-between items-end mt-1">
+<span class="text-xs font-medium text-outline">1x</span>
+<span class="font-bold text-primary">Rp 1.450.000</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Detail Breakdown (Layering Level 1 Nesting) -->
+<div class="bg-surface-container-low rounded-2xl p-6 space-y-4 mb-8">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant text-sm">Metode Pengiriman</span>
+<span class="font-bold text-sm text-primary">Express Courier (Satu Hari)</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant text-sm">Alamat Pengiriman</span>
+<span class="text-xs text-right max-w-[180px] text-primary">Jl. Senopati No. 12, Jakarta Selatan</span>
+</div>
+<div class="h-[1px] bg-outline-variant/20 w-full"></div>
+<div class="flex justify-between items-center pt-2">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" style="font-variation-settings: 'FILL' 1;">account_balance_wallet</span>
+<div class="flex flex-col">
+<span class="text-[10px] uppercase tracking-wider text-outline font-bold">Pembayaran</span>
+<span class="font-bold text-sm text-primary">Mandiri Virtual Account</span>
+</div>
+</div>
+<span class="material-symbols-outlined text-outline text-sm">chevron_right</span>
+</div>
+</div>
+<!-- Total Price Section -->
+<div class="flex flex-col gap-2 pt-4">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant text-sm">Subtotal</span>
+<span class="text-on-surface text-sm">Rp 1.450.000</span>
+</div>
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant text-sm">Biaya Pengiriman</span>
+<span class="text-on-surface text-sm">Rp 45.000</span>
+</div>
+<div class="flex justify-between items-center pt-4 mt-2">
+<span class="font-headline text-xl font-bold text-primary">Total Akhir</span>
+<span class="font-headline text-xl font-bold text-secondary">Rp 1.495.000</span>
+</div>
+</div>
+</div>
+<!-- Trust Indicator -->
+<div class="mt-8 flex items-center justify-center gap-2 text-outline-variant">
+<span class="material-symbols-outlined text-sm">verified_user</span>
+<span class="text-[11px] uppercase tracking-[0.15em] font-medium">Pembayaran Terenkripsi &amp; Aman</span>
+</div>
+</main>
+<!-- Bottom Action Bar -->
+<div class="fixed bottom-0 left-0 w-full bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl rounded-t-[32px] px-8 pb-10 pt-6 shadow-[0px_-10px_40px_rgba(27,28,26,0.06)] z-50 flex flex-col gap-4 max-w-2xl mx-auto left-1/2 -translate-x-1/2">
+<button class="w-full bg-primary text-on-primary py-5 rounded-xl font-bold text-sm tracking-widest uppercase flex items-center justify-center gap-3 hover:opacity-90 transition-all shadow-lg shadow-primary/20">
+<span>Konfirmasi &amp; Bayar</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+<button class="w-full bg-surface-container-highest text-primary py-4 rounded-xl font-bold text-sm tracking-widest uppercase hover:bg-surface-dim transition-colors">
+            Periksa Kembali
+        </button>
+</div>
+<!-- Background Decoration -->
+<div class="fixed top-0 left-0 w-full h-full -z-10 pointer-events-none overflow-hidden opacity-30">
+<div class="absolute top-[-10%] right-[-10%] w-[500px] h-[500px] bg-secondary/10 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-[-10%] left-[-10%] w-[400px] h-[400px] bg-primary/5 rounded-full blur-[100px]"></div>
+</div>
+</body></html>

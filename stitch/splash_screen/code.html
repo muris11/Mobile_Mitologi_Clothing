@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Tactile Atelier - Splash</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#faf9f5",
+                        "secondary-fixed": "#ffe088",
+                        "secondary": "#735c00",
+                        "primary-fixed": "#d4e3ff",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "error-container": "#ffdad6",
+                        "surface": "#faf9f5",
+                        "on-tertiary-container": "#858783",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "tertiary": "#040604",
+                        "on-surface-variant": "#43474e",
+                        "secondary-container": "#fed65b",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "primary": "#000613",
+                        "on-surface": "#1b1c1a",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-low": "#f4f4f0",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c1a",
+                        "outline": "#74777f",
+                        "tertiary-container": "#1d1f1c",
+                        "surface-tint": "#476083",
+                        "surface-container-high": "#e9e8e4",
+                        "surface-bright": "#faf9f5",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "surface-variant": "#e3e2df",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-container": "#6f88ad",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e3e3de",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-highest": "#e3e2df",
+                        "on-primary-fixed": "#001c3a",
+                        "primary-container": "#001f3f",
+                        "inverse-primary": "#afc8f0",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#efeeea"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>.material-symbols-outlined {
+    font-variation-settings: "FILL" 0, "wght" 400, "GRAD" 0, "opsz" 24
+    }
+.perspective-logo {
+    transform: rotatex(10deg) rotatey(-5deg);
+    box-shadow: 0 20px 50px rgba(0, 6, 19, 0.1)
+    }
+.grain-texture {
+    background-image: url(https://lh3.googleusercontent.com/aida-public/AB6AXuATcXj6hQHKDfj4RZelJzW_VwJQTlXC1CbVPOM0ngXJdfttTcx8DOUMoHJoCqt2IivktTTwxOTHbyvKtOMJED7gHBcNadXqPwfFsKGChn-vSmX8XQaa5gLP8XK3U90EBUNJWQdcW66dU6-gFHKOJb5lieIoI2X_wIlAYDu7j9oMQwYYcDUG2KjB95ZznPd5NUg3cB4I1Wo28uz610wtzBYhX2D-XkKI8xczNHA34QAmx0uyyh1CJ2-cMw8yo2LhP-tkoXE585LgBkA);
+    opacity: 0.05
+    }</style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface font-body overflow-hidden">
+<!-- Splash Screen Container -->
+<main class="relative h-screen w-full flex flex-col items-center justify-between py-24 px-8 overflow-hidden">
+<!-- Subtle Ambient Background Gradient -->
+<div class="absolute inset-0 z-0 bg-gradient-to-tr from-surface via-surface-container-low to-surface-bright"></div>
+<div class="absolute inset-0 z-0 grain-texture"></div>
+<!-- Decorative Elements for "Atelier" feel -->
+<div class="absolute top-[10%] left-[5%] w-64 h-64 bg-secondary/5 rounded-full blur-[100px]"></div>
+<div class="absolute bottom-[20%] right-[10%] w-48 h-48 bg-primary/5 rounded-full blur-[80px]"></div>
+<!-- Center: Sophisticated Brand Logo -->
+<div class="relative z-10 flex-1 flex items-center justify-center">
+<div class="flex flex-col items-center">
+<!-- 3D Depth Logo Mark -->
+<div class="relative mb-8 perspective-logo bg-primary p-6 rounded-xl border border-white/10">
+<span class="material-symbols-outlined text-white text-6xl" style="font-variation-settings: 'FILL' 1;">
+                        texture
+                    </span>
+<!-- Inner Glow for 3D depth -->
+<div class="absolute inset-0 rounded-xl bg-gradient-to-br from-white/10 to-transparent pointer-events-none"></div>
+</div>
+<!-- Brand Typography from JSON/DS -->
+<h1 class="font-headline text-3xl font-light tracking-[0.25em] uppercase text-primary text-center">
+                    The Tactile <br/>
+<span class="font-bold">Atelier</span>
+</h1>
+<div class="mt-4 flex items-center gap-2">
+<div class="h-[1px] w-8 bg-outline-variant/30"></div>
+<span class="font-label text-[10px] uppercase tracking-[0.3em] text-secondary">The Digital Curator</span>
+<div class="h-[1px] w-8 bg-outline-variant/30"></div>
+</div>
+</div>
+</div>
+<!-- Bottom: Loading Indicator and Text -->
+<div class="relative z-10 w-full max-w-xs flex flex-col items-center">
+<!-- Refined Loading Indicator -->
+<div class="w-full h-1 bg-surface-container-high rounded-full overflow-hidden mb-6">
+<div class="h-full w-1/3 bg-gradient-to-r from-primary to-primary-container rounded-full shadow-[0_0_10px_rgba(0,6,19,0.2)]"></div>
+</div>
+<!-- "Memuat aplikasi..." text -->
+<p class="font-headline text-sm italic tracking-wide text-on-surface-variant/80">
+                Memuat aplikasi...
+            </p>
+</div>
+<!-- Branding Image Element (Decorative Abstract) -->
+<div class="absolute -bottom-24 -left-24 w-64 h-64 opacity-10">
+<img alt="close up of premium woven fabric texture with soft shadows and elegant curves in a studio lighting setting" class="w-full h-full object-cover rounded-full grayscale" data-alt="close up of premium woven fabric texture with soft shadows and elegant curves in a studio lighting setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBRXlOXdc4kJR5bo4yK8m4cGZNR8b4G8nBeHJpLsM99RQDOdhh9Qgi_GoEm8A8GxDBsOQfSC1B8Xc5-6Dj8nUMx5K9gkGgwgJG3_3bjZb40gfl83fRaEG6w1cuK9HqLkuDlP9pxpFMnaF3cj_25-EpRgx5i9Gv3ii7ha4afR0ZChodMtOMEsT7n7Zc_coDQL7JycTdPzCLaak-SfbIoDIQzjZ9wGPGTqZaLfSyHcWqkMPTxTmStbyntQydjw7Vmgvik3bK7UdRV4rw"/>
+</div>
+</main>
+<!-- Suppressed Shells: Navigation & FABs are hidden on Splash Screen as per the "The Destination Rule" and "Relevance Check" -->
+<!-- Content prioritizes the Canvas focus for high-end boutique entry experience. -->
+</body></html>

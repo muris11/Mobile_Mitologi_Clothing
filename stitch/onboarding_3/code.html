@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&amp;family=Manrope:wght@300;400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#faf9f5",
+                        "secondary-fixed": "#ffe088",
+                        "secondary": "#735c00",
+                        "primary-fixed": "#d4e3ff",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "error-container": "#ffdad6",
+                        "surface": "#faf9f5",
+                        "on-tertiary-container": "#858783",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "tertiary": "#040604",
+                        "on-surface-variant": "#43474e",
+                        "secondary-container": "#fed65b",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "primary": "#000613",
+                        "on-surface": "#1b1c1a",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-low": "#f4f4f0",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c1a",
+                        "outline": "#74777f",
+                        "tertiary-container": "#1d1f1c",
+                        "surface-tint": "#476083",
+                        "surface-container-high": "#e9e8e4",
+                        "surface-bright": "#faf9f5",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "surface-variant": "#e3e2df",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-container": "#6f88ad",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e3e3de",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-highest": "#e3e2df",
+                        "on-primary-fixed": "#001c3a",
+                        "primary-container": "#001f3f",
+                        "inverse-primary": "#afc8f0",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#efeeea"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #faf9f5;
+        }
+        .hero-clip {
+            clip-path: polygon(0 0, 100% 0, 100% 85%, 0% 100%);
+        }
+        .perspective-card {
+            transform: perspective(1000px) rotateY(-5deg) rotateX(5deg);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-surface min-h-screen flex flex-col overflow-hidden">
+<!-- Note: TopAppBar and BottomNavBar are suppressed as this is an Onboarding screen -->
+<main class="flex-grow flex flex-col items-center justify-between relative">
+<!-- Hero Section with Overlapping Visuals -->
+<div class="w-full h-[486px] relative hero-clip bg-primary overflow-hidden">
+<img alt="High-tech retail experience" class="absolute inset-0 w-full h-full object-cover opacity-60 mix-blend-luminosity" data-alt="Modern high-tech retail environment with glowing digital displays, sleek metallic surfaces, and soft ambient lighting in a luxury store setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3WuKeKn5_0V54yW3HMDJpEwWkJ-CYE77SSZtkZpKBbLYnswp4cmeloi0HkMXNWksfL8ZfqevH_4otGxXzAil83CKeIamvs3inqDTAHUB7lOsSmNOI_MfyOuHfynz1wcbIYos9jzdXHZ5GrCRCiXNMco7ji1Bm5PzezDKQ87powxJPPI5EV71yQ3zkL76699zUpr0si-d1Njfy-fZcjnmvLc6O1M8ipJrOUfjfZXGBDs3jMInWNBSPJEnsSZEycK1rA6nrp3o4TLg"/>
+<!-- Abstract Tactile Shapes -->
+<div class="absolute top-20 right-[-5%] w-64 h-64 bg-secondary/20 rounded-full blur-3xl"></div>
+<div class="absolute bottom-10 left-[-10%] w-80 h-80 bg-primary-container/30 rounded-full blur-3xl"></div>
+<!-- Floating Product Perspective Card -->
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none px-6">
+<div class="perspective-card bg-surface-container-lowest/10 backdrop-blur-md p-4 rounded-xl border border-white/10 shadow-2xl w-full max-w-xs">
+<img alt="Luxury product showcase" class="w-full h-48 object-cover rounded-lg shadow-inner" data-alt="Minimalist photograph of high-end premium leather sneakers on a stone pedestal with dramatic artistic lighting and long shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDZz-61XHZ2ZJ-as4568z3kGWg0jgS9PJflyffzcNPHKXOUx4gjxHGwlu345EpzJ0U8s5fMvHUULg1wis8Q0w8Qzy0ncgEVAsBuVVskrPfw_T1TUq9GdpkIGz_45Xr-ZvN7BlPxR-IVhNC2rn_ikAQ5flOUACBgavwYvp2OHjARCo1bKqXOXwmA0Upt5_0USArPG1i25f0EmRxECko1ezWUXdxFDDECkgw8TmyzkFpx05FzOEtvkqcfdTCC8gkkFJLWSr_pT5Fc4ks"/>
+<div class="mt-4 space-y-2">
+<div class="h-2 w-24 bg-white/40 rounded-full"></div>
+<div class="h-2 w-16 bg-secondary-fixed/40 rounded-full"></div>
+</div>
+</div>
+</div>
+</div>
+<!-- Content Canvas -->
+<div class="w-full px-8 pt-12 pb-16 flex flex-col items-center text-center -mt-16 z-10 bg-background rounded-t-[40px]">
+<!-- Page Indicator -->
+<div class="flex gap-2 mb-8">
+<div class="h-1.5 w-6 rounded-full bg-outline-variant/30"></div>
+<div class="h-1.5 w-6 rounded-full bg-outline-variant/30"></div>
+<div class="h-1.5 w-12 rounded-full bg-secondary shadow-sm shadow-secondary/40"></div>
+</div>
+<!-- Typography Cluster -->
+<h1 class="font-headline text-3xl font-light text-primary leading-tight mb-4 tracking-tight">
+                Pengalaman Belanja Modern
+            </h1>
+<p class="font-body text-on-surface-variant text-base leading-relaxed max-w-sm mb-12">
+                Nikmati kemudahan berbelanja dari ujung jari Anda dengan teknologi mutakhir dan layanan pelanggan 24/7.
+            </p>
+<!-- Interaction Section -->
+<div class="w-full max-w-md space-y-6">
+<!-- Primary Action with Subtle Inner Glow Gradient -->
+<button class="w-full bg-primary text-on-primary font-body font-bold py-5 rounded-xl shadow-[0px_20px_40px_rgba(0,6,19,0.15)] active:scale-95 transition-all duration-300 relative overflow-hidden group">
+<span class="relative z-10">Mulai Sekarang</span>
+<div class="absolute inset-0 bg-gradient-to-tr from-primary via-primary-container/20 to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+<!-- Secondary Support Info -->
+<div class="flex items-center justify-center gap-4 text-secondary text-xs font-label uppercase tracking-widest opacity-80">
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">verified</span>
+                        Terjamin
+                    </span>
+<span class="w-1 h-1 bg-outline-variant rounded-full"></span>
+<span class="flex items-center gap-1">
+<span class="material-symbols-outlined text-[14px]">support_agent</span>
+                        24/7 Bantuan
+                    </span>
+</div>
+</div>
+</div>
+<!-- Bottom Tactile Detail -->
+<div class="absolute bottom-4 w-32 h-1.5 bg-surface-container-highest rounded-full"></div>
+</main>
+<!-- Overlay Decoration for Luxury Feel -->
+<div class="fixed top-0 left-0 w-full h-full pointer-events-none border-[12px] border-surface-container-lowest/5 blur-sm z-50"></div>
+</body></html>

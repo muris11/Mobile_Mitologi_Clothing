@@ -1,0 +1,298 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#1b1c1a",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#d4e3ff",
+                    "surface": "#faf9f5",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#fed65b",
+                    "on-secondary-container": "#745c00",
+                    "on-surface-variant": "#43474e",
+                    "inverse-surface": "#2f312e",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-primary-container": "#6f88ad",
+                    "surface-container-highest": "#e3e2df",
+                    "primary-container": "#001f3f",
+                    "surface-variant": "#e3e2df",
+                    "on-secondary-fixed": "#241a00",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-dim": "#dbdad6",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-container": "#efeeea",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-bright": "#faf9f5",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-tint": "#476083",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary": "#000613",
+                    "outline-variant": "#c4c6cf",
+                    "tertiary-fixed": "#e3e3de",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "tertiary": "#040604",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-primary": "#afc8f0",
+                    "on-error": "#ffffff",
+                    "on-background": "#1b1c1a",
+                    "surface-container-low": "#f4f4f0",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f2f1ed",
+                    "outline": "#74777f",
+                    "secondary": "#735c00",
+                    "background": "#faf9f5",
+                    "on-secondary-fixed-variant": "#574500"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-shift-bottom {
+            box-shadow: 0 4px 30px -10px rgba(0, 0, 0, 0.05);
+        }
+        .tap-highlight-transparent {
+            -webkit-tap-highlight-color: transparent;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-container">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl shadow-[0_20_40px_rgba(27,28,26,0.06)]">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-xl mx-auto">
+<button class="text-slate-950 dark:text-white hover:opacity-70 transition-opacity active:scale-95 active:duration-150">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="text-2xl font-serif italic text-slate-950 dark:text-white">Atelier</h1>
+<button class="text-slate-950 dark:text-white hover:opacity-70 transition-opacity active:scale-95 active:duration-150">
+<span class="material-symbols-outlined">smart_toy</span>
+</button>
+</div>
+</header>
+<main class="pt-24 pb-32 max-w-screen-xl mx-auto px-6">
+<!-- Hero Recommendation Header -->
+<section class="mb-12">
+<div class="flex flex-col md:flex-row md:items-end justify-between gap-4">
+<div class="max-w-2xl">
+<span class="text-secondary font-label font-bold uppercase tracking-[0.2em] text-xs mb-3 block">Kurasi Cerdas</span>
+<h2 class="font-headline text-4xl md:text-5xl text-primary leading-tight italic">Rekomendasi Untuk Anda</h2>
+<p class="mt-4 text-on-surface-variant text-lg max-w-md">Kecerdasan buatan kami telah menyusun koleksi busana yang mencerminkan karakter dan gaya unik Anda.</p>
+</div>
+<div class="hidden md:flex gap-2">
+<button class="p-4 rounded-full bg-surface-container hover:bg-surface-container-high transition-colors">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</div>
+</section>
+<!-- Produk Pilihan (Bento Grid Inspired) -->
+<section class="mb-20">
+<div class="flex items-center justify-between mb-8">
+<h3 class="font-headline text-2xl text-primary">Produk Pilihan</h3>
+<a class="text-secondary font-label font-semibold text-sm hover:underline" href="#">Lihat Semua</a>
+</div>
+<div class="grid grid-cols-1 md:grid-cols-4 gap-6">
+<!-- Large Featured Card -->
+<div class="md:col-span-2 md:row-span-2 group relative overflow-hidden rounded-[32px] bg-white shadow-[0_20px_40px_rgba(27,28,26,0.06)] transition-all duration-500 hover:-translate-y-2">
+<div class="aspect-[4/5] w-full relative">
+<img class="absolute inset-0 w-full h-full object-cover" data-alt="elegant woman in high-end ivory silk dress posing in a minimalist sunlit studio with soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBg7khH-o3sicWV_u57uS9qVwi7xFVM-2lMH6xGDn9duVgYuwxgiPFsF-x4j9cEFkJCnM0X0JIorTpUvOSA8y2bLGt0RZH_lQW5ZOcNBCR1Nw64nhrLvAMYAYF3j2mXYpGKyYIc9IwYuv2iDa0wXy-lbZKPjvedJ-S0Tms-ngW0LiMhgHFJfb1G5qmgoChfM0Tf0rp93U9Mx8qZmDyUijUj9lXInaQ70xngW8m07RjhlOcs010FIlBm4-2xBRlNZ9l44hT1Nnqd32Y"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent opacity-60"></div>
+</div>
+<div class="absolute bottom-0 left-0 p-8 w-full">
+<div class="bg-white/10 backdrop-blur-md p-6 rounded-2xl border border-white/20">
+<h4 class="font-headline text-2xl text-white mb-2">Sutera Klasik</h4>
+<p class="text-white/80 text-sm mb-4 line-clamp-2">Gaun sutera murni dengan potongan asimetris yang mendefinisikan kemewahan kontemporer.</p>
+<div class="flex justify-between items-center">
+<span class="text-white font-bold text-lg">Rp 4.250.000</span>
+<button class="bg-white text-primary p-3 rounded-xl hover:bg-secondary-fixed transition-colors">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Small Grid Card 1 -->
+<div class="bg-surface-container-lowest rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] group transition-all duration-300">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="close-up of premium leather handbag with gold hardware on a neutral textured background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdgXDE4_YoIYpTju5ToPL7gUDZvvDA7sNyOcZsmIdShxLIejUqzibJJ1odsXHm5izL_HKnbgkMeQ6zb3MYIBRtW6DLtQcIzmkrTEhVkjiukwrzP703EVMaPJWwThgJ2YdtTkfvhyM-ts1_9Vfic2F6kA8_kbaT-a6oN1ohthPYamtC5rqjyD8Mo0uyw485oGVNSstRRfKjvPF7-bszcx4IOhVMKF0uMJ2kBDgeJzf9lhpcyaFaeYr4edkr2mlivbwS4JEYZE1IURo"/>
+<button class="absolute top-4 right-4 bg-white/80 backdrop-blur-sm p-2 rounded-full text-primary hover:text-secondary">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+<div class="p-5">
+<p class="text-xs text-secondary font-bold uppercase tracking-widest mb-1">Aksesori</p>
+<h4 class="font-headline text-lg text-primary mb-1">Noir Tote</h4>
+<p class="text-primary font-bold">Rp 2.800.000</p>
+</div>
+</div>
+<!-- Small Grid Card 2 -->
+<div class="bg-surface-container-lowest rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] group transition-all duration-300">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="man wearing premium linen shirt in soft beige color, editorial fashion photography with warm natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAYaZt5vWf9JQJdEQvatAfunyLnNXzBM4zEghWxO94t8px7EVN-rqTiSkboC2O33IK-4GFGjXlddKVhWK4VRXZYyLPP0zOMOA17lSYVdrWMJzghybGJURO_mg91SUn73_EoVL6ONrXyGd7bERzYuxig-0-OmZssLfDfJMWJ293A1dZUxamyDRVgfZMcnQpDgYJb5K1623XZiPzacCjR0ov26OG9uj-klGtc23HSnBTI2wCwdHxuTaNTHMYEhDPBrGiIsUa-ItE-64Q"/>
+<span class="absolute top-4 left-4 bg-secondary-container text-on-secondary-container px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-tighter">AI Match 98%</span>
+</div>
+<div class="p-5">
+<p class="text-xs text-secondary font-bold uppercase tracking-widest mb-1">Pakaian Pria</p>
+<h4 class="font-headline text-lg text-primary mb-1">Linen Beige</h4>
+<p class="text-primary font-bold">Rp 1.150.000</p>
+</div>
+</div>
+<!-- Small Grid Card 3 -->
+<div class="bg-surface-container-lowest rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] group transition-all duration-300">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="modern designer shoes on a minimal stone pedestal with dramatic shadow and light play" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDd3mZavCdBQtktfKvG4N0c5p39t92wYs8otrQDrQTJ3qPgs1fy9foGQ0Ss_y5DHAkeHT4j_fNngFuOPDzEJUjBUXUF5v7SHtqsYs6eb0Xav2-Uk9x4MkUXdmuPrrYc5oLItOmSl7iJbabq1dDaDs9zHSRWK6MPuoG4V3vcm6k9gJVwuZwJtieMdt9gNZiT9l1tT8HEhnD8z4eOFjCLPTtvvrzqV8bF9SLA20g3MnGFiwjf4Q3VEMCiyhCzNC_UV1zg18pH9_xt8CA"/>
+</div>
+<div class="p-5">
+<p class="text-xs text-secondary font-bold uppercase tracking-widest mb-1">Sepatu</p>
+<h4 class="font-headline text-lg text-primary mb-1">Velvet Mule</h4>
+<p class="text-primary font-bold">Rp 1.950.000</p>
+</div>
+</div>
+<!-- Small Grid Card 4 -->
+<div class="bg-surface-container-lowest rounded-[24px] overflow-hidden shadow-[0_10px_30px_rgba(0,0,0,0.03)] group transition-all duration-300">
+<div class="aspect-square relative overflow-hidden">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="luxury textile fabric texture with gold embroidery detail, macro shot showing craftsmanship" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDbyl9VBq2V3MKIVdu6FXP0PN7LrHDVHZTnbfrxxBhkffP3t0zm0Vc4pmuxJCDDQt9sFq-TdsQu2_fELpqWBlQ5IhzINKnVH5IpHRyFfzXQLO2HoyiJG6_20KLHSdPQkV9luu52PqsIhtBC4uWlgsFluS5gTdk_gufyn0-6E3uIZZRAK2bv5hus4OCH5-n0Dk1NgU8ZCF42xjA_Px78HWI9ejAcr52qvRTOZYy6WZ7ChU1_rvvlXcWw4SFux_5MAL42anC5UumKmSU"/>
+</div>
+<div class="p-5">
+<p class="text-xs text-secondary font-bold uppercase tracking-widest mb-1">Kain</p>
+<h4 class="font-headline text-lg text-primary mb-1">Batik Tulis Gold</h4>
+<p class="text-primary font-bold">Rp 5.500.000</p>
+</div>
+</div>
+</div>
+</section>
+<!-- AI Style Banner -->
+<section class="mb-20">
+<div class="relative bg-primary text-white rounded-[40px] p-8 md:p-16 overflow-hidden">
+<div class="absolute top-0 right-0 w-1/2 h-full opacity-40">
+<img class="w-full h-full object-cover" data-alt="abstract flowing fabrics in shades of deep navy and gold, digital art aesthetic representing AI style curation" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCq-v0YaNRBaFwxc1LsF5ymbAoBGQ-aak-4F2LEd9sEIWV3u1zyW8jyiQaI5k6MSS_3GDm0h9mAORzBcnOZZRoAqH6EV3QoDHl1FFbRS5fOqE1yZkXoUrD01poZIMwzKnFSzR938JDqDC0Q9m9lyRrkzfHKAztlJAPBZhdF6eitAL6qYpnsIc4_S74qpE-SZn5fAAwRfLkds5ZsmaADVWbODgjX83loVPnahmnemQpEf0paAZD27u6SZS-HlavYTtXg2qd_F9dBZpw"/>
+</div>
+<div class="relative z-10 max-w-lg">
+<span class="inline-flex items-center gap-2 text-secondary-fixed mb-4 font-bold text-sm tracking-widest uppercase">
+<span class="material-symbols-outlined text-sm">auto_awesome</span> 
+                        Visualizer Style Anda
+                    </span>
+<h3 class="font-headline text-3xl md:text-5xl mb-6">Sesuaikan Busana Dengan Kepribadian AI</h3>
+<p class="text-white/70 mb-8 text-lg">Gunakan kamera Anda untuk melihat bagaimana koleksi pilihan kami terlihat di tubuh Anda dengan teknologi AR yang presisi.</p>
+<button class="bg-secondary-fixed text-on-secondary-fixed px-8 py-4 rounded-xl font-bold hover:scale-105 transition-transform">
+                        Coba AI Visualizer
+                    </button>
+</div>
+</div>
+</section>
+<!-- Mungkin Anda Suka (Editorial Layout) -->
+<section class="mb-24">
+<div class="flex items-center justify-between mb-10">
+<h3 class="font-headline text-2xl text-primary">Mungkin Anda Suka</h3>
+<div class="flex gap-4">
+<button class="text-primary disabled:opacity-30"><span class="material-symbols-outlined">west</span></button>
+<button class="text-primary"><span class="material-symbols-outlined">east</span></button>
+</div>
+</div>
+<div class="flex overflow-x-auto pb-8 gap-8 no-scrollbar snap-x">
+<!-- Perspective Carousel Item 1 -->
+<div class="min-w-[280px] md:min-w-[340px] snap-center">
+<div class="bg-surface-container-low p-4 rounded-[32px] transition-all hover:bg-surface-container-high group">
+<div class="aspect-[3/4] rounded-[24px] overflow-hidden mb-6 shadow-xl relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="fashion model in bright avant-garde street wear against a minimalist architectural background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrwWoorTgZeT1OMKDB785Psd9DPRDbBJZWANu2vP0io3y5htAKzhWpTgjwwBhSgLQcqXz7SQ4BY9uLdBm4LjXeM8NUjiySmjcvjkhR5EgedN6_0i0OnVJ2pAMaVEOScy_L1fXMjSExvXaZOnelqV7_HHUIDoZsE_7eu-tkvCfc99APAPVH_sqJsxNzKhlnmTbvjy8LxoZXoRTZ3_KgLKuQFFBI4N5-O6D5Wi-KgYoFnn2gPq9f1Gq1Hh8kvl4zV-dCQcO-EKxBcNM"/>
+</div>
+<h4 class="font-headline text-xl text-primary px-2">Avant-Garde Street</h4>
+<div class="flex justify-between items-center mt-2 px-2">
+<p class="text-on-surface-variant font-medium">8 Produk</p>
+<span class="material-symbols-outlined text-secondary">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Perspective Carousel Item 2 -->
+<div class="min-w-[280px] md:min-w-[340px] snap-center">
+<div class="bg-surface-container-low p-4 rounded-[32px] transition-all hover:bg-surface-container-high group">
+<div class="aspect-[3/4] rounded-[24px] overflow-hidden mb-6 shadow-xl relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="luxury watch and jewelry on a velvet tray, soft moody lighting, premium lifestyle aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDjDp3noU5v7WDR0oKTKPDHfayQV9c1W6sGJPYxHinOIbfpBuyBV6PL122iqxAcQjUdy0ijzvlF2uJtpMi8vXU0hRUiVP55dxVQQ6Tdr4RH6lTXUUhE0z7Wcm9GWUeM9o7N9hEY9fZQoqceYW0h4I-uD6du4hFe49HuMIv6lxmeSJLq8PVYQyjKRaRzqg5geiBkRw7Pq0CX969lHpbLEUy887Mtd3sN9hTzo15xZz_dKCs9sGREKgVjtYK-1cmhZtTZ1AZYcNSEQi4"/>
+</div>
+<h4 class="font-headline text-xl text-primary px-2">Koleksi Perhiasan</h4>
+<div class="flex justify-between items-center mt-2 px-2">
+<p class="text-on-surface-variant font-medium">12 Produk</p>
+<span class="material-symbols-outlined text-secondary">arrow_forward</span>
+</div>
+</div>
+</div>
+<!-- Perspective Carousel Item 3 -->
+<div class="min-w-[280px] md:min-w-[340px] snap-center">
+<div class="bg-surface-container-low p-4 rounded-[32px] transition-all hover:bg-surface-container-high group">
+<div class="aspect-[3/4] rounded-[24px] overflow-hidden mb-6 shadow-xl relative">
+<img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700" data-alt="minimalist home workspace with high-end tech accessories and premium materials" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB9ec8A6vmv5L_-RV2HKUrWUUp6u-Gkf6mbCUsiNxWks5ruEFs8g5tdQ2P-Z6p1jKQvacVCkgpXUaQ0P1B1zdiCM1QgqGOX1pebldMgwEdkfoMaTeUalhC5dYhJrNftds3IZs2y3YTrGMUIS6xAi0DqED_KVzeKggT3JnEE6ozJUaYZWxRAlIWNvkUU5CflRcgniKFaiGHgfe0Cb2Mnk3t7U5RIqF-t4blFJDcJWQdW607E5iQBWOxT5gGJZDFgmsfBFKQYnYm7w3Q"/>
+</div>
+<h4 class="font-headline text-xl text-primary px-2">Elegan di Kantor</h4>
+<div class="flex justify-between items-center mt-2 px-2">
+<p class="text-on-surface-variant font-medium">5 Produk</p>
+<span class="material-symbols-outlined text-secondary">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl rounded-t-[32px] shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+<div class="flex justify-around items-center px-4 pt-3 pb-8">
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-amber-700 dark:hover:text-amber-500 tap-highlight-transparent transition-all duration-300" href="#">
+<span class="material-symbols-outlined">home_app_logo</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Beranda</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-amber-700 dark:hover:text-amber-500 tap-highlight-transparent transition-all duration-300" href="#">
+<span class="material-symbols-outlined">search</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Cari</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-950 dark:text-white after:content-[''] after:w-1 after:h-1 after:bg-amber-600 after:rounded-full tap-highlight-transparent transition-all duration-300" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">AI Style</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-amber-700 dark:hover:text-amber-500 tap-highlight-transparent transition-all duration-300" href="#">
+<span class="material-symbols-outlined">shopping_bag</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Pesanan</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-amber-700 dark:hover:text-amber-500 tap-highlight-transparent transition-all duration-300" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Profil</span>
+</a>
+</div>
+</nav>
+<!-- FAB (Suppressed on this recommendation screen per instructions but keeping semantic structure) -->
+</body></html>

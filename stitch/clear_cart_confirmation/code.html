@@ -1,0 +1,205 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary": "#040604",
+                    "on-secondary-container": "#745c00",
+                    "on-surface": "#1b1c1a",
+                    "on-tertiary-container": "#858783",
+                    "inverse-surface": "#2f312e",
+                    "secondary-container": "#fed65b",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-error": "#ffffff",
+                    "primary": "#000613",
+                    "surface-variant": "#e3e2df",
+                    "surface-container-highest": "#e3e2df",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "background": "#faf9f5",
+                    "secondary": "#735c00",
+                    "tertiary-container": "#1d1f1c",
+                    "primary-container": "#001f3f",
+                    "surface-tint": "#476083",
+                    "tertiary-fixed": "#e3e3de",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary": "#ffffff",
+                    "outline-variant": "#c4c6cf",
+                    "error-container": "#ffdad6",
+                    "surface": "#faf9f5",
+                    "on-background": "#1b1c1a",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary-fixed": "#001c3a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "inverse-on-surface": "#f2f1ed",
+                    "surface-bright": "#faf9f5",
+                    "surface-container-low": "#f4f4f0",
+                    "on-secondary": "#ffffff",
+                    "on-secondary-fixed-variant": "#574500",
+                    "inverse-primary": "#afc8f0",
+                    "secondary-fixed": "#ffe088",
+                    "on-surface-variant": "#43474e",
+                    "surface-dim": "#dbdad6",
+                    "on-tertiary": "#ffffff",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "surface-container-high": "#e9e8e4",
+                    "primary-fixed": "#d4e3ff",
+                    "on-error-container": "#93000a",
+                    "outline": "#74777f",
+                    "surface-container": "#efeeea",
+                    "on-primary-container": "#6f88ad"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-card {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased overflow-hidden">
+<!-- Background Content (Blurred Cart State) -->
+<div class="fixed inset-0 filter blur-md pointer-events-none scale-105">
+<!-- TopAppBar Placeholder -->
+<header class="fixed top-0 w-full z-50 bg-[#ffffff]/85 backdrop-blur-xl flex items-center justify-between px-6 h-16 shadow-sm shadow-[#1b1c1a]/5">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#000613]">arrow_back</span>
+<h1 class="font-['Noto_Serif'] text-lg tracking-tight text-[#000613]">Keranjang</h1>
+</div>
+<span class="material-symbols-outlined text-[#000613]">more_vert</span>
+</header>
+<!-- Mock Cart Content -->
+<main class="pt-20 pb-24 px-6 space-y-8">
+<div class="space-y-4">
+<div class="bg-surface-container-lowest rounded-xl p-4 flex gap-4 shadow-sm">
+<div class="w-24 h-24 bg-surface-container-high rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="close up of premium raw silk fabric with elegant sheen and soft texture in ivory white" src="https://lh3.googleusercontent.com/aida-public/AB6AXuASbfYPBmKA7DiLMgRGWtiSnwol7I78cv_jSuUbSQAoRyNp1Qnj_mmNW7oLZmmFCaw0EZujGgQw5Y_ZUaTcNMaYpl4UJ0E5dC0I5E1KuDOBE0b8I-06DeOWOlfQV1gsmN4uFBrI3LN5b7IeYPMU5VNrUMJ3w4mEhugkc6m-RNeuNxdc1nYOVRj3YGIUlVs3bCzWyv79y4lwkZ05S9Xuft6Uu8Sz0eRfvL78Yxtu0AZ4ZWE1YghAb33RDzOtN1ja3aAyWRi0D_UjNnk"/>
+</div>
+<div class="flex-1">
+<h3 class="font-headline font-bold text-primary">Aurelian Silk Scarf</h3>
+<p class="text-sm text-on-surface-variant">Midnight Navy • XL</p>
+<p class="mt-2 font-bold text-secondary">Rp 1.250.000</p>
+</div>
+</div>
+<div class="bg-surface-container-lowest rounded-xl p-4 flex gap-4 shadow-sm">
+<div class="w-24 h-24 bg-surface-container-high rounded-lg overflow-hidden flex-shrink-0">
+<img class="w-full h-full object-cover" data-alt="folded high-end designer silk garment on a minimalist wooden shelf with soft ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCEciPaJwnIl971azawfeiKLY1UOpeekHVZ9eS6zBhL0YCQ1H8cWJCjEh93VImIkDFZBAF5TRKXxQt4ZxSFd3ZINt5d5BtUvA3200xe7RTTeRobhhPCL2hWT7sNEfqu9_eyRDRbmGvRGSDbHrgZDmDOPmOrSkdSdJqq2rgxN9lG0aH5fBYff3f6S71c4giDs0M5RAsw2WAMg-tlWuuTFCIToJCMNuxmgFmmKA_h333wOczSUbS3lMMM8PF8ZLIZmPR-1CU4Taf5lF8"/>
+</div>
+<div class="flex-1">
+<h3 class="font-headline font-bold text-primary">Casual Linen Blend</h3>
+<p class="text-sm text-on-surface-variant">Sandstone • L</p>
+<p class="mt-2 font-bold text-secondary">Rp 850.000</p>
+</div>
+</div>
+</div>
+<div class="bg-surface-container-low rounded-2xl p-6 space-y-4">
+<div class="flex justify-between items-center">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="font-bold">Rp 2.100.000</span>
+</div>
+<div class="flex justify-between items-center text-primary">
+<span class="font-bold text-lg">Total</span>
+<span class="font-bold text-lg">Rp 2.100.000</span>
+</div>
+</div>
+</main>
+<!-- BottomNavBar Placeholder -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 py-3 pb-safe bg-[#ffffff]/85 backdrop-blur-xl rounded-t-[20px] shadow-[0_-10px_30px_rgba(27,28,26,0.04)]">
+<div class="flex flex-col items-center justify-center text-[#43474e]">
+<span class="material-symbols-outlined">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e]">
+<span class="material-symbols-outlined">storefront</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Belanja</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#735c00] font-bold scale-110">
+<span class="material-symbols-outlined">shopping_cart</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Keranjang</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e]">
+<span class="material-symbols-outlined">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Wishlist</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e]">
+<span class="material-symbols-outlined">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Akun</span>
+</div>
+</nav>
+</div>
+<!-- Modal Overlay -->
+<div class="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-primary/20 backdrop-blur-[2px]">
+<!-- Premium Modal Container -->
+<div class="w-full max-w-sm bg-surface rounded-[32px] overflow-hidden shadow-[0px_40px_80px_rgba(0,6,19,0.15)] ring-1 ring-on-surface/5 flex flex-col items-center text-center p-8 relative">
+<!-- Brand Mark Detail -->
+<div class="mb-6 flex flex-col items-center">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center mb-2">
+<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">delete_sweep</span>
+</div>
+<span class="font-headline font-bold text-xs tracking-[0.2em] uppercase text-on-surface-variant opacity-60">Aurelian Silk</span>
+</div>
+<!-- Content Area -->
+<div class="space-y-3 mb-10">
+<h2 class="font-headline text-2xl font-bold text-primary tracking-tight">Kosongkan Keranjang?</h2>
+<p class="font-body text-on-surface-variant leading-relaxed px-2">Apakah Anda yakin ingin menghapus semua item dari keranjang belanja?</p>
+</div>
+<!-- Actions Grid -->
+<div class="w-full space-y-3">
+<!-- Destructive Action -->
+<button class="w-full bg-primary text-on-primary py-4 px-6 rounded-xl font-bold text-sm tracking-wide transition-all active:scale-95 shadow-lg shadow-primary/10">
+                    Hapus Semua
+                </button>
+<!-- Ghost Action -->
+<button class="w-full bg-transparent text-on-surface-variant py-3 px-6 rounded-xl font-semibold text-sm tracking-wide transition-all hover:bg-surface-container-low active:opacity-60">
+                    Batalkan
+                </button>
+</div>
+<!-- Subtle Decorative Element -->
+<div class="absolute -bottom-12 -right-12 w-32 h-32 bg-secondary/5 rounded-full blur-3xl"></div>
+<div class="absolute -top-12 -left-12 w-32 h-32 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+</div>
+<!-- Injected Navigation Logic Check (Hidden by Modal Overlay but structurally present) -->
+<!-- Screen intent: Clear Cart Confirmation -> Part of 'Keranjang' flow -->
+<script>
+        // No JS requested, but structural markers for the model's logic
+        // Active Navigation: "Keranjang"
+    </script>
+</body></html>

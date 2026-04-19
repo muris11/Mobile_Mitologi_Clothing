@@ -1,0 +1,275 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Detail Pesanan</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffe088",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "surface-container": "#efeeea",
+                        "on-surface": "#1b1c1a",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f4f4f0",
+                        "primary-fixed": "#d4e3ff",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-primary-fixed": "#001c3a",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#001f3f",
+                        "tertiary-fixed": "#e3e3de",
+                        "on-secondary-fixed": "#241a00",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-container": "#6f88ad",
+                        "tertiary": "#040604",
+                        "surface-container-highest": "#e3e2df",
+                        "surface": "#faf9f5",
+                        "tertiary-container": "#1d1f1c",
+                        "inverse-primary": "#afc8f0",
+                        "secondary": "#735c00",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#000613",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#fed65b",
+                        "surface-variant": "#e3e2df",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "secondary-fixed-dim": "#e9c349",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf9f5",
+                        "on-background": "#1b1c1a",
+                        "background": "#faf9f5",
+                        "on-tertiary-container": "#858783",
+                        "surface-tint": "#476083",
+                        "on-surface-variant": "#43474e",
+                        "on-error-container": "#93000a",
+                        "outline": "#74777f",
+                        "surface-container-high": "#e9e8e4",
+                        "primary-fixed-dim": "#afc8f0",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary-fixed": "#1a1c19"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-carousel-active {
+            transform: scale(1.05);
+            box-shadow: 0px 20px 40px rgba(27, 28, 26, 0.06);
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface selection:bg-secondary-fixed">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-50 bg-stone-50/85 dark:bg-stone-950/85 backdrop-blur-xl no-border shadow-sm shadow-[0_4px_20px_rgba(0,0,0,0.03)] flex items-center justify-between px-6 h-16">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform hover:opacity-70">
+<span class="material-symbols-outlined text-slate-950 dark:text-stone-50" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-serif text-lg tracking-tight text-slate-950 dark:text-stone-50">Detail Pesanan</h1>
+</div>
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform hover:opacity-70">
+<span class="material-symbols-outlined text-slate-950 dark:text-stone-50" data-icon="search">search</span>
+</button>
+</div>
+</header>
+<main class="max-w-2xl mx-auto pb-32 pt-6 px-6 space-y-8">
+<!-- Order Identity & Timeline -->
+<section class="space-y-6">
+<div class="flex justify-between items-start">
+<div>
+<p class="text-on-surface-variant font-medium text-sm tracking-wide">ID PESANAN</p>
+<h2 class="text-2xl font-headline font-bold text-primary">#AS-9284710</h2>
+<p class="text-on-surface-variant text-sm">Dipesan pada 24 Okt 2023, 14:20</p>
+</div>
+<div class="bg-secondary-container text-on-secondary-container px-4 py-1.5 rounded-full text-xs font-bold tracking-widest uppercase">
+                    Dikirim
+                </div>
+</div>
+<!-- Stepper Timeline -->
+<div class="relative py-4">
+<div class="absolute top-1/2 left-0 w-full h-[2px] bg-surface-container-highest -translate-y-1/2"></div>
+<div class="absolute top-1/2 left-0 w-2/3 h-[2px] bg-secondary -translate-y-1/2"></div>
+<div class="relative flex justify-between">
+<div class="flex flex-col items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-secondary ring-4 ring-surface"></div>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-secondary">Dibayar</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-secondary ring-4 ring-surface"></div>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-secondary">Diproses</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-secondary ring-4 ring-surface"></div>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-secondary">Dikirim</span>
+</div>
+<div class="flex flex-col items-center gap-2">
+<div class="w-4 h-4 rounded-full bg-surface-variant ring-4 ring-surface"></div>
+<span class="text-[10px] font-bold uppercase tracking-tighter text-on-surface-variant">Selesai</span>
+</div>
+</div>
+</div>
+</section>
+<!-- Tracking Preview Section -->
+<section class="bg-surface-container-low p-5 rounded-xl space-y-3">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="local_shipping">local_shipping</span>
+<h3 class="font-headline text-lg text-primary">Informasi Lacak</h3>
+</div>
+<div class="border-l-2 border-outline-variant/30 ml-3 pl-6 space-y-4">
+<div class="relative">
+<div class="absolute -left-[31px] top-1 w-3 h-3 rounded-full bg-secondary"></div>
+<p class="font-bold text-sm text-on-surface">Paket sedang dibawa oleh kurir [Jakarta Selatan]</p>
+<p class="text-xs text-on-surface-variant">Hari ini, 09:12</p>
+</div>
+</div>
+</section>
+<!-- Purchased Items -->
+<section class="space-y-4">
+<h3 class="font-headline text-xl text-primary">Produk Pesanan</h3>
+<div class="space-y-4">
+<!-- Item 1 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex gap-4 shadow-[0px_4px_12px_rgba(27,28,26,0.02)]">
+<img alt="Produk" class="w-20 h-20 object-cover rounded-lg" data-alt="luxury silk pillowcase in champagne color on a minimal white bed background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBhYcaWS7jvN01OABJzbeCfxtqFXnuytgeonK2XYFKhvNxCdQpW3r4YXwYzj0SB-YsAmQp4rHQX4VsZh04M70AwxkoxmPG-j1DHj6R_ky2Cfy0EzQ9hWtt8UoGfpY92-2VKAAOdrxDYK-Eeo43odott0Q8ABjld6YDZwq_yLKS3U4CjEyoEcvj0eA2HsvlFMFeytxjn-uMjgCWnsLzQYDRKixdYSIZgtLvFWMQkTiqzNlIt251z3-qByYSeGO4nxoooZKn2ACZ-EWY"/>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h4 class="font-bold text-on-surface leading-tight">Aurelian Silk Pillowcase</h4>
+<p class="text-xs text-on-surface-variant">Variant: Champagne Gold / King Size</p>
+</div>
+<div class="flex justify-between items-end">
+<p class="text-xs font-medium">1 x Rp 850.000</p>
+<p class="font-bold text-primary">Rp 850.000</p>
+</div>
+</div>
+</div>
+<!-- Item 2 -->
+<div class="bg-surface-container-lowest p-4 rounded-xl flex gap-4 shadow-[0px_4px_12px_rgba(27,28,26,0.02)]">
+<img alt="Produk" class="w-20 h-20 object-cover rounded-lg" data-alt="artisanal scented candle in a dark glass jar on a wooden surface with soft bokeh" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDfRzXHGlfi7l77Tg0trsEcQk8JhRt_ThPoOBG4-M7-JF8KTEp7K6Cbj7ytWO5xr7MvJNLkMa5x2OdxvcwhFBJqHEtr9oPbNNIxZCxMa5YYo8tmhjuFEvTADpS3NonxUqdmUkEjTiLyM0hzOaEBaO4fpPxcz0-djGLVZtnK5MREOCjS2PcvaZZrg4fYNJ8E4-zJCEDHE3Z3E-436mF8ThjVvc64h_0DoidFGZZ-o80ROzh5pQqeCVZ8gDRvGG-n4Jr8oV0fjkdKNG8"/>
+<div class="flex-1 flex flex-col justify-between">
+<div>
+<h4 class="font-bold text-on-surface leading-tight">Midnight Vetiver Candle</h4>
+<p class="text-xs text-on-surface-variant">Variant: 250g / Soy Wax</p>
+</div>
+<div class="flex justify-between items-end">
+<p class="text-xs font-medium">1 x Rp 325.000</p>
+<p class="font-bold text-primary">Rp 325.000</p>
+</div>
+</div>
+</div>
+</div>
+</section>
+<!-- Shipping & Payment Bento -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<!-- Shipping Card -->
+<section class="bg-surface-container-low p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="location_on">location_on</span>
+<h3 class="font-headline text-lg text-primary">Alamat Pengiriman</h3>
+</div>
+<div class="text-sm space-y-1">
+<p class="font-bold text-on-surface">Aditya Wijaya</p>
+<p class="text-on-surface-variant">(+62) 812-3456-7890</p>
+<p class="text-on-surface-variant leading-relaxed">
+                        Jl. Senopati No. 42, Kebayoran Baru<br/>
+                        Jakarta Selatan, DKI Jakarta 12190
+                    </p>
+</div>
+</section>
+<!-- Payment Card -->
+<section class="bg-surface-container-low p-6 rounded-xl space-y-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary" data-icon="payments">payments</span>
+<h3 class="font-headline text-lg text-primary">Metode Pembayaran</h3>
+</div>
+<div class="flex items-center gap-3">
+<div class="w-10 h-6 bg-primary rounded flex items-center justify-center">
+<span class="text-[8px] text-white font-bold tracking-widest">VISA</span>
+</div>
+<p class="text-sm font-medium text-on-surface">Kartu Kredit (**** 4242)</p>
+</div>
+<div class="pt-2">
+<div class="flex justify-between text-xs py-1">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="text-on-surface">Rp 1.175.000</span>
+</div>
+<div class="flex justify-between text-xs py-1">
+<span class="text-on-surface-variant">Ongkos Kirim</span>
+<span class="text-on-surface">Rp 25.000</span>
+</div>
+<div class="flex justify-between text-base pt-3 border-t border-outline-variant/20 mt-2">
+<span class="font-bold text-primary">Total</span>
+<span class="font-bold text-secondary">Rp 1.200.000</span>
+</div>
+</div>
+</section>
+</div>
+<!-- Support Links -->
+<div class="text-center pt-4">
+<button class="text-on-surface-variant text-sm font-medium underline decoration-outline-variant underline-offset-4 hover:text-secondary transition-colors">Ajukan Refund</button>
+</div>
+</main>
+<!-- Bottom Actions Container -->
+<div class="fixed bottom-0 left-0 w-full bg-stone-50/85 backdrop-blur-xl px-6 pt-4 pb-8 flex flex-col gap-3 shadow-[0_-10px_40px_rgba(0,0,0,0.04)] z-40 border-t border-outline-variant/10">
+<button class="w-full bg-primary text-on-primary font-bold py-4 rounded-xl active:scale-95 transition-all shadow-lg shadow-primary/10">
+            Lacak Pesanan
+        </button>
+<button class="w-full bg-surface-container-highest text-primary font-bold py-4 rounded-xl active:scale-95 transition-all">
+            Konfirmasi Pembayaran
+        </button>
+</div>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full flex justify-around items-center px-4 pt-3 pb-6 bg-stone-50/85 dark:bg-stone-950/85 backdrop-blur-xl rounded-t-[32px] z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.04)] no-border">
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 font-sans text-[10px] font-medium tracking-wide uppercase hover:text-amber-700 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span>Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 font-sans text-[10px] font-medium tracking-wide uppercase hover:text-amber-700 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span>Katalog</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-950 dark:text-stone-50 font-bold bg-stone-200/50 dark:bg-stone-800/50 rounded-full px-4 py-1 font-sans text-[10px] tracking-wide uppercase hover:text-amber-700 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="receipt_long" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span>Pesanan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 dark:text-stone-500 font-sans text-[10px] font-medium tracking-wide uppercase hover:text-amber-700 active:scale-90 transition-all duration-300">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span>Profil</span>
+</div>
+</nav>
+</body></html>

@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Layanan Kami - Atelier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;600;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #faf9f5;
+            color: #1b1c1a;
+        }
+        .font-serif { font-family: 'Noto Serif', serif; }
+        .perspective-card:hover {
+            transform: translateY(-8px) scale(1.01);
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "primary-fixed": "#d4e3ff",
+                        "surface-container-highest": "#e3e2df",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#001f3f",
+                        "on-error": "#ffffff",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "tertiary-container": "#1d1f1c",
+                        "on-tertiary-container": "#858783",
+                        "on-surface-variant": "#43474e",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-background": "#1b1c1a",
+                        "secondary": "#735c00",
+                        "on-primary-container": "#6f88ad",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-primary": "#afc8f0",
+                        "surface-container-low": "#f4f4f0",
+                        "surface-container": "#efeeea",
+                        "on-tertiary": "#ffffff",
+                        "on-secondary": "#ffffff",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-bright": "#faf9f5",
+                        "surface": "#faf9f5",
+                        "primary": "#000613",
+                        "on-primary": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "surface-tint": "#476083",
+                        "surface-variant": "#e3e2df",
+                        "surface-container-high": "#e9e8e4",
+                        "on-secondary-fixed-variant": "#574500",
+                        "tertiary": "#040604",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "error": "#ba1a1a",
+                        "inverse-on-surface": "#f2f1ed",
+                        "secondary-fixed": "#ffe088",
+                        "outline": "#74777f",
+                        "error-container": "#ffdad6",
+                        "surface-container-lowest": "#ffffff",
+                        "tertiary-fixed": "#e3e3de",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "inverse-surface": "#2f312e",
+                        "secondary-container": "#fed65b",
+                        "background": "#faf9f5",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-surface": "#1b1c1a",
+                        "outline-variant": "#c4c6cf"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    }
+                }
+            }
+        }
+    </script>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface selection:bg-secondary-fixed">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl shadow-[0_20_40px_rgba(27,28,26,0.06)] flex justify-between items-center px-6 py-4">
+<button class="text-slate-900 dark:text-slate-100 hover:opacity-70 transition-opacity duration-300">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-serif text-2xl uppercase tracking-widest text-slate-900 dark:text-slate-100">Atelier</h1>
+<button class="text-slate-900 dark:text-slate-100 hover:opacity-70 transition-opacity duration-300">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-5xl mx-auto">
+<!-- Hero Section -->
+<section class="mb-16">
+<h2 class="font-serif text-4xl lg:text-5xl text-primary tracking-tight mb-4">Layanan Kami</h2>
+<p class="text-on-surface-variant font-body text-lg max-w-2xl leading-relaxed">
+                Menghadirkan pengalaman kurasi eksklusif untuk gaya hidup Anda. Temukan layanan yang dipersonalisasi untuk setiap kebutuhan fashion dan gaya Anda.
+            </p>
+</section>
+<!-- Services Bento Grid -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-8">
+<!-- Bespoke Tailoring Card (Large Focus) -->
+<div class="md:col-span-12 lg:col-span-8 bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-[0_20px_40px_rgba(27,28,26,0.06)] group transition-all duration-500 perspective-card">
+<div class="flex flex-col md:flex-row h-full">
+<div class="md:w-1/2 relative h-80 md:h-auto overflow-hidden">
+<img alt="Bespoke Tailoring" class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="close-up of an artisan tailor working with premium navy fabric and a vintage measuring tape in a sunlit atelier" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDTFiEq2dWdfplOq48LPcKan0a3rWlVWIy_aQsU8Yn7dG0zEmWiaZ1jmcvHxOLd8PFrRmfqmD-KlVXsc9i2sKk80B_1spPAlmYOwOw3zKf90trQUndiFjd9_1Qfv-CIGpr4CUTOl8OgDHbENLhBDYzJxEUA7AttWwViXCjBfAbQxBj7SB0KZaNYBnbvujiY1m4-FmQiGhTDvZHjlCnLE0iSz9fZPQ0H1sS1DWDLTNBR8ddN5fdeZU44VfFLLq_5xLoN-4CaU-5d5jA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/20 to-transparent"></div>
+</div>
+<div class="md:w-1/2 p-8 lg:p-12 flex flex-col justify-center">
+<span class="text-secondary font-semibold tracking-widest text-xs uppercase mb-4">Paling Diminati</span>
+<h3 class="font-serif text-3xl text-primary mb-4">Bespoke Tailoring</h3>
+<p class="text-on-surface-variant font-body mb-8 leading-relaxed">
+                            Setiap jahitan mencerminkan jati diri Anda. Nikmati kemewahan pakaian yang dibuat khusus sesuai ukuran dan preferensi material terbaik dunia.
+                        </p>
+<button class="bg-primary text-on-primary px-8 py-4 rounded-xl font-bold transition-all hover:shadow-lg active:scale-95 self-start">
+                            Reservasi Konsultasi
+                        </button>
+</div>
+</div>
+</div>
+<!-- Personal Shopper Card -->
+<div class="md:col-span-6 lg:col-span-4 bg-surface-container-lowest rounded-[32px] p-8 shadow-[0_20px_40px_rgba(27,28,26,0.06)] flex flex-col perspective-card transition-all duration-500">
+<div class="w-16 h-16 bg-surface-container-low rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="stylus">stylus</span>
+</div>
+<h3 class="font-serif text-2xl text-primary mb-4">Personal Shopper</h3>
+<p class="text-on-surface-variant font-body mb-6 leading-relaxed">
+                    Pendampingan ahli untuk menemukan koleksi yang tepat bagi karakter Anda. Hemat waktu dengan kurasi yang presisi.
+                </p>
+<a class="mt-auto text-secondary font-bold flex items-center gap-2 hover:opacity-70 transition-opacity" href="#">
+                    Lihat Detail <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Gifting Experience Card -->
+<div class="md:col-span-6 lg:col-span-4 bg-surface-container-low rounded-[32px] p-8 flex flex-col perspective-card transition-all duration-500">
+<div class="w-16 h-16 bg-surface-container-lowest rounded-2xl flex items-center justify-center mb-6">
+<span class="material-symbols-outlined text-secondary text-3xl" data-icon="featured_seasonal">featured_seasonal_and_gifts</span>
+</div>
+<h3 class="font-serif text-2xl text-primary mb-4">Gifting Experience</h3>
+<p class="text-on-surface-variant font-body mb-6 leading-relaxed">
+                    Seni memberi yang tak terlupakan. Kemasan eksklusif dan kurasi hadiah personal untuk momen paling berharga.
+                </p>
+<a class="mt-auto text-secondary font-bold flex items-center gap-2 hover:opacity-70 transition-opacity" href="#">
+                    Mulai Hadiah <span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</a>
+</div>
+<!-- Concierge Services Card -->
+<div class="md:col-span-12 lg:col-span-8 bg-primary rounded-[32px] p-8 lg:p-12 relative overflow-hidden group shadow-[0_20px_40px_rgba(0,0,0,0.15)]">
+<!-- Decorative Circle -->
+<div class="absolute -top-24 -right-24 w-64 h-64 bg-secondary/10 rounded-full blur-3xl"></div>
+<div class="relative z-10 flex flex-col md:flex-row items-center gap-8">
+<div class="flex-1">
+<h3 class="font-serif text-3xl text-on-primary mb-4">Layanan Concierge 24/7</h3>
+<p class="text-on-primary/70 font-body mb-8 leading-relaxed max-w-md">
+                            Akses prioritas untuk pembersihan profesional, perawatan bahan kulit, dan pengantaran instan khusus member.
+                        </p>
+<div class="flex gap-4">
+<span class="px-4 py-2 bg-on-primary/10 border border-on-primary/20 rounded-full text-on-primary text-xs font-semibold">Home Pickup</span>
+<span class="px-4 py-2 bg-on-primary/10 border border-on-primary/20 rounded-full text-on-primary text-xs font-semibold">Priority Care</span>
+</div>
+</div>
+<div class="w-full md:w-auto">
+<button class="w-full md:w-auto bg-secondary text-on-primary px-10 py-5 rounded-2xl font-bold shadow-xl transition-all hover:bg-secondary/90 hover:-translate-y-1">
+                            Hubungi Kami
+                        </button>
+</div>
+</div>
+</div>
+</div>
+<!-- Trust Section (Editorial Style) -->
+<section class="mt-24 text-center border-t border-outline-variant/20 pt-16">
+<h4 class="font-serif text-xl italic text-on-surface-variant mb-12">"Kualitas yang melampaui tren, layanan yang melampaui ekspektasi."</h4>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-8 opacity-50 grayscale hover:grayscale-0 transition-all duration-500">
+<div class="flex justify-center items-center h-12 font-serif font-bold text-2xl italic">ELEGANTIA</div>
+<div class="flex justify-center items-center h-12 font-serif font-bold text-2xl italic">MODERNITÉ</div>
+<div class="flex justify-center items-center h-12 font-serif font-bold text-2xl italic">VOGUE</div>
+<div class="flex justify-center items-center h-12 font-serif font-bold text-2xl italic">LUXE</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pb-6 pt-3 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl rounded-t-[32px] shadow-[0_-10px_30px_rgba(0,0,0,0.03)] z-50">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="grid_view">grid_view</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Koleksi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Portfolio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-yellow-700 dark:text-yellow-600 scale-110" href="#">
+<span class="material-symbols-outlined" data-icon="concierge" style="font-variation-settings: 'FILL' 1;">concierge</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1 font-bold">Layanan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 hover:text-slate-900 dark:hover:text-slate-100 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Akun</span>
+</a>
+</nav>
+</body></html>

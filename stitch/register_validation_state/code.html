@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Daftar - The Tactile Atelier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@300;400;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#faf9f5",
+                    "secondary-fixed": "#ffe088",
+                    "secondary": "#735c00",
+                    "primary-fixed": "#d4e3ff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "error-container": "#ffdad6",
+                    "surface": "#faf9f5",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#dbdad6",
+                    "tertiary": "#040604",
+                    "on-surface-variant": "#43474e",
+                    "secondary-container": "#fed65b",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "primary": "#000613",
+                    "on-surface": "#1b1c1a",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-low": "#f4f4f0",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c1a",
+                    "outline": "#74777f",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-tint": "#476083",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-bright": "#faf9f5",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "surface-variant": "#e3e2df",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-secondary-container": "#745c00",
+                    "on-primary-container": "#6f88ad",
+                    "on-secondary-fixed": "#241a00",
+                    "inverse-on-surface": "#f2f1ed",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#e3e3de",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "outline-variant": "#c4c6cf",
+                    "surface-container-highest": "#e3e2df",
+                    "on-primary-fixed": "#001c3a",
+                    "primary-container": "#001f3f",
+                    "inverse-primary": "#afc8f0",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#efeeea"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+            vertical-align: middle;
+        }
+        .perspective-card {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+        .ghost-border {
+            border: 1px solid rgba(196, 198, 207, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background font-body text-on-surface min-h-screen flex flex-col items-center justify-center p-4 md:p-8">
+<!-- Screen 10: Register Validation State -->
+<!-- Navigation Shell Suppressed: Transactional Screen -->
+<main class="w-full max-w-5xl flex flex-col md:flex-row gap-0 overflow-hidden bg-surface-container-lowest rounded-[32px] shadow-[0_20px_40px_rgba(27,28,26,0.06)]">
+<!-- Brand/Hero Section (Asymmetric Editorial Style) -->
+<section class="hidden md:flex w-1/2 relative bg-primary items-center justify-center overflow-hidden">
+<div class="absolute inset-0 opacity-40">
+<img alt="Artisan workshop" class="w-full h-full object-cover" data-alt="Moody dark interior of a minimalist artisan studio with soft directional light hitting a textured concrete wall and a single marble pedestal." src="https://lh3.googleusercontent.com/aida-public/AB6AXuASFhJ8q-G50rj2GxzYtW1_40IAI2M7EA4OdpzWfp_8jakhRNtBnT18uPEmWGPRWZen9H84Y_Foc9lXWb_IDDNiVKtXx7Zt6RGfC4f2-VpoU8dJ2TNb9zz_ioXQmE2_vy-8Nqj-YxIbG7D1mWAV0PUxZFdeZ5AlSyMGPA5jxq3D5XQmopKWRwV9CIiN7Fa7DmDL_6SYH_FUfAazK8E1mU2kg8GsHtcrCtHst5tjr2i0yFae0upfUTSQT3XMg7L2f6q8GumwaEM4woc"/>
+</div>
+<div class="relative z-10 p-12 text-center">
+<h1 class="font-headline text-5xl text-on-primary font-light tracking-tight mb-4">The Tactile Atelier</h1>
+<p class="text-on-primary/60 font-body text-lg max-w-sm mx-auto">Kurasi estetik untuk ruang hidup yang penuh makna.</p>
+</div>
+<!-- Decorative Gold Element -->
+<div class="absolute bottom-0 left-0 w-32 h-32 bg-secondary opacity-20 blur-3xl"></div>
+</section>
+<!-- Form Section -->
+<section class="w-full md:w-1/2 p-8 md:p-16 flex flex-col justify-center">
+<div class="mb-10">
+<h2 class="font-headline text-3xl font-bold text-primary mb-2">Buat Akun Baru</h2>
+<p class="text-on-surface-variant font-body">Mulai perjalanan kurasi Anda hari ini.</p>
+</div>
+<form class="space-y-6">
+<!-- Full Name Input (Validation Error) -->
+<div class="space-y-1">
+<label class="block text-xs font-bold text-primary uppercase tracking-widest ml-1">Nama Lengkap</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-error focus:ring-secondary/40 focus:border-secondary/40 rounded-xl px-4 py-4 text-primary font-body outline-none transition-all placeholder:text-outline-variant/50 border-2" placeholder="Masukkan nama lengkap" type="text"/>
+<div class="absolute inset-y-0 right-4 flex items-center">
+<span class="material-symbols-outlined text-error">error</span>
+</div>
+</div>
+<p class="text-error text-xs font-medium mt-1 ml-1 flex items-center gap-1">
+                        Nama harus diisi
+                    </p>
+</div>
+<!-- Email Input (Validation Error) -->
+<div class="space-y-1">
+<label class="block text-xs font-bold text-primary uppercase tracking-widest ml-1">Email</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-error focus:ring-secondary/40 focus:border-secondary/40 rounded-xl px-4 py-4 text-primary font-body outline-none transition-all placeholder:text-outline-variant/50 border-2" placeholder="nama@email.com" type="email" value="user@example.com"/>
+<div class="absolute inset-y-0 right-4 flex items-center">
+<span class="material-symbols-outlined text-error">error</span>
+</div>
+</div>
+<p class="text-error text-xs font-medium mt-1 ml-1 flex items-center gap-1">
+                        Email sudah terdaftar
+                    </p>
+</div>
+<!-- Phone Input (Validation Error) -->
+<div class="space-y-1">
+<label class="block text-xs font-bold text-primary uppercase tracking-widest ml-1">Nomor HP</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-error focus:ring-secondary/40 focus:border-secondary/40 rounded-xl px-4 py-4 text-primary font-body outline-none transition-all placeholder:text-outline-variant/50 border-2" placeholder="08xx xxxx xxxx" type="tel" value="12345"/>
+<div class="absolute inset-y-0 right-4 flex items-center">
+<span class="material-symbols-outlined text-error">error</span>
+</div>
+</div>
+<p class="text-error text-xs font-medium mt-1 ml-1 flex items-center gap-1">
+                        Nomor HP tidak valid
+                    </p>
+</div>
+<!-- Password Input (Validation Error) -->
+<div class="space-y-1">
+<label class="block text-xs font-bold text-primary uppercase tracking-widest ml-1">Password</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-error focus:ring-secondary/40 focus:border-secondary/40 rounded-xl px-4 py-4 text-primary font-body outline-none transition-all placeholder:text-outline-variant/50 border-2" placeholder="Minimal 8 karakter" type="password" value="pass"/>
+<div class="absolute inset-y-0 right-4 flex items-center">
+<span class="material-symbols-outlined text-error">error</span>
+</div>
+</div>
+<p class="text-error text-xs font-medium mt-1 ml-1 flex items-center gap-1">
+                        Password minimal 8 karakter
+                    </p>
+</div>
+<div class="pt-4">
+<button class="w-full bg-primary text-on-primary font-bold py-5 rounded-xl shadow-[0_10px_20px_rgba(0,6,19,0.15)] hover:bg-primary-container transition-all active:scale-[0.98] duration-200 uppercase tracking-widest text-sm" type="submit">
+                        Daftar Akun
+                    </button>
+</div>
+</form>
+<div class="mt-8 text-center">
+<p class="text-on-surface-variant text-sm">Sudah memiliki akun? 
+                    <a class="text-secondary font-bold hover:underline ml-1" href="#">Masuk Sekarang</a>
+</p>
+</div>
+</section>
+</main>
+<!-- Contextual FAB Suppression: Transactional Screen -->
+<!-- BottomNavBar Suppression: Transactional Screen -->
+</body></html>

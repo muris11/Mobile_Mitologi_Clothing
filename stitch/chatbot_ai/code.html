@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier Assistant — Premium AI Chat</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c1a",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary-fixed": "#d4e3ff",
+                        "surface": "#faf9f5",
+                        "on-secondary": "#ffffff",
+                        "secondary-container": "#fed65b",
+                        "on-secondary-container": "#745c00",
+                        "on-surface-variant": "#43474e",
+                        "inverse-surface": "#2f312e",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "on-tertiary-container": "#858783",
+                        "on-primary-container": "#6f88ad",
+                        "surface-container-highest": "#e3e2df",
+                        "primary-container": "#001f3f",
+                        "surface-variant": "#e3e2df",
+                        "on-secondary-fixed": "#241a00",
+                        "on-error-container": "#93000a",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "surface-dim": "#dbdad6",
+                        "surface-container-high": "#e9e8e4",
+                        "surface-container": "#efeeea",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-container": "#1d1f1c",
+                        "surface-bright": "#faf9f5",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-tint": "#476083",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "primary": "#000613",
+                        "outline-variant": "#c4c6cf",
+                        "tertiary-fixed": "#e3e3de",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "tertiary": "#040604",
+                        "secondary-fixed": "#ffe088",
+                        "inverse-primary": "#afc8f0",
+                        "on-error": "#ffffff",
+                        "on-background": "#1b1c1a",
+                        "surface-container-low": "#f4f4f0",
+                        "error": "#ba1a1a",
+                        "surface-container-lowest": "#ffffff",
+                        "inverse-on-surface": "#f2f1ed",
+                        "outline": "#74777f",
+                        "secondary": "#735c00",
+                        "background": "#faf9f5",
+                        "on-secondary-fixed-variant": "#574500"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-card {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: transparent;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #e3e2df;
+            border-radius: 10px;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased min-h-screen flex flex-col">
+<!-- Top Navigation Shell -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl shadow-[0_20_40px_rgba(27,28,26,0.06)]">
+<div class="flex justify-between items-center px-6 h-16 w-full max-w-screen-xl mx-auto">
+<button class="text-slate-950 dark:text-white hover:opacity-70 transition-opacity scale-95 active:duration-150">
+<span class="material-symbols-outlined">menu</span>
+</button>
+<h1 class="font-serif italic text-2xl text-slate-950 dark:text-white tracking-tight">Atelier</h1>
+<button class="text-slate-950 dark:text-white font-semibold flex items-center gap-2 hover:opacity-70 transition-opacity scale-95 active:duration-150">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow pt-20 pb-40 px-4 md:px-8 max-w-3xl mx-auto w-full flex flex-col">
+<!-- Welcome Section -->
+<div class="mb-12 text-center">
+<div class="inline-flex items-center justify-center p-4 bg-surface-container-low rounded-full mb-4">
+<span class="material-symbols-outlined text-secondary text-3xl" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+</div>
+<h2 class="font-headline text-3xl font-bold mb-2">Pusat Bantuan AI</h2>
+<p class="text-on-surface-variant text-sm max-w-xs mx-auto">Kurator pribadi Anda untuk gaya, pesanan, dan inspirasi Atelier.</p>
+</div>
+<!-- Chat History -->
+<div class="space-y-8 flex flex-col">
+<!-- AI Message -->
+<div class="flex flex-col items-start max-w-[85%] group">
+<div class="flex items-center gap-2 mb-2 ml-1">
+<span class="text-[10px] uppercase tracking-widest font-bold text-secondary">Atelier Assistant</span>
+</div>
+<div class="bg-surface-container-lowest shadow-[0px_20px_40px_rgba(27,28,26,0.06)] p-5 rounded-tr-3xl rounded-br-3xl rounded-bl-3xl">
+<p class="text-on-surface leading-relaxed">Selamat siang. Saya siap membantu Anda menemukan koleksi terbaik atau melacak pesanan Anda. Ada yang bisa saya bantu hari ini?</p>
+</div>
+<span class="text-[10px] text-outline mt-2 ml-1">14:02</span>
+</div>
+<!-- User Message -->
+<div class="flex flex-col items-end max-w-[85%] self-end">
+<div class="flex items-center gap-2 mb-2 mr-1">
+<span class="text-[10px] uppercase tracking-widest font-bold text-on-surface-variant">Anda</span>
+</div>
+<div class="bg-primary text-on-primary p-5 rounded-tl-3xl rounded-bl-3xl rounded-br-3xl shadow-lg">
+<p class="leading-relaxed">Saya sedang mencari gaun pesta untuk acara pernikahan bulan depan. Apakah ada rekomendasi?</p>
+</div>
+<span class="text-[10px] text-outline mt-2 mr-1">14:03</span>
+</div>
+<!-- AI Message with Product Showcase (Perspective Carousel Style) -->
+<div class="flex flex-col items-start w-full">
+<div class="flex items-center gap-2 mb-2 ml-1">
+<span class="text-[10px] uppercase tracking-widest font-bold text-secondary">Atelier Assistant</span>
+</div>
+<div class="bg-surface-container-lowest shadow-[0px_20px_40px_rgba(27,28,26,0.06)] p-5 rounded-tr-3xl rounded-br-3xl rounded-bl-3xl mb-4 max-w-[85%]">
+<p class="text-on-surface leading-relaxed">Tentu. Berikut adalah beberapa koleksi gaun pesta satin terbaru kami yang sangat populer untuk acara formal:</p>
+</div>
+<!-- Horizontal Perspective Gallery -->
+<div class="flex gap-4 overflow-x-auto pb-6 pt-2 no-scrollbar w-full px-1">
+<div class="min-w-[200px] bg-white rounded-xl overflow-hidden shadow-sm perspective-card border border-outline-variant/10">
+<img class="w-full h-48 object-cover" data-alt="elegant floor-length silk evening gown in champagne gold on a minimalist mannequin with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwhCfmYUXY6Y5GLeDcjZ4LfPzYfRvKh7Oq9Dg6ooTuvmYlDQJjIuvBCsZe-371eBFcnPQvgKY6q_ns3SH3-x4aGp7KsEhIO60Sj-FcFfWuAvv5J951qrweWxYiVvCWUHTTKZTtGr9Ies7vFSpV--d3oYzCJCXYfAjdPajfO6tJApCozM6anQxbipqjlmlBbIK7O1TMk-lcYF3eTYaCLl6eWH8b69fCbjQvx8X2l-vCpdHsCJSigzCuPUArEIQ63kZb1NykJ-un5nI"/>
+<div class="p-3">
+<h4 class="font-headline text-sm font-bold">Satin Serenade</h4>
+<p class="text-secondary text-xs font-bold">Rp 2.499.000</p>
+</div>
+</div>
+<div class="min-w-[200px] bg-white rounded-xl overflow-hidden shadow-lg scale-105 z-10 border border-outline-variant/10">
+<img class="w-full h-48 object-cover" data-alt="deep navy blue velvet dress with intricate lace detailing and a high slit sophisticated luxury fashion photography" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPyXTJVZK9dWCO6Ns3ec_bLH2TQG8iXsmOmp2hZqdZaBO4atkGkfrkztYeLFRdC8cgZSyeKDr97XZdJu9aUhv5C2uOXzyWGyWsFjtBrCXM9lenttWxpprrdm70B7nTXfySabDH-52G290ODbvCgnjry6XWyKc6uV7ff_uv73R6aiw2z7qNSlf9UcEYQ7xviUt6OYR8IyiPoC9DffJcfJO-VUGVk1wooyAl6Gy8Vvtlt2e5pEx7fPDKPL-Gz2CdeTvvQMtdndQie7g"/>
+<div class="p-3">
+<h4 class="font-headline text-sm font-bold">Midnight Velvet</h4>
+<p class="text-secondary text-xs font-bold">Rp 3.150.000</p>
+</div>
+</div>
+<div class="min-w-[200px] bg-white rounded-xl overflow-hidden shadow-sm perspective-card border border-outline-variant/10">
+<img class="w-full h-48 object-cover" data-alt="minimalist white bridal reception gown with clean lines and architectural draping in a bright airy studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBklJSbsBf7UEkEEMwpAYK-Gv1SSL4JQtqdB1CGY7yimr9AOXPd-sUeukRHCQLpC7jX3Xv0Yo4ViEBvCJbQo2qjUyCKOQ9-sfDDAQ7JAqyU0MuHyjzgTDNBbk3PCfGUlZeIkkdnmW_8RO46SQrfiMKzU3nn01WlVoTcoyIl_8ciWc7rO3XoGKcznjzOA5Jx0x8QgvUfxVMWIH3U55MKrZG1vIu20uJanNtvBfjGT_e1siCnFaBWaWUcnryXr3WSG-GMXmvo1nhw5YI"/>
+<div class="p-3">
+<h4 class="font-headline text-sm font-bold">Ivory Muse</h4>
+<p class="text-secondary text-xs font-bold">Rp 2.800.000</p>
+</div>
+</div>
+</div>
+</div>
+<!-- AI Typing Indicator -->
+<div class="flex flex-col items-start">
+<div class="bg-surface-container p-4 rounded-full flex gap-1 items-center">
+<div class="w-1.5 h-1.5 bg-outline rounded-full opacity-40"></div>
+<div class="w-1.5 h-1.5 bg-outline rounded-full opacity-60"></div>
+<div class="w-1.5 h-1.5 bg-outline rounded-full opacity-100"></div>
+</div>
+</div>
+</div>
+</main>
+<!-- Interaction & Input Bar Shell -->
+<div class="fixed bottom-0 left-0 w-full z-50">
+<!-- Suggestion Chips (Floats above input) -->
+<div class="flex gap-2 overflow-x-auto px-6 pb-4 no-scrollbar max-w-3xl mx-auto">
+<button class="whitespace-nowrap px-4 py-2 bg-white/60 backdrop-blur-md border border-outline-variant/20 rounded-full text-xs font-medium text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+                Cari Gaun Pesta
+            </button>
+<button class="whitespace-nowrap px-4 py-2 bg-white/60 backdrop-blur-md border border-outline-variant/20 rounded-full text-xs font-medium text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+                Info Pengiriman
+            </button>
+<button class="whitespace-nowrap px-4 py-2 bg-white/60 backdrop-blur-md border border-outline-variant/20 rounded-full text-xs font-medium text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+                Panduan Ukuran
+            </button>
+<button class="whitespace-nowrap px-4 py-2 bg-white/60 backdrop-blur-md border border-outline-variant/20 rounded-full text-xs font-medium text-on-surface-variant hover:bg-surface-container-highest transition-colors">
+                Status Pesanan
+            </button>
+</div>
+<!-- Input Area -->
+<div class="bg-white/85 backdrop-blur-xl border-t border-outline-variant/10 px-6 pt-4 pb-8">
+<div class="max-w-3xl mx-auto flex items-center gap-3">
+<div class="relative flex-grow">
+<input class="w-full bg-surface-container-low border-none rounded-2xl py-4 px-6 text-sm focus:ring-1 focus:ring-secondary/40 placeholder:text-outline transition-all" placeholder="Tulis pesan..." type="text"/>
+<button class="absolute right-3 top-1/2 -translate-y-1/2 p-2 text-on-surface-variant hover:text-primary transition-colors">
+<span class="material-symbols-outlined">attach_file</span>
+</button>
+</div>
+<button class="bg-primary text-on-primary w-12 h-12 rounded-2xl flex items-center justify-center shadow-lg shadow-primary/20 hover:scale-105 active:scale-95 transition-all">
+<span class="material-symbols-outlined">send</span>
+</button>
+</div>
+</div>
+</div>
+<!-- Hidden Navigation Context (Not rendered as per task intent for focused chatbot, but keeping shell structure) -->
+<nav class="hidden md:flex fixed right-8 top-1/2 -translate-y-1/2 flex-col gap-8 bg-white/40 backdrop-blur-md p-4 rounded-full shadow-sm z-50">
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">home_app_logo</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">search</span></a>
+<a class="text-primary font-bold" href="#"><span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">auto_awesome</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">shopping_bag</span></a>
+<a class="text-slate-400 hover:text-primary transition-colors" href="#"><span class="material-symbols-outlined">person</span></a>
+</nav>
+</body></html>

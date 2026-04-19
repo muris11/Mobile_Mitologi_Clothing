@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Atelier — Personalization Feedback</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#1b1c1a",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "primary-fixed": "#d4e3ff",
+                    "surface": "#faf9f5",
+                    "on-secondary": "#ffffff",
+                    "secondary-container": "#fed65b",
+                    "on-secondary-container": "#745c00",
+                    "on-surface-variant": "#43474e",
+                    "inverse-surface": "#2f312e",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-primary-container": "#6f88ad",
+                    "surface-container-highest": "#e3e2df",
+                    "primary-container": "#001f3f",
+                    "surface-variant": "#e3e2df",
+                    "on-secondary-fixed": "#241a00",
+                    "on-error-container": "#93000a",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-dim": "#dbdad6",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-container": "#efeeea",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-bright": "#faf9f5",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-tint": "#476083",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary": "#000613",
+                    "outline-variant": "#c4c6cf",
+                    "tertiary-fixed": "#e3e3de",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "tertiary": "#040604",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-primary": "#afc8f0",
+                    "on-error": "#ffffff",
+                    "on-background": "#1b1c1a",
+                    "surface-container-low": "#f4f4f0",
+                    "error": "#ba1a1a",
+                    "surface-container-lowest": "#ffffff",
+                    "inverse-on-surface": "#f2f1ed",
+                    "outline": "#74777f",
+                    "secondary": "#735c00",
+                    "background": "#faf9f5",
+                    "on-secondary-fixed-variant": "#574500"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; background-color: #faf9f5; }
+        .serif { font-family: 'Noto Serif', serif; }
+        .tonal-shift-bottom { box-shadow: 0 10px 30px -10px rgba(0,0,0,0.04); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar -->
+<header class="bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0_20_40px_rgba(27,28,26,0.06)]">
+<nav class="flex justify-between items-center px-6 h-16 w-full max-w-screen-xl mx-auto">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-950 hover:opacity-70 transition-opacity cursor-pointer" data-icon="menu">menu</span>
+<span class="text-2xl font-serif italic text-slate-950 dark:text-white">Atelier</span>
+</div>
+<div class="hidden md:flex items-center gap-8">
+<a class="text-slate-950 dark:text-white font-semibold font-sans tracking-tight" href="#">Beranda</a>
+<a class="text-slate-500 dark:text-slate-400 font-sans tracking-tight hover:opacity-70 transition-opacity" href="#">AI Style</a>
+<a class="text-slate-500 dark:text-slate-400 font-sans tracking-tight hover:opacity-70 transition-opacity" href="#">Pesanan</a>
+</div>
+<span class="material-symbols-outlined text-slate-950 hover:opacity-70 transition-opacity cursor-pointer" data-icon="smart_toy">smart_toy</span>
+</nav>
+</header>
+<main class="pt-24 pb-32 px-6 max-w-screen-xl mx-auto">
+<!-- Hero Section for Context -->
+<section class="mb-12">
+<div class="relative overflow-hidden rounded-[32px] h-[400px] bg-surface-container-high">
+<img class="w-full h-full object-cover" data-alt="high-end fashion model wearing sustainable silk garment in a minimalist architectural space with soft natural lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDrxjt3CVLpmaKHUHNgA1ZzWnjKJIlfD-uM_mCQiCRMmj6xJGtSLkHQV1ej9o5yTqsfLQ6O3uxQgI6mbUDNtSF6iK2ICPijB-VAe_r42e_xsOUrPu4l7H1MDhgUlSkiEvmzqZobgZ3Yf3pnu5DrvuiYGV51df1b2tiKFkIhH9GkJedxn_fHcnQnCRwV2UPmB6GbLUyJtHLHFY3aqTi8P6o-Si74x3KpV13DY6qwJ0JwkKg_tx5cQDNXOh1ZlreDYrhjNejCMMVV22U"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/60 to-transparent flex flex-col justify-end p-10">
+<h1 class="serif italic text-4xl text-white mb-2">Kurasi Musim Gugur</h1>
+<p class="text-white/80 max-w-md font-body">Koleksi pilihan AI berdasarkan preferensi tekstur dan warna favorit Anda.</p>
+</div>
+</div>
+</section>
+<!-- Main Content Area with Bento Grid Layout -->
+<div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+<!-- Product Card 1 -->
+<div class="md:col-span-4 bg-surface-container-lowest rounded-xl p-4 shadow-[0_20px_40px_rgba(27,28,26,0.04)] group">
+<div class="relative rounded-lg overflow-hidden mb-4 h-64">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="luxury cashmere coat in soft beige draped over a designer chair in a bright studio" src="https://lh3.googleusercontent.com/aida-public/AB6AXuActmm5tOxdHJs5fVrcRl_z3TmZfk_udbKvH-yfWzUjQIYeZHXwRyCHsPORZGpoD9yw4VLzvSoVnuhHAehiqhSB_6Li6kir1f6eESoW6UXDzDGQliCSa-6PoIUUQi4RbcJ9joWz8sNC6_K2Jr4B-0L2Vg6EIsFEiYPwKaTvBP87rZX7RvGD9zg8u6w_V-J-85o3HV43Sk67q2k5yqQz_3NqCoz2ZvY9_AIEPR7ZqMegFXVZJInL6HI7qD0vZjIgQPc30QOxR_UifR0"/>
+</div>
+<h3 class="font-headline text-lg italic text-primary">Soft-Touch Cashmere</h3>
+<p class="text-secondary text-sm font-medium mb-2">Rp 2.499.000</p>
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl text-sm font-semibold tracking-wide hover:opacity-90 transition-all">Lihat Detail</button>
+</div>
+<!-- THE FEEDBACK MODULE (The Focus of the Task) -->
+<div class="md:col-span-4 bg-surface-container-low rounded-[32px] p-8 flex flex-col justify-center items-center text-center space-y-6">
+<div class="w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<div>
+<h2 class="serif text-xl mb-2">Apakah rekomendasi ini membantu?</h2>
+<p class="text-on-surface-variant text-sm font-body leading-relaxed">Umpan balik Anda membantu AI kami memahami selera estetika Anda dengan lebih baik.</p>
+</div>
+<div class="flex items-center gap-4 w-full">
+<button class="flex-1 py-4 bg-surface-container-lowest rounded-xl border border-outline-variant/20 flex flex-col items-center gap-2 hover:bg-white transition-all group">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-primary transition-colors" data-icon="thumb_up">thumb_up</span>
+<span class="text-[10px] uppercase tracking-widest font-bold">Membantu</span>
+</button>
+<button class="flex-1 py-4 bg-surface-container-lowest rounded-xl border border-outline-variant/20 flex flex-col items-center gap-2 hover:bg-white transition-all group">
+<span class="material-symbols-outlined text-slate-400 group-hover:text-error transition-colors" data-icon="thumb_down">thumb_down</span>
+<span class="text-[10px] uppercase tracking-widest font-bold">Kurang Pas</span>
+</button>
+</div>
+<button class="text-secondary font-label text-xs tracking-wide hover:underline">Lewati untuk saat ini</button>
+</div>
+<!-- Product Card 2 -->
+<div class="md:col-span-4 bg-surface-container-lowest rounded-xl p-4 shadow-[0_20px_40px_rgba(27,28,26,0.04)] group">
+<div class="relative rounded-lg overflow-hidden mb-4 h-64">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700" data-alt="high-end minimalist designer shoes in matte leather on a white marble plinth" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDFEMpwVY6aTxO1xSaXYdWqe65ywmmBzYWbo9epIZtrvHZa5IO7b_7fWCOLynaFQ5xuOftdW2iaLpGNiy6V-NpQkyAYOlM_tncBGRsju3m-n8Z363HRkdllAG9ehLYprui57J8zOpi8G-oZ5Lkigf-PxHtxUlQ8-j-EfEoyS8T2HzDRM4d9Xh7-ChuPDqjo8OgTP9vtx7HdeuQiYCWUgEJlr-6-vdix7w_IRu9hGioloeGAqXBFFqFlH6wVR2qtBI90U-Dj3x6Rp1A"/>
+</div>
+<h3 class="font-headline text-lg italic text-primary">Matte Calfskin Loafers</h3>
+<p class="text-secondary text-sm font-medium mb-2">Rp 1.850.000</p>
+<button class="w-full py-3 bg-primary text-on-primary rounded-xl text-sm font-semibold tracking-wide hover:opacity-90 transition-all">Lihat Detail</button>
+</div>
+</div>
+<!-- Subtle Feedback Module (Alternative Style) -->
+<section class="mt-12 bg-white rounded-2xl p-6 flex flex-col md:flex-row items-center justify-between gap-6 shadow-[0_10px_30px_rgba(0,0,0,0.02)]">
+<div class="flex items-center gap-4">
+<div class="p-3 bg-surface-container-low rounded-xl">
+<span class="material-symbols-outlined text-primary" data-icon="brush">brush</span>
+</div>
+<div>
+<h4 class="font-bold text-sm">Sesuaikan Gaya AI Anda</h4>
+<p class="text-xs text-on-surface-variant">Sukai produk untuk mengasah kurasi pribadi.</p>
+</div>
+</div>
+<div class="flex gap-2">
+<div class="flex items-center bg-surface-container-low rounded-full px-4 py-2 gap-3">
+<span class="text-[10px] font-bold uppercase tracking-widest">Akurasi AI</span>
+<div class="flex gap-1">
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-secondary" data-icon="star" style="font-variation-settings: 'FILL' 1;">star</span>
+<span class="material-symbols-outlined text-[16px] text-slate-300" data-icon="star">star</span>
+</div>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar -->
+<footer class="md:hidden">
+<div class="fixed bottom-0 left-0 w-full bg-white/85 dark:bg-slate-900/85 backdrop-blur-xl z-50 rounded-t-[32px] shadow-[0_-10px_30px_rgba(0,0,0,0.03)] flex justify-around items-center px-4 pt-3 pb-8">
+<a class="flex flex-col items-center gap-1 text-slate-950 dark:text-white after:content-[''] after:w-1 after:h-1 after:bg-amber-600 after:rounded-full" href="#">
+<span class="material-symbols-outlined" data-icon="home_app_logo">home_app_logo</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Beranda</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-amber-700 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Cari</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-amber-700 transition-all duration-300" href="#">
+<div class="p-2 bg-primary-container text-white rounded-full -mt-8 shadow-lg">
+<span class="material-symbols-outlined" data-icon="auto_awesome">auto_awesome</span>
+</div>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium mt-1">AI Style</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-amber-700 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Pesanan</span>
+</a>
+<a class="flex flex-col items-center gap-1 text-slate-400 dark:text-slate-500 hover:text-amber-700 transition-all duration-300" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-sans text-[10px] uppercase tracking-widest font-medium">Profil</span>
+</a>
+</div>
+</footer>
+</body></html>

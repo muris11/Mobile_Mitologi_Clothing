@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0, viewport-fit=cover" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+    tailwind.config = {
+      darkMode: "class",
+      theme: {
+        extend: {
+          "colors": {
+            "tertiary": "#040604",
+            "on-secondary-container": "#745c00",
+            "on-surface": "#1b1c1a",
+            "on-tertiary-container": "#858783",
+            "inverse-surface": "#2f312e",
+            "secondary-container": "#fed65b",
+            "on-tertiary-fixed": "#1a1c19",
+            "on-error": "#ffffff",
+            "primary": "#000613",
+            "surface-variant": "#e3e2df",
+            "surface-container-highest": "#e3e2df",
+            "surface-container-lowest": "#ffffff",
+            "error": "#ba1a1a",
+            "background": "#faf9f5",
+            "secondary": "#735c00",
+            "tertiary-container": "#1d1f1c",
+            "primary-container": "#001f3f",
+            "surface-tint": "#476083",
+            "tertiary-fixed": "#e3e3de",
+            "primary-fixed-dim": "#afc8f0",
+            "on-secondary-fixed": "#241a00",
+            "on-primary": "#ffffff",
+            "outline-variant": "#c4c6cf",
+            "error-container": "#ffdad6",
+            "surface": "#faf9f5",
+            "on-background": "#1b1c1a",
+            "on-tertiary-fixed-variant": "#454744",
+            "on-primary-fixed": "#001c3a",
+            "tertiary-fixed-dim": "#c6c7c2",
+            "secondary-fixed-dim": "#e9c349",
+            "inverse-on-surface": "#f2f1ed",
+            "surface-bright": "#faf9f5",
+            "surface-container-low": "#f4f4f0",
+            "on-secondary": "#ffffff",
+            "on-secondary-fixed-variant": "#574500",
+            "inverse-primary": "#afc8f0",
+            "secondary-fixed": "#ffe088",
+            "on-surface-variant": "#43474e",
+            "surface-dim": "#dbdad6",
+            "on-tertiary": "#ffffff",
+            "on-primary-fixed-variant": "#2f486a",
+            "surface-container-high": "#e9e8e4",
+            "primary-fixed": "#d4e3ff",
+            "on-error-container": "#93000a",
+            "outline": "#74777f",
+            "surface-container": "#efeeea",
+            "on-primary-container": "#6f88ad"
+          },
+          "borderRadius": {
+            "DEFAULT": "0.25rem",
+            "lg": "0.5rem",
+            "xl": "0.75rem",
+            "full": "9999px"
+          },
+          "fontFamily": {
+            "headline": ["Noto Serif"],
+            "body": ["Manrope"],
+            "label": ["Manrope"]
+          }
+        },
+      },
+    }
+  </script>
+<style>
+    .material-symbols-outlined {
+      font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+    }
+    .custom-shadow {
+      box-shadow: 0px 20px 40px rgba(27, 28, 26, 0.06);
+    }
+    .glass-nav {
+      background: rgba(255, 255, 255, 0.85);
+      backdrop-filter: blur(20px);
+    }
+    body {
+      font-family: 'Manrope', sans-serif;
+      -webkit-tap-highlight-color: transparent;
+    }
+    h1, h2, .font-serif {
+      font-family: 'Noto Serif', serif;
+    }
+  </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background min-h-screen pb-40">
+<!-- TopAppBar Component -->
+<header class="fixed top-0 w-full z-50 bg-[#ffffff]/85 dark:bg-[#000613]/85 backdrop-blur-xl flex items-center justify-between px-6 h-16 w-full shadow-sm shadow-[#1b1c1a]/5">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-70 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5]" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Noto_Serif'] text-lg tracking-tight font-bold text-[#000613] dark:text-[#faf9f5]">Keranjang</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:opacity-70 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5]" data-icon="more_vert">more_vert</span>
+</button>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="pt-24 px-6 space-y-6 max-w-2xl mx-auto">
+<!-- Editorial Header Section -->
+<section class="mb-8">
+<p class="text-secondary font-semibold text-xs tracking-[0.2em] uppercase mb-1">Aurelian Silk Collection</p>
+<h2 class="text-3xl font-headline text-primary">Pesanan Anda</h2>
+<div class="w-12 h-0.5 bg-secondary mt-3"></div>
+</section>
+<!-- Cart Items List -->
+<div class="space-y-4">
+<!-- Item 1: Aurelian Silk Scarf -->
+<div class="bg-surface-container-lowest rounded-[20px] p-4 flex gap-4 custom-shadow relative overflow-hidden group">
+<div class="w-24 h-32 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container-low">
+<img alt="Aurelian Silk Scarf" class="w-full h-full object-cover" data-alt="Close-up of a luxurious shimmering gold silk scarf with intricate patterns draped over a marble plinth in soft morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDoSBQ5e0HSCEKTW6VUh71qbdndyZqjFNV_j_HDSDjlQPrcpO9cGsI7Fwa1bKZJ3JhGg_Dp8GNIKCkj9fcrW4kB_lZvRwEu8Rc5RW8peP-fmAeSgHu9GjwfxuBSS5sam1-G_B9o1LmhIgV7uHqdQmc-4ASm6h02NMqUrkypU-t1targzLbprFszpX2yNulr5oAVQcBgBoa-b77lDRXrAQDUOj0QSiFk8uFwBMkEjjwuIgHPyYWbwLRMI-oWkRCzOPInPCBGJS1sik8"/>
+</div>
+<div class="flex flex-col justify-between flex-grow py-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-bold text-lg text-primary leading-tight">Aurelian Silk Scarf</h3>
+<p class="text-on-surface-variant text-sm mt-1">Champagne Gold / 120cm</p>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="flex justify-between items-end mt-4">
+<span class="text-secondary font-bold font-body">Rp 1.250.000</span>
+<!-- Stepper -->
+<div class="flex items-center bg-surface-container-low rounded-full px-2 py-1 gap-4">
+<button class="w-7 h-7 flex items-center justify-center rounded-full bg-surface-container-lowest text-primary shadow-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="remove">remove</span>
+</button>
+<span class="text-sm font-bold w-4 text-center">1</span>
+<button class="w-7 h-7 flex items-center justify-center rounded-full bg-primary text-on-primary shadow-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Item 2: Lumina Grand Chandelier -->
+<div class="bg-surface-container-lowest rounded-[20px] p-4 flex gap-4 custom-shadow relative overflow-hidden group">
+<div class="w-24 h-32 rounded-xl overflow-hidden flex-shrink-0 bg-surface-container-low">
+<img alt="Lumina Grand Chandelier" class="w-full h-full object-cover" data-alt="Minimalist crystal chandelier hanging in a warm toned elegant room, bokeh background, luxury interior design aesthetic" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD-qpbhzvl5f-nq0hAhWiJdYHmEsnZsPoDi_2UdXzB5xVNnM4q5Zcl9jysBLh76uN_E5xJ-9B1m_zWmqjDVUWF4t326Be8L7vpt0f8Rms1A7lLSjSraKv2n-I_0rFZHY1X5JaeUO6nJfChcgbunYvCUlCSJbL0gmkh1neBJ4cvMOt7dE0TfLSFfuCiq51aGz0amTvEnCEMATXIOqFCbFVDf9vk5pYuEKiEx8_KDuuLd3TUhf1fzrElt9nr27VymF2feJlG6Vt1IPIo"/>
+</div>
+<div class="flex flex-col justify-between flex-grow py-1">
+<div class="flex justify-between items-start">
+<div>
+<h3 class="font-headline font-bold text-lg text-primary leading-tight">Lumina Grand Chandelier</h3>
+<p class="text-on-surface-variant text-sm mt-1">Aurelian Gold / Small</p>
+</div>
+<button class="text-on-surface-variant hover:text-error transition-colors">
+<span class="material-symbols-outlined text-[20px]" data-icon="delete">delete</span>
+</button>
+</div>
+<div class="flex justify-between items-end mt-4">
+<span class="text-secondary font-bold font-body">Rp 4.750.000</span>
+<!-- Stepper -->
+<div class="flex items-center bg-surface-container-low rounded-full px-2 py-1 gap-4">
+<button class="w-7 h-7 flex items-center justify-center rounded-full bg-surface-container-lowest text-primary shadow-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="remove">remove</span>
+</button>
+<span class="text-sm font-bold w-4 text-center">1</span>
+<button class="w-7 h-7 flex items-center justify-center rounded-full bg-primary text-on-primary shadow-sm active:scale-90 transition-transform">
+<span class="material-symbols-outlined text-[18px]" data-icon="add">add</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Summary Section (Floating Perspective) -->
+<section class="mt-12 bg-surface-container-low rounded-[24px] p-6 space-y-4">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-secondary" data-icon="receipt_long">receipt_long</span>
+<h3 class="font-headline font-bold text-xl text-primary">Ringkasan Belanja</h3>
+</div>
+<div class="space-y-3">
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm font-medium">Subtotal (2 Produk)</span>
+<span class="font-body">Rp 6.000.000</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm font-medium">Biaya Pengiriman</span>
+<span class="font-body">Rp 0</span>
+</div>
+<div class="flex justify-between items-center text-on-surface-variant">
+<span class="text-sm font-medium">Asuransi Pengiriman</span>
+<span class="font-body">Rp 12.500</span>
+</div>
+<div class="pt-4 mt-2 border-t border-outline-variant/20 flex justify-between items-center">
+<span class="font-headline font-bold text-primary">Total Pembayaran</span>
+<span class="text-secondary font-extrabold text-xl font-body">Rp 6.012.500</span>
+</div>
+</div>
+</section>
+<!-- Voucher Field -->
+<div class="flex items-center gap-3 bg-surface-container-lowest p-4 rounded-xl shadow-sm">
+<span class="material-symbols-outlined text-secondary" data-icon="confirmation_number">confirmation_number</span>
+<span class="flex-grow text-sm font-medium text-on-surface-variant">Gunakan Kode Promo</span>
+<span class="material-symbols-outlined text-outline" data-icon="chevron_right">chevron_right</span>
+</div>
+</main>
+<!-- Persistent Bottom Action Area (The CTA & BottomNavBar) -->
+<div class="fixed bottom-0 left-0 w-full z-50">
+<!-- Primary CTA Button -->
+<div class="px-6 pb-6 pt-2 bg-gradient-to-t from-background via-background/90 to-transparent">
+<button class="w-full bg-primary text-on-primary py-4 rounded-xl font-bold flex items-center justify-center gap-3 shadow-lg active:scale-[0.98] transition-all hover:bg-primary/90">
+<span>Checkout</span>
+<span class="material-symbols-outlined" data-icon="arrow_forward">arrow_forward</span>
+</button>
+</div>
+<!-- BottomNavBar Component -->
+<nav class="bg-[#ffffff]/85 dark:bg-[#000613]/85 backdrop-blur-xl rounded-t-[20px] flex justify-around items-center px-4 py-3 pb-safe shadow-[0_-10px_30px_rgba(27,28,26,0.04)]">
+<button class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all tap-highlight-transparent active:scale-90">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Beranda</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all tap-highlight-transparent active:scale-90">
+<span class="material-symbols-outlined" data-icon="storefront">storefront</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Belanja</span>
+</button>
+<!-- Active State: Keranjang -->
+<button class="flex flex-col items-center justify-center text-[#735c00] dark:text-[#735c00] font-bold scale-110 transition-all tap-highlight-transparent active:scale-90">
+<span class="material-symbols-outlined" data-icon="shopping_cart" style="font-variation-settings: 'FILL' 1;">shopping_cart</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Keranjang</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all tap-highlight-transparent active:scale-90">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Wishlist</span>
+</button>
+<button class="flex flex-col items-center justify-center text-[#43474e] dark:text-[#c4c6cf] hover:text-[#000613] dark:hover:text-[#faf9f5] transition-all tap-highlight-transparent active:scale-90">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest mt-1">Akun</span>
+</button>
+</nav>
+</div>
+</body></html>

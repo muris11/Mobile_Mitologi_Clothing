@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Tactile Atelier - Masuk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,300;0,400;0,700;1,300&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#faf9f5",
+                        "secondary-fixed": "#ffe088",
+                        "secondary": "#735c00",
+                        "primary-fixed": "#d4e3ff",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "error-container": "#ffdad6",
+                        "surface": "#faf9f5",
+                        "on-tertiary-container": "#858783",
+                        "on-error": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "tertiary": "#040604",
+                        "on-surface-variant": "#43474e",
+                        "secondary-container": "#fed65b",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "primary": "#000613",
+                        "on-surface": "#1b1c1a",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-low": "#f4f4f0",
+                        "on-error-container": "#93000a",
+                        "error": "#ba1a1a",
+                        "on-background": "#1b1c1a",
+                        "outline": "#74777f",
+                        "tertiary-container": "#1d1f1c",
+                        "surface-tint": "#476083",
+                        "surface-container-high": "#e9e8e4",
+                        "surface-bright": "#faf9f5",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "surface-variant": "#e3e2df",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-container": "#6f88ad",
+                        "on-secondary-fixed": "#241a00",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-tertiary": "#ffffff",
+                        "tertiary-fixed": "#e3e3de",
+                        "surface-container-lowest": "#ffffff",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-primary": "#ffffff",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "outline-variant": "#c4c6cf",
+                        "surface-container-highest": "#e3e2df",
+                        "on-primary-fixed": "#001c3a",
+                        "primary-container": "#001f3f",
+                        "inverse-primary": "#afc8f0",
+                        "on-secondary": "#ffffff",
+                        "surface-container": "#efeeea"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .loading-spinner {
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top: 2px solid #ffffff;
+            width: 18px;
+            height: 18px;
+            animation: spin 0.8s linear infinite;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary-fixed">
+<header class="bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl fixed top-0 w-full z-50 flex justify-between items-center px-6 py-4 w-full no-border shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-900 dark:text-slate-50 cursor-pointer hover:opacity-70 transition-opacity" data-icon="menu">menu</span>
+<h1 class="font-serif text-2xl font-light tracking-widest uppercase text-slate-900 dark:text-slate-50">The Tactile Atelier</h1>
+</div>
+<div class="flex items-center gap-6">
+<span class="text-slate-500 dark:text-slate-400 font-sans text-sm tracking-widest uppercase cursor-pointer hover:opacity-70 transition-opacity">Cari</span>
+</div>
+</header>
+<main class="min-h-screen pt-24 pb-12 flex items-center justify-center px-6">
+<div class="max-w-md w-full">
+<div class="text-center mb-12">
+<h2 class="font-headline text-4xl mb-4 text-primary tracking-tight">Selamat Datang Kembali</h2>
+<p class="text-on-surface-variant font-light leading-relaxed">Silakan masuk untuk melanjutkan kurasi personal Anda di atelier kami.</p>
+</div>
+<div class="bg-surface-container-lowest rounded-[32px] p-8 shadow-[0px_20px_40px_rgba(27,28,26,0.04)] relative overflow-hidden">
+<div class="absolute top-0 left-0 w-full h-1 bg-surface-container-high overflow-hidden">
+<div class="h-full bg-secondary w-1/3 animate-[loading-bar_1.5s_infinite_linear]"></div>
+</div>
+<style>
+                    @keyframes loading-bar {
+                        0% { transform: translateX(-100%); }
+                        100% { transform: translateX(300%); }
+                    }
+                </style>
+<form class="space-y-6">
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.2em] font-bold text-outline ml-4" for="email">Alamat Email</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-xl px-6 py-4 text-on-surface focus:ring-1 focus:ring-secondary/40 placeholder:text-outline-variant opacity-60 cursor-not-allowed" disabled="" id="email" name="email" placeholder="nama@email.com" type="email" value="curator@atelier.com"/>
+</div>
+</div>
+<div class="space-y-2">
+<label class="block text-[10px] uppercase tracking-[0.2em] font-bold text-outline ml-4" for="password">Kata Sandi</label>
+<div class="relative">
+<input class="w-full bg-surface-container-low border-none rounded-xl px-6 py-4 text-on-surface focus:ring-1 focus:ring-secondary/40 placeholder:text-outline-variant opacity-60 cursor-not-allowed" disabled="" id="password" name="password" placeholder="Masukkan kata sandi" type="password" value="••••••••••••"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-outline-variant cursor-not-allowed" data-icon="visibility_off">visibility_off</span>
+</div>
+</div>
+<div class="flex items-center justify-between px-2">
+<div class="flex items-center gap-2">
+<input checked="" class="rounded-md border-outline-variant text-primary focus:ring-primary opacity-60" disabled="" type="checkbox"/>
+<span class="text-xs text-on-surface-variant">Ingat saya</span>
+</div>
+<a class="text-xs font-medium text-secondary hover:text-primary transition-colors cursor-not-allowed opacity-60" href="#">Lupa sandi?</a>
+</div>
+<button class="w-full bg-primary text-on-primary py-5 rounded-xl font-bold tracking-widest uppercase text-xs flex items-center justify-center gap-3 shadow-lg shadow-primary/10 transition-all cursor-not-allowed opacity-90" disabled="" type="button">
+<div class="loading-spinner"></div>
+                        Memproses...
+                    </button>
+</form>
+<div class="mt-10 pt-8 border-t border-surface-container opacity-60">
+<p class="text-center text-xs text-on-surface-variant mb-6 uppercase tracking-widest">Atau Masuk Dengan</p>
+<div class="grid grid-cols-2 gap-4">
+<button class="flex items-center justify-center gap-2 py-4 px-6 bg-surface-container-low rounded-xl hover:bg-surface-container-high transition-colors cursor-not-allowed" disabled="">
+<img alt="Google" class="w-4 h-4 grayscale opacity-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAwXJoSkCVAM7YggGlH-21sAqV9lxzmrtsKuAMLSy08S6D4rO0dN4vOYmQMpwQTRntlUSUOSGQDobuqnlsb-hD-6uobkPz_iohNtVT7vCnhE3VHByqLEntwFQU25_SvRmDR_e9DfQk1jzSuplk_1TBZq7Cean6QA_hACogzej-nonhkulyjH-MbGEMuo1b2QtoxrCukCdOyKGtkkt078yz1WYYwdOKUTQwaV7e8A8LdTNbXQPTJHwLeQrXg0YR-J8bwvAwSDV2_ehY"/>
+<span class="text-xs font-bold uppercase tracking-tighter">Google</span>
+</button>
+<button class="flex items-center justify-center gap-2 py-4 px-6 bg-surface-container-low rounded-xl hover:bg-surface-container-high transition-colors cursor-not-allowed" disabled="">
+<span class="material-symbols-outlined text-lg grayscale opacity-50" data-icon="apple" data-weight="fill">ios</span>
+<span class="text-xs font-bold uppercase tracking-tighter">Apple</span>
+</button>
+</div>
+</div>
+</div>
+<p class="mt-8 text-center text-sm text-on-surface-variant">
+                Belum memiliki akun? <a class="text-secondary font-bold hover:underline cursor-not-allowed" href="#">Daftar Sekarang</a>
+</p>
+</div>
+</main>
+<footer class="fixed bottom-12 left-0 w-full px-6 flex flex-col items-center gap-4">
+<div class="flex gap-8 items-center text-[10px] uppercase tracking-[0.2em] font-bold text-outline-variant">
+<a class="hover:text-secondary transition-colors" href="#">Kebijakan Privasi</a>
+<a class="hover:text-secondary transition-colors" href="#">Syarat &amp; Ketentuan</a>
+</div>
+<p class="text-[9px] uppercase tracking-widest text-outline-variant/60">© 2024 The Tactile Atelier. All Rights Reserved.</p>
+</footer>
+<div class="fixed inset-0 pointer-events-none z-[-1]">
+<div class="absolute top-1/4 -left-20 w-96 h-96 bg-secondary-fixed/5 rounded-full blur-[120px]"></div>
+<div class="absolute bottom-1/4 -right-20 w-96 h-96 bg-primary-fixed/5 rounded-full blur-[120px]"></div>
+</div>
+</body></html>

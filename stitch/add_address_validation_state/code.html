@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#1d1f1c",
+                    "tertiary-fixed": "#e3e3de",
+                    "inverse-primary": "#afc8f0",
+                    "inverse-on-surface": "#f2f1ed",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-highest": "#e3e2df",
+                    "primary": "#000613",
+                    "surface-container": "#efeeea",
+                    "surface-variant": "#e3e2df",
+                    "surface-container-high": "#e9e8e4",
+                    "primary-container": "#001f3f",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#6f88ad",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#040604",
+                    "secondary": "#735c00",
+                    "on-surface-variant": "#43474e",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#faf9f5",
+                    "background": "#faf9f5",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-dim": "#dbdad6",
+                    "primary-fixed": "#d4e3ff",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1b1c1a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-fixed": "#ffe088",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-secondary-container": "#745c00",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary-fixed-dim": "#afc8f0",
+                    "surface-tint": "#476083",
+                    "outline": "#74777f",
+                    "on-primary-fixed": "#001c3a",
+                    "outline-variant": "#c4c6cf",
+                    "surface-container-low": "#f4f4f0",
+                    "on-secondary-fixed-variant": "#574500",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c1a",
+                    "secondary-container": "#fed65b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        .font-noto-serif { font-family: 'Noto Serif', serif; }
+        .font-manrope { font-family: 'Manrope', sans-serif; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-24">
+<!-- TopAppBar (Shell Suppressed/Contextual Implementation) -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl shadow-[0px_4px_20px_rgba(27,28,26,0.04)]">
+<div class="flex items-center justify-between px-6 h-16 w-full">
+<div class="flex items-center gap-4">
+<button class="text-slate-950 dark:text-slate-50 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined">arrow_back</span>
+</button>
+<h1 class="font-noto-serif text-lg tracking-tight font-bold text-slate-950">Validasi Alamat</h1>
+</div>
+<div class="font-noto-serif italic font-bold text-slate-900 dark:text-white">Aurelian Silk</div>
+</div>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto">
+<!-- Progress Indicator -->
+<div class="mb-10 text-center">
+<div class="flex justify-center items-center gap-2 mb-2">
+<div class="h-1.5 w-12 rounded-full bg-primary"></div>
+<div class="h-1.5 w-12 rounded-full bg-primary"></div>
+<div class="h-1.5 w-12 rounded-full bg-outline-variant/30"></div>
+</div>
+<p class="font-manrope text-[10px] uppercase tracking-widest text-on-surface-variant font-semibold">Step 2 of 3: Alamat Pengiriman</p>
+</div>
+<!-- Form Section -->
+<div class="bg-surface-container-low rounded-3xl p-8 mb-8">
+<div class="mb-8">
+<h2 class="font-noto-serif text-2xl font-bold mb-2">Tambah Alamat Baru</h2>
+<p class="text-on-surface-variant text-sm leading-relaxed">Mohon perbaiki informasi berikut untuk melanjutkan pesanan Anda ke butik kami.</p>
+</div>
+<form class="space-y-8">
+<!-- Input Group: Nama Penerima (Error State) -->
+<div class="relative group">
+<label class="block font-manrope text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-4">Nama Penerima</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-0 rounded-xl px-5 py-4 focus:ring-1 focus:ring-error text-on-surface placeholder:text-on-surface-variant/40 shadow-sm transition-all" placeholder="Contoh: Siti Aminah" type="text" value=""/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-error text-[20px]">error</span>
+</div>
+<p class="mt-2 ml-4 text-[12px] text-error font-medium flex items-center gap-1">
+                        Nama penerima harus diisi
+                    </p>
+</div>
+<!-- Input Group: Nomor Handphone (Error State) -->
+<div class="relative group">
+<label class="block font-manrope text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-4">Nomor Handphone</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-0 rounded-xl px-5 py-4 focus:ring-1 focus:ring-error text-on-surface placeholder:text-on-surface-variant/40 shadow-sm transition-all" placeholder="08xx xxxx xxxx" type="tel" value="0812"/>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-error text-[20px]">warning</span>
+</div>
+<p class="mt-2 ml-4 text-[12px] text-error font-medium">Nomor HP tidak valid (minimal 10 digit)</p>
+</div>
+<!-- Input Group: Alamat Lengkap (Normal State) -->
+<div class="relative group">
+<label class="block font-manrope text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-4">Alamat Lengkap</label>
+<textarea class="w-full bg-surface-container-lowest border-0 rounded-xl px-5 py-4 focus:ring-1 focus:ring-secondary/40 text-on-surface placeholder:text-on-surface-variant/40 shadow-sm transition-all" placeholder="Nama jalan, nomor rumah, RT/RW..." rows="3"></textarea>
+</div>
+<!-- Input Group: Kota & Kode Pos (Perspective Layout) -->
+<div class="grid grid-cols-2 gap-4">
+<div class="relative group">
+<label class="block font-manrope text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-4">Kota</label>
+<div class="relative">
+<select class="w-full appearance-none bg-surface-container-lowest border-0 rounded-xl px-5 py-4 focus:ring-1 focus:ring-secondary/40 text-on-surface-variant/60 shadow-sm transition-all">
+<option>Pilih Kota</option>
+</select>
+<span class="material-symbols-outlined absolute right-4 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+</div>
+</div>
+<div class="relative group">
+<label class="block font-manrope text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-2 ml-4 text-error">Kode Pos</label>
+<div class="relative">
+<input class="w-full bg-surface-container-lowest border-0 rounded-xl px-5 py-4 focus:ring-1 focus:ring-error text-on-surface placeholder:text-on-surface-variant/40 shadow-sm transition-all border-error/20" placeholder="XXXXX" type="text"/>
+</div>
+<p class="mt-2 ml-2 text-[11px] text-error font-medium">Wajib diisi</p>
+</div>
+</div>
+<!-- Label Selection -->
+<div>
+<label class="block font-manrope text-[11px] font-bold uppercase tracking-widest text-on-surface-variant mb-4 ml-4">Simpan Sebagai</label>
+<div class="flex gap-3">
+<button class="px-6 py-3 rounded-full bg-primary text-on-primary text-xs font-bold uppercase tracking-widest shadow-lg" type="button">Rumah</button>
+<button class="px-6 py-3 rounded-full bg-surface-container-highest text-on-surface-variant text-xs font-bold uppercase tracking-widest hover:bg-surface-container-high transition-colors" type="button">Kantor</button>
+</div>
+</div>
+<!-- Main CTA -->
+<button class="w-full bg-primary text-on-primary py-5 rounded-2xl font-manrope font-bold uppercase tracking-[0.2em] shadow-[0px_20px_40px_rgba(0,6,19,0.2)] hover:scale-[1.02] transition-transform flex items-center justify-center gap-2" type="submit">
+                    Perbarui Alamat
+                    <span class="material-symbols-outlined text-[18px]">chevron_right</span>
+</button>
+</form>
+</div>
+<!-- Secondary Info Card (Bento Style) -->
+<div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-6 rounded-3xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-secondary">local_shipping</span>
+</div>
+<div>
+<h4 class="font-manrope text-sm font-bold">Kurir Kilat</h4>
+<p class="text-[12px] text-on-surface-variant">Pengiriman 1-2 hari kerja untuk area Jawa.</p>
+</div>
+</div>
+<div class="bg-surface-container-low p-6 rounded-3xl flex items-center gap-4">
+<div class="w-12 h-12 rounded-2xl bg-white flex items-center justify-center shadow-sm">
+<span class="material-symbols-outlined text-secondary">verified_user</span>
+</div>
+<div>
+<h4 class="font-manrope text-sm font-bold">Garansi Tekstil</h4>
+<p class="text-[12px] text-on-surface-variant">Proteksi penuh untuk sutra murni Anda.</p>
+</div>
+</div>
+</div>
+</main>
+<!-- Bottom Navigation (Contextually Suppressed in Form, but kept per global logic if needed) -->
+<!-- Suppressed for transactional focus on Form page -->
+</body></html>

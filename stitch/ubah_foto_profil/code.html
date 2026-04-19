@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Ubah Foto Profil - The Tactile Atelier</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface": "#1b1c1a",
+                        "surface-container-highest": "#e3e2df",
+                        "surface-bright": "#faf9f5",
+                        "surface-container-low": "#f4f4f0",
+                        "surface-container-lowest": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-tint": "#476083",
+                        "on-error-container": "#93000a",
+                        "primary-container": "#001f3f",
+                        "on-surface-variant": "#43474e",
+                        "outline-variant": "#c4c6cf",
+                        "on-primary-container": "#6f88ad",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "on-secondary-container": "#745c00",
+                        "background": "#faf9f5",
+                        "on-background": "#1b1c1a",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "inverse-surface": "#2f312e",
+                        "surface-variant": "#e3e2df",
+                        "tertiary": "#040604",
+                        "on-error": "#ffffff",
+                        "on-tertiary": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "on-secondary": "#ffffff",
+                        "secondary": "#735c00",
+                        "secondary-container": "#fed65b",
+                        "inverse-primary": "#afc8f0",
+                        "on-primary-fixed": "#001c3a",
+                        "tertiary-container": "#1d1f1c",
+                        "outline": "#74777f",
+                        "on-secondary-fixed-variant": "#574500",
+                        "primary-fixed-dim": "#afc8f0",
+                        "primary": "#000613",
+                        "secondary-fixed": "#ffe088",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "secondary-fixed-dim": "#e9c349",
+                        "on-secondary-fixed": "#241a00",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "primary-fixed": "#d4e3ff",
+                        "surface": "#faf9f5",
+                        "tertiary-fixed": "#e3e3de",
+                        "surface-container": "#efeeea",
+                        "on-tertiary-container": "#858783",
+                        "surface-container-high": "#e9e8e4"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-carousel-item {
+            transition: all 0.3s ease;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #faf9f5;
+        }
+        h1, h2, h3 {
+            font-family: 'Noto Serif', serif;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col items-center">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-sm shadow-[#1b1c1a]/5 flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 duration-200 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined text-[#000613]" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Noto_Serif'] text-lg tracking-tight font-bold text-[#000613]">Ubah Foto Profil</h1>
+</div>
+<button class="active:scale-95 duration-200 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined text-[#000613]" data-icon="settings">settings</span>
+</button>
+</header>
+<main class="w-full max-w-md pt-24 pb-32 px-6 flex flex-col items-center">
+<!-- Avatar Preview Section -->
+<div class="relative mt-8 mb-12">
+<!-- Decorative Glow/Halo -->
+<div class="absolute inset-0 bg-secondary/10 rounded-full blur-3xl transform scale-150"></div>
+<div class="relative w-56 h-56 rounded-full p-1 bg-gradient-to-tr from-secondary to-surface shadow-2xl overflow-hidden">
+<div class="w-full h-full rounded-full overflow-hidden bg-surface-container-highest">
+<img alt="Foto Profil Saat Ini" class="w-full h-full object-cover" data-alt="Elegant close-up portrait of a sophisticated man in soft cinematic lighting against a minimal cream background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBL6QvsqvOb6Tis-BxZL4iI5wBRAhkS8EQsyJGAcL9LNJiDSBfCTRAWZT3wOs6AKWllBKDnYti6gA5LQT6DY7GSTrLX6bcCvqntsOZqm2_vREc5k2A-OWna3lsU6Q_5yvlO4KNz1LMemGTgyxOD2OZrBSEIvpITgi-E5RblfBGHAL7g6FabxZMurawnmgAvMxC6_0X7xnmtUBtjd70RZ6p4M3IOFqHhwjdsYvtS90F4ItyHaWA_g6gX3x6_KdiNYHu4N-cxYNdSF4U"/>
+</div>
+</div>
+<!-- Floating Badge -->
+<div class="absolute -bottom-2 right-4 bg-primary text-on-primary p-3 rounded-full shadow-lg border-4 border-surface">
+<span class="material-symbols-outlined text-sm" data-icon="photo_camera" style="font-variation-settings: 'FILL' 1;">photo_camera</span>
+</div>
+</div>
+<!-- Action Options -->
+<div class="w-full space-y-4">
+<!-- Take Photo Card -->
+<button class="w-full flex items-center gap-5 p-5 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all active:scale-[0.98] duration-200 group">
+<div class="w-12 h-12 flex items-center justify-center rounded-xl bg-surface-container-low group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary-container" data-icon="camera">camera</span>
+</div>
+<div class="flex-1 text-left">
+<p class="text-on-surface font-semibold text-lg">Ambil Foto</p>
+<p class="text-on-surface-variant text-sm">Gunakan kamera untuk foto baru</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Choose from Gallery Card -->
+<button class="w-full flex items-center gap-5 p-5 rounded-xl bg-surface-container-lowest shadow-sm hover:shadow-md transition-all active:scale-[0.98] duration-200 group">
+<div class="w-12 h-12 flex items-center justify-center rounded-xl bg-surface-container-low group-hover:bg-primary-container transition-colors">
+<span class="material-symbols-outlined text-primary group-hover:text-on-primary-container" data-icon="gallery_thumbnail">gallery_thumbnail</span>
+</div>
+<div class="flex-1 text-left">
+<p class="text-on-surface font-semibold text-lg">Pilih dari Galeri</p>
+<p class="text-on-surface-variant text-sm">Cari foto dari penyimpanan lokal</p>
+</div>
+<span class="material-symbols-outlined text-outline-variant" data-icon="chevron_right">chevron_right</span>
+</button>
+<!-- Spacing for separation -->
+<div class="pt-4"></div>
+<!-- Delete Photo Card -->
+<button class="w-full flex items-center gap-5 p-5 rounded-xl bg-error-container/20 border border-error/5 hover:bg-error-container/30 transition-all active:scale-[0.98] duration-200 group">
+<div class="w-12 h-12 flex items-center justify-center rounded-xl bg-error-container/50">
+<span class="material-symbols-outlined text-error" data-icon="delete">delete</span>
+</div>
+<div class="flex-1 text-left">
+<p class="text-error font-semibold text-lg">Hapus Foto</p>
+<p class="text-on-error-container/70 text-sm">Kembalikan ke avatar default</p>
+</div>
+</button>
+</div>
+<!-- Tip Text -->
+<p class="mt-12 text-center text-on-surface-variant/60 font-medium text-xs uppercase tracking-widest px-8">
+            Foto profil Anda akan terlihat oleh seluruh komunitas The Tactile Atelier
+        </p>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 bg-[#ffffff]/85 backdrop-blur-xl rounded-t-[32px] shadow-[0_-10px_30px_rgba(27,28,26,0.04)] shadow-xl flex justify-around items-center pt-3 pb-8 px-4 w-full">
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:text-[#735c00] transition-colors active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="home_app_logo">home_app_logo</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:text-[#735c00] transition-colors active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Koleksi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:text-[#735c00] transition-colors active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Keranjang</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#735c00] font-bold active:scale-90 duration-300" href="#">
+<span class="material-symbols-outlined mb-1" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Profil</span>
+</a>
+</nav>
+</body></html>

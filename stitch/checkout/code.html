@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#1d1f1c",
+                    "tertiary-fixed": "#e3e3de",
+                    "inverse-primary": "#afc8f0",
+                    "inverse-on-surface": "#f2f1ed",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-highest": "#e3e2df",
+                    "primary": "#000613",
+                    "surface-container": "#efeeea",
+                    "surface-variant": "#e3e2df",
+                    "surface-container-high": "#e9e8e4",
+                    "primary-container": "#001f3f",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#6f88ad",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#040604",
+                    "secondary": "#735c00",
+                    "on-surface-variant": "#43474e",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#faf9f5",
+                    "background": "#faf9f5",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-dim": "#dbdad6",
+                    "primary-fixed": "#d4e3ff",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1b1c1a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-fixed": "#ffe088",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-secondary-container": "#745c00",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary-fixed-dim": "#afc8f0",
+                    "surface-tint": "#476083",
+                    "outline": "#74777f",
+                    "on-primary-fixed": "#001c3a",
+                    "outline-variant": "#c4c6cf",
+                    "surface-container-low": "#f4f4f0",
+                    "on-secondary-fixed-variant": "#574500",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c1a",
+                    "secondary-container": "#fed65b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+      }
+      .no-scrollbar::-webkit-scrollbar { display: none; }
+      .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body min-h-screen flex flex-col items-center">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl shadow-[0px_4px_20px_rgba(27,28,26,0.04)]">
+<div class="flex items-center justify-between px-6 h-16 w-full max-w-2xl mx-auto">
+<div class="flex items-center">
+<span class="material-symbols-outlined text-slate-950 dark:text-slate-50 cursor-pointer hover:opacity-70 transition-opacity">arrow_back</span>
+</div>
+<h1 class="font-headline italic font-bold text-slate-900 dark:text-white text-lg tracking-tight">Aurelian Silk</h1>
+<div class="w-6"></div> <!-- Spacer for center alignment -->
+</div>
+</header>
+<main class="w-full max-w-2xl px-6 pt-24 pb-40 flex flex-col gap-8">
+<!-- Screen Title -->
+<div class="flex flex-col gap-1">
+<h2 class="font-headline text-3xl font-bold text-primary tracking-tight">Checkout</h2>
+<p class="text-on-surface-variant font-light text-sm">Selesaikan pesanan eksklusif Anda</p>
+</div>
+<!-- Section 1: Delivery Address -->
+<section class="flex flex-col gap-4">
+<div class="flex justify-between items-end px-1">
+<span class="font-label font-bold text-xs uppercase tracking-[0.2em] text-secondary">Alamat Pengiriman</span>
+<button class="text-xs font-semibold text-primary hover:text-secondary transition-colors underline underline-offset-4">Ubah Alamat</button>
+</div>
+<div class="bg-surface-container-low p-6 rounded-xl shadow-[0px_10px_30px_rgba(27,28,26,0.02)] relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-5xl">location_on</span>
+</div>
+<div class="relative z-10 flex flex-col gap-3">
+<div class="flex items-center gap-2">
+<span class="font-bold text-primary">Rumah (Utama)</span>
+<span class="px-2 py-0.5 bg-surface-container-highest text-[10px] font-bold rounded-full uppercase tracking-tighter">Default</span>
+</div>
+<div class="flex flex-col text-sm text-on-surface-variant leading-relaxed">
+<span class="font-medium text-on-surface">Aditya Wijaya — +62 812 3456 7890</span>
+<p>Jl. Senopati Raya No. 42, Kebayoran Baru, Jakarta Selatan, DKI Jakarta, 12190</p>
+</div>
+</div>
+</div>
+</section>
+<!-- Section 2: Payment Method -->
+<section class="flex flex-col gap-4">
+<span class="font-label font-bold text-xs uppercase tracking-[0.2em] text-secondary px-1">Metode Pembayaran</span>
+<div class="bg-surface-container-lowest p-6 rounded-xl shadow-[0px_20px_40px_rgba(27,28,26,0.06)] flex items-center justify-between border border-outline-variant/10 cursor-pointer group hover:bg-surface-container-low transition-colors">
+<div class="flex items-center gap-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-high flex items-center justify-center text-primary">
+<span class="material-symbols-outlined">account_balance_wallet</span>
+</div>
+<div class="flex flex-col">
+<span class="font-bold text-primary">Virtual Account BCA</span>
+<span class="text-xs text-on-surface-variant">Terverifikasi Otomatis</span>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-sm font-semibold text-secondary">Pilih Metode</span>
+<span class="material-symbols-outlined text-outline text-sm transition-transform group-hover:translate-x-1">chevron_right</span>
+</div>
+</div>
+</section>
+<!-- Section 3: Notes -->
+<section class="flex flex-col gap-4">
+<span class="font-label font-bold text-xs uppercase tracking-[0.2em] text-secondary px-1">Catatan</span>
+<div class="relative">
+<textarea class="w-full bg-surface-container-low border-0 rounded-xl p-5 text-sm focus:ring-1 focus:ring-secondary/40 min-h-[100px] placeholder:text-on-surface-variant/50 placeholder:font-light resize-none" placeholder="Tambah catatan untuk penjual..."></textarea>
+<div class="absolute bottom-4 right-4 opacity-20 pointer-events-none">
+<span class="material-symbols-outlined">edit_note</span>
+</div>
+</div>
+</section>
+<!-- Section 4: Order Summary -->
+<section class="flex flex-col gap-4">
+<span class="font-label font-bold text-xs uppercase tracking-[0.2em] text-secondary px-1">Ringkasan Pesanan</span>
+<div class="bg-surface-container-low rounded-xl p-6 flex flex-col gap-4">
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Subtotal</span>
+<span class="font-medium text-primary tracking-tight">Rp 2.450.000</span>
+</div>
+<div class="flex justify-between items-center text-sm">
+<span class="text-on-surface-variant">Biaya Pengiriman</span>
+<span class="font-medium text-primary tracking-tight">Rp 50.000</span>
+</div>
+<div class="h-[1px] bg-outline-variant/20 my-1"></div>
+<div class="flex justify-between items-center">
+<span class="font-bold text-primary">Total Pembayaran</span>
+<span class="font-headline font-bold text-xl text-primary tracking-tight">Rp 2.500.000</span>
+</div>
+</div>
+</section>
+</main>
+<!-- Sticky Bottom CTA -->
+<div class="fixed bottom-0 left-0 w-full z-50 pointer-events-none">
+<div class="max-w-2xl mx-auto w-full px-6 pb-10 pt-6 bg-gradient-to-t from-surface via-surface/95 to-transparent pointer-events-auto">
+<button class="w-full bg-primary text-on-primary py-5 rounded-xl font-bold uppercase tracking-[0.15em] text-sm shadow-[0px_10px_30px_rgba(0,6,19,0.25)] hover:scale-[0.98] transition-transform flex items-center justify-center gap-3">
+<span>Bayar Sekarang</span>
+<span class="material-symbols-outlined text-lg">arrow_forward</span>
+</button>
+</div>
+</div>
+<!-- Hidden decorative elements for visual depth -->
+<div class="fixed -top-24 -left-24 w-64 h-64 bg-secondary/5 rounded-full blur-3xl -z-10"></div>
+<div class="fixed -bottom-24 -right-24 w-96 h-96 bg-primary/5 rounded-full blur-3xl -z-10"></div>
+</body></html>

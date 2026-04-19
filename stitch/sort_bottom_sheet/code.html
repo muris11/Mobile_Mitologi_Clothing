@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#001f3f",
+                    "on-secondary-container": "#745c00",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e3e2df",
+                    "tertiary": "#040604",
+                    "surface-container-low": "#f4f4f0",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e3e2df",
+                    "secondary-fixed": "#ffe088",
+                    "primary-fixed-dim": "#afc8f0",
+                    "inverse-primary": "#afc8f0",
+                    "tertiary-fixed": "#e3e3de",
+                    "surface": "#faf9f5",
+                    "on-surface-variant": "#43474e",
+                    "primary-fixed": "#d4e3ff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#476083",
+                    "on-surface": "#1b1c1a",
+                    "on-secondary-fixed": "#241a00",
+                    "tertiary-container": "#1d1f1c",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-primary-fixed": "#001c3a",
+                    "secondary": "#735c00",
+                    "error-container": "#ffdad6",
+                    "on-background": "#1b1c1a",
+                    "inverse-on-surface": "#f2f1ed",
+                    "secondary-container": "#fed65b",
+                    "surface-container": "#efeeea",
+                    "primary": "#000613",
+                    "outline-variant": "#c4c6cf",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary": "#ffffff",
+                    "background": "#faf9f5",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-dim": "#dbdad6",
+                    "inverse-surface": "#2f312e",
+                    "outline": "#74777f",
+                    "on-primary-container": "#6f88ad"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .perspective-card {
+            transform: perspective(1000px) rotateY(-5deg);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface min-h-screen overflow-hidden">
+<!-- Background Content (Simulated Search Results) -->
+<div class="fixed inset-0 z-0 px-6 pt-24 pb-32">
+<div class="flex items-center justify-between mb-8">
+<h1 class="font-headline text-3xl font-bold tracking-tight text-primary">Atelier Essentials</h1>
+<span class="material-symbols-outlined text-primary" data-icon="filter_list">filter_list</span>
+</div>
+<!-- Asymmetric Bento Grid for Background -->
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_20px_40px_rgba(27,28,26,0.04)]">
+<div class="aspect-[3/4] rounded-lg overflow-hidden mb-3">
+<img class="w-full h-full object-cover" data-alt="minimalist wooden chair in a sunlit art studio with long shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBPfSE4RJr_c-u1udPZHR0JpetdC-8rEGklsLpvaBeijKNd3ZJ_BEbydcTi7iUNFJKLve-6ywSbpTacazrUGxlLccmGVUZmhsLmv6_KSfeRr3pPwxlIKS3IiPQ4NBuusYt9zbyLxJwlD3PDhWudwtsYUHnT5k3ZQ8Ghk10rvJy7-4GEPOlzkdMOgf95ucnC1gMhLeqKyO52-wRaTwxR6GclE4Xivw-ldbqiBvRf9ypH3dWVXW3dTLo3hX_0VCKMTLrp-BpLpW3fP-Y"/>
+</div>
+<p class="font-headline text-lg">Kursi Kayu Jati</p>
+<p class="text-secondary font-medium">Rp 2.450.000</p>
+</div>
+<div class="space-y-4">
+<div class="bg-surface-container-lowest rounded-xl p-4 shadow-[0px_20px_40px_rgba(27,28,26,0.04)] mt-8">
+<div class="aspect-square rounded-lg overflow-hidden mb-3">
+<img class="w-full h-full object-cover" data-alt="abstract expressionist painting with gold leaf accents on a white wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuB8eqRw44TGBrFWbwSZ336afLmc56iBixmncNYacaCaw8ZTZw20shkcGRWzr5jXql1xyw6wLRvVgMTN1lNHk_y-wkZzqOw5wApf_OScK77nxnt--17K3e1O4CkncTY08p1gEbLx-UpWQllkLRvfTN_2C64LC6Gfv-41z-1Bh3bUkGOmNYmYGPO05jrVUDpXH0_mO-6pwLLMz5fOceDasdyI6UelzIRe2Cnz_YKvwOGUInf5HRgvLIQyzPwelGFnmDxRujrR_ZCo93I"/>
+</div>
+<p class="font-headline text-lg">Lukisan Kanvas</p>
+<p class="text-secondary font-medium">Rp 5.100.000</p>
+</div>
+</div>
+</div>
+</div>
+<!-- Overlay / Backdrop -->
+<div class="fixed inset-0 bg-primary/20 backdrop-blur-sm z-40"></div>
+<!-- Bottom Sheet Shell -->
+<div class="fixed bottom-0 left-0 w-full z-50 bg-surface-container-lowest rounded-t-[40px] shadow-[0px_-20px_60px_rgba(27,28,26,0.12)] max-h-[751px] overflow-hidden flex flex-col">
+<!-- Handlebar -->
+<div class="w-full flex justify-center pt-4 pb-2">
+<div class="w-12 h-1.5 bg-outline-variant/30 rounded-full"></div>
+</div>
+<!-- Content Header -->
+<div class="px-8 pt-4 pb-6">
+<h2 class="font-headline text-2xl font-bold text-primary tracking-tight">Urutkan Berdasarkan</h2>
+</div>
+<!-- Sort Options List -->
+<div class="flex-1 overflow-y-auto px-6 pb-12">
+<div class="space-y-2">
+<!-- Option 1: Selected -->
+<div class="group flex items-center justify-between p-5 rounded-xl bg-surface-container-low transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full border-2 border-secondary flex items-center justify-center p-0.5">
+<div class="w-full h-full rounded-full bg-secondary"></div>
+</div>
+<span class="font-body text-lg font-semibold text-primary">Paling Relevan</span>
+</div>
+<span class="material-symbols-outlined text-secondary scale-110" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<!-- Option 2 -->
+<div class="group flex items-center justify-between p-5 rounded-xl hover:bg-surface-container-low transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+<span class="font-body text-lg font-medium text-on-surface-variant group-hover:text-primary transition-colors">Harga Terendah</span>
+</div>
+</div>
+<!-- Option 3 -->
+<div class="group flex items-center justify-between p-5 rounded-xl hover:bg-surface-container-low transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+<span class="font-body text-lg font-medium text-on-surface-variant group-hover:text-primary transition-colors">Harga Tertinggi</span>
+</div>
+</div>
+<!-- Option 4 -->
+<div class="group flex items-center justify-between p-5 rounded-xl hover:bg-surface-container-low transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+<span class="font-body text-lg font-medium text-on-surface-variant group-hover:text-primary transition-colors">Terbaru</span>
+</div>
+</div>
+<!-- Option 5 -->
+<div class="group flex items-center justify-between p-5 rounded-xl hover:bg-surface-container-low transition-all duration-300">
+<div class="flex items-center gap-4">
+<div class="w-6 h-6 rounded-full border-2 border-outline-variant group-hover:border-primary transition-colors"></div>
+<span class="font-body text-lg font-medium text-on-surface-variant group-hover:text-primary transition-colors">Terlaris</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Action Button -->
+<div class="px-8 py-6 bg-surface-container-lowest/80 backdrop-blur-md">
+<button class="w-full bg-primary text-on-primary py-5 rounded-xl font-bold tracking-wider text-lg shadow-[0px_10px_30px_rgba(0,6,19,0.15)] active:scale-95 transition-transform">
+                Terapkan Filter
+            </button>
+</div>
+</div>
+<!-- Navigation Shell (Suppressed based on Transactional UI rule but TopAppBar included for brand context) -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 dark:bg-[#000613]/85 backdrop-blur-xl flex items-center justify-between px-6 py-4 w-full shadow-[0px_20px_40px_rgba(27,28,26,0.04)]">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5]" data-icon="menu">menu</span>
+<span class="font-['Noto_Serif'] text-xl font-bold text-[#000613] dark:text-[#faf9f5]">The Atelier</span>
+</div>
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-[#000613] dark:text-[#faf9f5]" data-icon="search">search</span>
+<div class="w-8 h-8 rounded-full bg-surface-variant overflow-hidden border border-outline/10">
+<img class="w-full h-full object-cover" data-alt="professional portrait of a woman in a curated gallery setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBcf_Gl7bctEZbDSMat2musH7f-TIcUm4JEwpQRV5sEEqLld6xdRw4MyU1RXZ3xS35C4yY_cI7fzWYUNGjpXE5kMcGjrEXGNny3SWb_Czx486tsndAIRPi-RwqDsauY-cEcPb3dSQAt9Z9k8PlxNQe3Jij-ICCgs-6xW_PHtoZri_E7rkAT6_eh4zYUahCSaGEVI-ZPGz1P0VRc_c1p6nmMs23jYcQThauqc2eFGrbCq3bKZjpq6ZaT46HQz0VFG26VxNXX8JthlM8"/>
+</div>
+</div>
+</header>
+</body></html>

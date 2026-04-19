@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>The Tactile Atelier - Onboarding</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,100..900;1,100..900&amp;family=Manrope:wght@200..800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "background": "#faf9f5",
+                    "secondary-fixed": "#ffe088",
+                    "secondary": "#735c00",
+                    "primary-fixed": "#d4e3ff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "error-container": "#ffdad6",
+                    "surface": "#faf9f5",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "surface-dim": "#dbdad6",
+                    "tertiary": "#040604",
+                    "on-surface-variant": "#43474e",
+                    "secondary-container": "#fed65b",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "primary": "#000613",
+                    "on-surface": "#1b1c1a",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-low": "#f4f4f0",
+                    "on-error-container": "#93000a",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c1a",
+                    "outline": "#74777f",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-tint": "#476083",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-bright": "#faf9f5",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "surface-variant": "#e3e2df",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-secondary-container": "#745c00",
+                    "on-primary-container": "#6f88ad",
+                    "on-secondary-fixed": "#241a00",
+                    "inverse-on-surface": "#f2f1ed",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed": "#e3e3de",
+                    "surface-container-lowest": "#ffffff",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-primary": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "outline-variant": "#c4c6cf",
+                    "surface-container-highest": "#e3e2df",
+                    "on-primary-fixed": "#001c3a",
+                    "primary-container": "#001f3f",
+                    "inverse-primary": "#afc8f0",
+                    "on-secondary": "#ffffff",
+                    "surface-container": "#efeeea"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; background-color: #faf9f5; color: #1b1c1a; }
+        .serif { font-family: 'Noto Serif', serif; }
+        .glass-nav {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .perspective-card {
+            transform: perspective(1000px) rotateY(-5deg) scale(0.95);
+            transition: transform 0.6s ease-out;
+        }
+        .perspective-card-active {
+            transform: perspective(1000px) rotateY(0deg) scale(1);
+            box-shadow: 0px 20px 40px rgba(27, 28, 26, 0.08);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="min-h-screen flex flex-col overflow-hidden">
+<!-- Top Navigation Anchor (As per Shell Visibility Rule: Suppressed on Onboarding) -->
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center relative px-6 pt-12 pb-24 max-w-lg mx-auto w-full">
+<!-- Hero Section: Curated Discovery -->
+<div class="relative w-full aspect-[4/5] mb-12 flex items-center justify-center">
+<!-- Background Layered Elements for Depth -->
+<div class="absolute -top-4 -left-4 w-32 h-32 bg-surface-container rounded-full opacity-60"></div>
+<div class="absolute bottom-10 -right-6 w-48 h-48 bg-surface-container-high rounded-3xl rotate-12 opacity-40"></div>
+<!-- Perspective Gallery Mockup -->
+<div class="relative w-full h-full flex items-center justify-center">
+<!-- Side Image (Perspective) -->
+<div class="absolute left-0 w-2/3 h-[80%] z-0 rounded-xl overflow-hidden opacity-40 perspective-card">
+<img class="w-full h-full object-cover" data-alt="Modern minimalist fashion editorial photography of luxury ceramic vases on a textured plinth with dramatic shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDcjXfHbH3kILD2INOtrzNd_EanoFLHFSaWW2_xl2OEI2xbVQuXXHTi50Qv5uokHkZP77zzU2i0o1we-E5bb4NxmEU0IzjJvLwmbGZg-WA-aASHBmSYVhmUTFaypJ1oTJBa4UZQ68-gtp4jYuLSxD6iY8idMsUXBDGnboOyW6GCDKLczZ4zvDLsGhQ6hRi7b-LpiyhOMRkZkSZQ4IBgrOj-se2w4uS9mxliYWn3N0DZSg50tYLG_-YUsKe8nSyH6G4s4waoVMd240A"/>
+</div>
+<!-- Main Focused Image -->
+<div class="relative w-[85%] h-[90%] z-10 rounded-xl overflow-hidden perspective-card-active border border-white/20">
+<img class="w-full h-full object-cover" data-alt="Candid lifestyle shot of an elegant living space with curated artisanal home decor, soft morning sunlight, and high-end textures" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBJVkl3CcjKHqbsOisWqlR9y5gDRKGkxUZ0-m73xgQy6XcpFRWFnPEBYvifIXnOlNOp3QUl2D_Le3XHhDtAWgFol6I9EUMdH3fh1PywTWthdjLBTHQ1wNyOFTv94ApwA94D3bPmLWW6bmqa0tW4UUzaR1NFaq_kb8za7YB61skz36VX9Nhrrx1as6aCG0Lk_N2T7mVlf-ZqUAbbyY73igBnlXpE_lpPqqWzn5ftSStDeLZbYfjglSi3x5KFsIsk77aNUD6qGCXPJ2Y"/>
+<!-- Texture Overlay -->
+<div class="absolute inset-0 bg-gradient-to-t from-primary/10 to-transparent pointer-events-none"></div>
+</div>
+<!-- Secondary Accent Image (Perspective) -->
+<div class="absolute -right-4 w-1/3 h-[60%] z-20 rounded-xl overflow-hidden shadow-2xl scale-110 border-4 border-surface shadow-primary/5">
+<img class="w-full h-full object-cover" data-alt="Close-up of high-quality woven fabric and minimalist accessories in a bright sunlit atelier setting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDUvMssAilne9pSXJuH827AuQtx2rvaymUZCBKjgU1HtwTXFskOH9fFYPYV2qFiqGIas8DvdhBfUEP7BrdxWR-38GxnLsuLcoIN45T3dwSzaMlRvKzp0fGuCcKeEbQ9qjhJzMZP33V4eS7MHYS9YKekQmRmYluWbTFp0awW8afbYsYN3WhOWYciMCELP0Ii3Oo6grfXwdvpZAg270NarLamVWFpoqGgo8DnM4LbY_i0n27ytFohX1ycXgbSpQFO_KOcp6ld8Fi7nnc"/>
+</div>
+</div>
+</div>
+<!-- Typography: Editorial Authority -->
+<div class="text-center space-y-6">
+<h1 class="serif text-4xl font-light tracking-tight text-on-surface leading-tight">
+                Temukan Produk <br/>
+<span class="italic font-normal">Terbaik</span>
+</h1>
+<p class="text-on-surface-variant font-body text-base leading-relaxed px-4">
+                Personalisasi pengalaman belanja Anda dengan rekomendasi produk yang dikurasi khusus untuk selera Anda.
+            </p>
+</div>
+<!-- Page Indicator -->
+<div class="flex items-center gap-2 mt-10">
+<div class="h-1.5 w-1.5 rounded-full bg-outline-variant/40"></div>
+<div class="h-1.5 w-6 rounded-full bg-secondary"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-outline-variant/40"></div>
+<div class="h-1.5 w-1.5 rounded-full bg-outline-variant/40"></div>
+</div>
+</main>
+<!-- Bottom Navigation Shell (Task-Focused: Suppression Check Passed) -->
+<!-- Custom Onboarding Navigation Shell -->
+<footer class="fixed bottom-0 left-0 w-full glass-nav p-8 flex items-center justify-between z-50">
+<!-- Lewati Button (Tertiary/Ghost) -->
+<button class="px-6 py-3 font-label font-semibold text-on-surface-variant hover:text-primary transition-colors text-sm uppercase tracking-widest">
+            Lewati
+        </button>
+<!-- Lanjut Button (Primary) -->
+<button class="group relative flex items-center gap-3 bg-primary text-on-primary px-8 py-4 rounded-xl shadow-lg shadow-primary/20 hover:shadow-primary/30 transition-all active:scale-95 overflow-hidden">
+<span class="font-label font-bold text-sm uppercase tracking-widest relative z-10">Lanjut</span>
+<span class="material-symbols-outlined text-xl relative z-10" data-icon="arrow_forward">arrow_forward</span>
+<!-- Satin Sheen Effect -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary via-primary-container/20 to-primary opacity-0 group-hover:opacity-100 transition-opacity"></div>
+</button>
+</footer>
+<!-- Global Decoration -->
+<div class="fixed top-0 right-0 p-10 opacity-10 pointer-events-none">
+<span class="serif text-8xl font-black select-none">ATELIER</span>
+</div>
+</body></html>

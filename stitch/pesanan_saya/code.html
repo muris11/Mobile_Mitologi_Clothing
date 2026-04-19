@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "secondary-fixed": "#ffe088",
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "surface-container": "#efeeea",
+                        "on-surface": "#1b1c1a",
+                        "error-container": "#ffdad6",
+                        "surface-container-low": "#f4f4f0",
+                        "primary-fixed": "#d4e3ff",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "on-primary-fixed": "#001c3a",
+                        "on-secondary": "#ffffff",
+                        "primary-container": "#001f3f",
+                        "tertiary-fixed": "#e3e3de",
+                        "on-secondary-fixed": "#241a00",
+                        "on-secondary-container": "#745c00",
+                        "on-primary-container": "#6f88ad",
+                        "tertiary": "#040604",
+                        "surface-container-highest": "#e3e2df",
+                        "surface": "#faf9f5",
+                        "tertiary-container": "#1d1f1c",
+                        "inverse-primary": "#afc8f0",
+                        "secondary": "#735c00",
+                        "on-tertiary": "#ffffff",
+                        "primary": "#000613",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-primary": "#ffffff",
+                        "secondary-container": "#fed65b",
+                        "surface-variant": "#e3e2df",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "secondary-fixed-dim": "#e9c349",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-dim": "#dbdad6",
+                        "on-secondary-fixed-variant": "#574500",
+                        "on-error": "#ffffff",
+                        "error": "#ba1a1a",
+                        "surface-bright": "#faf9f5",
+                        "on-background": "#1b1c1a",
+                        "background": "#faf9f5",
+                        "on-tertiary-container": "#858783",
+                        "surface-tint": "#476083",
+                        "on-surface-variant": "#43474e",
+                        "on-error-container": "#93000a",
+                        "outline": "#74777f",
+                        "surface-container-high": "#e9e8e4",
+                        "primary-fixed-dim": "#afc8f0",
+                        "outline-variant": "#c4c6cf",
+                        "on-tertiary-fixed": "#1a1c19"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        .hide-scrollbar::-webkit-scrollbar { display: none; }
+        .hide-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="sticky top-0 w-full z-50 bg-stone-50/85 backdrop-blur-xl no-border shadow-[0_4px_20px_rgba(0,0,0,0.03)]">
+<div class="flex items-center justify-between px-6 h-16">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform text-slate-950">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+</div>
+<h1 class="font-serif text-lg tracking-tight font-bold text-slate-950">Pesanan Saya</h1>
+<div class="flex items-center gap-4">
+<button class="active:scale-95 transition-transform text-slate-950">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+</button>
+</div>
+</div>
+</header>
+<main class="pb-32">
+<!-- Status Tabs (Segmented Control) -->
+<div class="sticky top-16 z-40 bg-surface py-4">
+<div class="flex overflow-x-auto hide-scrollbar px-6 gap-2">
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-primary text-on-primary text-sm font-semibold transition-all">Semua</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-highest transition-all">Menunggu</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-highest transition-all">Diproses</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-highest transition-all">Dikirim</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-highest transition-all">Selesai</button>
+<button class="flex-shrink-0 px-6 py-2.5 rounded-full bg-surface-container-low text-on-surface-variant text-sm font-medium hover:bg-surface-container-highest transition-all">Dibatalkan</button>
+</div>
+</div>
+<!-- Orders List -->
+<div class="px-6 mt-4 space-y-6">
+<!-- Order Card 1: Active -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_20px_40px_rgba(27,28,26,0.06)] border border-outline-variant/10 group active:scale-[0.98] transition-all">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">ID Pesanan</p>
+<h3 class="font-bold text-primary">#AS-99281</h3>
+<p class="text-xs text-on-surface-variant mt-1">24 Okt 2023, 14:20</p>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-secondary-container text-on-secondary-container text-[10px] font-bold tracking-wide uppercase">
+                        Dalam Pengiriman
+                    </span>
+</div>
+<div class="flex gap-4 items-center mb-4 p-3 bg-surface-container-low rounded-lg">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-stone-200">
+<img class="w-full h-full object-cover" data-alt="Close-up of premium leather sneakers on a minimal white pedestal with soft studio lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAZbF1yuqxJaXvVahhDC3ePGzX15ItF7_oblw22KwyFSt0o_wC1BByxbQWouK95foTc09JCZNC64xoVXkIAgVlHHl8SuVVLHJm0vrebu2gDSn2ENrngfGr5kXP7z6tlXzkoHRCgwY4ovpDb6YRv6v-hnTgKpzguH4iBwaEmAuloqC2RiKgSHNuinhiWWtOJeAjP-SVbotmwTW-49LuB3ZRaGMVzup5DCcGugEkJ131XCfSCCAe8ft3-e1RQXxHLcZ_oGDqWr40CBVA"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-serif font-bold text-on-surface leading-tight">Vanguard Heritage Sneakers</h4>
+<p class="text-xs text-on-surface-variant mt-1">Satu item lainnya...</p>
+</div>
+</div>
+<div class="flex justify-between items-end border-t border-outline-variant/10 pt-4">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Total Pembayaran</p>
+<p class="font-serif text-lg font-bold text-secondary">Rp 2.450.000</p>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-xl text-xs font-bold active:scale-95 transition-transform">Lacak Paket</button>
+</div>
+</div>
+<!-- Order Card 2: Processing -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_10px_30px_rgba(0,0,0,0.03)] border border-outline-variant/10 active:scale-[0.98] transition-all">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">ID Pesanan</p>
+<h3 class="font-bold text-primary">#AS-99275</h3>
+<p class="text-xs text-on-surface-variant mt-1">22 Okt 2023, 09:15</p>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-surface-container-highest text-primary text-[10px] font-bold tracking-wide uppercase">
+                        Diproses
+                    </span>
+</div>
+<div class="flex gap-4 items-center mb-4 p-3 bg-surface-container-low rounded-lg">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-stone-200">
+<img class="w-full h-full object-cover" data-alt="Minimalist beige trench coat hanging on a sleek wooden hanger against a clean textured wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhy7Mx2_j7N96Q0DslZ5Yt3Mz22gIDRN80mn8ZjDvawdfgnRJ9rGXrFp6E863PcYxmtHTTBCda4Kv212IxOM9SrpR_c4jeJqvcspCxZJWq5CmeL3WGkicm-REsd04o3-GImwrOUwN1wdw7uCQ-0hTD2ev_Sq01P-EkpLe8LuRnq2Gf2VCXypo6cumwyImdzLsDYgI82QFs6PZQL2tBs56C4e8emdbmOShBSEOUnSqfjduFKuXopzjC5BJSTJnf_KZBE-AsMOVHv2w"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-serif font-bold text-on-surface leading-tight">Atelier Trench Coat</h4>
+<p class="text-xs text-on-surface-variant mt-1">Varian: Sand Beige / Medium</p>
+</div>
+</div>
+<div class="flex justify-between items-end border-t border-outline-variant/10 pt-4">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Total Pembayaran</p>
+<p class="font-serif text-lg font-bold text-primary">Rp 4.120.000</p>
+</div>
+<button class="bg-surface-container-highest text-primary px-5 py-2 rounded-xl text-xs font-bold active:scale-95 transition-transform">Detail</button>
+</div>
+</div>
+<!-- Order Card 3: Completed -->
+<div class="bg-surface-container-lowest rounded-xl p-5 shadow-[0px_10px_30px_rgba(0,0,0,0.03)] border border-outline-variant/10 active:scale-[0.98] transition-all opacity-80">
+<div class="flex justify-between items-start mb-4">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold mb-1">ID Pesanan</p>
+<h3 class="font-bold text-primary">#AS-98012</h3>
+<p class="text-xs text-on-surface-variant mt-1">15 Okt 2023, 16:45</p>
+</div>
+<span class="inline-flex items-center px-3 py-1 rounded-full bg-green-50 text-green-700 text-[10px] font-bold tracking-wide uppercase">
+                        Selesai
+                    </span>
+</div>
+<div class="flex gap-4 items-center mb-4 p-3 bg-surface-container-low rounded-lg">
+<div class="w-16 h-16 rounded-lg overflow-hidden flex-shrink-0 bg-stone-200">
+<img class="w-full h-full object-cover" data-alt="Luxury minimalist wristwatch with white face and silver band on a soft velvet pillow" src="https://lh3.googleusercontent.com/aida-public/AB6AXuD6FGdER5Hj7-ksrGHPDcL72MUsmAhepF60tqgKTU-t4AuqKZ-zHkdWO2RPe-jrUY2kp6d2Km_V6cVzj5KrEc3HKooCaMqLuTEbQ8SvUggD7Wp7JpqKWBJPMCsSa1O1naedOFKFTrxQCdCzLKUh6ayAZR1_DM4L4utX41rf03PT3GRhhTKOEFzKpUVvx2f_236nWMpnn3WRDq1X1RCj4BTGUxrC6km03BY441jB4WPIiI9QJu-mcFegu1RTMcztelYK4zNE6Lpf5q4"/>
+</div>
+<div class="flex-grow">
+<h4 class="font-serif font-bold text-on-surface leading-tight">Horizon Chronograph</h4>
+<p class="text-xs text-on-surface-variant mt-1">Warna: Silver Steel</p>
+</div>
+</div>
+<div class="flex justify-between items-end border-t border-outline-variant/10 pt-4">
+<div>
+<p class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">Total Pembayaran</p>
+<p class="font-serif text-lg font-bold text-primary">Rp 1.850.000</p>
+</div>
+<button class="bg-primary text-on-primary px-5 py-2 rounded-xl text-xs font-bold active:scale-95 transition-transform">Beli Lagi</button>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full flex justify-around items-center px-4 pt-3 pb-6 bg-stone-50/85 backdrop-blur-xl rounded-t-[32px] z-50 shadow-[0_-10px_40px_rgba(0,0,0,0.04)]">
+<div class="flex flex-col items-center justify-center text-stone-400 hover:text-amber-700 transition-all duration-300 cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="home">home</span>
+<span class="font-sans text-[10px] font-medium tracking-wide uppercase">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 hover:text-amber-700 transition-all duration-300 cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="storefront">storefront</span>
+<span class="font-sans text-[10px] font-medium tracking-wide uppercase">Katalog</span>
+</div>
+<!-- Active Tab: Pesanan -->
+<div class="flex flex-col items-center justify-center text-slate-950 font-bold bg-stone-200/50 rounded-full px-4 py-1 active:scale-90 transition-all duration-300 cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="receipt_long" data-weight="fill" style="font-variation-settings: 'FILL' 1;">receipt_long</span>
+<span class="font-sans text-[10px] font-medium tracking-wide uppercase">Pesanan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-stone-400 hover:text-amber-700 transition-all duration-300 cursor-pointer">
+<span class="material-symbols-outlined mb-1" data-icon="person">person</span>
+<span class="font-sans text-[10px] font-medium tracking-wide uppercase">Profil</span>
+</div>
+</nav>
+</body></html>

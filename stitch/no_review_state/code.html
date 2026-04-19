@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#1b1c1a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#f2f1ed",
+                    "outline": "#74777f",
+                    "tertiary-fixed": "#e3e3de",
+                    "primary": "#000613",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#43474e",
+                    "background": "#faf9f5",
+                    "primary-container": "#001f3f",
+                    "surface-container-high": "#e9e8e4",
+                    "inverse-surface": "#2f312e",
+                    "outline-variant": "#c4c6cf",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary-container": "#6f88ad",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-secondary-fixed-variant": "#574500",
+                    "error": "#ba1a1a",
+                    "primary-fixed": "#d4e3ff",
+                    "on-secondary-container": "#745c00",
+                    "secondary-fixed-dim": "#e9c349",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-tint": "#476083",
+                    "surface-container-low": "#f4f4f0",
+                    "inverse-primary": "#afc8f0",
+                    "surface-variant": "#e3e2df",
+                    "surface-container": "#efeeea",
+                    "surface": "#faf9f5",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#fed65b",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-bright": "#faf9f5",
+                    "secondary": "#735c00",
+                    "surface-container-highest": "#e3e2df",
+                    "secondary-fixed": "#ffe088",
+                    "tertiary": "#040604",
+                    "surface-dim": "#dbdad6",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#1b1c1a",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      body { font-family: 'Manrope', sans-serif; background-color: #faf9f5; }
+      h1, h2, h3 { font-family: 'Noto Serif', serif; }
+      .glass-nav { backdrop-filter: blur(20px); }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="text-on-surface">
+<!-- TopAppBar from JSON -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl no-border shadow-[0px_2px_15px_rgba(0,0,0,0.02)]">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4">
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Noto_Serif'] text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50">Detail Produk</h1>
+</div>
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-80 transition-opacity active:scale-95 duration-200">
+<span class="material-symbols-outlined" data-icon="favorite">favorite</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 max-w-screen-xl mx-auto px-4 md:px-8">
+<!-- Hero Product Perspective Section -->
+<section class="grid grid-cols-1 md:grid-cols-2 gap-12 items-start mb-16">
+<!-- Asymmetric Gallery -->
+<div class="relative group">
+<div class="aspect-[4/5] overflow-hidden rounded-[32px] bg-surface-container-low shadow-[0px_20px_40px_rgba(27,28,26,0.06)] relative z-10">
+<img class="w-full h-full object-cover" data-alt="luxury minimalist watch on white marble surface with soft natural light and long shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXL3fDDCg9FSS6UJr3vpHn-Q1SeBRAhNQKg7TwVfrwrcPrIbkZbFzhK36ylKnKhAKlY8SB5pyrxPA_4nYAN8luLyej9m9jEpaBmrWEP8FUrwiALfRXEsqz6SdpbtAitUwpam6LXK9QBa9HBEwBvS080dxTNo3e2JKbnxjYuzELJgr-mRy1EYjlYqTsbm_9XSRfDdEU27hZvX95IzsPYuC72QGy34hQgIp6n7AIFM4vE5TDi8hX7mw9AqunlK65_jLa109MmKKCPjw"/>
+</div>
+<!-- Overlapping Decorative Element -->
+<div class="absolute -bottom-6 -right-6 w-32 h-32 bg-secondary-fixed/30 rounded-full blur-3xl -z-0"></div>
+<div class="absolute top-12 -left-4 w-48 h-64 border border-outline-variant/20 rounded-[24px] -z-10 transform -rotate-6"></div>
+</div>
+<!-- Product Details Bento -->
+<div class="flex flex-col gap-8">
+<div class="space-y-4">
+<div class="inline-flex items-center gap-2 text-secondary font-medium tracking-widest text-xs uppercase">
+                        Terbaru • Edisi Terbatas
+                    </div>
+<h2 class="text-4xl font-bold text-primary leading-tight">Serene Minimalist Chronograph</h2>
+<p class="text-2xl text-secondary font-semibold">Rp 3.499.000</p>
+</div>
+<div class="bg-surface-container-low p-6 rounded-[24px] space-y-4">
+<h3 class="text-lg font-semibold text-primary">Deskripsi</h3>
+<p class="text-on-surface-variant leading-relaxed">
+                        Dibuat dengan presisi tinggi menggunakan bahan titanium kelas atas dan kaca safir anti gores. Desain yang mengelevasi setiap momen berharga Anda dengan sentuhan kemewahan yang tenang.
+                    </p>
+</div>
+<div class="flex gap-4">
+<button class="flex-1 bg-primary text-on-primary py-4 px-8 rounded-xl font-bold tracking-wide shadow-lg hover:opacity-90 transition-all active:scale-95 flex items-center justify-center gap-2">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+                        Tambah ke Keranjang
+                    </button>
+</div>
+</div>
+</section>
+<!-- No Review State Section -->
+<section class="mt-12 bg-surface-container-low rounded-[32px] p-8 md:p-12 relative overflow-hidden">
+<!-- Decorative Grain/Texture Background Effect -->
+<div class="absolute inset-0 opacity-[0.03] pointer-events-none bg-[radial-gradient(circle_at_center,_var(--tw-gradient-stops))] from-secondary to-transparent"></div>
+<div class="max-w-2xl mx-auto text-center space-y-8 relative z-10">
+<div class="w-24 h-24 bg-surface-container-lowest rounded-full flex items-center justify-center mx-auto shadow-[0px_10px_20px_rgba(0,0,0,0.03)] border border-outline-variant/10">
+<span class="material-symbols-outlined text-secondary-fixed-dim text-5xl" data-icon="chat_bubble_outline">chat_bubble_outline</span>
+</div>
+<div class="space-y-3">
+<h3 class="text-2xl font-bold text-primary">Belum Ada Ulasan</h3>
+<p class="text-on-surface-variant font-body text-lg">Jadilah yang pertama memberikan ulasan untuk produk ini</p>
+</div>
+<div class="flex flex-col items-center gap-4">
+<button class="bg-surface-container-lowest border border-outline-variant/20 text-primary py-4 px-10 rounded-xl font-bold hover:bg-white hover:shadow-md transition-all active:scale-95 flex items-center gap-3">
+<span class="material-symbols-outlined" data-icon="edit_note">edit_note</span>
+                        Tulis Ulasan
+                    </button>
+<p class="text-sm text-neutral/60 italic font-body">Pendapat Anda sangat berharga bagi pembeli lainnya.</p>
+</div>
+</div>
+</section>
+<!-- Related Content Bento -->
+<section class="mt-20">
+<h3 class="text-2xl font-bold mb-8">Rekomendasi Terkait</h3>
+<div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+<!-- Item 1 -->
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-2xl bg-surface-container overflow-hidden mb-4 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="close up of leather watch strap detail texture brown" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBTethcu30nQhLYoD55eS0OPeTSvJuSsBlgcteHuNSgQ3a52h4Dyf3DY7YKgSi3GFfPhbVnlLn7_eCk4XPemJB8gCLGqy2Mjb_FskQH8FneF4JSUqGrKg77zQN9urWns1ypYrF1z7nIJaKjU95iQSgIYAvd9sUNAU-JzKjcsgcKIqHJSEj0_xQbLb_wF_1IztnMFdFDw5ItIMegP9nIbJuE0Zq9zvVCikTNftkMn1_kSg7Ganw-rzKZcoXF3yx5fRKrORgYOqpVwgk"/>
+<div class="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="favorite">favorite</span>
+</div>
+</div>
+<p class="font-bold text-sm text-primary">Classic Leather Strap</p>
+<p class="text-secondary text-sm">Rp 450.000</p>
+</div>
+<!-- Item 2 -->
+<div class="group cursor-pointer">
+<div class="aspect-square rounded-2xl bg-surface-container overflow-hidden mb-4 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="minimalist silver watch on cool grey background" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC457DrkKGICFq7FBtbbGVi9bZQ5TOo2wF3MEW530B6VV4MrxVI1t_ss2fPpmrM1VpzZnHS63W0ALNlwFBASlBH1QK3wTw2xR6eMKk5jK8YkEh9W-29xeHU9AUeYci9ST2F2badIgG1nOzxZph7B9XO2zoOEy-OTA7PJs8DB1uRGvxqDJtKhkKObrVQ-SG3FwkvgEAS6xbNKuyo96G5ZAa9MlyEMUnjtVn7vcFXbdXpelvYembzbTHKHLfq40ozOU5n_mvhKyvTxqQ"/>
+<div class="absolute top-3 right-3 w-8 h-8 bg-white/80 backdrop-blur rounded-full flex items-center justify-center">
+<span class="material-symbols-outlined text-sm" data-icon="favorite">favorite</span>
+</div>
+</div>
+<p class="font-bold text-sm text-primary">Silver Horizon</p>
+<p class="text-secondary text-sm">Rp 2.899.000</p>
+</div>
+<!-- Placeholder items for mobile -->
+<div class="hidden md:block group cursor-pointer">
+<div class="aspect-square rounded-2xl bg-surface-container overflow-hidden mb-4 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="luxury desk setup with watch and stationery" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCrgKS3FAwlelaKpd7c1c9eecORqVnCDktealW-Ha4GYF28VpLAtryu0S2dfCy5Jrnz6HbakZRlI932Of41Ag05l4Wf77R30JON5v405jT_ti2OKEJ4uTK8JgvFPSt-d9YMiGesp2b1OZRQpa5pwAqFcxnE6QNgZ2DT_dagYHj67xXLTNadqv1l7u-Mu49FkIENg3MShsO6slzHpAyL25_EAOhYR2bVgMXjDYHP8mzOOOBYMhck4Vz0DZl5nIpu401m8CIjF55XRQY"/>
+</div>
+<p class="font-bold text-sm text-primary">Atelier Desk Kit</p>
+<p class="text-secondary text-sm">Rp 1.200.000</p>
+</div>
+<div class="hidden md:block group cursor-pointer">
+<div class="aspect-square rounded-2xl bg-surface-container overflow-hidden mb-4 relative">
+<img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="gold details on premium wrist watch face" src="https://lh3.googleusercontent.com/aida-public/AB6AXuCPY5gO5syxXqSQFYhePP6NynxkGKiuKocNwiMw8tJaZJ3qd2LJOiQlLqcnnV4N5In-Kq0UBOJYQyyYKQ1Vwhj93vJs_wRTO-rAotnzbU74mKyqiFg7iX9B0xuOYWA6QkWwCfvNL8XGQaW3yxfA1YZD0rJG76aNMZQ6ptw_YV6H8zauoST4mwRquflhVl2MjBo0SfZjf92TWZb2k6z2EHzDeBLnPTJSHCB7E6kmDcuYDlfaNLtWXG3BVhAAGS4oyzXpZ_Td0BDZVLA"/>
+</div>
+<p class="font-bold text-sm text-primary">Midnight Gold Edition</p>
+<p class="text-secondary text-sm">Rp 4.100.000</p>
+</div>
+</div>
+</section>
+</main>
+<!-- BottomNavBar from JSON -->
+<nav class="fixed bottom-0 left-0 w-full flex justify-around items-center px-4 pt-3 pb-8 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl no-border shadow-2xl rounded-t-[32px] z-50">
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-yellow-700 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-yellow-700 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Cari</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-yellow-700 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Pesanan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 rounded-2xl px-4 py-2 active:scale-90 duration-150 ease-out" href="#">
+<span class="material-symbols-outlined" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Wishlist</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-yellow-700 transition-colors" href="#">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Profil</span>
+</a>
+</nav>
+</body></html>

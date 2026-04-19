@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;600;700;800&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-background": "#1b1c1a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "error-container": "#ffdad6",
+                    "inverse-on-surface": "#f2f1ed",
+                    "outline": "#74777f",
+                    "tertiary-fixed": "#e3e3de",
+                    "primary": "#000613",
+                    "on-secondary": "#ffffff",
+                    "surface-container-lowest": "#ffffff",
+                    "on-surface-variant": "#43474e",
+                    "background": "#faf9f5",
+                    "primary-container": "#001f3f",
+                    "surface-container-high": "#e9e8e4",
+                    "inverse-surface": "#2f312e",
+                    "outline-variant": "#c4c6cf",
+                    "on-error-container": "#93000a",
+                    "on-secondary-fixed": "#241a00",
+                    "on-secondary-container": "#745c00",
+                    "secondary-fixed-dim": "#e9c349",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-tint": "#476083",
+                    "surface-container-low": "#f4f4f0",
+                    "inverse-primary": "#afc8f0",
+                    "surface-variant": "#e3e2df",
+                    "surface-container": "#efeeea",
+                    "surface": "#faf9f5",
+                    "on-error": "#ffffff",
+                    "secondary-container": "#fed65b",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-bright": "#faf9f5",
+                    "secondary": "#735c00",
+                    "surface-container-highest": "#e3e2df",
+                    "secondary-fixed": "#ffe088",
+                    "tertiary": "#040604",
+                    "surface-dim": "#dbdad6",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-tertiary": "#ffffff",
+                    "on-surface": "#1b1c1a",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-primary": "#ffffff"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .filled-icon {
+            font-variation-settings: 'FILL' 1 !important;
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface antialiased">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl shadow-[0px_2px_15px_rgba(0,0,0,0.02)] flex items-center justify-between px-6 py-4">
+<div class="flex items-center gap-4">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200 text-slate-900 dark:text-slate-50">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Noto_Serif'] text-lg font-semibold tracking-tight text-slate-900 dark:text-slate-50">Detail Produk</h1>
+</div>
+<div class="flex items-center gap-2">
+<button class="hover:opacity-80 transition-opacity active:scale-95 duration-200 text-secondary">
+<span class="material-symbols-outlined filled-icon" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+</button>
+</div>
+</header>
+<main class="pt-20 pb-32 px-6 space-y-8 max-w-2xl mx-auto">
+<!-- Toast Notification -->
+<div class="fixed top-24 left-1/2 -translate-x-1/2 z-[60] animate-in fade-in slide-in-from-top-4 duration-300">
+<div class="bg-primary text-on-primary px-6 py-3 rounded-full shadow-2xl flex items-center gap-3">
+<span class="material-symbols-outlined text-secondary text-sm filled-icon" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+<span class="text-sm font-medium tracking-wide">Produk ditambahkan ke Wishlist</span>
+</div>
+</div>
+<!-- Product Hero - Editorial Perspective Carousel Style -->
+<section class="relative aspect-[4/5] w-full overflow-hidden rounded-[32px] bg-surface-container shadow-xl">
+<img class="w-full h-full object-cover" data-alt="high-end minimalist sneakers displayed on a clean architectural pedestal with dramatic warm studio lighting and soft shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDdxiYXUt9YuxQLeoLKn00upsXdE1Lnuhz7s744ywFsiIQn4XKRPFk82MFvfqlYYKG3oDxaXmdN8Efk9mNGZLXchw6R3bVgn_2zAqnfsrAxxTGMTYN6ILlqmNBpDqq7Mp3yFY2ynYGMltfjxGY9DHusJ5BEeHRl1-Efa0Hd_mE8n0TOcnLsJQJe3nwVne1DUcZyfvevqi3eJj9ved6UXcbWXscDs4-imK2cQ5PDOTJAgAOw0KMv5HFkFhsZMp7vIjmDdpBLZUYIWaQ"/>
+<div class="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent"></div>
+<div class="absolute bottom-8 left-8 right-8 flex justify-between items-end">
+<div class="space-y-1">
+<span class="text-white/80 text-xs font-bold tracking-[0.2em] uppercase">Edisi Terbatas</span>
+<h2 class="text-white font-headline text-3xl font-bold">Midnight Shadow</h2>
+</div>
+<div class="bg-white/20 backdrop-blur-md rounded-full px-4 py-2 text-white border border-white/20">
+<span class="text-lg font-bold">Rp 2.499.000</span>
+</div>
+</div>
+</section>
+<!-- Product Info - Tactile Layers -->
+<section class="space-y-6">
+<div class="bg-surface-container-lowest p-8 rounded-[32px] shadow-[0px_20px_40px_rgba(27,28,26,0.06)] relative overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-5 pointer-events-none">
+<span class="material-symbols-outlined text-8xl" data-icon="inventory_2">inventory_2</span>
+</div>
+<h3 class="font-headline text-2xl font-bold mb-4">Elegansi dalam Langkah</h3>
+<p class="text-on-surface-variant leading-relaxed mb-6">
+                    Dirancang untuk kenyamanan maksimal tanpa mengorbankan estetika. Menggunakan material premium yang beradaptasi dengan gerakan kaki Anda, memberikan pengalaman berjalan yang belum pernah ada sebelumnya.
+                </p>
+<div class="grid grid-cols-2 gap-4">
+<div class="bg-surface-container-low p-4 rounded-2xl flex flex-col gap-2">
+<span class="text-xs text-outline font-bold tracking-widest uppercase">Material</span>
+<span class="text-sm font-semibold">Italian Leather</span>
+</div>
+<div class="bg-surface-container-low p-4 rounded-2xl flex flex-col gap-2">
+<span class="text-xs text-outline font-bold tracking-widest uppercase">Sol</span>
+<span class="text-sm font-semibold">Cushion Cloud™</span>
+</div>
+</div>
+</div>
+<!-- Size Selection - Interactive Cards -->
+<div class="space-y-4">
+<div class="flex justify-between items-center px-2">
+<h4 class="font-bold text-lg">Pilih Ukuran</h4>
+<button class="text-secondary font-semibold text-sm hover:underline">Panduan Ukuran</button>
+</div>
+<div class="flex gap-3 overflow-x-auto pb-4 scrollbar-hide">
+<button class="flex-shrink-0 w-14 h-14 rounded-2xl border border-outline-variant/20 flex items-center justify-center font-bold text-on-surface-variant hover:bg-surface-container-highest transition-colors">39</button>
+<button class="flex-shrink-0 w-14 h-14 rounded-2xl border-2 border-primary bg-primary text-on-primary flex items-center justify-center font-bold">40</button>
+<button class="flex-shrink-0 w-14 h-14 rounded-2xl border border-outline-variant/20 flex items-center justify-center font-bold text-on-surface-variant hover:bg-surface-container-highest transition-colors">41</button>
+<button class="flex-shrink-0 w-14 h-14 rounded-2xl border border-outline-variant/20 flex items-center justify-center font-bold text-on-surface-variant hover:bg-surface-container-highest transition-colors">42</button>
+<button class="flex-shrink-0 w-14 h-14 rounded-2xl border border-outline-variant/20 flex items-center justify-center font-bold text-on-surface-variant hover:bg-surface-container-highest transition-colors">43</button>
+</div>
+</div>
+</section>
+<!-- CTA Floating Bar -->
+<div class="fixed bottom-24 left-6 right-6 z-40 bg-white/90 backdrop-blur-2xl rounded-[28px] shadow-2xl p-4 border border-white/20 flex items-center gap-4">
+<button class="w-14 h-14 rounded-2xl bg-surface-container-highest flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="chat">chat</span>
+</button>
+<button class="flex-1 h-14 bg-primary text-on-primary rounded-2xl font-bold tracking-wide flex items-center justify-center gap-2 shadow-lg active:scale-95 transition-transform">
+<span class="material-symbols-outlined" data-icon="shopping_cart">shopping_cart</span>
+                Tambah ke Keranjang
+            </button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl rounded-t-[32px] shadow-[0px_-10px_40px_rgba(27,28,26,0.06)] flex justify-around items-center px-4 pt-3 pb-8">
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-yellow-700 transition-colors active:scale-90 duration-150 ease-out">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-yellow-700 transition-colors active:scale-90 duration-150 ease-out">
+<span class="material-symbols-outlined" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Cari</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-yellow-700 transition-colors active:scale-90 duration-150 ease-out">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Pesanan</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-900 dark:text-white bg-slate-100 dark:bg-slate-800 rounded-2xl px-4 py-2 active:scale-90 duration-150 ease-out">
+<span class="material-symbols-outlined filled-icon" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Wishlist</span>
+</div>
+<div class="flex flex-col items-center justify-center text-slate-400 dark:text-slate-500 px-4 py-2 hover:text-yellow-700 transition-colors active:scale-90 duration-150 ease-out">
+<span class="material-symbols-outlined" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium tracking-wide">Profil</span>
+</div>
+</nav>
+</body></html>

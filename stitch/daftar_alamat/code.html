@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "on-surface": "#1b1c1a",
+                    "surface-container-highest": "#e3e2df",
+                    "surface-bright": "#faf9f5",
+                    "surface-container-low": "#f4f4f0",
+                    "surface-container-lowest": "#ffffff",
+                    "error": "#ba1a1a",
+                    "surface-tint": "#476083",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#001f3f",
+                    "on-surface-variant": "#43474e",
+                    "outline-variant": "#c4c6cf",
+                    "on-primary-container": "#6f88ad",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6",
+                    "on-secondary-container": "#745c00",
+                    "background": "#faf9f5",
+                    "on-background": "#1b1c1a",
+                    "inverse-on-surface": "#f2f1ed",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "inverse-surface": "#2f312e",
+                    "surface-variant": "#e3e2df",
+                    "tertiary": "#040604",
+                    "on-error": "#ffffff",
+                    "on-tertiary": "#ffffff",
+                    "surface-dim": "#dbdad6",
+                    "on-secondary": "#ffffff",
+                    "secondary": "#735c00",
+                    "secondary-container": "#fed65b",
+                    "inverse-primary": "#afc8f0",
+                    "on-primary-fixed": "#001c3a",
+                    "tertiary-container": "#1d1f1c",
+                    "outline": "#74777f",
+                    "on-secondary-fixed-variant": "#574500",
+                    "primary-fixed-dim": "#afc8f0",
+                    "primary": "#000613",
+                    "secondary-fixed": "#ffe088",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed": "#241a00",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "primary-fixed": "#d4e3ff",
+                    "surface": "#faf9f5",
+                    "tertiary-fixed": "#e3e3de",
+                    "surface-container": "#efeeea",
+                    "on-tertiary-container": "#858783",
+                    "surface-container-high": "#e9e8e4"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+            display: inline-block;
+            line-height: 1;
+            text-transform: none;
+            letter-spacing: normal;
+            word-wrap: normal;
+            white-space: nowrap;
+            direction: ltr;
+        }
+        body {
+            font-family: 'Manrope', sans-serif;
+            -webkit-font-smoothing: antialiased;
+        }
+        .serif { font-family: 'Noto Serif', serif; }
+        .glass-nav {
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+        .perspective-card {
+            box-shadow: 0px 20px 40px rgba(27, 28, 26, 0.06);
+        }
+        .ghost-border {
+            border: 1px solid rgba(196, 198, 207, 0.2);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen pb-32">
+<!-- Top App Bar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl flex items-center justify-between px-6 py-4 shadow-sm shadow-[#1b1c1a]/5">
+<div class="flex items-center gap-4">
+<button class="active:scale-95 duration-200 text-[#000613] hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-['Noto_Serif'] text-lg tracking-tight font-bold text-[#000613]">Daftar Alamat</h1>
+</div>
+<button class="active:scale-95 duration-200 text-[#000613] hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+</header>
+<main class="pt-24 px-6 max-w-2xl mx-auto space-y-6">
+<!-- Address Section Label -->
+<div class="flex items-end justify-between mb-2">
+<div>
+<span class="text-secondary font-bold text-xs uppercase tracking-[0.2em] block mb-1">Lokasi Tersimpan</span>
+<h2 class="serif text-2xl font-bold">Pilih Alamat Pengiriman</h2>
+</div>
+</div>
+<!-- Address Card 1 (Primary) -->
+<div class="bg-surface-container-lowest rounded-xl p-6 perspective-card relative overflow-hidden group">
+<div class="absolute top-0 right-0 p-4">
+<span class="bg-secondary/10 text-secondary text-[10px] font-bold uppercase tracking-widest px-3 py-1 rounded-full">Alamat Utama</span>
+</div>
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-low flex items-center justify-center text-primary">
+<span class="material-symbols-outlined" data-icon="home">home</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-lg text-primary mb-0.5">Rumah</h3>
+<p class="text-on-surface-variant font-bold text-sm">Aditya Pratama</p>
+</div>
+</div>
+<div class="space-y-2 mb-6">
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                    Jl. Senopati No. 45, Kebayoran Baru, Jakarta Selatan, DKI Jakarta, 12110
+                </p>
+<div class="flex items-center gap-2 text-on-surface-variant/70 text-sm">
+<span class="material-symbols-outlined text-sm" data-icon="call">call</span>
+<span>+62 812 3456 7890</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 pt-4 border-t border-outline-variant/20">
+<button class="flex items-center gap-1.5 py-2 px-4 rounded-xl hover:bg-surface-container-low transition-colors text-primary text-sm font-medium active:scale-95 duration-200">
+<span class="material-symbols-outlined text-lg" data-icon="edit_square">edit_square</span>
+<span>Edit Alamat</span>
+</button>
+<button class="flex items-center gap-1.5 py-2 px-4 rounded-xl hover:bg-error/5 text-error text-sm font-medium transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+<span>Hapus</span>
+</button>
+</div>
+</div>
+<!-- Address Card 2 -->
+<div class="bg-surface-container-low rounded-xl p-6 ghost-border relative group">
+<div class="flex items-start gap-4 mb-4">
+<div class="w-12 h-12 rounded-full bg-surface-container-lowest flex items-center justify-center text-on-surface-variant">
+<span class="material-symbols-outlined" data-icon="work">work</span>
+</div>
+<div class="flex-1">
+<h3 class="font-bold text-lg text-primary mb-0.5">Kantor</h3>
+<p class="text-on-surface-variant font-bold text-sm">Aditya Pratama</p>
+</div>
+</div>
+<div class="space-y-2 mb-6">
+<p class="text-on-surface-variant text-sm leading-relaxed">
+                    Pacific Century Place, Lt. 12, Jl. Jend. Sudirman Kav. 52-53, SCBD, Jakarta Selatan, 12190
+                </p>
+<div class="flex items-center gap-2 text-on-surface-variant/70 text-sm">
+<span class="material-symbols-outlined text-sm" data-icon="call">call</span>
+<span>+62 21 555 1234</span>
+</div>
+</div>
+<div class="flex items-center justify-end gap-3 pt-4 border-t border-outline-variant/20">
+<button class="flex items-center gap-1.5 py-2 px-4 rounded-xl hover:bg-surface-container-lowest transition-colors text-primary text-sm font-medium active:scale-95 duration-200">
+<span class="material-symbols-outlined text-lg" data-icon="edit_square">edit_square</span>
+<span>Edit Alamat</span>
+</button>
+<button class="flex items-center gap-1.5 py-2 px-4 rounded-xl hover:bg-error/5 text-error text-sm font-medium transition-colors active:scale-95 duration-200">
+<span class="material-symbols-outlined text-lg" data-icon="delete">delete</span>
+<span>Hapus</span>
+</button>
+</div>
+</div>
+<!-- Illustration / Empty State Helper (Subtle) -->
+<div class="py-8 flex flex-col items-center justify-center opacity-30 grayscale pointer-events-none">
+<img alt="" class="w-20 h-20 mb-2" data-alt="minimal line art illustration of a delivery box with soft shadows and elegant curves" src="https://lh3.googleusercontent.com/aida-public/AB6AXuByvJMqWDKk4Sfbxw3N53RI3cSnEAGgqXX-o2yeLLyJUGoeMtVbBa8sMlxvjZCsfvsdd_f4KnhImvP4tv2RtQtzNX3gm0xhlPI89-V_ms0m5ORy9LyYCF3KIqZLGaiYn778Z8Ob2tjTFquJKDbDEtGetGT4Hqy69PBt-QbPT3DL7CyY_LivDWHL003zaVLFr5UnUr9r8_tAVfa2in6HND7Oy_7Z85Bv5zer1Deppve0EKv6eUoQ1tAJ8EgPyO8bJ3dhkQDoQ6FDan4"/>
+<p class="text-xs tracking-widest uppercase">The Tactile Atelier — Curator</p>
+</div>
+</main>
+<!-- Floating Action Button -->
+<div class="fixed bottom-32 right-6 z-50 md:right-12">
+<button class="group flex items-center gap-3 bg-primary text-on-primary pl-4 pr-6 py-4 rounded-full shadow-2xl hover:scale-105 active:scale-95 transition-all duration-300">
+<div class="bg-secondary w-10 h-10 rounded-full flex items-center justify-center text-primary-container group-hover:rotate-90 transition-transform duration-500">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+</div>
+<span class="font-bold text-sm tracking-wide">Tambah Alamat Baru</span>
+</button>
+</div>
+<!-- Bottom Navigation Bar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[32px] bg-[#ffffff]/85 backdrop-blur-xl flex justify-around items-center pt-3 pb-8 px-4 shadow-[0_-10px_30px_rgba(27,28,26,0.04)]">
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:text-[#735c00] transition-colors active:scale-90 duration-300">
+<span class="material-symbols-outlined mb-1" data-icon="home_app_logo">home_app_logo</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Beranda</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:text-[#735c00] transition-colors active:scale-90 duration-300">
+<span class="material-symbols-outlined mb-1" data-icon="auto_awesome_motion">auto_awesome_motion</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Koleksi</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:text-[#735c00] transition-colors active:scale-90 duration-300">
+<span class="material-symbols-outlined mb-1" data-icon="shopping_bag">shopping_bag</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Keranjang</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#735c00] font-bold active:scale-90 duration-300">
+<span class="material-symbols-outlined mb-1" data-icon="person" style="font-variation-settings: 'FILL' 1;">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Profil</span>
+</div>
+</nav>
+</body></html>

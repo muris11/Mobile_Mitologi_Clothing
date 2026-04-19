@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "tertiary-fixed-dim": "#c6c7c2",
+                        "inverse-primary": "#afc8f0",
+                        "secondary-fixed-dim": "#e9c349",
+                        "on-tertiary-fixed-variant": "#454744",
+                        "on-secondary-fixed-variant": "#574500",
+                        "secondary": "#735c00",
+                        "on-surface": "#1b1c1a",
+                        "surface": "#faf9f5",
+                        "on-surface-variant": "#43474e",
+                        "on-secondary": "#ffffff",
+                        "background": "#faf9f5",
+                        "tertiary-container": "#1d1f1c",
+                        "on-primary-container": "#6f88ad",
+                        "on-background": "#1b1c1a",
+                        "on-tertiary-fixed": "#1a1c19",
+                        "surface-dim": "#dbdad6",
+                        "surface-container": "#efeeea",
+                        "primary-container": "#001f3f",
+                        "on-secondary-container": "#745c00",
+                        "on-primary": "#ffffff",
+                        "error-container": "#ffdad6",
+                        "primary": "#000613",
+                        "outline": "#74777f",
+                        "inverse-surface": "#2f312e",
+                        "surface-container-lowest": "#ffffff",
+                        "surface-container-highest": "#e3e2df",
+                        "surface-container-high": "#e9e8e4",
+                        "on-error": "#ffffff",
+                        "secondary-fixed": "#ffe088",
+                        "on-secondary-fixed": "#241a00",
+                        "on-primary-fixed-variant": "#2f486a",
+                        "surface-container-low": "#f4f4f0",
+                        "tertiary-fixed": "#e3e3de",
+                        "on-tertiary": "#ffffff",
+                        "tertiary": "#040604",
+                        "primary-fixed-dim": "#afc8f0",
+                        "on-tertiary-container": "#858783",
+                        "surface-tint": "#476083",
+                        "error": "#ba1a1a",
+                        "outline-variant": "#c4c6cf",
+                        "on-primary-fixed": "#001c3a",
+                        "surface-variant": "#e3e2df",
+                        "primary-fixed": "#d4e3ff",
+                        "inverse-on-surface": "#f2f1ed",
+                        "on-error-container": "#93000a",
+                        "surface-bright": "#faf9f5",
+                        "secondary-container": "#fed65b"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Noto Serif"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        body { font-family: 'Manrope', sans-serif; }
+        h1, h2, h3 { font-family: 'Noto Serif', serif; }
+        .glass-header {
+            background: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface min-h-screen flex flex-col">
+<!-- TopAppBar -->
+<header class="bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl fixed top-0 w-full z-50 shadow-[0_4px_30px_rgba(0,0,0,0.03)]">
+<div class="flex justify-between items-center px-6 h-16">
+<div class="flex items-center">
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+</div>
+<div class="text-xl font-serif tracking-[0.3em] text-slate-900 dark:text-slate-50 font-serif tracking-widest uppercase">
+                AURELIAN
+            </div>
+<div class="flex items-center">
+<button class="text-slate-900 dark:text-slate-50 hover:opacity-70 transition-opacity">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</div>
+</header>
+<!-- Main Content Canvas -->
+<main class="flex-grow flex flex-col items-center justify-center px-8 pt-24 pb-32">
+<!-- Perspective Visual Layer -->
+<div class="relative w-full max-w-sm mb-12 flex justify-center">
+<!-- Background Decorative Element (The Atelier Atmosphere) -->
+<div class="absolute inset-0 bg-surface-container-low rounded-[40px] -rotate-3 scale-105 opacity-50"></div>
+<!-- Main Content Card -->
+<div class="relative bg-surface-container-lowest rounded-[32px] p-10 shadow-[0px_20px_40px_rgba(27,28,26,0.06)] text-center w-full">
+<!-- Icon Detail -->
+<div class="mb-8 flex justify-center">
+<div class="w-20 h-20 rounded-full bg-surface-container-low flex items-center justify-center">
+<span class="material-symbols-outlined text-secondary text-4xl" data-icon="wifi_off">wifi_off</span>
+</div>
+</div>
+<!-- Textual Content -->
+<h1 class="text-3xl font-headline text-primary mb-4 leading-tight">Gagal Memuat Data</h1>
+<p class="text-on-surface-variant font-body font-light leading-relaxed mb-10">
+                    Kami tidak dapat mengambil informasi saat ini. Silakan coba beberapa saat lagi.
+                </p>
+<!-- Primary Action with Satin Sheen -->
+<button class="w-full bg-primary text-on-primary py-5 rounded-xl font-body font-semibold tracking-wide shadow-xl active:scale-95 transition-all duration-300 relative overflow-hidden group">
+<div class="absolute inset-0 bg-gradient-to-tr from-primary to-primary-container opacity-0 group-hover:opacity-100 transition-opacity"></div>
+<span class="relative z-10 flex items-center justify-center gap-2">
+                        Ulangi Sekarang
+                        <span class="material-symbols-outlined text-[20px]" data-icon="refresh">refresh</span>
+</span>
+</button>
+<!-- Secondary Link -->
+<button class="mt-8 text-secondary font-body font-medium text-sm tracking-widest uppercase hover:opacity-70 transition-opacity">
+                    Hubungi Bantuan
+                </button>
+</div>
+<!-- Overlapping Visual (Product Texture Suggestion) -->
+<div class="absolute -bottom-6 -right-4 w-24 h-32 rounded-2xl overflow-hidden shadow-2xl rotate-6 border-[6px] border-white">
+<img alt="Silk fabric detail" class="w-full h-full object-cover" data-alt="Close-up of premium folded silk fabric in warm ivory and gold tones with elegant soft lighting and shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUFuHf17pWiJzK9JQeegoymDpphkMYyX1Um_ywh4bJCKyb8zBG3VYvFsKvnKfRQxzyrB6wQTsz9c_K0GKB4qQdSRfk_uhakFNVyWkF-P3xWII-hzSxsUqIB8B_JEgXeoB6QBqmhYO8ga0hEO0IgCEylNHH5Yg-lvE3PCWY8na4VXalfEcsaIjjDRdg1Gf2RJMXJAq8xe6-gUK6liC_86HUHkaMtjdBHGiBEvbqoJbwL18tg2hFhbMB80X7tlR1oe7YpA4vCuIbmKc"/>
+</div>
+</div>
+<!-- Semantic Hint -->
+<div class="text-center">
+<span class="text-outline-variant font-label text-[10px] uppercase tracking-[0.2em]">Kode Galat: ERR_CONN_075</span>
+</div>
+</main>
+<!-- BottomNavBar (Suppressed for focused retry state as per Relevance Check, but provided here as the shell requires it for top-level context) -->
+<!-- Applying "Automatic Suppression" logic: This is a task-focused failure state. Hide navigation. -->
+<!-- Re-evaluating Shell: User requires 'Back' or 'Close'. Adding a focused back button instead of nav. -->
+<div class="fixed bottom-12 left-0 w-full flex justify-center px-8">
+<button class="flex items-center gap-3 text-on-surface-variant font-body font-light hover:text-primary transition-colors">
+<span class="material-symbols-outlined" data-icon="arrow_back">arrow_back</span>
+             Kembali ke Beranda
+        </button>
+</div>
+<!-- Background Material Elements (Subtle tonal shifts) -->
+<div class="fixed top-0 left-0 -z-10 w-full h-full bg-[#faf9f5]">
+<div class="absolute top-[20%] right-[-10%] w-80 h-80 bg-surface-container-high rounded-full blur-[100px] opacity-40"></div>
+<div class="absolute bottom-[10%] left-[-5%] w-64 h-64 bg-secondary/5 rounded-full blur-[80px]"></div>
+</div>
+</body></html>

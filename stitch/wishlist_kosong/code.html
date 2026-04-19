@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,600;0,700;1,400&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "inverse-on-surface": "#f2f1ed",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-low": "#f4f4f0",
+                    "error": "#ba1a1a",
+                    "on-secondary-fixed-variant": "#574500",
+                    "background": "#faf9f5",
+                    "secondary": "#735c00",
+                    "outline": "#74777f",
+                    "tertiary-fixed": "#e3e3de",
+                    "outline-variant": "#c4c6cf",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary": "#000613",
+                    "on-error": "#ffffff",
+                    "on-background": "#1b1c1a",
+                    "tertiary": "#040604",
+                    "secondary-fixed": "#ffe088",
+                    "inverse-primary": "#afc8f0",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "tertiary-container": "#1d1f1c",
+                    "surface-bright": "#faf9f5",
+                    "on-tertiary": "#ffffff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "surface-tint": "#476083",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-dim": "#dbdad6",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-container": "#efeeea",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-container-highest": "#e3e2df",
+                    "primary-container": "#001f3f",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-primary-container": "#6f88ad",
+                    "on-error-container": "#93000a",
+                    "surface-variant": "#e3e2df",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-container": "#fed65b",
+                    "on-secondary-container": "#745c00",
+                    "surface": "#faf9f5",
+                    "on-secondary": "#ffffff",
+                    "primary-fixed": "#d4e3ff",
+                    "on-surface-variant": "#43474e",
+                    "inverse-surface": "#2f312e",
+                    "on-surface": "#1b1c1a",
+                    "on-primary": "#ffffff",
+                    "error-container": "#ffdad6"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24;
+        }
+        .silk-texture {
+            background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M10 10 Q 50 10 90 90' stroke='%23735c00' stroke-opacity='0.05' fill='none'/%3E%3Cpath d='M90 10 Q 50 90 10 90' stroke='%23735c00' stroke-opacity='0.03' fill='none'/%3E%3C/svg%3E");
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-background text-on-background font-body min-h-screen flex flex-col overflow-x-hidden">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-[0px_4px_20px_rgba(27,28,26,0.04)]">
+<div class="flex items-center justify-between px-6 h-16 w-full">
+<button class="text-[#000613] hover:opacity-70 transition-opacity scale-95 active:duration-150">
+<span class="material-symbols-outlined" data-icon="menu">menu</span>
+</button>
+<h1 class="font-['Noto_Serif'] text-lg font-semibold tracking-tight text-[#000613]">Daftar Keinginan</h1>
+<button class="text-[#000613] hover:opacity-70 transition-opacity scale-95 active:duration-150">
+<span class="material-symbols-outlined" data-icon="shopping_bag">shopping_bag</span>
+</button>
+</div>
+</header>
+<!-- Main Canvas -->
+<main class="flex-grow flex items-center justify-center px-8 pt-16 pb-24 silk-texture relative">
+<!-- Background decorative elements -->
+<div class="absolute inset-0 pointer-events-none overflow-hidden">
+<div class="absolute -top-24 -left-24 w-96 h-96 bg-secondary/5 rounded-full blur-3xl"></div>
+<div class="absolute top-1/2 -right-48 w-80 h-80 bg-primary/5 rounded-full blur-3xl"></div>
+</div>
+<div class="max-w-md w-full text-center z-10 flex flex-col items-center">
+<!-- Central Artistic Icon Container -->
+<div class="relative mb-12">
+<div class="absolute inset-0 bg-secondary/10 rounded-full blur-2xl scale-150"></div>
+<div class="relative w-48 h-48 flex items-center justify-center">
+<!-- Perspective Layering: Outer circle -->
+<div class="absolute inset-0 border border-secondary/10 rounded-full animate-pulse"></div>
+<!-- The "Silk Thread Heart" Symbol -->
+<div class="relative bg-surface-container-lowest shadow-2xl rounded-full w-32 h-32 flex items-center justify-center border border-outline-variant/10">
+<span class="material-symbols-outlined text-7xl text-secondary" data-icon="favorite" style="font-variation-settings: 'wght' 200;">favorite</span>
+<!-- Decorative silk thread lines -->
+<svg class="absolute inset-0 w-full h-full pointer-events-none opacity-30" viewbox="0 0 100 100">
+<path d="M20 20 C 40 10, 60 90, 80 80" fill="none" stroke="#735c00" stroke-width="0.5"></path>
+<path d="M10 80 C 30 90, 70 10, 90 20" fill="none" stroke="#735c00" stroke-width="0.5"></path>
+</svg>
+</div>
+</div>
+</div>
+<!-- Content -->
+<h2 class="font-headline text-3xl font-bold text-primary mb-4 tracking-tight leading-tight">
+                Wishlist Anda Masih Kosong
+            </h2>
+<p class="font-body text-on-surface-variant text-base leading-relaxed mb-12 px-4 max-w-sm">
+                Simpan produk yang Anda sukai untuk menemukannya kembali dengan mudah di sini.
+            </p>
+<!-- Tactile CTA -->
+<button class="group relative bg-primary text-on-primary font-body font-semibold px-10 py-5 rounded-xl shadow-[0px_20px_40px_rgba(0,6,19,0.2)] hover:shadow-[0px_25px_50px_rgba(0,6,19,0.25)] transition-all transform active:scale-95 overflow-hidden">
+<span class="relative z-10">Mulai Menjelajah</span>
+<!-- Inner glow gradient for 3D tactile feel -->
+<div class="absolute inset-0 bg-gradient-to-tr from-primary via-primary/90 to-primary-container opacity-100 group-hover:opacity-90 transition-opacity"></div>
+<div class="absolute top-0 left-0 w-full h-[1px] bg-white/20"></div>
+</button>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 w-full z-50 rounded-t-[32px] bg-[#ffffff]/85 backdrop-blur-2xl shadow-[0px_-10px_40px_rgba(27,28,26,0.06)]">
+<div class="flex justify-around items-center px-8 h-20 pb-4 w-full">
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="home">home</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="search">search</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Cari</span>
+</a>
+<!-- Active State: Keinginan -->
+<a class="flex flex-col items-center justify-center text-[#735c00] scale-110 transition-transform tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="favorite" style="font-variation-settings: 'FILL' 1;">favorite</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Keinginan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-[#43474e] opacity-60 hover:opacity-100 transition-all tap-highlight-transparent" href="#">
+<span class="material-symbols-outlined text-2xl mb-1" data-icon="person">person</span>
+<span class="font-['Manrope'] text-[10px] font-medium uppercase tracking-widest">Profil</span>
+</a>
+</div>
+</nav>
+<!-- Visual Backdrop Shadow for Depth -->
+<div class="fixed bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent pointer-events-none z-40"></div>
+</body></html>

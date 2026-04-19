@@ -1,0 +1,279 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-container": "#001f3f",
+                    "on-secondary-container": "#745c00",
+                    "error": "#ba1a1a",
+                    "surface-variant": "#e3e2df",
+                    "tertiary": "#040604",
+                    "surface-container-low": "#f4f4f0",
+                    "on-tertiary": "#ffffff",
+                    "surface-container-highest": "#e3e2df",
+                    "secondary-fixed": "#ffe088",
+                    "primary-fixed-dim": "#afc8f0",
+                    "inverse-primary": "#afc8f0",
+                    "tertiary-fixed": "#e3e3de",
+                    "surface": "#faf9f5",
+                    "on-surface-variant": "#43474e",
+                    "primary-fixed": "#d4e3ff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "on-secondary-fixed-variant": "#574500",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-tertiary-container": "#858783",
+                    "on-error-container": "#93000a",
+                    "surface-tint": "#476083",
+                    "on-surface": "#1b1c1a",
+                    "on-secondary-fixed": "#241a00",
+                    "tertiary-container": "#1d1f1c",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-primary-fixed": "#001c3a",
+                    "secondary": "#735c00",
+                    "error-container": "#ffdad6",
+                    "on-background": "#1b1c1a",
+                    "inverse-on-surface": "#f2f1ed",
+                    "secondary-container": "#fed65b",
+                    "surface-container": "#efeeea",
+                    "primary": "#000613",
+                    "outline-variant": "#c4c6cf",
+                    "on-error": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "on-primary": "#ffffff",
+                    "background": "#faf9f5",
+                    "surface-container-lowest": "#ffffff",
+                    "surface-container-high": "#e9e8e4",
+                    "surface-dim": "#dbdad6",
+                    "inverse-surface": "#2f312e",
+                    "outline": "#74777f",
+                    "on-primary-container": "#6f88ad"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+      .material-symbols-outlined {
+        font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+      }
+      .perspective-card:nth-child(even) {
+        transform: translateY(24px);
+      }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface font-body text-on-surface selection:bg-secondary/30">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-[#faf9f5]/85 backdrop-blur-xl shadow-[0px_20px_40px_rgba(27,28,26,0.04)]">
+<div class="flex items-center justify-between px-6 py-4 w-full">
+<div class="flex items-center gap-4 flex-1">
+<button class="hover:opacity-70 transition-opacity scale-95 active:duration-150">
+<span class="material-symbols-outlined text-[#000613]">arrow_back</span>
+</button>
+<div class="relative flex-1 max-w-md">
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-2 font-label text-on-surface focus:ring-secondary/40 focus:ring-2 transition-all" placeholder="Cari pencahayaan..." type="text" value="Lampu Gantung"/>
+<span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-sm">close</span>
+</div>
+</div>
+<div class="hidden md:flex items-center gap-8 ml-8">
+<span class="text-[#43474e] font-semibold font-label uppercase tracking-widest text-xs">Curated</span>
+<span class="text-[#735c00] font-semibold font-label uppercase tracking-widest text-xs">Search</span>
+<span class="text-[#43474e] font-semibold font-label uppercase tracking-widest text-xs">Cart</span>
+<span class="text-[#43474e] font-semibold font-label uppercase tracking-widest text-xs">Profile</span>
+</div>
+<div class="flex items-center gap-4 ml-4">
+<button class="hover:opacity-70 transition-opacity"><span class="material-symbols-outlined text-[#000613]">tune</span></button>
+</div>
+</div>
+</header>
+<main class="pt-28 pb-32 px-6 max-w-7xl mx-auto">
+<!-- Header Section -->
+<div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-4">
+<div>
+<h1 class="font-headline text-4xl text-primary tracking-tight mb-2">Hasil Pencarian</h1>
+<p class="font-label text-on-surface-variant tracking-wide">12 Produk Ditemukan untuk <span class="italic text-primary font-medium">"Lampu Gantung"</span></p>
+</div>
+<div class="flex items-center gap-3">
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low rounded-xl font-label text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">filter_list</span>
+                    Filter
+                </button>
+<button class="flex items-center gap-2 px-5 py-2.5 bg-surface-container-low rounded-xl font-label text-sm font-semibold hover:bg-surface-container-highest transition-colors">
+<span class="material-symbols-outlined text-sm">swap_vert</span>
+                    Urutkan
+                </button>
+</div>
+</div>
+<!-- Bento/Asymmetric Grid Results -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 md:gap-12">
+<!-- Product 1: Large Featured Card -->
+<div class="lg:col-span-2 group">
+<div class="relative bg-surface-container-lowest rounded-[32px] overflow-hidden shadow-[0px_20px_40px_rgba(27,28,26,0.06)] h-full min-h-[400px] flex flex-col md:flex-row">
+<div class="w-full md:w-3/5 relative overflow-hidden h-64 md:h-full">
+<img alt="Luxury minimalist pendant lamp" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" data-alt="luxury minimalist glass pendant lamp hanging in a high-end modern living room with soft ambient morning light" src="https://lh3.googleusercontent.com/aida-public/AB6AXuDl3XNyXPmezS17bN4OMDl0Lux1RT7paVsVWhf_t5jzmKSWo2_wkH51Yzmmyr9qL1vw5SGP4ewCFT-1H0tLcoLXfRrMqoojvybXXmxTpCIja_yQQqgTwxJ4uvV50go50iFwzKMBX-20gb3Fy6q6ZrHMSx0tyUy8VgIY2BdQXvxuKrln42Ii8iB7vEmsk0zyNck_B2lAj0rze-kx0_paVjuWhUWdCOwQnDJzBqBglJNZt2n6QEZNfjYwhuA3MP5DGxcQMJxK-K_woBQ"/>
+<div class="absolute top-6 left-6 px-4 py-1.5 bg-secondary text-on-primary text-[10px] font-bold uppercase tracking-widest rounded-full">Koleksi Terbatas</div>
+</div>
+<div class="p-8 md:w-2/5 flex flex-col justify-center">
+<span class="font-label text-secondary text-xs font-bold uppercase tracking-[0.2em] mb-3">Atelier Signature</span>
+<h3 class="font-headline text-2xl text-primary mb-4 leading-tight">Lumina Grand Chandelier No. 04</h3>
+<p class="font-body text-on-surface-variant text-sm mb-8 leading-relaxed">Pencahayaan kurasi dengan material kuningan sikat dan kristal artisan untuk ruang kontemporer.</p>
+<div class="flex items-center justify-between mt-auto">
+<span class="font-headline text-xl text-primary">Rp 12.500.000</span>
+<button class="w-12 h-12 rounded-full bg-primary text-on-primary flex items-center justify-center hover:bg-primary-container transition-all shadow-lg active:scale-90">
+<span class="material-symbols-outlined">shopping_bag</span>
+</button>
+</div>
+</div>
+</div>
+</div>
+<!-- Product 2 -->
+<div class="group">
+<div class="bg-surface-container-low rounded-[24px] p-4 transition-all hover:bg-surface-container-lowest hover:shadow-xl">
+<div class="aspect-[4/5] rounded-[20px] overflow-hidden mb-6 relative">
+<img alt="Modern black pendant lamp" class="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110" data-alt="sleek matte black industrial style pendant light against a clean white wall with dramatic shadows" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOhB2NSQJIHmC_d5sK1-une-bG1nQj0oXqi5uew4sHwVyNj8o_2-bP9nrvTvVmGKeSkSmPOBL4VSP8uLN0TlnnVUaaNCwOrBuvoIqj1mlaWyQ7oK8jCdp1q46JO5UxwuRLPgVky15rNsrX3aoXSqZXK1ictzX31pumBOewXCG3ywzcSe6sGukqOelEBA_7TDgpuXOgJCcjojl8Gjuh3S3i5gcOoc6ndNWkJR-ay15dVCvl8hlpWDBheZIIMc2b0EZesEUeKOYtj7I"/>
+<button class="absolute top-4 right-4 w-10 h-10 rounded-full bg-white/80 backdrop-blur-md flex items-center justify-center text-primary hover:text-secondary transition-colors">
+<span class="material-symbols-outlined text-xl">favorite</span>
+</button>
+</div>
+<div class="px-2">
+<h3 class="font-headline text-lg text-primary mb-1">Noir Industrial Pendant</h3>
+<p class="font-label text-on-surface-variant text-xs mb-4">Matte Black Steel</p>
+<div class="flex items-center justify-between">
+<span class="font-headline text-secondary">Rp 2.850.000</span>
+<span class="material-symbols-outlined text-on-surface-variant/40">add_circle</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Product 3 -->
+<div class="group perspective-card">
+<div class="bg-surface-container-lowest rounded-[24px] p-4 shadow-sm border border-outline-variant/10 transition-all hover:shadow-lg">
+<div class="aspect-square rounded-[20px] overflow-hidden mb-6">
+<img alt="Brass orb pendant lamp" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="spherical warm brass pendant lamp with frosted glass globe glowing softly in a minimalist corner" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBYJG-53Tr14yqT_so5eMDzPWAQIv9_AV7EBiVRjExdOatcIo-jHzW_LMUiHCO453nLW8RWXL7iIHbM2_JP_zL-AgItwhQ7SPE3L_7k1V3SUawm2qlncyGbU5bZctpn54-xwHuW5OUXLlYhqi47PgUF8b3yqgKMZ493b-5ZEHpln3ryfhB5lCZ6TDLMCdnrj-jQuKGLf4DhyVFPbYm5ZpQ4V1f0Zx0OYTOyDCE-pOv8bwYfXIc0LOwvgkVkAWnfmMHElbRX3MAC5sU"/>
+</div>
+<div class="px-2">
+<h3 class="font-headline text-lg text-primary mb-1">Orbital Brass Sphere</h3>
+<p class="font-label text-on-surface-variant text-xs mb-4">Kuningan &amp; Opal Glass</p>
+<div class="flex items-center justify-between">
+<span class="font-headline text-secondary">Rp 4.200.000</span>
+<span class="material-symbols-outlined text-primary">add_shopping_cart</span>
+</div>
+</div>
+</div>
+</div>
+<!-- Product 4 -->
+<div class="group perspective-card">
+<div class="bg-surface-container-lowest rounded-[24px] p-4 shadow-sm border border-outline-variant/10 transition-all hover:shadow-lg">
+<div class="aspect-[3/4] rounded-[20px] overflow-hidden mb-6">
+<img alt="Rattan pendant light" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" data-alt="organic woven rattan pendant lamp creating intricate patterns of light and shadow on a warm beige wall" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC2n9x6NWYJ5Oy1epY0Qe9dqwtCUpz08zwXFocbWnck8cPFO9JXWwL6J0WHwprqOUK_S5b_yjp6Bb0idslAjr8lEeDgn9weNbT3OfWvoOGdAflfEJb8m1DYAP2ZucQypAy3OBdXOoj1Gn6lmC4CaDSqDzNyX7U3QAGmeR4iwg-CX2-BWtmmsfyF8nunjccRun450Tn5v3KKLS06peBIWJwmkqzXK-a5EtrAbxWvlb9Bq5YtEWOGpd901gkGj-QKXJWYySL7gWgkN84"/>
+</div>
+<div class="px-2 text-center">
+<h3 class="font-headline text-lg text-primary mb-1">Nusantara Woven Bell</h3>
+<p class="font-label text-on-surface-variant text-xs mb-4">Natural Rattan Handcrafted</p>
+<span class="font-headline text-secondary block mb-2">Rp 1.150.000</span>
+</div>
+</div>
+</div>
+<!-- Product 5 -->
+<div class="group perspective-card">
+<div class="bg-surface-container-low rounded-[24px] p-4 transition-all hover:bg-surface-container-lowest hover:shadow-xl">
+<div class="aspect-square rounded-[20px] overflow-hidden mb-6">
+<img alt="Modern art-deco lamp" class="w-full h-full object-cover group-hover:rotate-2 transition-transform duration-500" data-alt="art deco inspired geometric pendant lamp with dark wood and gold accents in a sophisticated interior" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBXhcFtgbqJLIBiPz7cY7V-4wuzrw6GupiLLjvlzCwjNVq0lOahB2G5MaGYQ8_-LJ4wdekIRVrwDvBdZ0sT4nf-bJiXparASQpIsbdMshRcssWt2Mu0J116BhT5TbTdLMn7MPy5fCvsxDb0BUYH4Zty2Nx7sFBMJbZBaN2CY1cHnxTEqD6vOIAv3HEO9j4i4FZbvaIH5m0dDDE5knoBIqvGalO_DMvS1nlM1SQs2fc7oFckrgSDtzhzZIi0csItaA8PilZKoNnb5b0"/>
+</div>
+<div class="px-2">
+<h3 class="font-headline text-lg text-primary mb-1">Deco Linear Wood</h3>
+<p class="font-label text-on-surface-variant text-xs mb-4">Walnut &amp; Gold Finish</p>
+<div class="flex items-center justify-between">
+<span class="font-headline text-secondary">Rp 6.700.000</span>
+<div class="w-8 h-8 rounded-full bg-primary/5 flex items-center justify-center">
+<span class="material-symbols-outlined text-sm">arrow_forward</span>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Secondary Suggestion Section -->
+<div class="mt-32 pt-16 border-t border-outline-variant/10">
+<h2 class="font-headline text-2xl text-primary mb-8">Anda Mungkin Juga Menyukai</h2>
+<div class="flex gap-6 overflow-x-auto pb-8 snap-x no-scrollbar">
+<div class="min-w-[240px] snap-start group">
+<div class="aspect-square rounded-2xl bg-surface-container-low overflow-hidden mb-4">
+<img alt="Wall sconce" class="w-full h-full object-cover" data-alt="minimalist sculptural wall sconce lamp with warm glowing halo effect" src="https://lh3.googleusercontent.com/aida-public/AB6AXuChjLKJr3fxisSdMsJaV31iUtjGKjKVex_X59YqgEoEefbzpMvrS6tHDsrbxZOuY7_aFcrhmrjhYqas0WHHgz3SqmaD4gxL8jG6RmRt58hQC5kadIjT43Z6gmWw4HsCj76P4CZs9x9MqJr_VIJQru7scIjAmBu5PH9tFw_l8x_rhXysd1jkZfBrKk9XDUJlh94dhd2k-Bhv_TKUfqa625giE3zsxE0z6n3QFuGz3XMkXj0PyzsrBWfACcRE514YRqqpNpAry4MTmvA"/>
+</div>
+<p class="font-label text-xs font-bold uppercase text-on-surface-variant">Wall Lamps</p>
+<h4 class="font-headline text-primary">Aura Sconce</h4>
+</div>
+<div class="min-w-[240px] snap-start group">
+<div class="aspect-square rounded-2xl bg-surface-container-low overflow-hidden mb-4">
+<img alt="Floor lamp" class="w-full h-full object-cover" data-alt="tall arching floor lamp with a large linen shade in a bright airy study" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3L29VpPjvFmnwO9d2v_15xvZVcXkA9mpnBDEAt_v-MtMKt9PnwyPAGDwXL90U-WTb62Pnynn7ujwegI35DTeu7V7ro_mKM3WIDL4SdhuV6DFy8Y0HCwjPbvIpSGEGKaQICNqXNVaARbms1ME3fhRk9VnQOVSehORT9C0nmosfFFwXIIu6IB4rp8AY7qYt7jmjBy3lWIaFFoa6viJcdL8XIyUIddblJXDR4Qgy1xtaaW_ed7NymqKaks3sq9HCTta0izsLKFW6PBc"/>
+</div>
+<p class="font-label text-xs font-bold uppercase text-on-surface-variant">Floor Lamps</p>
+<h4 class="font-headline text-primary">Archival Floor Lamp</h4>
+</div>
+<div class="min-w-[240px] snap-start group">
+<div class="aspect-square rounded-2xl bg-surface-container-low overflow-hidden mb-4">
+<img alt="Accessories" class="w-full h-full object-cover" data-alt="assortment of high-quality led designer bulbs with warm filaments" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAfVtH5Pr8mfprckvo7v_XHsQaPCNgBrsrOVilYpizwTT4vNYN9vbCGwaftWeDFpKJ5R3k0VhQ1GjEbBeTAEo6s24uf8lYLROE8FHJTzprlX5bzMCJPGRyQr8QIANZ1qEGgEf-Q5BZcIDdZWjbEAx3QAbEYOfV6BrqJ4CpgIMX7rmkPLM1icKWAJBnKy0yDXR9yu054umUZJ2SqmMdASjYPkW2mp4_21T-nFdXiPnVXvQSv4NgPRemmSGbfmX06NsRJFXY-A2HeYjI"/>
+</div>
+<p class="font-label text-xs font-bold uppercase text-on-surface-variant">Accessories</p>
+<h4 class="font-headline text-primary">Vintage LED Bulb Kit</h4>
+</div>
+</div>
+</div>
+</main>
+<!-- BottomNavBar -->
+<nav class="fixed bottom-0 left-0 w-full z-50 bg-[#ffffff]/85 backdrop-blur-2xl rounded-t-[32px] shadow-[0px_-10px_30px_rgba(27,28,26,0.06)] md:hidden">
+<div class="flex justify-around items-center pt-4 pb-8 px-8">
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60 transition-all hover:opacity-100">
+<span class="material-symbols-outlined mb-1">auto_awesome</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Curated</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#735c00] scale-110 transition-transform">
+<span class="material-symbols-outlined mb-1" style="font-variation-settings: 'FILL' 1;">search</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Search</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60 transition-all hover:opacity-100">
+<span class="material-symbols-outlined mb-1">shopping_bag</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Cart</span>
+</div>
+<div class="flex flex-col items-center justify-center text-[#43474e] opacity-60 transition-all hover:opacity-100">
+<span class="material-symbols-outlined mb-1">person</span>
+<span class="font-['Manrope'] text-[11px] font-medium uppercase tracking-widest">Profile</span>
+</div>
+</div>
+</nav>
+<!-- Sticky Filter FAB (Visual Aid) -->
+<div class="fixed bottom-32 right-6 z-40">
+<button class="bg-primary text-on-primary w-14 h-14 rounded-full shadow-2xl flex items-center justify-center group active:scale-90 transition-transform md:hidden">
+<span class="material-symbols-outlined">tune</span>
+</button>
+</div>
+</body></html>

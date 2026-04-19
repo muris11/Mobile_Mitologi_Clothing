@@ -1,0 +1,10 @@
+export 'app_bar_section.dart';
+export 'hero_section.dart';
+export 'categories_section.dart';
+export 'best_sellers_section.dart';
+export 'promo_section.dart';
+export 'new_arrivals_section.dart';
+export 'guarantees_section.dart';
+export 'testimonials_section.dart';
+export 'portfolio_section.dart';
+export 'materials_section.dart';

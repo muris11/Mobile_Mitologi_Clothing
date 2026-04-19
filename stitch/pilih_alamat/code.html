@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+
+<html lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Pilih Alamat - Aurelian Silk</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:ital,wght@0,400;0,700;1,400;1,700&amp;family=Manrope:wght@400;500;600;700;800&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "tertiary-container": "#1d1f1c",
+                    "tertiary-fixed": "#e3e3de",
+                    "inverse-primary": "#afc8f0",
+                    "inverse-on-surface": "#f2f1ed",
+                    "inverse-surface": "#2f312e",
+                    "surface-container-highest": "#e3e2df",
+                    "primary": "#000613",
+                    "surface-container": "#efeeea",
+                    "surface-variant": "#e3e2df",
+                    "surface-container-high": "#e9e8e4",
+                    "primary-container": "#001f3f",
+                    "on-tertiary-container": "#858783",
+                    "on-error": "#ffffff",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "on-secondary": "#ffffff",
+                    "on-primary-container": "#6f88ad",
+                    "on-primary": "#ffffff",
+                    "tertiary": "#040604",
+                    "secondary": "#735c00",
+                    "on-surface-variant": "#43474e",
+                    "surface-container-lowest": "#ffffff",
+                    "surface": "#faf9f5",
+                    "background": "#faf9f5",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "surface-dim": "#dbdad6",
+                    "primary-fixed": "#d4e3ff",
+                    "on-tertiary": "#ffffff",
+                    "surface-bright": "#faf9f5",
+                    "on-error-container": "#93000a",
+                    "on-surface": "#1b1c1a",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "on-secondary-fixed": "#241a00",
+                    "secondary-fixed": "#ffe088",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-secondary-container": "#745c00",
+                    "secondary-fixed-dim": "#e9c349",
+                    "primary-fixed-dim": "#afc8f0",
+                    "surface-tint": "#476083",
+                    "outline": "#74777f",
+                    "on-primary-fixed": "#001c3a",
+                    "outline-variant": "#c4c6cf",
+                    "surface-container-low": "#f4f4f0",
+                    "on-secondary-fixed-variant": "#574500",
+                    "error-container": "#ffdad6",
+                    "error": "#ba1a1a",
+                    "on-background": "#1b1c1a",
+                    "secondary-container": "#fed65b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        }
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .tonal-elevation {
+            box-shadow: 0px 4px 20px rgba(27, 28, 26, 0.04);
+        }
+        .background-shift {
+            background-color: rgba(255, 255, 255, 0.85);
+            backdrop-filter: blur(20px);
+        }
+        .perspective-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+        .perspective-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0px 20px 40px rgba(27, 28, 26, 0.06);
+        }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface font-body selection:bg-secondary-fixed selection:text-on-secondary-fixed">
+<!-- TopAppBar -->
+<header class="fixed top-0 w-full z-50 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl flex items-center justify-between px-6 h-16 w-full shadow-[0px_4px_20px_rgba(27,28,26,0.04)]">
+<button class="hover:opacity-70 transition-opacity scale-95 duration-200">
+<span class="material-symbols-outlined text-slate-950 dark:text-slate-50" data-icon="arrow_back">arrow_back</span>
+</button>
+<h1 class="font-noto-serif text-lg tracking-tight text-slate-950 dark:text-slate-50">Pilih Alamat</h1>
+<div class="w-6"></div> <!-- Spacer for centering -->
+</header>
+<main class="pt-24 pb-32 px-6 max-w-2xl mx-auto">
+<!-- Section Header -->
+<div class="mb-8">
+<h2 class="font-headline text-2xl font-bold text-primary mb-2">Alamat Tersimpan</h2>
+<p class="text-on-surface-variant font-body">Pilih lokasi pengiriman untuk pesanan Anda.</p>
+</div>
+<!-- Address List -->
+<div class="space-y-6">
+<!-- Selected Primary Address Card -->
+<div class="perspective-card group relative p-6 rounded-xl bg-surface-container-lowest border-2 border-primary shadow-[0px_20px_40px_rgba(27, 28, 26, 0.06)]">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-primary" data-icon="home">home</span>
+<span class="font-label font-bold text-sm tracking-wide uppercase">Rumah</span>
+<span class="px-3 py-1 bg-secondary-container text-on-secondary-container text-[10px] font-bold rounded-full tracking-widest uppercase">Utama</span>
+</div>
+<span class="material-symbols-outlined text-primary" data-icon="check_circle" style="font-variation-settings: 'FILL' 1;">check_circle</span>
+</div>
+<div class="space-y-1">
+<h3 class="font-bold text-primary text-lg">Budi Santoso</h3>
+<p class="text-on-surface-variant leading-relaxed">Jl. Senopati No. 42, Kebayoran Baru, Jakarta Selatan, DKI Jakarta 12110</p>
+<p class="text-on-surface-variant font-medium pt-2">(+62) 812-3456-7890</p>
+</div>
+<div class="mt-6 flex gap-4">
+<button class="text-secondary font-bold text-sm hover:opacity-70 transition-opacity">Ubah Alamat</button>
+</div>
+</div>
+<!-- Secondary Address Card -->
+<div class="perspective-card group p-6 rounded-xl bg-surface-container-low hover:bg-surface-container-lowest transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="business">business</span>
+<span class="font-label font-bold text-sm tracking-wide uppercase text-on-surface-variant">Kantor</span>
+</div>
+</div>
+<div class="space-y-1">
+<h3 class="font-bold text-primary text-lg">Budi Santoso (Aurelian HQ)</h3>
+<p class="text-on-surface-variant leading-relaxed">Sudirman Central Business District (SCBD), Gedung Treasury, Lt. 18, Jakarta Selatan, 12190</p>
+<p class="text-on-surface-variant font-medium pt-2">(+62) 21-555-0123</p>
+</div>
+<div class="mt-6 flex gap-4">
+<button class="text-secondary font-bold text-sm hover:opacity-70 transition-opacity">Pilih Alamat</button>
+<div class="w-[1px] h-4 bg-outline-variant/20 self-center"></div>
+<button class="text-on-surface-variant font-bold text-sm hover:opacity-70 transition-opacity">Ubah</button>
+</div>
+</div>
+<!-- Apartment Address Card -->
+<div class="perspective-card group p-6 rounded-xl bg-surface-container-low hover:bg-surface-container-lowest transition-all">
+<div class="flex justify-between items-start mb-4">
+<div class="flex items-center gap-3">
+<span class="material-symbols-outlined text-on-surface-variant" data-icon="apartment">apartment</span>
+<span class="font-label font-bold text-sm tracking-wide uppercase text-on-surface-variant">Apartemen</span>
+</div>
+</div>
+<div class="space-y-1">
+<h3 class="font-bold text-primary text-lg">Budi Santoso</h3>
+<p class="text-on-surface-variant leading-relaxed">Apartemen Verde Two, Tower Terra, Unit 22B, Kuningan, Jakarta Selatan, 12940</p>
+<p class="text-on-surface-variant font-medium pt-2">(+62) 812-3456-7890</p>
+</div>
+<div class="mt-6 flex gap-4">
+<button class="text-secondary font-bold text-sm hover:opacity-70 transition-opacity">Pilih Alamat</button>
+<div class="w-[1px] h-4 bg-outline-variant/20 self-center"></div>
+<button class="text-on-surface-variant font-bold text-sm hover:opacity-70 transition-opacity">Ubah</button>
+</div>
+</div>
+</div>
+<!-- Visual Anchor: Map Preview -->
+<div class="mt-12 rounded-3xl overflow-hidden relative h-48 surface-container-highest">
+<img class="w-full h-full object-cover grayscale opacity-60" data-alt="stylized architectural map of Jakarta city with minimal lines and soft warm neutral tones" data-location="Jakarta" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC9fHl4NZsTVvxQ6X_fSdc2nC-9-yuaWZODkMKLQZ3PryUuJnaTvgXzQ9AN56_MyJAB6BDoY4e7hjIvipc7pcXzfHDc0cPT2Hm6VXezFooqnSR_Yf6e1DM1AbMbXpwGglkUz6M2cxF3oY9ZobBoPAd0bp8qpuPd4JY8UCrcc8YNs2o5_M34qCCcZLKUShqH5QDTG9moejFeaYti7xHx7DtEOJszTLc1MC9rvpyttAMXKzht2iHsV4omhCJM9-DcPb30dtrM5AXGFwA"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="bg-primary text-on-primary p-3 rounded-full shadow-2xl">
+<span class="material-symbols-outlined" data-icon="location_on" style="font-variation-settings: 'FILL' 1;">location_on</span>
+</div>
+</div>
+<div class="absolute bottom-4 left-4 right-4 bg-surface/90 backdrop-blur-md p-3 rounded-xl">
+<p class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Radius Pengiriman: 15km dari pusat Jakarta</p>
+</div>
+</div>
+</main>
+<!-- Bottom Action Area -->
+<div class="fixed bottom-0 left-0 w-full px-6 pb-10 pt-6 bg-white/85 dark:bg-slate-950/85 backdrop-blur-xl shadow-[0px_-10px_40px_rgba(27,28,26,0.06)] z-50">
+<button class="w-full h-14 bg-primary text-on-primary font-body font-bold rounded-xl flex items-center justify-center gap-3 hover:opacity-90 transition-all scale-100 active:scale-95">
+<span class="material-symbols-outlined" data-icon="add">add</span>
+            Tambah Alamat Baru
+        </button>
+</div>
+<!-- Hidden BottomNavBar logic for screens that need it (suppressed here as per task "focused task flow") -->
+</body></html>

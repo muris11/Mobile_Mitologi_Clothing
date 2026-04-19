@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+
+<html class="light" lang="id"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Serif:wght@400;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#d4e3ff",
+                    "surface-container-highest": "#e3e2df",
+                    "on-error-container": "#93000a",
+                    "primary-container": "#001f3f",
+                    "on-error": "#ffffff",
+                    "tertiary-fixed-dim": "#c6c7c2",
+                    "secondary-fixed-dim": "#e9c349",
+                    "tertiary-container": "#1d1f1c",
+                    "on-tertiary-container": "#858783",
+                    "on-surface-variant": "#43474e",
+                    "on-secondary-container": "#745c00",
+                    "on-primary-fixed-variant": "#2f486a",
+                    "on-background": "#1b1c1a",
+                    "secondary": "#735c00",
+                    "on-primary-container": "#6f88ad",
+                    "on-secondary-fixed": "#241a00",
+                    "inverse-primary": "#afc8f0",
+                    "surface-container-low": "#f4f4f0",
+                    "surface-container": "#efeeea",
+                    "on-tertiary": "#ffffff",
+                    "on-secondary": "#ffffff",
+                    "on-primary-fixed": "#001c3a",
+                    "surface-bright": "#faf9f5",
+                    "surface": "#faf9f5",
+                    "primary": "#000613",
+                    "on-primary": "#ffffff",
+                    "surface-dim": "#dbdad6",
+                    "surface-tint": "#476083",
+                    "surface-variant": "#e3e2df",
+                    "surface-container-high": "#e9e8e4",
+                    "on-secondary-fixed-variant": "#574500",
+                    "tertiary": "#040604",
+                    "on-tertiary-fixed-variant": "#454744",
+                    "error": "#ba1a1a",
+                    "inverse-on-surface": "#f2f1ed",
+                    "secondary-fixed": "#ffe088",
+                    "outline": "#74777f",
+                    "error-container": "#ffdad6",
+                    "surface-container-lowest": "#ffffff",
+                    "tertiary-fixed": "#e3e3de",
+                    "on-tertiary-fixed": "#1a1c19",
+                    "inverse-surface": "#2f312e",
+                    "secondary-container": "#fed65b",
+                    "background": "#faf9f5",
+                    "primary-fixed-dim": "#afc8f0",
+                    "on-surface": "#1b1c1a",
+                    "outline-variant": "#c4c6cf"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.25rem",
+                    "lg": "0.5rem",
+                    "xl": "0.75rem",
+                    "full": "9999px"
+            },
+            "fontFamily": {
+                    "headline": ["Noto Serif"],
+                    "body": ["Manrope"],
+                    "label": ["Manrope"]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        body { font-family: 'Manrope', sans-serif; background-color: #faf9f5; }
+        .font-serif { font-family: 'Noto Serif', serif; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 300, 'GRAD' 0, 'opsz' 24; }
+    </style>
+<style>
+    body {
+      min-height: max(884px, 100dvh);
+    }
+  </style>
+  </head>
+<body class="bg-surface text-on-surface mb-24 md:mb-0">
+<!-- TopAppBar -->
+<nav class="fixed top-0 w-full z-50 bg-white/85 backdrop-blur-xl shadow-[0_20_40px_rgba(27,28,26,0.06)] flex justify-between items-center px-6 py-4">
+<div class="flex items-center gap-4">
+<span class="material-symbols-outlined text-slate-900 cursor-pointer">menu</span>
+<span class="font-serif text-2xl uppercase tracking-widest text-slate-900">Atelier</span>
+</div>
+<div class="hidden md:flex gap-8 items-center font-label text-xs uppercase tracking-widest">
+<a class="text-slate-600 hover:opacity-70 transition-opacity" href="#">Beranda</a>
+<a class="text-slate-600 hover:opacity-70 transition-opacity" href="#">Koleksi</a>
+<a class="text-yellow-700 font-bold" href="#">Hubungi Kami</a>
+</div>
+<span class="material-symbols-outlined text-slate-900 cursor-pointer">shopping_bag</span>
+</nav>
+<main class="pt-24 pb-12 px-6 max-w-7xl mx-auto">
+<!-- Header Section -->
+<header class="mb-12 text-center md:text-left">
+<h1 class="font-serif text-4xl md:text-5xl lg:text-6xl text-primary tracking-tighter mb-4">Hubungi Kami</h1>
+<p class="font-body text-on-surface-variant max-w-2xl leading-relaxed">
+                Kami hadir untuk membantu mewujudkan visi Anda. Silakan hubungi tim kurator kami atau kunjungi salah satu butik fisik kami.
+            </p>
+</header>
+<div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+<!-- Left: Contact Form -->
+<section class="lg:col-span-7 bg-surface-container-lowest rounded-xl p-8 shadow-[0_20px_40px_rgba(27,28,26,0.06)]">
+<h2 class="font-serif text-2xl text-primary mb-8">Kirim Pesan</h2>
+<form class="space-y-6">
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+<div class="relative">
+<label class="block text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2 ml-1">Nama Lengkap</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-1 focus:ring-secondary/40 placeholder:text-outline/50" placeholder="Masukkan nama Anda" type="text"/>
+</div>
+<div class="relative">
+<label class="block text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2 ml-1">Email</label>
+<input class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-1 focus:ring-secondary/40 placeholder:text-outline/50" placeholder="nama@email.com" type="email"/>
+</div>
+</div>
+<div>
+<label class="block text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2 ml-1">Subjek</label>
+<select class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-1 focus:ring-secondary/40 text-on-surface-variant">
+<option>Pertanyaan Umum</option>
+<option>Layanan Kustom</option>
+<option>Kerjasama Bisnis</option>
+<option>Lainnya</option>
+</select>
+</div>
+<div>
+<label class="block text-xs font-label uppercase tracking-widest text-on-surface-variant mb-2 ml-1">Pesan</label>
+<textarea class="w-full bg-surface-container-low border-none rounded-xl px-4 py-4 focus:ring-1 focus:ring-secondary/40 placeholder:text-outline/50" placeholder="Bagaimana kami bisa membantu Anda?" rows="5"></textarea>
+</div>
+<button class="w-full bg-primary text-on-primary font-label uppercase tracking-[0.2em] py-5 rounded-xl hover:opacity-90 transition-all flex justify-center items-center gap-2 group" type="submit">
+                        Kirim Pesan
+                        <span class="material-symbols-outlined text-sm group-hover:translate-x-1 transition-transform">arrow_forward</span>
+</button>
+</form>
+</section>
+<!-- Right: Info & Locations -->
+<aside class="lg:col-span-5 space-y-12">
+<!-- Contact Channels -->
+<div class="space-y-6">
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container transition-colors group">
+<div class="bg-secondary/10 p-3 rounded-full text-secondary">
+<span class="material-symbols-outlined">mail</span>
+</div>
+<div>
+<h3 class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">Email Resmi</h3>
+<p class="text-primary font-medium">concierge@atelier.id</p>
+</div>
+</div>
+<div class="flex items-start gap-4 p-4 rounded-xl hover:bg-surface-container transition-colors group">
+<div class="bg-secondary/10 p-3 rounded-full text-secondary">
+<span class="material-symbols-outlined">chat</span>
+</div>
+<div>
+<h3 class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-1">WhatsApp Concierge</h3>
+<p class="text-primary font-medium">+62 812 3456 7890</p>
+</div>
+</div>
+</div>
+<!-- Locations Bento -->
+<div class="grid grid-cols-1 gap-4">
+<h2 class="font-serif text-2xl text-primary mb-2">Butik Kami</h2>
+<!-- Location 1 -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low group h-48">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="minimalist luxury boutique interior with marble floors and soft gallery lighting in Jakarta" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAkAtXXEM33rrWoc3Isxi1fR4mO1T9-6alOv11CAbKT3NEGHBXg9Zmyvu3WYtoq69IqeDlm56ywbtWmL-e6su3_QBrLmfqx6DhVIaGHbJ3KiTM3qUYIuXYgV1NaBvXySivDxZKwEfrE0w_ZBuEhqY3m0OHz1x9tzzeRb6loPMIeNyhrbbZujxmd1z0Krcc3P7n6hc80SNXQxWrSQ_LvjwbljXBobtsoXiI6SYT9myotasIkF6BToPuokoNW_Qmivi7l1pXPXbj31dA"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<h4 class="font-serif text-lg">Jakarta Selatan</h4>
+<p class="text-xs opacity-80 font-light">Senopati District No. 42</p>
+</div>
+</div>
+<!-- Location 2 -->
+<div class="relative overflow-hidden rounded-xl bg-surface-container-low group h-48">
+<img class="absolute inset-0 w-full h-full object-cover transition-transform duration-700 group-hover:scale-110" data-alt="high-end minimalist architectural building exterior with warm evening lighting for a boutique store" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAjUAcUUTf0B3sFMnd6ARIVcjea9a_-KAvbe-c37OTSigln4jggeINlf_pG7TTAlIi6xO9ZkPFQVFgdFllpJmJvpliVgqh5-1BM3VWGZHAKzSTv6sYkfl1IOiUK5Pl332ObTiRiP2viSW70yUiVPclEmI5zKytzjRuQwSHYB_iMdyEXACHOQLkgK9drRje_iL5xwAyt3-o8Sr1JVEpMkk7i0Bzl01nCF0HggfodZa19zr27VeJf3KgG_-UYpwgokXn9e6I8IISPrdc"/>
+<div class="absolute inset-0 bg-gradient-to-t from-primary/80 to-transparent"></div>
+<div class="absolute bottom-4 left-4 text-white">
+<h4 class="font-serif text-lg">Bali, Seminyak</h4>
+<p class="text-xs opacity-80 font-light">Jalan Kayu Aya No. 108</p>
+</div>
+</div>
+</div>
+<!-- Socials -->
+<div class="pt-4">
+<h3 class="font-label text-xs uppercase tracking-widest text-on-surface-variant mb-4">Ikuti Perjalanan Kami</h3>
+<div class="flex gap-4">
+<a class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">public</span>
+</a>
+<a class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">camera</span>
+</a>
+<a class="w-12 h-12 rounded-full bg-surface-container-highest flex items-center justify-center hover:bg-primary hover:text-on-primary transition-all duration-300" href="#">
+<span class="material-symbols-outlined text-lg">videocam</span>
+</a>
+</div>
+</div>
+</aside>
+</div>
+</main>
+<!-- Map Section (Full Width Background Shift) -->
+<section class="bg-surface-container-low py-20 px-6">
+<div class="max-w-7xl mx-auto rounded-[32px] overflow-hidden relative h-[450px] shadow-xl group">
+<img class="absolute inset-0 w-full h-full object-cover grayscale opacity-50 group-hover:grayscale-0 transition-all duration-1000" data-alt="stylized satellite view map of a modern city center with gold and dark navy color grading" data-location="Jakarta" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBbtVZ1EcVr9ZdXpUoDfaI1cAmXQNn4KabbAaByD25bOi9wXM-DoxEPJ69ZOADHnvcSim-iqofUB3LosFRImYbAFG6pa96CX3nu6ifyE3zN003TCyodrcW9XojlOeZmp0Z9pedVTX4FkqDcM4hqDi7ugvhjZ9QfUr0ldV0giJNRxTqsxAjPNs5W8T6J4wBTf8D3WrKrL97vXVdhm6CHbzZRncG4Ww20AfopSU4i4AAcOYaIGHRHZhcHY40obBsvYLxqpA7si0Q2EEI"/>
+<div class="absolute inset-0 flex items-center justify-center pointer-events-none">
+<div class="bg-primary/90 text-on-primary p-6 rounded-2xl backdrop-blur-md shadow-2xl flex flex-col items-center gap-2 animate-bounce">
+<span class="material-symbols-outlined text-secondary">location_on</span>
+<span class="font-label text-xs tracking-widest uppercase">Pusat Kurasi</span>
+</div>
+</div>
+<div class="absolute bottom-6 left-6 right-6 md:right-auto bg-white/90 p-6 rounded-2xl backdrop-blur-md max-w-xs border border-white/20">
+<p class="font-serif text-xl text-primary mb-2">Butik Utama</p>
+<p class="text-sm text-on-surface-variant leading-relaxed">Jl. Kebayoran Baru, Jakarta Selatan. Buka setiap hari: 10:00 - 21:00</p>
+<a class="mt-4 text-secondary inline-flex items-center gap-2 font-bold text-xs uppercase tracking-widest group/link" href="#">
+                    Petunjuk Arah <span class="material-symbols-outlined text-sm group-hover/link:translate-x-1 transition-transform">north_east</span>
+</a>
+</div>
+</div>
+</section>
+<!-- BottomNavBar (Mobile Only) -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full bg-white/85 backdrop-blur-xl flex justify-around items-center px-4 pb-6 pt-3 z-50 rounded-t-[32px] shadow-[0_-10px_30px_rgba(0,0,0,0.03)]">
+<a class="flex flex-col items-center justify-center text-slate-400" href="#">
+<span class="material-symbols-outlined">home</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Beranda</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400" href="#">
+<span class="material-symbols-outlined">grid_view</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Koleksi</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400" href="#">
+<span class="material-symbols-outlined">auto_awesome</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Portfolio</span>
+</a>
+<a class="flex flex-col items-center justify-center text-yellow-700 scale-110" href="#">
+<span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">concierge</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Layanan</span>
+</a>
+<a class="flex flex-col items-center justify-center text-slate-400" href="#">
+<span class="material-symbols-outlined">person</span>
+<span class="font-sans text-[10px] uppercase tracking-widest mt-1">Akun</span>
+</a>
+</nav>
+<!-- Footer for Web -->
+<footer class="hidden md:block py-12 bg-primary text-white px-6">
+<div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-8">
+<span class="font-serif text-3xl uppercase tracking-[0.4em] opacity-40">Atelier</span>
+<div class="flex gap-12 font-label text-[10px] uppercase tracking-[0.3em] opacity-60">
+<a class="hover:opacity-100 transition-opacity" href="#">Privasi</a>
+<a class="hover:opacity-100 transition-opacity" href="#">Syarat</a>
+<a class="hover:opacity-100 transition-opacity" href="#">Bantuan</a>
+</div>
+<p class="text-[10px] uppercase tracking-widest opacity-40">© 2024 Atelier Collective. All Rights Reserved.</p>
+</div>
+</footer>
+</body></html>
