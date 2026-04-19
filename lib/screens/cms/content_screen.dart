@@ -147,6 +147,7 @@ class _ContentScreenState extends State<ContentScreen> {
     final content = _pageData!.body.trim();
     final excerpt = (_pageData!.excerpt ?? '').trim();
     final image = (_pageData!.imageUrl ?? '').trim();
+    final hasImage = image.isNotEmpty;
 
     try {
       if (content.contains('THROW_PARSER_ERROR')) {
@@ -204,26 +205,8 @@ class _ContentScreenState extends State<ContentScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (image.isNotEmpty) ...[
-                  ClipRRect(
-                    borderRadius: BorderRadius.circular(AppBorderRadius.lg),
-                    child: CachedNetworkImage(
-                      imageUrl: image,
-                      width: double.infinity,
-                      height: 220,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        height: 220,
-                        color: AppColors.surfaceContainerLow,
-                        child: const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                      ),
-                      errorWidget: (_, __, ___) => const SizedBox.shrink(),
-                    ),
-                  ),
-                  const SizedBox(height: 24),
-                ],
+                _buildHeroBanner(imageUrl: image, hasImage: hasImage),
+                const SizedBox(height: 24),
                 if (sections.isEmpty && content.isNotEmpty)
                   Text(
                     content,
@@ -258,5 +241,57 @@ class _ContentScreenState extends State<ContentScreen> {
         ),
       );
     }
+  }
+
+  Widget _buildHeroBanner({required String imageUrl, required bool hasImage}) {
+    const heroHeight = 200.0;
+
+    final placeholder = Container(
+      key: const Key('hero-placeholder'),
+      height: heroHeight,
+      width: double.infinity,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.surfaceContainerHighest,
+            AppColors.surfaceContainerLow,
+          ],
+        ),
+      ),
+      child: Center(
+        child: Icon(
+          Icons.image_outlined,
+          color: AppColors.outline,
+          size: 32,
+        ),
+      ),
+    );
+
+    if (!hasImage) {
+      return placeholder;
+    }
+
+    return ClipRRect(
+      borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+      child: CachedNetworkImage(
+        imageUrl: imageUrl,
+        height: heroHeight,
+        width: double.infinity,
+        fit: BoxFit.cover,
+        placeholder: (context, url) => Container(
+          key: const Key('hero-loading-skeleton'),
+          height: heroHeight,
+          width: double.infinity,
+          decoration: BoxDecoration(
+            color: AppColors.surfaceContainerLow,
+            borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+          ),
+        ),
+        errorWidget: (_, __, ___) => placeholder,
+      ),
+    );
   }
 }

@@ -68,6 +68,61 @@ void main() {
     expect(find.text('Isi konten lengkap'), findsOneWidget);
   });
 
+  testWidgets('shows hero placeholder when image is missing', (
+    WidgetTester tester,
+  ) async {
+    final service = _FakeProductService(
+      getPageHandler: (_) async => <String, dynamic>{
+        'title': 'About',
+        'bodySummary': 'Ringkasan konten',
+        'body': '<p>Isi konten lengkap</p>',
+      },
+    );
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          Provider<ProductService>.value(value: service),
+        ],
+        child: const MaterialApp(
+          home: ContentScreen(handle: 'about'),
+        ),
+      ),
+    );
+
+    await tester.pumpAndSettle();
+
+    expect(find.byKey(const Key('hero-placeholder')), findsOneWidget);
+  });
+
+  testWidgets('shows hero loading skeleton when image exists', (
+    WidgetTester tester,
+  ) async {
+    final service = _FakeProductService(
+      getPageHandler: (_) async => <String, dynamic>{
+        'title': 'About',
+        'bodySummary': 'Ringkasan konten',
+        'body': '<p>Isi konten lengkap</p>',
+        'image_url': 'https://example.com/banner.jpg',
+      },
+    );
+
+    await tester.pumpWidget(
+      MultiProvider(
+        providers: [
+          Provider<ProductService>.value(value: service),
+        ],
+        child: const MaterialApp(
+          home: ContentScreen(handle: 'about'),
+        ),
+      ),
+    );
+
+    await tester.pump();
+
+    expect(find.byKey(const Key('hero-loading-skeleton')), findsOneWidget);
+  });
+
   testWidgets('maps legacy handle to valid api handle', (
     WidgetTester tester,
   ) async {

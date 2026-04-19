@@ -84,3 +84,14 @@
   - Guard parse di level UI mencegah crash dari payload konten yang tidak terduga tanpa merusak alur loading global.
   - Fallback `trim + empty check` pada field opsional API membuat render lebih stabil untuk variasi respon backend.
 ---
+
+## 2026-04-20 00:24:00 - US-004
+- Implemented: Menambahkan _buildHeroBanner() di ContentScreen untuk image 200px cover, placeholder gradient saat image kosong, dan loading skeleton saat image tersedia.
+- Files changed:
+  - lib/screens/cms/content_screen.dart
+  - test/screens/content_screen_test.dart
+  - prd.json
+- Learnings:
+  - Memisahkan hero ke helper widget membuat alur render konten lebih mudah diujikan dan siap dipakai ulang saat integrasi final.
+  - Key-based assertions (`hero-placeholder`, `hero-loading-skeleton`) mempermudah regresi test pada state visual berbeda.
+---
