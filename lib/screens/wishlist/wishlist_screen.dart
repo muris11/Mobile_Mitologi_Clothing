@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/theme.dart';
+import '../../features/wishlist/presentation/wishlist_provider.dart';
 import '../../models/product.dart';
 import '../../providers/cart_provider.dart';
 import '../../services/secure_storage_service.dart';
 import '../../services/wishlist_service.dart';
-import '../../features/wishlist/presentation/wishlist_provider.dart';
 import '../../utils/responsive_utils.dart';
 
 class WishlistScreen extends StatefulWidget {
@@ -27,7 +27,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
   @override
   void initState() {
     super.initState();
-    _loadWishlist();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _loadWishlist();
+    });
   }
 
   Future<void> _loadWishlist() async {

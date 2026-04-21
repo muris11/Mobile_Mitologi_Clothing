@@ -1,0 +1,100 @@
+# Miscellaneous
+*.class
+*.log
+*.pyc
+*.swp
+.DS_Store
+.atom/
+.buildlog/
+.history
+.svn/
+migrate_working_dir/
+
+# IntelliJ related
+*.iml
+*.ipr
+*.iws
+.idea/
+
+# The .vscode folder contains launch configurations and items used when debugging.
+.vscode/
+
+# Flutter/Dart/Pub related
+**/doc/api/
+**/ios/Flutter/.last_build_id
+.dart_tool/
+.flutter-plugins
+.flutter-plugins-dependencies
+.pub-cache/
+.pub/
+/build/
+
+# Symbolization related
+app.*.symbols
+
+# Obfuscation related
+app.*.map.json
+
+# Android Studio will create this folder for native symbols
+app/src/main/obj/
+
+# Coverage aggregation
+/coverage/
+
+# Android related
+**/android/**/generated/
+**/android/gen/
+**/android/out/
+**/android/local.properties
+**/android/flutter_plugin_android_lifecycle/
+**/android/.gradle/
+
+# iOS related
+**/ios/**/*.mode1v3
+**/ios/**/*.mode2v3
+**/ios/**/*.moved-aside
+**/ios/**/*.pbxuser
+**/ios/**/*.perspectivev3
+**/ios/**/*~
+**/ios/DerivedData/
+**/ios/Pods/
+**/ios/Runner.xcworkspace/xcuserdata/
+**/ios/.generated/
+**/ios/Flutter/Generated.xcconfig
+**/ios/Flutter/flutter_export_environment.sh
+**/ios/Flutter/App.framework
+**/ios/Flutter/App.podspec
+**/ios/ServiceDefinitions.json
+**/ios/Runner/GeneratedPluginRegistrant.[mh]
+
+# macOS related
+**/macos/Flutter/ephemeral/
+**/macos/Pods/
+
+# Linux related
+**/linux/flutter/ephemeral/
+
+# Windows related
+**/windows/flutter/ephemeral/
+
+# Web related
+lib/generated_plugin_registrant.dart
+
+# Executable distributions
+*.apk
+*.aab
+*.ex_
+*.exe
+*.dll
+*.so
+*.dylib
+
+# Specific junk
+add-error.log
+full_test.jsonl
+progress.txt
+noop.ts
+nul
+tsconfig.json
+prd.json
+stitch/

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:url_launcher/url_launcher.dart';
+
 import '../../config/shop_config.dart';
 import '../../config/theme.dart';
 import '../../models/address.dart';
@@ -27,11 +28,13 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   bool _isLoading = true;
   bool _isProcessing = false;
 
-
   @override
   void initState() {
     super.initState();
-    _loadData();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (!mounted) return;
+      _loadData();
+    });
   }
 
   @override
@@ -556,7 +559,6 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     );
   }
 
-
   Widget _buildNotesSection() {
     return Padding(
       padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
@@ -640,7 +642,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                   children: [
                     if (cart != null && cart.items.isNotEmpty) ...[
                       ...cart.items.map((item) {
-                        final itemTitle = item.product?.title ?? item.variant?.title ?? 'Produk';
+                        final itemTitle = item.product?.title ??
+                            item.variant?.title ??
+                            'Produk';
                         final variantTitle = item.variant?.title ?? '';
                         final itemCost = item.cost?.formatted ?? 'Rp 0';
 

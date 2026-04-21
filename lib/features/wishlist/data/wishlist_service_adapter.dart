@@ -14,11 +14,17 @@ class WishlistServiceAdapter implements WishlistDataSource {
 
   @override
   Future<void> remove(int productId) async {
-    await _service.removeFromWishlist(productId);
+    final removed = await _service.removeFromWishlist(productId);
+    if (!removed) {
+      throw Exception('Gagal menghapus produk dari wishlist');
+    }
   }
 
   @override
   Future<void> save(int productId) async {
-    await _service.addToWishlist(productId);
+    final saved = await _service.addToWishlist(productId);
+    if (!saved) {
+      throw Exception('Gagal menambahkan produk ke wishlist');
+    }
   }
 }

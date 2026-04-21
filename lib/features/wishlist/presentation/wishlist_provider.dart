@@ -36,17 +36,38 @@ class WishlistProvider extends ChangeNotifier {
     }
   }
 
-  Future<void> toggle(int productId) async {
-    if (_ids.contains(productId)) {
-      await _source.remove(productId);
-    } else {
-      await _source.save(productId);
-    }
-
-    final latest = await _source.fetchWishlistIds();
-    _ids
-      ..clear()
-      ..addAll(latest);
+  Future<bool> toggle(int productId) async {
+    final wasInWishlist = _ids.contains(productId);
+    _isLoading = true;
+    _error = null;
     notifyListeners();
+
+    try {
+      if (wasInWishlist) {
+        await _source.remove(productId);
+      } else {
+        await _source.save(productId);
+      }
+
+      final latest = await _source.fetchWishlistIds();
+      _ids
+        ..clear()
+        ..addAll(latest);
+
+      final isNowInWishlist = _ids.contains(productId);
+      if (isNowInWishlist == wasInWishlist) {
+        _error = wasInWishlist
+            ? 'Gagal menghapus produk dari wishlist'
+            : 'Gagal menambahkan produk ke wishlist';
+      }
+
+      return isNowInWishlist;
+    } catch (e) {
+      _error = e.toString();
+      return wasInWishlist;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
   }
 }

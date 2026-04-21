@@ -4,9 +4,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/theme.dart';
-import '../../features/content/presentation/content_provider.dart';
-import '../../features/content/domain/cms_page.dart';
 import '../../features/content/data/content_service_adapter.dart';
+import '../../features/content/domain/cms_page.dart';
+import '../../features/content/presentation/content_provider.dart';
 import '../../services/product_service.dart';
 import '../../utils/html_parser.dart';
 import '../../widgets/cms/html_section_widget.dart';
@@ -36,6 +36,24 @@ class _ContentScreenState extends State<ContentScreen> {
     'kontak': 'faq',
     'kebijakan-pengembalian': 'terms-conditions',
   };
+
+  List<String> _resolveHandleCandidates(String rawHandle) {
+    final normalized = rawHandle.trim().toLowerCase();
+    final candidates = <String>{normalized};
+
+    final mapped = _handleAliases[normalized];
+    if (mapped != null && mapped.isNotEmpty) {
+      candidates.add(mapped);
+    }
+
+    for (final entry in _handleAliases.entries) {
+      if (entry.value == normalized) {
+        candidates.add(entry.key);
+      }
+    }
+
+    return candidates.toList();
+  }
 
   @override
   void didChangeDependencies() {
@@ -69,14 +87,24 @@ class _ContentScreenState extends State<ContentScreen> {
     });
 
     try {
-      final resolvedHandle = _handleAliases[widget.handle] ?? widget.handle;
-      await _contentProvider!.loadPage(resolvedHandle);
+      CmsPage? page;
+      String? lastError;
+      final handleCandidates = _resolveHandleCandidates(widget.handle);
+
+      for (final handle in handleCandidates) {
+        await _contentProvider!.loadPage(handle);
+        if (_contentProvider!.page != null) {
+          page = _contentProvider!.page;
+          lastError = null;
+          break;
+        }
+        lastError = _contentProvider!.error;
+      }
+
       if (!mounted || currentRequest != _requestId) return;
       setState(() {
-        _pageData = _contentProvider!.page;
-        _error = _contentProvider!.error != null
-            ? 'Gagal memuat konten: ${_contentProvider!.error}'
-            : null;
+        _pageData = page;
+        _error = lastError != null ? 'Gagal memuat konten: $lastError' : null;
         _isLoading = false;
       });
     } catch (e) {
@@ -217,7 +245,8 @@ class _ContentScreenState extends State<ContentScreen> {
                     ),
                   )
                 else
-                  ...sections.map((section) => HtmlSectionWidget(section: section)),
+                  ...sections
+                      .map((section) => HtmlSectionWidget(section: section)),
               ],
             ),
           ),

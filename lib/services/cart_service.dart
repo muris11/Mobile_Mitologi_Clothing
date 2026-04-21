@@ -58,20 +58,30 @@ class CartService {
 
   Future<Cart> addItem(
       {required String merchandiseId, required int quantity}) async {
-    final sessionId = await _sessionManager.loadCartSessionId() ??
+    final initialSessionId = await _sessionManager.loadCartSessionId() ??
         await SecureStorageService.getOrCreateCartSessionId();
-    await _sessionManager.saveCartSessionId(sessionId);
-    final response = await _apiService.post(ApiEndpoints.cartItems,
-        body: {
-          'merchandise_id': merchandiseId,
-          'quantity': quantity,
-        },
-        cartSessionId: sessionId);
-    final data = _unwrapResponse(response);
-    final cartData = data['cart'] is Map<String, dynamic>
-        ? data['cart'] as Map<String, dynamic>
-        : data;
-    return Cart.fromJson(cartData);
+    await _sessionManager.saveCartSessionId(initialSessionId);
+
+    Future<Cart> submitWithSession(String sessionId) async {
+      final response = await _apiService.post(ApiEndpoints.cartItems,
+          body: {
+            'merchandise_id': merchandiseId,
+            'quantity': quantity,
+          },
+          cartSessionId: sessionId);
+      final data = _unwrapResponse(response);
+      final cartData = data['cart'] is Map<String, dynamic>
+          ? data['cart'] as Map<String, dynamic>
+          : data;
+      return Cart.fromJson(cartData);
+    }
+
+    try {
+      return await submitWithSession(initialSessionId);
+    } catch (_) {
+      final refreshedSessionId = await createCart();
+      return submitWithSession(refreshedSessionId);
+    }
   }
 
   Future<Cart> updateItem(String itemId,

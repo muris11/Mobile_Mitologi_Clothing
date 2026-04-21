@@ -5,11 +5,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/theme.dart';
+import '../../features/wishlist/presentation/wishlist_provider.dart';
 import '../../models/image_model.dart';
 import '../../models/product.dart';
 import '../../providers/cart_provider.dart';
 import '../../services/product_service.dart';
-import '../../features/wishlist/presentation/wishlist_provider.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String handle;
@@ -57,6 +57,13 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       try {
         recommendations =
             await productService.getProductRecommendations(product.id);
+        if (recommendations.isEmpty) {
+          recommendations =
+              await productService.getUserRecommendations(limit: 6);
+        }
+        recommendations = recommendations
+            .where((candidate) => candidate.id != product.id)
+            .toList();
       } catch (e) {
         _debugLog('Failed to load recommendations: $e');
         // Non-critical error, continue without recommendations
@@ -119,11 +126,12 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     }
   }
 
-  Future<void> _addToCart() async {
-    if (_product == null) return;
+  Future<bool> _addToCart() async {
+    if (_product == null) return false;
 
+    final product = _product!;
     final cartProvider = context.read<CartProvider>();
-    final merchandiseId = _selectedVariant?.id;
+    final merchandiseId = _selectedVariant?.id ?? product.firstVariant?.id;
 
     if (merchandiseId == null || merchandiseId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
@@ -136,7 +144,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           behavior: SnackBarBehavior.floating,
         ),
       );
-      return;
+      return false;
     }
 
     final success = await cartProvider.addItem(
@@ -158,15 +166,29 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
         ),
       );
+      return true;
     }
+
+    if (mounted) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text(
+            cartProvider.error ?? 'Gagal menambahkan ke keranjang',
+            style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+          ),
+          backgroundColor: AppColors.error,
+          behavior: SnackBarBehavior.floating,
+        ),
+      );
+    }
+
+    return false;
   }
 
-  void _buyNow() {
-    _addToCart().then((_) {
-      if (mounted) {
-        context.push('/checkout');
-      }
-    });
+  Future<void> _buyNow() async {
+    final added = await _addToCart();
+    if (!mounted || !added) return;
+    context.push('/checkout');
   }
 
   @override
@@ -228,22 +250,42 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                 actions: [
                   Consumer<WishlistProvider>(
                     builder: (context, wishlistProvider, _) {
-                      final isInWishlist = wishlistProvider.ids.contains(product.id);
+                      final isInWishlist =
+                          wishlistProvider.ids.contains(product.id);
                       return IconButton(
                         icon: Icon(
-                          isInWishlist ? Icons.favorite : Icons.favorite_outline,
+                          isInWishlist
+                              ? Icons.favorite
+                              : Icons.favorite_outline,
                         ),
                         onPressed: () async {
                           final messenger = ScaffoldMessenger.of(context);
-                          await wishlistProvider.toggle(product.id);
+                          final result =
+                              await wishlistProvider.toggle(product.id);
                           if (!mounted) return;
+                          if (wishlistProvider.error != null) {
+                            messenger.showSnackBar(
+                              SnackBar(
+                                content: Text(
+                                  wishlistProvider.error!,
+                                  style: GoogleFonts.manrope(
+                                      fontWeight: FontWeight.w600),
+                                ),
+                                behavior: SnackBarBehavior.floating,
+                                backgroundColor: AppColors.error,
+                              ),
+                            );
+                            return;
+                          }
+
                           messenger.showSnackBar(
                             SnackBar(
                               content: Text(
-                                isInWishlist
-                                    ? 'Dihapus dari wishlist'
-                                    : 'Ditambahkan ke wishlist',
-                                style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+                                result
+                                    ? 'Ditambahkan ke wishlist'
+                                    : 'Dihapus dari wishlist',
+                                style: GoogleFonts.manrope(
+                                    fontWeight: FontWeight.w600),
                               ),
                               behavior: SnackBarBehavior.floating,
                             ),
@@ -1035,10 +1077,9 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         .split(RegExp(r'\s+'))
         .where((part) => part.isNotEmpty)
         .map((part) {
-          if (part.length == 1) return '*';
-          return '${part[0]}${'*' * (part.length - 1)}';
-        })
-        .join(' ');
+      if (part.length == 1) return '*';
+      return '${part[0]}${'*' * (part.length - 1)}';
+    }).join(' ');
   }
 
   Widget _buildReviewItem(dynamic reviewData) {
