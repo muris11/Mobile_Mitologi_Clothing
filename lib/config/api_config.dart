@@ -16,7 +16,7 @@ class ApiConfig {
 
   static String _normalizeBase(String value) =>
       value.endsWith('/') ? value.substring(0, value.length - 1) : value;
-  static const String _productionBaseUrl = 'https://adminmitologi.based.my.id';
+  static const String _productionBaseUrl = 'https://adminmitologiclothing.center.biz.id';
 
   static String get _defaultBackendOrigin {
     if (_apiBaseOverride.isNotEmpty) {
@@ -74,6 +74,8 @@ class ApiEndpoints {
   static const String pages = '/pages';
   static const String portfolios = '/portfolios';
   static const String menus = '/menus';
+  static const String teamMembers = '/team-members';
+  static String teamMemberPhoto(int id) => '/team-members/$id/photo';
 
   static String productDetail(String handle) => '/products/$handle';
   static String productReviews(String handle) => '/products/$handle/reviews';

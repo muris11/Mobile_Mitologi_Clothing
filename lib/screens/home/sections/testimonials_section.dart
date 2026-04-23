@@ -67,19 +67,22 @@ class TestimonialsSection extends StatelessWidget {
 
                       return Padding(
                         padding: const EdgeInsets.only(right: 12),
-                        child: Container(
+                          child: Container(
                           width: 300,
                           padding: const EdgeInsets.all(20),
                           decoration: BoxDecoration(
-                            color: AppColors.surfaceContainerLowest,
+                            gradient: LinearGradient(
+                              begin: Alignment.topLeft,
+                              end: Alignment.bottomRight,
+                              colors: [
+                                AppColors.surfaceContainerLowest,
+                                AppColors.surfaceContainerLow,
+                              ],
+                            ),
                             borderRadius:
                                 BorderRadius.circular(AppBorderRadius.xxl),
                             boxShadow: [
-                              BoxShadow(
-                                color: AppColors.shadow.withValues(alpha: 0.03),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
+                              AppShadows.cardSoft,
                             ],
                           ),
                           child: Column(

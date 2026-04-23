@@ -27,6 +27,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   final TextEditingController _notesController = TextEditingController();
   bool _isLoading = true;
   bool _isProcessing = false;
+  String? _loadError;
 
   @override
   void initState() {
@@ -102,7 +103,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       });
     } catch (e) {
       if (!mounted) return;
-      setState(() => _isLoading = false);
+      setState(() {
+        _isLoading = false;
+        _loadError = 'Gagal memuat data checkout. Silakan coba lagi.';
+      });
     }
   }
 
@@ -232,6 +236,24 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
     if (_isLoading) {
       return const Scaffold(
         body: Center(child: CircularProgressIndicator()),
+      );
+    }
+
+    if (_loadError != null) {
+      return Scaffold(
+        backgroundColor: AppColors.background,
+        body: Center(
+          child: AnimatedEmptyState(
+            icon: Icons.error_outline,
+            title: 'Gagal Memuat Checkout',
+            subtitle: _loadError!,
+            actionLabel: 'Coba Lagi',
+            onAction: () {
+              setState(() => _loadError = null);
+              _loadData();
+            },
+          ),
+        ),
       );
     }
 
@@ -692,7 +714,9 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     const SizedBox(height: 12),
                     _buildSummaryRow(
                       'Pengiriman',
-                      'Gratis Ongkir',
+                      (_shippingRate?.cost.amount ?? 0) > 0
+                          ? 'Rp ${_shippingRate!.cost.amount!.toStringAsFixed(0)}'
+                          : 'Gratis Ongkir',
                     ),
                     const Padding(
                       padding: EdgeInsets.symmetric(vertical: 16),

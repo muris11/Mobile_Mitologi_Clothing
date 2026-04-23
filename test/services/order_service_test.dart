@@ -38,7 +38,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/checkout',
+          'https://adminmitologiclothing.center.biz.id/api/v1/checkout',
           TestHelpers.sampleCheckoutResult,
         );
 
@@ -77,7 +77,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/checkout',
+          'https://adminmitologiclothing.center.biz.id/api/v1/checkout',
           {'message': 'Cart is empty'},
           statusCode: 400,
         );
@@ -138,7 +138,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/orders',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders',
           {
             'orders': [
               TestHelpers.sampleOrder,
@@ -165,7 +165,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/orders',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders',
           {'orders': []},
         );
 
@@ -191,7 +191,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/orders',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders',
           {
             'data': {
               'orders': [TestHelpers.sampleOrder]
@@ -213,7 +213,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/orders/ORD-2024-001',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders/ORD-2024-001',
           {'order': TestHelpers.sampleOrder},
         );
 
@@ -231,7 +231,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/orders/NONEXISTENT',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders/NONEXISTENT',
           {'message': 'Order not found'},
           statusCode: 404,
         );
@@ -249,7 +249,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/orders/ORD-2024-001/pay',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders/ORD-2024-001/pay',
           TestHelpers.samplePaymentInfo,
         );
 
@@ -265,7 +265,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/orders/ORD-2024-001/pay',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders/ORD-2024-001/pay',
           {'message': 'Order already paid'},
           statusCode: 400,
         );
@@ -281,7 +281,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/orders/ORD-2024-001/pay',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders/ORD-2024-001/pay',
           {
             'data': {
               'snap_token': 'snap_token_snake',
@@ -318,7 +318,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/orders/ORD-2024-001/request-refund',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders/ORD-2024-001/request-refund',
           {'message': 'Refund requested'},
         );
 
@@ -336,7 +336,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/orders/ORD-2024-001/request-refund',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders/ORD-2024-001/request-refund',
           {'message': 'Order not eligible for refund'},
           statusCode: 400,
         );
@@ -357,7 +357,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/orders/ORD-2024-001',
+          'https://adminmitologiclothing.center.biz.id/api/v1/orders/ORD-2024-001',
           {
             'order': {
               ...TestHelpers.sampleOrder,

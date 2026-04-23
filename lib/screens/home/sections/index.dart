@@ -8,3 +8,7 @@ export 'guarantees_section.dart';
 export 'testimonials_section.dart';
 export 'portfolio_section.dart';
 export 'materials_section.dart';
+export 'features_section.dart';
+export 'order_steps_section.dart';
+export 'cta_banner_section.dart';
+export 'team_members_section.dart';

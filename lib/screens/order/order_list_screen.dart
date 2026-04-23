@@ -6,7 +6,9 @@ import 'package:provider/provider.dart';
 import '../../config/theme.dart';
 import '../../models/order.dart';
 import '../../services/order_service.dart';
-import '../../widgets/common/loading_indicator.dart';
+import '../../widgets/common/custom_pull_to_refresh.dart';
+import '../../widgets/common/empty_state.dart';
+import '../../widgets/common/skeleton_loading.dart';
 
 class OrderListScreen extends StatefulWidget {
   const OrderListScreen({super.key});
@@ -170,20 +172,34 @@ class _OrderListScreenState extends State<OrderListScreen> {
           // Content
           Expanded(
             child: _isLoading
-                ? const LoadingIndicator()
+                ? const OrderListSkeleton(itemCount: 4)
                 : _error != null
-                    ? _buildErrorState()
+                    ? ErrorState(
+                        message: _error!,
+                        onRetry: _fetchOrders,
+                      )
                     : _filteredOrders.isEmpty
-                        ? _buildEmptyState()
-                        : RefreshIndicator(
+                        ? AnimatedEmptyState(
+                            icon: Icons.shopping_bag_outlined,
+                            title: _selectedStatus == 'all'
+                                ? 'Belum Ada Pesanan'
+                                : 'Tidak Ada Pesanan',
+                            subtitle: 'Pesanan Anda akan muncul di sini setelah Anda berbelanja',
+                            actionLabel: 'Mulai Belanja',
+                            onAction: () => context.go('/home'),
+                          )
+                        : CustomPullToRefresh(
                             onRefresh: _fetchOrders,
-                            color: AppColors.primary,
                             child: ListView.builder(
                               padding: const EdgeInsets.all(16),
                               itemCount: _filteredOrders.length,
                               itemBuilder: (context, index) {
                                 final order = _filteredOrders[index];
-                                return _buildOrderCard(order, currencyFormat);
+                                return _buildAnimatedOrderCard(
+                                  order,
+                                  currencyFormat,
+                                  index,
+                                );
                               },
                             ),
                           ),
@@ -193,74 +209,25 @@ class _OrderListScreenState extends State<OrderListScreen> {
     );
   }
 
-  Widget _buildErrorState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.error_outline,
-            size: 64,
-            color: AppColors.error,
+  Widget _buildAnimatedOrderCard(
+    Order order,
+    NumberFormat currencyFormat,
+    int index,
+  ) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset((1 - value) * 50, 0),
+            child: child,
           ),
-          const SizedBox(height: 16),
-          Text(
-            _error!,
-            style: Theme.of(context).textTheme.bodyMedium,
-            textAlign: TextAlign.center,
-          ),
-          const SizedBox(height: 16),
-          ElevatedButton.icon(
-            onPressed: _fetchOrders,
-            icon: const Icon(Icons.refresh),
-            label: const Text('Coba Lagi'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: AppColors.onPrimary,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Icon(
-            Icons.shopping_bag_outlined,
-            size: 80,
-            color: AppColors.outline.withValues(alpha: 0.5),
-          ),
-          const SizedBox(height: 16),
-          Text(
-            _selectedStatus == 'all'
-                ? 'Belum ada pesanan'
-                : 'Tidak ada pesanan dengan status ini',
-            style: Theme.of(context).textTheme.titleMedium,
-          ),
-          const SizedBox(height: 8),
-          Text(
-            'Pesanan Anda akan muncul di sini',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  color: AppColors.onSurfaceVariant,
-                ),
-          ),
-          const SizedBox(height: 24),
-          ElevatedButton.icon(
-            onPressed: () => context.go('/home'),
-            icon: const Icon(Icons.shopping_cart_outlined),
-            label: const Text('Mulai Belanja'),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              foregroundColor: AppColors.onPrimary,
-              padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 12),
-            ),
-          ),
-        ],
-      ),
+        );
+      },
+      child: _buildOrderCard(order, currencyFormat),
     );
   }
 

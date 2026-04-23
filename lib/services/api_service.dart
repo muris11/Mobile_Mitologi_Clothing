@@ -77,6 +77,8 @@ class ApiService {
         return _processResponse(response);
       } on SocketException {
         throw ApiException.network('No internet connection');
+      } on ApiException {
+        rethrow;
       } catch (e) {
         throw ApiException.network('Network error: $e');
       }
@@ -102,6 +104,8 @@ class ApiService {
         return _processResponse(response);
       } on SocketException {
         throw ApiException.network('No internet connection');
+      } on ApiException {
+        rethrow;
       } catch (e) {
         throw ApiException.network('Network error: $e');
       }
@@ -127,6 +131,8 @@ class ApiService {
         return _processResponse(response);
       } on SocketException {
         throw ApiException.network('No internet connection');
+      } on ApiException {
+        rethrow;
       } catch (e) {
         throw ApiException.network('Network error: $e');
       }
@@ -150,6 +156,8 @@ class ApiService {
         return _processResponse(response);
       } on SocketException {
         throw ApiException.network('No internet connection');
+      } on ApiException {
+        rethrow;
       } catch (e) {
         throw ApiException.network('Network error: $e');
       }
@@ -202,6 +210,8 @@ class ApiService {
         return _processResponse(response);
       } on SocketException {
         throw ApiException.network('No internet connection');
+      } on ApiException {
+        rethrow;
       } catch (e) {
         throw ApiException.network('Network error: $e');
       }

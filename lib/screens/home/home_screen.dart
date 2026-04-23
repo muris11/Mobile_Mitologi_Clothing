@@ -5,6 +5,9 @@ import 'package:provider/provider.dart';
 import '../../config/theme.dart';
 import '../../providers/product_provider.dart';
 import '../../utils/debouncer.dart';
+import '../../widgets/common/custom_pull_to_refresh.dart';
+import '../../widgets/common/scroll_reveal.dart';
+import '../../widgets/common/success_animations.dart';
 import 'sections/index.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -44,15 +47,23 @@ class _HomeScreenState extends State<HomeScreen> {
     });
   }
 
+  Widget _wrapWithReveal(Widget child) {
+    return SliverToBoxAdapter(
+      child: ScrollReveal(
+        animation: ScrollRevealAnimation.fadeUp,
+        child: child,
+      ),
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Consumer<ProductProvider>(
         builder: (context, provider, child) {
-          return RefreshIndicator(
+          return CustomPullToRefresh(
             onRefresh: () => provider.loadHomeData(),
-            color: AppColors.primary,
             child: CustomScrollView(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
@@ -60,10 +71,14 @@ class _HomeScreenState extends State<HomeScreen> {
                 const AppBarSection(),
                 _buildSearchSection(),
                 ..._buildConditionalSections(provider),
-                const GuaranteesSection(),
-                const TestimonialsSection(),
-                const PortfolioSection(),
-                MaterialsSection(),
+                _wrapWithReveal(const FeaturesSection()),
+                _wrapWithReveal(const GuaranteesSection()),
+                _wrapWithReveal(const OrderStepsSection()),
+                _wrapWithReveal(const TestimonialsSection()),
+                _wrapWithReveal(const PortfolioSection()),
+                _wrapWithReveal(const TeamMembersSection()),
+                _wrapWithReveal(MaterialsSection()),
+                _wrapWithReveal(const CTABannerSection()),
                 const SliverToBoxAdapter()
               ],
             ),
@@ -111,29 +126,62 @@ class _HomeScreenState extends State<HomeScreen> {
       return sections;
     }
 
-    // Content sections
+    // Content sections with scroll reveal
     if (provider.heroSlides.isNotEmpty) {
       sections.add(
-        HeroSection(
-          heroSlides: provider.heroSlides,
-          currentHeroIndex: _currentHeroIndex,
-          onPageChanged: (index) => setState(() => _currentHeroIndex = index),
+        SliverToBoxAdapter(
+          child: ScrollReveal(
+            animation: ScrollRevealAnimation.fade,
+            child: HeroSection(
+              heroSlides: provider.heroSlides,
+              currentHeroIndex: _currentHeroIndex,
+              onPageChanged: (index) => setState(() => _currentHeroIndex = index),
+            ),
+          ),
         ),
       );
     }
 
     if (provider.categories.isNotEmpty) {
-      sections.add(CategoriesSection(categories: provider.categories));
+      sections.add(
+        SliverToBoxAdapter(
+          child: ScrollReveal(
+            animation: ScrollRevealAnimation.fadeUp,
+            child: CategoriesSection(categories: provider.categories),
+          ),
+        ),
+      );
     }
 
     if (provider.bestSellers.isNotEmpty || provider.isLoading) {
-      sections.add(BestSellersSection(provider: provider));
+      sections.add(
+        SliverToBoxAdapter(
+          child: ScrollReveal(
+            animation: ScrollRevealAnimation.fadeUp,
+            child: BestSellersSection(provider: provider),
+          ),
+        ),
+      );
     }
 
-    sections.add(const PromoSection());
+    sections.add(
+      SliverToBoxAdapter(
+        child: ScrollReveal(
+          animation: ScrollRevealAnimation.scale,
+          child: const PromoSection(),
+        ),
+      ),
+    );
 
     if (provider.newArrivals.isNotEmpty || provider.isLoading) {
-      sections.add(NewArrivalsSection(provider: provider));
+      sections.add(
+        SliverToBoxAdapter(
+          child: ScrollReveal(
+            animation: ScrollRevealAnimation.fadeUp,
+            child: NewArrivalsSection(provider: provider),
+          ),
+        ),
+      );
     }
 
     return sections;
@@ -166,7 +214,18 @@ class SearchBar extends StatelessWidget {
           prefixIcon: const Icon(Icons.search),
           suffixIcon: IconButton(
             icon: const Icon(Icons.tune),
-            onPressed: () {},
+            onPressed: () {
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text(
+                    'Filter lanjutan akan segera hadir',
+                    style: GoogleFonts.manrope(),
+                  ),
+                  behavior: SnackBarBehavior.floating,
+                  duration: const Duration(seconds: 2),
+                ),
+              );
+            },
           ),
           border: InputBorder.none,
           contentPadding: const EdgeInsets.symmetric(
@@ -190,14 +249,34 @@ class _LoadingSection extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const SliverFillRemaining(
+    return SliverFillRemaining(
       child: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            CircularProgressIndicator(),
-            SizedBox(height: 16),
-            Text('Memuat data...'),
+            FloatingAnimation(
+              child: Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  gradient: AppGradients.primaryDark,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: const Center(
+                  child: CircularProgressIndicator(
+                    color: AppColors.onPrimary,
+                    strokeWidth: 3,
+                  ),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              'Memuat data...',
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: AppColors.outline,
+                  ),
+            ),
           ],
         ),
       ),
@@ -256,13 +335,38 @@ class _EmptySection extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(Icons.store_outlined, size: 64, color: AppColors.outline),
-            const SizedBox(height: 16),
+            FloatingAnimation(
+              child: Container(
+                width: 100,
+                height: 100,
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(32),
+                ),
+                child: Icon(
+                  Icons.store_outlined,
+                  size: 48,
+                  color: AppColors.outline.withValues(alpha: 0.5),
+                ),
+              ),
+            ),
+            const SizedBox(height: 24),
             Text(
               'Belum ada data produk',
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: AppColors.onSurfaceVariant,
+                    fontWeight: FontWeight.w600,
+                  ),
             ),
-            const SizedBox(height: 16),
+            const SizedBox(height: 8),
+            Text(
+              'Coba muat ulang untuk melihat koleksi terbaru',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    color: AppColors.outline,
+                  ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 24),
             ElevatedButton.icon(
               onPressed: () {
                 context.read<ProductProvider>().loadHomeData();

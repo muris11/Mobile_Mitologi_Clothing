@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import '../../../config/theme.dart';
 import '../../../providers/product_provider.dart';
+import '../../../widgets/common/interactive_widgets.dart';
 
 class PortfolioSection extends StatelessWidget {
   const PortfolioSection({super.key});
@@ -105,10 +106,10 @@ class _PortfolioCard extends StatelessWidget {
     if (imageUrl != null &&
         imageUrl.isNotEmpty &&
         !imageUrl.startsWith('http')) {
-      imageUrl = 'https://adminmitologi.based.my.id/storage/$imageUrl';
+      imageUrl = 'https://adminmitologiclothing.center.biz.id/storage/$imageUrl';
     }
 
-    return GestureDetector(
+    return InteractiveScale(
       onTap: slug.isNotEmpty ? () => context.push('/portfolio/$slug') : null,
       child: ClipRRect(
         borderRadius: BorderRadius.circular(AppBorderRadius.xxl),
@@ -120,16 +121,23 @@ class _PortfolioCard extends StatelessWidget {
             _buildContent(title, category),
             if (slug.isNotEmpty)
               Positioned(
-                top: 8,
-                right: 8,
+                top: 10,
+                right: 10,
                 child: Container(
-                  padding: const EdgeInsets.all(6),
+                  padding: const EdgeInsets.all(8),
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.9),
+                    color: Colors.white.withValues(alpha: 0.95),
                     shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.1),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
                   ),
                   child: Icon(
-                    Icons.arrow_forward,
+                    Icons.arrow_forward_rounded,
                     size: 16,
                     color: AppColors.primary,
                   ),

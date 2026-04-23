@@ -1,3 +1,5 @@
+import 'dart:ui' show ImageFilter;
+
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
@@ -10,6 +12,15 @@ import '../../models/image_model.dart';
 import '../../models/product.dart';
 import '../../providers/cart_provider.dart';
 import '../../services/product_service.dart';
+import '../../utils/haptic_feedback.dart';
+import '../../widgets/common/add_to_cart_sheet.dart';
+import '../../widgets/common/animated_button.dart';
+import '../../widgets/common/animated_snackbar.dart';
+import '../../widgets/common/cart_fly_to_animation.dart';
+import '../../widgets/common/confetti_celebration.dart';
+import '../../widgets/common/share_sheet.dart';
+import '../../widgets/common/shimmer_image.dart';
+import '../../widgets/common/skeleton_loading.dart';
 
 class ProductDetailScreen extends StatefulWidget {
   final String handle;
@@ -29,13 +40,30 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   final Map<String, String> _selectedOptions = {};
   List<Product> _recommendations = const [];
   Map<String, dynamic>? _reviewsPayload;
+  final ScrollController _scrollController = ScrollController();
+  double _scrollOffset = 0;
+  final GlobalKey _imageKey = GlobalKey();
 
   void _debugLog(String message) {}
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     _loadProduct();
+  }
+
+  void _onScroll() {
+    setState(() {
+      _scrollOffset = _scrollController.offset;
+    });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
   }
 
   Future<void> _loadProduct() async {
@@ -134,16 +162,8 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     final merchandiseId = _selectedVariant?.id ?? product.firstVariant?.id;
 
     if (merchandiseId == null || merchandiseId.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Varian produk tidak valid',
-            style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
-          ),
-          backgroundColor: AppColors.error,
-          behavior: SnackBarBehavior.floating,
-        ),
-      );
+      AppHaptics.error();
+      AnimatedSnackbar.error(context, 'Varian produk tidak valid');
       return false;
     }
 
@@ -153,32 +173,39 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
     );
 
     if (success && mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            'Ditambahkan ke keranjang',
-            style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
-          ),
-          backgroundColor: AppColors.primary,
-          behavior: SnackBarBehavior.floating,
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(12),
-          ),
-        ),
+      AppHaptics.addToCart();
+
+      // Trigger cart fly-to animation
+      final renderBox = _imageKey.currentContext?.findRenderObject();
+      if (renderBox is RenderBox) {
+        final sourceRect = renderBox.localToGlobal(Offset.zero) & renderBox.size;
+        CartFlyToAnimation.start(
+          context: context,
+          imageUrl: product.featuredImage?.url ?? '',
+          sourceRect: sourceRect,
+        );
+      }
+
+      // Show beautiful bottom sheet
+      AddToCartBottomSheet.show(
+        context: context,
+        product: product,
+        selectedVariant: _selectedVariant,
+        quantity: _quantity,
+        onContinueShopping: () => Navigator.of(context).pop(),
+        onViewCart: () {
+          Navigator.of(context).pop();
+          context.push('/cart');
+        },
       );
       return true;
     }
 
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(
-            cartProvider.error ?? 'Gagal menambahkan ke keranjang',
-            style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
-          ),
-          backgroundColor: AppColors.error,
-          behavior: SnackBarBehavior.floating,
-        ),
+      AppHaptics.error();
+      AnimatedSnackbar.error(
+        context,
+        cartProvider.error ?? 'Gagal menambahkan ke keranjang',
       );
     }
 
@@ -188,14 +215,21 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   Future<void> _buyNow() async {
     final added = await _addToCart();
     if (!mounted || !added) return;
-    context.push('/checkout');
+    AppHaptics.success();
+    ConfettiCelebration.show(context);
+    Future.delayed(const Duration(milliseconds: 1200), () {
+      if (mounted) context.push('/checkout');
+    });
   }
 
   @override
   Widget build(BuildContext context) {
     if (_isLoading) {
       return const Scaffold(
-        body: Center(child: CircularProgressIndicator()),
+        body: SingleChildScrollView(
+          physics: NeverScrollableScrollPhysics(),
+          child: ProductDetailSkeleton(),
+        ),
       );
     }
 
@@ -223,80 +257,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         (product.featuredImage != null ? [product.featuredImage!] : []);
     final price = _selectedVariant?.price ?? product.price;
 
+    // Frosted glass opacity/blur based on scroll
+    final appBarOpacity = (_scrollOffset / 100).clamp(0.0, 1.0);
+    final blurSigma = (_scrollOffset / 20).clamp(0.0, 15.0);
+
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
         children: [
           CustomScrollView(
+            controller: _scrollController,
             slivers: [
-              // App Bar
-              SliverAppBar(
-                floating: true,
-                pinned: true,
-                elevation: 0,
-                backgroundColor: AppColors.surface.withValues(alpha: 0.95),
-                leading: IconButton(
-                  icon: const Icon(Icons.arrow_back),
-                  onPressed: () => context.pop(),
-                ),
-                title: Text(
-                  'Detail Produk',
-                  style: GoogleFonts.notoSerif(
-                    fontSize: 18,
-                    fontWeight: FontWeight.w600,
-                  ),
-                ),
-                centerTitle: true,
-                actions: [
-                  Consumer<WishlistProvider>(
-                    builder: (context, wishlistProvider, _) {
-                      final isInWishlist =
-                          wishlistProvider.ids.contains(product.id);
-                      return IconButton(
-                        icon: Icon(
-                          isInWishlist
-                              ? Icons.favorite
-                              : Icons.favorite_outline,
-                        ),
-                        onPressed: () async {
-                          final messenger = ScaffoldMessenger.of(context);
-                          final result =
-                              await wishlistProvider.toggle(product.id);
-                          if (!mounted) return;
-                          if (wishlistProvider.error != null) {
-                            messenger.showSnackBar(
-                              SnackBar(
-                                content: Text(
-                                  wishlistProvider.error!,
-                                  style: GoogleFonts.manrope(
-                                      fontWeight: FontWeight.w600),
-                                ),
-                                behavior: SnackBarBehavior.floating,
-                                backgroundColor: AppColors.error,
-                              ),
-                            );
-                            return;
-                          }
-
-                          messenger.showSnackBar(
-                            SnackBar(
-                              content: Text(
-                                result
-                                    ? 'Ditambahkan ke wishlist'
-                                    : 'Dihapus dari wishlist',
-                                style: GoogleFonts.manrope(
-                                    fontWeight: FontWeight.w600),
-                              ),
-                              behavior: SnackBarBehavior.floating,
-                            ),
-                          );
-                        },
-                      );
-                    },
-                  ),
-                ],
-              ),
-
               // Image Gallery
               SliverToBoxAdapter(
                 child: _buildImageGallery(images),
@@ -349,6 +320,97 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             right: 0,
             child: _buildStickyCTA(),
           ),
+
+          // Frosted Glass App Bar
+          Positioned(
+            top: 0,
+            left: 0,
+            right: 0,
+            child: ClipRRect(
+              child: BackdropFilter(
+                filter: ImageFilter.blur(
+                  sigmaX: blurSigma,
+                  sigmaY: blurSigma,
+                ),
+                child: Container(
+                  color: AppColors.surface.withValues(alpha: 0.7 * appBarOpacity),
+                  child: SafeArea(
+                    bottom: false,
+                    child: Container(
+                      height: 56,
+                      padding: const EdgeInsets.symmetric(horizontal: 8),
+                      child: Row(
+                        children: [
+                          IconButton(
+                            icon: const Icon(Icons.arrow_back),
+                            onPressed: () => context.pop(),
+                          ),
+                          Expanded(
+                            child: Opacity(
+                              opacity: appBarOpacity,
+                              child: Text(
+                                'Detail Produk',
+                                style: GoogleFonts.notoSerif(
+                                  fontSize: 18,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ),
+                          IconButton(
+                            icon: const Icon(Icons.share_outlined),
+                            onPressed: () {
+                              AppHaptics.tap();
+                              ShareSheet.show(context, product);
+                            },
+                          ),
+                          Consumer<WishlistProvider>(
+                            builder: (context, wishlistProvider, _) {
+                              final isInWishlist =
+                                  wishlistProvider.ids.contains(product.id);
+                              return Padding(
+                                padding: const EdgeInsets.only(right: 8),
+                                child: AnimatedFavoriteButton(
+                                  isFavorite: isInWishlist,
+                                  size: 28,
+                                  onToggle: () async {
+                                    final scaffoldContext = context;
+                                    final result =
+                                        await wishlistProvider.toggle(product.id);
+                                    if (!mounted) return;
+                                    if (wishlistProvider.error != null) {
+                                      AppHaptics.error();
+                                      if (scaffoldContext.mounted) {
+                                        AnimatedSnackbar.error(
+                                          scaffoldContext,
+                                          wishlistProvider.error!,
+                                        );
+                                      }
+                                      return;
+                                    }
+                                    AppHaptics.addToCart();
+                                    if (scaffoldContext.mounted) {
+                                      AnimatedSnackbar.success(
+                                        scaffoldContext,
+                                        result
+                                            ? 'Ditambahkan ke wishlist'
+                                            : 'Dihapus dari wishlist',
+                                      );
+                                    }
+                                  },
+                                ),
+                              );
+                            },
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+          ),
         ],
       ),
     );
@@ -369,9 +431,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
             itemCount: images.isEmpty ? 1 : images.length,
             itemBuilder: (context, index) {
               final imageUrl = images.isNotEmpty ? images[index].url : '';
+              final imageWidget = ShimmerImage(
+                imageUrl: imageUrl,
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              );
+
               return Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 16),
                 child: Container(
+                  key: index == 0 ? _imageKey : null,
                   decoration: BoxDecoration(
                     borderRadius: BorderRadius.circular(32),
                     boxShadow: [
@@ -384,32 +454,17 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
                   ),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(32),
-                    child: imageUrl.isNotEmpty
-                        ? CachedNetworkImage(
-                            imageUrl: imageUrl,
-                            fit: BoxFit.cover,
-                            placeholder: (context, url) => Container(
-                              color: AppColors.surfaceContainerLow,
-                              child: const Center(
-                                child:
-                                    CircularProgressIndicator(strokeWidth: 2),
-                              ),
-                            ),
-                            errorWidget: (context, url, error) => Container(
-                              color: AppColors.surfaceContainerHigh,
-                              child: const Icon(
-                                Icons.image_not_supported,
-                                size: 64,
-                              ),
-                            ),
-                          )
-                        : Container(
-                            color: AppColors.surfaceContainerHigh,
-                            child: const Icon(
-                              Icons.image_not_supported,
-                              size: 64,
-                            ),
-                          ),
+                    child: InteractiveViewer(
+                      minScale: 1.0,
+                      maxScale: 4.0,
+                      boundaryMargin: const EdgeInsets.all(20),
+                      child: index == 0 && _product != null
+                          ? Hero(
+                              tag: 'product-image-${_product!.id}',
+                              child: imageWidget,
+                            )
+                          : imageWidget,
+                    ),
                   ),
                 ),
               );
@@ -1012,7 +1067,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
       width: double.infinity,
       child: OutlinedButton.icon(
         onPressed: () {
-          // TODO: Navigate to write review page or show dialog
           _showWriteReviewDialog();
         },
         icon: const Icon(Icons.edit, size: 16),
@@ -1055,13 +1109,18 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
             _loadProduct();
             Navigator.of(context).pop();
-            ScaffoldMessenger.of(context).showSnackBar(
-              const SnackBar(content: Text('Ulasan berhasil ditambahkan!')),
+            AppHaptics.success();
+            ConfettiCelebration.show(context);
+            AnimatedSnackbar.success(
+              context,
+              'Ulasan berhasil ditambahkan!',
             );
           } catch (e) {
             if (!mounted) return;
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(content: Text('Gagal menambahkan ulasan: $e')),
+            AppHaptics.error();
+            AnimatedSnackbar.error(
+              context,
+              'Gagal menambahkan ulasan: $e',
             );
           }
         },
@@ -1496,145 +1555,401 @@ class _WriteReviewBottomSheet extends StatefulWidget {
   });
 
   @override
-  State<_WriteReviewBottomSheet> createState() =>
-      _WriteReviewBottomSheetState();
+  State<_WriteReviewBottomSheet> createState() {
+    return _WriteReviewBottomSheetState();
+  }
 }
 
-class _WriteReviewBottomSheetState extends State<_WriteReviewBottomSheet> {
+class _WriteReviewBottomSheetState extends State<_WriteReviewBottomSheet>
+    with TickerProviderStateMixin {
   int _rating = 5;
   final TextEditingController _commentController = TextEditingController();
+  bool _isSubmitting = false;
+  late AnimationController _entranceController;
+  late Animation<double> _slideAnimation;
+  late Animation<double> _fadeAnimation;
+  final List<AnimationController> _starControllers = [];
+
+  final Map<int, String> _ratingLabels = {
+    1: 'Sangat Buruk',
+    2: 'Buruk',
+    3: 'Cukup',
+    4: 'Bagus',
+    5: 'Sempurna',
+  };
+
+  @override
+  void initState() {
+    super.initState();
+    _entranceController = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 500),
+    );
+
+    _slideAnimation = Tween<double>(begin: 60, end: 0).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: Curves.easeOutCubic,
+      ),
+    );
+
+    _fadeAnimation = Tween<double>(begin: 0, end: 1).animate(
+      CurvedAnimation(
+        parent: _entranceController,
+        curve: Curves.easeOut,
+      ),
+    );
+
+    for (int i = 0; i < 5; i++) {
+      final controller = AnimationController(
+        vsync: this,
+        duration: const Duration(milliseconds: 300),
+      );
+      _starControllers.add(controller);
+    }
+
+    // Staggered entrance for stars
+    Future.delayed(const Duration(milliseconds: 100), () {
+      if (mounted) _entranceController.forward();
+      for (int i = 0; i < 5; i++) {
+        Future.delayed(Duration(milliseconds: 200 + i * 80), () {
+          if (mounted) _starControllers[i].forward(from: 0);
+        });
+      }
+    });
+  }
 
   @override
   void dispose() {
+    _entranceController.dispose();
     _commentController.dispose();
+    for (final c in _starControllers) {
+      c.dispose();
+    }
     super.dispose();
+  }
+
+  void _onStarTap(int index) {
+    setState(() => _rating = index + 1);
+    _starControllers[index].forward(from: 0).then((_) {
+      _starControllers[index].reverse();
+    });
+  }
+
+  Future<void> _handleSubmit() async {
+    if (_commentController.text.trim().isEmpty) return;
+    setState(() => _isSubmitting = true);
+    await widget.onSubmit(_rating, _commentController.text.trim());
+    if (mounted) setState(() => _isSubmitting = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      decoration: BoxDecoration(
-        color: AppColors.surface,
-        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
-      ),
-      padding: EdgeInsets.only(
-        bottom: MediaQuery.of(context).viewInsets.bottom + 24,
-        left: 24,
-        right: 24,
-        top: 24,
-      ),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Handle bar
-          Center(
-            child: Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: AppColors.outlineVariant,
-                borderRadius: BorderRadius.circular(2),
-              ),
+    return AnimatedBuilder(
+      animation: _entranceController,
+      builder: (context, child) {
+        return Transform.translate(
+          offset: Offset(0, _slideAnimation.value),
+          child: Opacity(
+            opacity: _fadeAnimation.value,
+            child: child,
+          ),
+        );
+      },
+      child: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topCenter,
+            end: Alignment.bottomCenter,
+            colors: [
+              AppColors.surface,
+              AppColors.surfaceContainerLow,
+            ],
+          ),
+          borderRadius: const BorderRadius.vertical(
+            top: Radius.circular(32),
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadow.withValues(alpha: 0.2),
+              blurRadius: 40,
+              offset: const Offset(0, -10),
             ),
-          ),
-          const SizedBox(height: 24),
-
-          Text(
-            'Tulis Ulasan',
-            style: GoogleFonts.notoSerif(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: AppColors.primary,
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Rating selector
-          Text(
-            'Rating',
-            style: GoogleFonts.manrope(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Row(
-            children: List.generate(5, (index) {
-              return IconButton(
-                onPressed: () {
-                  setState(() {
-                    _rating = index + 1;
-                  });
-                },
-                icon: Icon(
-                  index < _rating ? Icons.star : Icons.star_border,
-                  color: AppColors.secondary,
-                  size: 32,
-                ),
-              );
-            }),
-          ),
-          const SizedBox(height: 20),
-
-          // Comment field
-          Text(
-            'Komentar',
-            style: GoogleFonts.manrope(
-              fontSize: 14,
-              fontWeight: FontWeight.w600,
-            ),
-          ),
-          const SizedBox(height: 8),
-          TextField(
-            controller: _commentController,
-            maxLines: 4,
-            decoration: InputDecoration(
-              hintText: 'Bagikan pengalaman Anda dengan produk ini...',
-              hintStyle: GoogleFonts.manrope(
-                color: AppColors.outline,
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.outlineVariant),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.outlineVariant),
-              ),
-              focusedBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-                borderSide: BorderSide(color: AppColors.primary),
-              ),
-            ),
-          ),
-          const SizedBox(height: 24),
-
-          // Submit button
-          SizedBox(
-            width: double.infinity,
-            child: ElevatedButton(
-              onPressed: () {
-                if (_commentController.text.trim().isNotEmpty) {
-                  widget.onSubmit(_rating, _commentController.text.trim());
-                }
-              },
-              style: ElevatedButton.styleFrom(
-                padding: const EdgeInsets.symmetric(vertical: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
+          ],
+        ),
+        padding: EdgeInsets.only(
+          bottom: MediaQuery.of(context).viewInsets.bottom + 32,
+          left: 24,
+          right: 24,
+          top: 16,
+        ),
+        child: SafeArea(
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Handle bar with brand accent
+              Center(
+                child: Container(
+                  width: 48,
+                  height: 5,
+                  decoration: BoxDecoration(
+                    gradient: const LinearGradient(
+                      colors: [
+                        AppColors.primary,
+                        AppColors.primaryContainer,
+                      ],
+                    ),
+                    borderRadius: BorderRadius.circular(3),
+                  ),
                 ),
               ),
-              child: Text(
-                'Kirim Ulasan',
+              const SizedBox(height: 28),
+
+              // Header with icon
+              Row(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(10),
+                    decoration: BoxDecoration(
+                      gradient: AppGradients.primaryDark,
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: const Icon(
+                      Icons.rate_review_outlined,
+                      color: AppColors.onPrimary,
+                      size: 24,
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Tulis Ulasan',
+                          style: GoogleFonts.notoSerif(
+                            fontSize: 22,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.primary,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          'Bagikan pengalaman Anda',
+                          style: GoogleFonts.manrope(
+                            fontSize: 12,
+                            color: AppColors.outline,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 32),
+
+              // Rating section
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  gradient: AppGradients.cardSoft,
+                  borderRadius: BorderRadius.circular(20),
+                  border: Border.all(
+                    color: AppColors.outlineVariant.withValues(alpha: 0.5),
+                  ),
+                ),
+                child: Column(
+                  children: [
+                    Text(
+                      'Berapa rating Anda?',
+                      style: GoogleFonts.manrope(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w600,
+                        color: AppColors.onSurface,
+                      ),
+                    ),
+                    const SizedBox(height: 16),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: List.generate(5, (index) {
+                        final isSelected = index < _rating;
+                        return AnimatedBuilder(
+                          animation: _starControllers[index],
+                          builder: (context, child) {
+                            final scale = 1.0 +
+                                (_starControllers[index].value * 0.3);
+                            return Transform.scale(
+                              scale: scale,
+                              child: GestureDetector(
+                                onTap: () => _onStarTap(index),
+                                child: Container(
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 6),
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: isSelected
+                                      ? BoxDecoration(
+                                          color: AppColors.secondaryContainer
+                                              .withValues(alpha: 0.3),
+                                          shape: BoxShape.circle,
+                                        )
+                                      : null,
+                                  child: Icon(
+                                    isSelected
+                                        ? Icons.star_rounded
+                                        : Icons.star_border_rounded,
+                                    color: isSelected
+                                        ? AppColors.secondary
+                                        : AppColors.outlineVariant,
+                                    size: 36,
+                                  ),
+                                ),
+                              ),
+                            );
+                          },
+                        );
+                      }),
+                    ),
+                    const SizedBox(height: 12),
+                    AnimatedSwitcher(
+                      duration: const Duration(milliseconds: 200),
+                      child: Text(
+                        _ratingLabels[_rating]!,
+                        key: ValueKey(_rating),
+                        style: GoogleFonts.manrope(
+                          fontSize: 13,
+                          fontWeight: FontWeight.w700,
+                          color: AppColors.secondary,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Comment field
+              Text(
+                'Komentar',
                 style: GoogleFonts.manrope(
                   fontSize: 14,
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.onSurface,
                 ),
               ),
-            ),
+              const SizedBox(height: 10),
+              Container(
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: AppColors.outlineVariant.withValues(alpha: 0.5),
+                  ),
+                ),
+                child: TextField(
+                  controller: _commentController,
+                  maxLines: 4,
+                  style: GoogleFonts.manrope(
+                    fontSize: 14,
+                    color: AppColors.onSurface,
+                  ),
+                  decoration: InputDecoration(
+                    hintText:
+                        'Ceritakan detail pengalaman Anda dengan produk ini...',
+                    hintStyle: GoogleFonts.manrope(
+                      fontSize: 14,
+                      color: AppColors.outline.withValues(alpha: 0.6),
+                    ),
+                    contentPadding: const EdgeInsets.all(16),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+              Align(
+                alignment: Alignment.centerRight,
+                child: ValueListenableBuilder<TextEditingValue>(
+                  valueListenable: _commentController,
+                  builder: (context, value, _) {
+                    return Text(
+                      '${value.text.length} karakter',
+                      style: GoogleFonts.manrope(
+                        fontSize: 11,
+                        color: AppColors.outline,
+                      ),
+                    );
+                  },
+                ),
+              ),
+              const SizedBox(height: 24),
+
+              // Submit button
+              GestureDetector(
+                onTap: _isSubmitting ? null : _handleSubmit,
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  width: double.infinity,
+                  height: 56,
+                  decoration: BoxDecoration(
+                    gradient: _isSubmitting
+                        ? LinearGradient(
+                            colors: [
+                              AppColors.outline,
+                              AppColors.outlineVariant,
+                            ],
+                          )
+                        : AppGradients.primaryDark,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: _isSubmitting
+                        ? []
+                        : [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.3),
+                              blurRadius: 20,
+                              offset: const Offset(0, 8),
+                            ),
+                          ],
+                  ),
+                  child: Center(
+                    child: _isSubmitting
+                        ? const SizedBox(
+                            width: 24,
+                            height: 24,
+                            child: CircularProgressIndicator(
+                              strokeWidth: 2.5,
+                              valueColor: AlwaysStoppedAnimation<Color>(
+                                AppColors.onPrimary,
+                              ),
+                            ),
+                          )
+                        : Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              const Icon(
+                                Icons.send_rounded,
+                                color: AppColors.onPrimary,
+                                size: 20,
+                              ),
+                              const SizedBox(width: 10),
+                              Text(
+                                'Kirim Ulasan',
+                                style: GoogleFonts.manrope(
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w700,
+                                  color: AppColors.onPrimary,
+                                ),
+                              ),
+                            ],
+                          ),
+                  ),
+                ),
+              ),
+              const SizedBox(height: 8),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

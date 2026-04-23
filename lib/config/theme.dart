@@ -39,6 +39,16 @@ class AppShadows {
     blurRadius: 20,
     offset: const Offset(0, 10),
   );
+  static final BoxShadow cardSoft = BoxShadow(
+    color: AppColors.shadow.withValues(alpha: 0.04),
+    blurRadius: 12,
+    offset: const Offset(0, 4),
+  );
+  static final BoxShadow cardElevated = BoxShadow(
+    color: AppColors.shadow.withValues(alpha: 0.12),
+    blurRadius: 24,
+    offset: const Offset(0, 8),
+  );
   static final BoxShadow button = BoxShadow(
     color: AppColors.primary.withValues(alpha: 0.2),
     blurRadius: 30,
@@ -48,6 +58,60 @@ class AppShadows {
     color: AppColors.shadow.withValues(alpha: 0.03),
     blurRadius: 30,
     offset: const Offset(0, -10),
+  );
+  static final BoxShadow floating = BoxShadow(
+    color: AppColors.shadow.withValues(alpha: 0.15),
+    blurRadius: 20,
+    offset: const Offset(0, 6),
+    spreadRadius: -4,
+  );
+}
+
+class AppGradients {
+  static const LinearGradient heroOverlay = LinearGradient(
+    begin: Alignment.topCenter,
+    end: Alignment.bottomCenter,
+    colors: [
+      Colors.transparent,
+      Colors.black87,
+    ],
+    stops: [0.4, 1.0],
+  );
+
+  static const LinearGradient cardSoft = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.surfaceContainerLowest,
+      AppColors.surfaceContainerLow,
+    ],
+  );
+
+  static const LinearGradient primaryDark = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      AppColors.primary,
+      AppColors.primaryContainer,
+    ],
+  );
+
+  static const LinearGradient categoryBg = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFFF5F5F0),
+      Color(0xFFE8E8E3),
+    ],
+  );
+
+  static const LinearGradient shimmer = LinearGradient(
+    colors: [
+      AppColors.surfaceContainerLow,
+      AppColors.surfaceContainerHigh,
+      AppColors.surfaceContainerLow,
+    ],
+    stops: [0.0, 0.5, 1.0],
   );
 }
 

@@ -320,6 +320,18 @@ class ProductService {
     return _unwrapResponse(response);
   }
 
+  Future<List<Map<String, dynamic>>> getPages() async {
+    final response = await _apiService.get(ApiEndpoints.pages);
+    final data = _unwrapResponse(response);
+    final pages = _listFromResponse(data, ['pages', 'items', 'results']);
+    return pages.whereType<Map<String, dynamic>>().toList();
+  }
+
+  Future<Map<String, dynamic>> getTeamMemberPhoto(int id) async {
+    final response = await _apiService.get(ApiEndpoints.teamMemberPhoto(id));
+    return _unwrapResponse(response);
+  }
+
   Future<List<Product>> getUserRecommendations({int limit = 10}) async {
     final response = await _apiService.get(
       ApiEndpoints.recommendations,

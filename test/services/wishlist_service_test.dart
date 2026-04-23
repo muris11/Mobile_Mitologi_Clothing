@@ -33,7 +33,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist',
           {'wishlist': TestHelpers.sampleProducts},
         );
 
@@ -50,7 +50,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist',
           {'wishlist': []},
         );
 
@@ -78,7 +78,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/1',
           {'message': 'Added to wishlist'},
         );
 
@@ -104,7 +104,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/999',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/999',
           {'message': 'Product not found'},
           statusCode: 404,
         );
@@ -122,7 +122,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'DELETE',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/1',
           {'message': 'Removed from wishlist'},
         );
 
@@ -137,7 +137,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'DELETE',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/999',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/999',
           {'message': 'Item not found in wishlist'},
           statusCode: 404,
         );
@@ -155,7 +155,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/check/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/check/1',
           {'inWishlist': true},
         );
 
@@ -170,7 +170,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/check/2',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/check/2',
           {'inWishlist': false},
         );
 
@@ -196,7 +196,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/check/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/check/1',
           {'message': 'Server error'},
           statusCode: 500,
         );
@@ -214,12 +214,12 @@ void main() {
         // Arrange - first check returns false, then add succeeds
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/check/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/check/1',
           {'inWishlist': false},
         );
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/1',
           {'message': 'Added'},
         );
 
@@ -234,12 +234,12 @@ void main() {
         // Arrange - first check returns true, then remove succeeds
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/check/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/check/1',
           {'inWishlist': true},
         );
         mockClient.setResponse(
           'DELETE',
-          'https://adminmitologi.based.my.id/api/v1/wishlist/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist/1',
           {'message': 'Removed'},
         );
 
@@ -256,7 +256,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist',
           {'wishlist': TestHelpers.sampleProducts},
         );
 
@@ -271,7 +271,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/wishlist',
+          'https://adminmitologiclothing.center.biz.id/api/v1/wishlist',
           {'wishlist': []},
         );
 

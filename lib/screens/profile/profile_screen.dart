@@ -9,6 +9,8 @@ import '../../models/user.dart';
 import '../../providers/auth_provider.dart';
 import '../../providers/product_provider.dart';
 import '../../providers/profile_provider.dart';
+import '../../widgets/common/empty_state.dart';
+import '../../widgets/common/skeleton_loading.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -24,6 +26,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool _hasLoaded = false;
   bool _profileLoadScheduled = false;
   bool? _lastAuthState;
+  String? _loadError;
 
   @override
   void initState() {
@@ -99,7 +102,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
       if (!mounted) return;
       setState(() {
         _isLoading = false;
-        _hasLoaded = true; // Mark as loaded even on error
+        _hasLoaded = true;
+        _loadError = 'Gagal memuat profil. Silakan coba lagi.';
       });
     }
   }
@@ -167,7 +171,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
         if (_isLoading) {
           return const Scaffold(
-            body: Center(child: CircularProgressIndicator()),
+            body: ProfileSkeleton(),
+          );
+        }
+
+        if (_loadError != null) {
+          return Scaffold(
+            backgroundColor: AppColors.background,
+            body: Center(
+              child: AnimatedEmptyState(
+                icon: Icons.error_outline,
+                title: 'Gagal Memuat Profil',
+                subtitle: _loadError!,
+                actionLabel: 'Coba Lagi',
+                onAction: () {
+                  setState(() => _loadError = null);
+                  _loadProfile();
+                },
+              ),
+            ),
           );
         }
 
@@ -201,42 +223,42 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
               // Profile Header
               SliverToBoxAdapter(
-                child: _buildProfileHeader(),
+                child: _wrapWithReveal(_buildProfileHeader()),
               ),
 
               // Profile Detail Card
               SliverToBoxAdapter(
-                child: _buildProfileDetailCard(),
+                child: _wrapWithReveal(_buildProfileDetailCard()),
               ),
 
               // Menu Grid
               SliverToBoxAdapter(
-                child: _buildMenuGrid(),
+                child: _wrapWithReveal(_buildMenuGrid()),
               ),
 
               // CMS Content Pages
               SliverToBoxAdapter(
-                child: _buildContentPagesSection(),
+                child: _wrapWithReveal(_buildContentPagesSection()),
               ),
 
               // Addresses Section
               SliverToBoxAdapter(
-                child: _buildAddressesSection(),
+                child: _wrapWithReveal(_buildAddressesSection()),
               ),
 
               // Orders Section
               SliverToBoxAdapter(
-                child: _buildOrdersSection(),
+                child: _wrapWithReveal(_buildOrdersSection()),
               ),
 
               // Logout Button
               SliverToBoxAdapter(
-                child: _buildLogoutButton(),
+                child: _wrapWithReveal(_buildLogoutButton()),
               ),
 
               // Contact Info Section
               SliverToBoxAdapter(
-                child: _buildContactSection(),
+                child: _wrapWithReveal(_buildContactSection()),
               ),
 
               // Bottom padding
@@ -250,72 +272,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  Widget _wrapWithReveal(Widget child) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 500),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, childWidget) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, (1 - value) * 30),
+            child: childWidget,
+          ),
+        );
+      },
+      child: child,
+    );
+  }
+
   Widget _buildGuestView() {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(
-              Icons.person_outline,
-              size: 80,
-              color: AppColors.outline.withAlpha(150),
-            ),
-            const SizedBox(height: 24),
-            Text(
-              'Masuk ke Akun Anda',
-              style: GoogleFonts.notoSerif(
-                fontSize: 24,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
-              ),
-            ),
-            const SizedBox(height: 12),
-            Text(
-              'Silakan login untuk melihat profil dan pesanan Anda',
-              style: GoogleFonts.manrope(
-                fontSize: 14,
-                color: AppColors.onSurfaceVariant,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const SizedBox(height: 32),
-            ElevatedButton(
-              onPressed: () => context.push('/login'),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: AppColors.primary,
-                foregroundColor: AppColors.onPrimary,
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 40,
-                  vertical: 16,
-                ),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: Text(
-                'Masuk',
-                style: GoogleFonts.manrope(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                ),
-              ),
-            ),
-            const SizedBox(height: 16),
-            TextButton(
-              onPressed: () => context.push('/register'),
-              child: Text(
-                'Belum punya akun? Daftar',
-                style: GoogleFonts.manrope(
-                  fontSize: 14,
-                  color: AppColors.secondary,
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AnimatedEmptyState(
+      icon: Icons.person_outline,
+      title: 'Masuk ke Akun Anda',
+      subtitle: 'Silakan login untuk melihat profil dan pesanan Anda',
+      actionLabel: 'Masuk',
+      onAction: () => context.push('/login'),
+      iconColor: AppColors.secondary,
     );
   }
 
@@ -1027,6 +1009,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Pengaturan notifikasi akan segera hadir',
+                      style: GoogleFonts.manrope(),
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
               },
             ),
             ListTile(
@@ -1035,6 +1027,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
               trailing: const Icon(Icons.chevron_right),
               onTap: () {
                 Navigator.pop(context);
+                ScaffoldMessenger.of(context).showSnackBar(
+                  SnackBar(
+                    content: Text(
+                      'Pengaturan bahasa akan segera hadir',
+                      style: GoogleFonts.manrope(),
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(seconds: 2),
+                  ),
+                );
               },
             ),
             ListTile(

@@ -36,7 +36,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/profile',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile',
           {'user': TestHelpers.sampleUser},
         );
 
@@ -65,7 +65,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/profile',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile',
           {
             'data': {'user': TestHelpers.sampleUser}
           },
@@ -90,7 +90,7 @@ void main() {
         };
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/profile',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile',
           {'user': updatedUser},
         );
 
@@ -113,7 +113,7 @@ void main() {
         };
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/profile',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile',
           {'user': updatedUser},
         );
 
@@ -130,7 +130,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/profile',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile',
           {'message': 'Email already in use'},
           statusCode: 422,
         );
@@ -148,7 +148,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/profile/password',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/password',
           {'message': 'Password updated successfully'},
         );
 
@@ -167,7 +167,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/profile/password',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/password',
           {'message': 'Current password is incorrect'},
           statusCode: 400,
         );
@@ -187,7 +187,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/profile/password',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/password',
           {'message': 'Password confirmation does not match'},
           statusCode: 422,
         );
@@ -231,7 +231,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {'addresses': TestHelpers.sampleAddresses},
         );
 
@@ -249,7 +249,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {'addresses': []},
         );
 
@@ -264,7 +264,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {
             'data': {'addresses': TestHelpers.sampleAddresses}
           },
@@ -284,7 +284,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {'address': TestHelpers.sampleAddress},
         );
 
@@ -309,7 +309,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {'message': 'Invalid postal code'},
           statusCode: 422,
         );
@@ -333,7 +333,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {
             'data': {'address': TestHelpers.sampleAddress}
           },
@@ -364,7 +364,7 @@ void main() {
         };
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses/1',
           {'address': updatedAddress},
         );
 
@@ -384,7 +384,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses/999',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses/999',
           {'message': 'Address not found'},
           statusCode: 404,
         );
@@ -402,7 +402,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'DELETE',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses/1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses/1',
           {'message': 'Address deleted'},
         );
 
@@ -417,7 +417,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'DELETE',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses/999',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses/999',
           {'message': 'Address not found'},
           statusCode: 404,
         );
@@ -435,7 +435,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {'addresses': TestHelpers.sampleAddresses},
         );
 
@@ -455,7 +455,7 @@ void main() {
             .toList();
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {'addresses': addressesWithoutDefault},
         );
 
@@ -471,7 +471,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/profile/addresses',
+          'https://adminmitologiclothing.center.biz.id/api/v1/profile/addresses',
           {'addresses': []},
         );
 

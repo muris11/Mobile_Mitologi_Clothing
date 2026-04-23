@@ -80,18 +80,14 @@ class _MaterialCard extends StatelessWidget {
 
     return Padding(
       padding: const EdgeInsets.only(right: 12),
-      child: Container(
+        child: Container(
         width: 200,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: colors.bgColor,
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
-            BoxShadow(
-              color: AppColors.shadow.withValues(alpha: 0.03),
-              blurRadius: 10,
-              offset: const Offset(0, 4),
-            ),
+            AppShadows.cardSoft,
           ],
         ),
         child: Column(

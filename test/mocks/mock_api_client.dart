@@ -119,17 +119,17 @@ class MockApiClient {
     Map<String, dynamic>? user,
   }) {
     // Landing page
-    setResponse('GET', 'https://adminmitologi.based.my.id/api/v1/landing-page',
+    setResponse('GET', 'https://adminmitologiclothing.center.biz.id/api/v1/landing-page',
         landingPage ?? {'hero_slides': [], 'categories': [], 'products': []});
 
     // Products
-    setResponse('GET', 'https://adminmitologi.based.my.id/api/v1/products',
+    setResponse('GET', 'https://adminmitologiclothing.center.biz.id/api/v1/products',
         {'products': products ?? []});
 
     // Auth - Register
     setResponse(
         'POST',
-        'https://adminmitologi.based.my.id/api/v1/auth/register',
+        'https://adminmitologiclothing.center.biz.id/api/v1/auth/register',
         authResponse ??
             {
               'token': 'test_token',
@@ -143,7 +143,7 @@ class MockApiClient {
     // Auth - Login
     setResponse(
         'POST',
-        'https://adminmitologi.based.my.id/api/v1/auth/login',
+        'https://adminmitologiclothing.center.biz.id/api/v1/auth/login',
         authResponse ??
             {
               'token': 'test_token',
@@ -155,18 +155,18 @@ class MockApiClient {
             });
 
     // Auth - User
-    setResponse('GET', 'https://adminmitologi.based.my.id/api/v1/auth/user', {
+    setResponse('GET', 'https://adminmitologiclothing.center.biz.id/api/v1/auth/user', {
       'user':
           user ?? {'id': 1, 'name': 'Test User', 'email': 'test@example.com'}
     });
 
     // Cart
-    setResponse('GET', 'https://adminmitologi.based.my.id/api/v1/cart', {
+    setResponse('GET', 'https://adminmitologiclothing.center.biz.id/api/v1/cart', {
       'cart': cart ?? {'id': 'test_cart', 'items': []}
     });
 
     // Orders
-    setResponse('GET', 'https://adminmitologi.based.my.id/api/v1/orders',
+    setResponse('GET', 'https://adminmitologiclothing.center.biz.id/api/v1/orders',
         {'orders': orders ?? []});
   }
 

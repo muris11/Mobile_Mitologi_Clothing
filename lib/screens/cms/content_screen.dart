@@ -39,12 +39,14 @@ class _ContentScreenState extends State<ContentScreen> {
 
   List<String> _resolveHandleCandidates(String rawHandle) {
     final normalized = rawHandle.trim().toLowerCase();
-    final candidates = <String>{normalized};
+    final candidates = <String>{};
 
     final mapped = _handleAliases[normalized];
     if (mapped != null && mapped.isNotEmpty) {
       candidates.add(mapped);
     }
+
+    candidates.add(normalized);
 
     for (final entry in _handleAliases.entries) {
       if (entry.value == normalized) {

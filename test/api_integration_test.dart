@@ -6,7 +6,7 @@ import 'package:mitologi_clothing_mobile/services/api_service.dart';
 void main() {
   group('API Integration Verification', () {
     test('API base URL is correct', () {
-      expect(ApiConfig.baseUrl, 'https://adminmitologi.based.my.id/api/v1');
+      expect(ApiConfig.baseUrl, 'https://adminmitologiclothing.center.biz.id/api/v1');
     });
 
     test('All required endpoints are defined', () {
@@ -87,7 +87,7 @@ void main() {
       );
 
       expect(uri.toString(),
-          'https://adminmitologi.based.my.id/api/v1/products?featured=true&limit=10&sort=latest');
+          'https://adminmitologiclothing.center.biz.id/api/v1/products?featured=true&limit=10&sort=latest');
     });
 
     test('ApiConfig.buildImageUrl handles absolute and relative paths', () {
@@ -98,12 +98,12 @@ void main() {
 
       expect(
         ApiConfig.buildImageUrl('products/image.jpg'),
-        'https://adminmitologi.based.my.id/storage/products/image.jpg',
+        'https://adminmitologiclothing.center.biz.id/storage/products/image.jpg',
       );
 
       expect(
         ApiConfig.buildImageUrl('/products/image.jpg'),
-        'https://adminmitologi.based.my.id/storage/products/image.jpg',
+        'https://adminmitologiclothing.center.biz.id/storage/products/image.jpg',
       );
     });
   });

@@ -50,7 +50,9 @@ class ChatbotService {
   Future<List<Map<String, dynamic>>?> getRecommendedProducts(
       String message) async {
     final response = await sendMessage(message: message);
-    final products = response['products'] ?? response['recommendedProducts'];
+    final products = response['products'] ??
+        response['recommendedProducts'] ??
+        response['recommended_products'];
     if (products == null) return null;
     if (products is! List) return null;
     return products.whereType<Map<String, dynamic>>().toList();

@@ -31,7 +31,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/landing-page',
+          'https://adminmitologiclothing.center.biz.id/api/v1/landing-page',
           TestHelpers.sampleLandingPage,
         );
 
@@ -49,7 +49,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/landing-page',
+          'https://adminmitologiclothing.center.biz.id/api/v1/landing-page',
           {'hero_slides': [], 'categories': [], 'products': []},
         );
 
@@ -66,7 +66,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/landing-page',
+          'https://adminmitologiclothing.center.biz.id/api/v1/landing-page',
           {'message': 'Internal server error'},
           statusCode: 500,
         );
@@ -84,7 +84,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -103,7 +103,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products?page=1&limit=20&q=kaos&category=fashion&sortKey=PRICE&reverse=false',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products?page=1&limit=20&q=kaos&category=fashion&sortKey=PRICE&reverse=false',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -123,7 +123,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -139,7 +139,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -154,7 +154,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -169,7 +169,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -185,7 +185,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products',
           {'products': []},
         );
 
@@ -200,7 +200,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products',
           {
             'data': {'products': TestHelpers.sampleProducts}
           },
@@ -220,7 +220,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/test-product',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/test-product',
           {'product': TestHelpers.sampleProduct},
         );
 
@@ -238,7 +238,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/non-existent',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/non-existent',
           {'message': 'Product not found'},
           statusCode: 404,
         );
@@ -256,7 +256,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/best-sellers',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/best-sellers',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -272,7 +272,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/best-sellers',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/best-sellers',
           {'products': []},
         );
 
@@ -287,7 +287,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/best-sellers',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/best-sellers',
           {
             'data': {'best_sellers': TestHelpers.sampleProducts}
           },
@@ -306,7 +306,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/new-arrivals',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/new-arrivals',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -322,7 +322,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/new-arrivals',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/new-arrivals',
           {
             'data': {'new_arrivals': TestHelpers.sampleProducts}
           },
@@ -341,7 +341,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/categories',
+          'https://adminmitologiclothing.center.biz.id/api/v1/categories',
           {
             'categories': [
               {'name': 'Fashion', 'handle': 'fashion'},
@@ -363,7 +363,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/categories',
+          'https://adminmitologiclothing.center.biz.id/api/v1/categories',
           {'categories': []},
         );
 
@@ -380,7 +380,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/categories/fashion',
+          'https://adminmitologiclothing.center.biz.id/api/v1/categories/fashion',
           {
             'category': {'name': 'Fashion', 'handle': 'fashion'},
             'products': TestHelpers.sampleProducts,
@@ -401,7 +401,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/collections',
+          'https://adminmitologiclothing.center.biz.id/api/v1/collections',
           {
             'collections': [
               {'title': 'Summer', 'handle': 'summer'},
@@ -424,7 +424,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/collections/summer-collection',
+          'https://adminmitologiclothing.center.biz.id/api/v1/collections/summer-collection',
           {
             'collection': {
               'title': 'Summer Collection',
@@ -449,7 +449,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/collections/summer/products',
+          'https://adminmitologiclothing.center.biz.id/api/v1/collections/summer/products',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -467,7 +467,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/test-product/reviews',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/test-product/reviews',
           TestHelpers.sampleReviewsResponse,
         );
 
@@ -486,7 +486,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/products/1/recommendations',
+          'https://adminmitologiclothing.center.biz.id/api/v1/products/1/recommendations',
           {'products': TestHelpers.sampleProducts},
         );
 
@@ -505,7 +505,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/order-steps',
+          'https://adminmitologiclothing.center.biz.id/api/v1/order-steps',
           {
             'steps': [
               {'step': 1, 'title': 'Pilih Produk'},
@@ -526,7 +526,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/order-steps',
+          'https://adminmitologiclothing.center.biz.id/api/v1/order-steps',
           {'steps': []},
         );
 
@@ -544,7 +544,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/materials',
+          'https://adminmitologiclothing.center.biz.id/api/v1/materials',
           {
             'materials': [
               {'name': 'Cotton', 'handle': 'cotton'},
@@ -567,7 +567,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/pages/about-us',
+          'https://adminmitologiclothing.center.biz.id/api/v1/pages/about-us',
           TestHelpers.samplePage,
         );
 
@@ -584,7 +584,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/pages/about-us',
+          'https://adminmitologiclothing.center.biz.id/api/v1/pages/about-us',
           {
             'data': {
               'page': TestHelpers.samplePage,
@@ -604,7 +604,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/pages/about-us',
+          'https://adminmitologiclothing.center.biz.id/api/v1/pages/about-us',
           {
             'data': {
               'content': TestHelpers.samplePage,
@@ -626,7 +626,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/portfolios',
+          'https://adminmitologiclothing.center.biz.id/api/v1/portfolios',
           {
             'portfolios': [
               {'title': 'Project 1', 'slug': 'project-1'},
@@ -649,7 +649,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/portfolios/project-1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/portfolios/project-1',
           {
             'portfolio': {'title': 'Project 1', 'slug': 'project-1'},
           },
@@ -668,7 +668,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/menus/main-menu',
+          'https://adminmitologiclothing.center.biz.id/api/v1/menus/main-menu',
           TestHelpers.sampleMenu,
         );
 

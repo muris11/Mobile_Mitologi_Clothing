@@ -38,7 +38,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/cart',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart',
           {'cart_id': 'new_cart_123'},
         );
 
@@ -56,7 +56,7 @@ void main() {
         // Arrange - setup mock
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/cart',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart',
           {'cart': TestHelpers.sampleCart},
         );
 
@@ -96,7 +96,7 @@ void main() {
         };
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/cart/items',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart/items',
           {'cart': updatedCart},
         );
 
@@ -125,7 +125,7 @@ void main() {
         };
         mockClient.setResponse(
           'PUT',
-          'https://adminmitologi.based.my.id/api/v1/cart/items/item_1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart/items/item_1',
           {'cart': updatedCart},
         );
 
@@ -166,7 +166,7 @@ void main() {
         expect(capturedRequest.method, 'PUT');
         expect(
           capturedRequest.url.toString(),
-          'https://adminmitologi.based.my.id/api/v1/cart/items/item_1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart/items/item_1',
         );
         expect(
           capturedRequest.headers['X-Cart-Id'],
@@ -210,7 +210,7 @@ void main() {
         };
         mockClient.setResponse(
           'DELETE',
-          'https://adminmitologi.based.my.id/api/v1/cart/items/item_1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart/items/item_1',
           {'cart': emptyCart},
         );
 
@@ -242,7 +242,7 @@ void main() {
         expect(capturedRequest.method, 'DELETE');
         expect(
           capturedRequest.url.toString(),
-          'https://adminmitologi.based.my.id/api/v1/cart/items/item_1',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart/items/item_1',
         );
         expect(
           capturedRequest.headers['X-Cart-Id'],
@@ -266,7 +266,7 @@ void main() {
         };
         mockClient.setResponse(
           'DELETE',
-          'https://adminmitologi.based.my.id/api/v1/cart/clear',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart/clear',
           {'cart': emptyCart},
         );
 
@@ -299,7 +299,7 @@ void main() {
         expect(capturedRequest.method, 'DELETE');
         expect(
           capturedRequest.url.toString(),
-          'https://adminmitologi.based.my.id/api/v1/cart/clear',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart/clear',
         );
         expect(
           capturedRequest.headers['X-Cart-Id'],
@@ -326,7 +326,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/cart',
+          'https://adminmitologiclothing.center.biz.id/api/v1/cart',
           {
             'data': {'cart': TestHelpers.sampleCart}
           },

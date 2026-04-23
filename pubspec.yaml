@@ -29,6 +29,7 @@ dependencies:
   carousel_slider: ^5.0.0
   flutter_svg: ^2.0.10+1
   lottie: ^3.1.2
+  flutter_staggered_grid_view: ^0.7.0
 
   # Functionality
   flutter_secure_storage: ^9.2.2
@@ -72,4 +73,3 @@ flutter:
 
   assets:
     - assets/images/
-    - assets/icons/

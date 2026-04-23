@@ -28,7 +28,7 @@ void main() {
     test('getChatResponse parses nested data reply', () async {
       mockClient.setResponse(
         'POST',
-        'https://adminmitologi.based.my.id/api/v1/chatbot',
+        'https://adminmitologiclothing.center.biz.id/api/v1/chatbot',
         {
           'data': {'reply': 'Halo juga'}
         },
@@ -42,7 +42,7 @@ void main() {
     test('getRecommendedProducts supports recommended_products key', () async {
       mockClient.setResponse(
         'POST',
-        'https://adminmitologi.based.my.id/api/v1/chatbot',
+        'https://adminmitologiclothing.center.biz.id/api/v1/chatbot',
         {
           'data': {
             'recommended_products': [

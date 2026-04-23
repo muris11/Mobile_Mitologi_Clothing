@@ -27,6 +27,16 @@ class ProductProvider extends ChangeNotifier {
   List<Map<String, dynamic>> _guarantees = []; // Garansi & Bonus
   Map<String, dynamic>? _siteSettings;
 
+  // Additional Landing Page Data (from API docs)
+  List<Map<String, dynamic>> _features = []; // Mengapa Memilih Kami
+  List<Map<String, dynamic>> _orderSteps = [];
+  List<Map<String, dynamic>> _partners = [];
+  List<Map<String, dynamic>> _printingMethods = [];
+  List<Map<String, dynamic>> _productPricings = [];
+  List<Map<String, dynamic>> _facilities = [];
+  Map<String, dynamic>? _cta;
+  List<Map<String, dynamic>> _teamMembers = [];
+
   // State
   bool _isLoading = false;
   String? _error;
@@ -80,6 +90,17 @@ class ProductProvider extends ChangeNotifier {
   List<Map<String, dynamic>> get promos => _promos;
   List<Map<String, dynamic>> get guarantees => _guarantees; // Garansi & Bonus
   Map<String, dynamic>? get siteSettings => _siteSettings;
+
+  // Additional Landing Page Getters
+  List<Map<String, dynamic>> get features => _features;
+  List<Map<String, dynamic>> get orderSteps => _orderSteps;
+  List<Map<String, dynamic>> get partners => _partners;
+  List<Map<String, dynamic>> get printingMethods => _printingMethods;
+  List<Map<String, dynamic>> get productPricings => _productPricings;
+  List<Map<String, dynamic>> get facilities => _facilities;
+  Map<String, dynamic>? get cta => _cta;
+  List<Map<String, dynamic>> get teamMembers => _teamMembers;
+
   bool get isLoading => _isLoading;
   String? get error => _error;
   String? get currentQuery => _currentQuery;
@@ -195,6 +216,16 @@ class ProductProvider extends ChangeNotifier {
 
       // Parse garansi & bonus data from API
       _guarantees = _parseGuarantees(responseData);
+
+      // Parse additional landing page data
+      _features = _parseList(responseData, ['features']);
+      _orderSteps = _parseList(responseData, ['orderSteps', 'order_steps']);
+      _partners = _parseList(responseData, ['partners']);
+      _printingMethods = _parseList(responseData, ['printingMethods', 'printing_methods']);
+      _productPricings = _parseList(responseData, ['productPricings', 'product_pricings']);
+      _facilities = _parseList(responseData, ['facilities']);
+      _cta = _mapFromResponse(responseData, ['cta']);
+      _teamMembers = _parseList(responseData, ['teamMembers', 'team_members']);
 
       // Debug logging - ALWAYS print
       _debugLog('=== PARSED DATA ===');

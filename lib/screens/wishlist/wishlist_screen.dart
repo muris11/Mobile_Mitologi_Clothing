@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -11,6 +10,10 @@ import '../../providers/cart_provider.dart';
 import '../../services/secure_storage_service.dart';
 import '../../services/wishlist_service.dart';
 import '../../utils/responsive_utils.dart';
+import '../../widgets/common/custom_pull_to_refresh.dart';
+import '../../widgets/common/empty_state.dart';
+import '../../widgets/common/shimmer_image.dart';
+import '../../widgets/common/skeleton_loading.dart';
 
 class WishlistScreen extends StatefulWidget {
   const WishlistScreen({super.key});
@@ -23,6 +26,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
   List<Product> _wishlistItems = [];
   bool _isLoading = true;
   bool _needsLogin = false;
+  String? _errorMessage;
 
   @override
   void initState() {
@@ -59,9 +63,16 @@ class _WishlistScreenState extends State<WishlistScreen> {
       });
     } catch (e) {
       if (!mounted) return;
+      final errorStr = e.toString().toLowerCase();
+      final isAuthError = errorStr.contains('unauthorized') ||
+          errorStr.contains('401') ||
+          errorStr.contains('not authenticated');
       setState(() {
         _isLoading = false;
-        _needsLogin = true;
+        _needsLogin = isAuthError;
+        if (!isAuthError) {
+          _errorMessage = 'Gagal memuat wishlist. Silakan coba lagi.';
+        }
       });
     }
   }
@@ -124,10 +135,12 @@ class _WishlistScreenState extends State<WishlistScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: CustomScrollView(
-        slivers: [
-          // App Bar
-          SliverAppBar(
+      body: CustomPullToRefresh(
+        onRefresh: _loadWishlist,
+        child: CustomScrollView(
+          slivers: [
+            // App Bar
+            SliverAppBar(
             floating: true,
             pinned: true,
             elevation: 0,
@@ -155,16 +168,40 @@ class _WishlistScreenState extends State<WishlistScreen> {
 
           // Wishlist Grid
           if (_isLoading)
-            const SliverFillRemaining(
-              child: Center(child: CircularProgressIndicator()),
+            SliverPadding(
+              padding: ResponsiveConfig.getResponsivePadding(context),
+              sliver: const WishlistGridSkeleton(itemCount: 4),
+            )
+          else if (_errorMessage != null)
+            SliverFillRemaining(
+              child: AnimatedEmptyState(
+                icon: Icons.error_outline,
+                title: 'Terjadi Kesalahan',
+                subtitle: _errorMessage!,
+                actionLabel: 'Coba Lagi',
+                onAction: () {
+                  setState(() => _errorMessage = null);
+                  _loadWishlist();
+                },
+              ),
             )
           else if (_needsLogin)
             SliverFillRemaining(
-              child: _buildLoginRequired(),
+              child: LoginRequiredState(
+                title: 'Login Diperlukan',
+                subtitle: 'Silakan login untuk melihat wishlist Anda',
+                onLogin: () => context.push('/login'),
+              ),
             )
           else if (_wishlistItems.isEmpty)
             SliverFillRemaining(
-              child: _buildEmptyState(),
+              child: AnimatedEmptyState(
+                icon: Icons.favorite_outline,
+                title: 'Wishlist Kosong',
+                subtitle: 'Simpan produk favorit Anda di sini untuk melihatnya nanti',
+                actionLabel: 'Jelajahi Produk',
+                onAction: () => context.push('/products'),
+              ),
             )
           else
             SliverPadding(
@@ -179,7 +216,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
                     final product = _wishlistItems[index];
-                    return _buildWishlistItem(product, index);
+                    return _buildAnimatedWishlistItem(product, index);
                   },
                   childCount: _wishlistItems.length,
                 ),
@@ -191,7 +228,26 @@ class _WishlistScreenState extends State<WishlistScreen> {
             child: SizedBox(height: 100),
           ),
         ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildAnimatedWishlistItem(Product product, int index) {
+    return TweenAnimationBuilder<double>(
+      tween: Tween(begin: 0.0, end: 1.0),
+      duration: const Duration(milliseconds: 400),
+      curve: Curves.easeOutCubic,
+      builder: (context, value, child) {
+        return Opacity(
+          opacity: value,
+          child: Transform.translate(
+            offset: Offset(0, (1 - value) * 30),
+            child: child,
+          ),
+        );
+      },
+      child: _buildWishlistItem(product, index),
     );
   }
 
@@ -223,106 +279,6 @@ class _WishlistScreenState extends State<WishlistScreen> {
     );
   }
 
-  Widget _buildLoginRequired() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.favorite_outline,
-          size: 80,
-          color: AppColors.outline.withAlpha(150),
-        ),
-        const SizedBox(height: 24),
-        Text(
-          'Login Diperlukan',
-          style: GoogleFonts.notoSerif(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: AppColors.primary,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          'Silakan login untuk melihat wishlist Anda',
-          style: GoogleFonts.manrope(
-            fontSize: 14,
-            color: AppColors.onSurfaceVariant,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 32),
-        ElevatedButton(
-          onPressed: () => context.push('/login'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            foregroundColor: AppColors.onPrimary,
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          child: Text(
-            'Login Sekarang',
-            style: GoogleFonts.manrope(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildEmptyState() {
-    return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Icon(
-          Icons.favorite_outline,
-          size: 80,
-          color: AppColors.outline.withAlpha(150),
-        ),
-        const SizedBox(height: 24),
-        Text(
-          'Wishlist Kosong',
-          style: GoogleFonts.notoSerif(
-            fontSize: 24,
-            fontWeight: FontWeight.w700,
-            color: AppColors.primary,
-          ),
-        ),
-        const SizedBox(height: 12),
-        Text(
-          'Simpan produk favorit Anda untuk dibeli nanti',
-          style: GoogleFonts.manrope(
-            fontSize: 14,
-            color: AppColors.onSurfaceVariant,
-          ),
-          textAlign: TextAlign.center,
-        ),
-        const SizedBox(height: 32),
-        ElevatedButton(
-          onPressed: () => context.push('/products'),
-          style: ElevatedButton.styleFrom(
-            backgroundColor: AppColors.primary,
-            foregroundColor: AppColors.onPrimary,
-            padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 16),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
-          ),
-          child: Text(
-            'Jelajahi Produk',
-            style: GoogleFonts.manrope(
-              fontSize: 14,
-              fontWeight: FontWeight.w700,
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
   Widget _buildWishlistItem(Product product, int index) {
     final price = product.price?.formatted ?? 'Rp 0';
     final imageUrl = product.featuredImage?.url ?? '';
@@ -332,71 +288,65 @@ class _WishlistScreenState extends State<WishlistScreen> {
       children: [
         // Image Container
         Expanded(
-          child: Container(
-            decoration: BoxDecoration(
-              color: AppColors.surfaceContainerLow,
-              borderRadius: BorderRadius.circular(16),
-              boxShadow: [
-                BoxShadow(
-                  color: AppColors.shadow.withAlpha(15),
-                  blurRadius: 30,
-                  offset: const Offset(0, 10),
-                ),
-              ],
-            ),
-            child: ClipRRect(
-              borderRadius: BorderRadius.circular(16),
-              child: Stack(
-                fit: StackFit.expand,
-                children: [
-                  imageUrl.isNotEmpty
-                      ? CachedNetworkImage(
-                          imageUrl: imageUrl,
-                          fit: BoxFit.cover,
-                          placeholder: (context, url) => Container(
-                            color: AppColors.surfaceContainerLow,
-                            child: const Center(
-                              child: CircularProgressIndicator(strokeWidth: 2),
-                            ),
+          child: GestureDetector(
+            onTap: () => context.push('/product/${product.handle}'),
+            child: Container(
+              decoration: BoxDecoration(
+                color: AppColors.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.shadow.withAlpha(15),
+                    blurRadius: 30,
+                    offset: const Offset(0, 10),
+                  ),
+                ],
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(16),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    Hero(
+                      tag: 'product-image-${product.id}',
+                      child: ShimmerImage(
+                        imageUrl: imageUrl.isNotEmpty ? imageUrl : null,
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    // Remove button
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: GestureDetector(
+                        onTap: () => _removeFromWishlist(product.id),
+                        child: Container(
+                          width: 32,
+                          height: 32,
+                          decoration: BoxDecoration(
+                            color:
+                                AppColors.surfaceContainerLowest.withAlpha(230),
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.shadow.withAlpha(20),
+                                blurRadius: 8,
+                              ),
+                            ],
                           ),
-                          errorWidget: (context, url, error) => Container(
-                            color: AppColors.surfaceContainerHigh,
-                            child: const Icon(Icons.image_not_supported),
+                          child: Icon(
+                            Icons.close,
+                            size: 16,
+                            color: AppColors.error,
                           ),
-                        )
-                      : Container(
-                          color: AppColors.surfaceContainerHigh,
-                          child: const Icon(Icons.image_not_supported),
-                        ),
-                  // Remove button
-                  Positioned(
-                    top: 8,
-                    right: 8,
-                    child: GestureDetector(
-                      onTap: () => _removeFromWishlist(product.id),
-                      child: Container(
-                        width: 32,
-                        height: 32,
-                        decoration: BoxDecoration(
-                          color:
-                              AppColors.surfaceContainerLowest.withAlpha(230),
-                          shape: BoxShape.circle,
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.shadow.withAlpha(20),
-                              blurRadius: 8,
-                            ),
-                          ],
-                        ),
-                        child: Icon(
-                          Icons.close,
-                          size: 16,
-                          color: AppColors.error,
                         ),
                       ),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
             ),
           ),

@@ -84,7 +84,24 @@ class NewArrivalsSection extends StatelessWidget {
                 ),
                 TextButton(
                   onPressed: () => context.push('/products?sort=newest'),
-                  child: const Text('Lihat Semua'),
+                  style: TextButton.styleFrom(
+                    foregroundColor: AppColors.secondary,
+                    padding: const EdgeInsets.symmetric(horizontal: 8),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'Lihat Semua',
+                        style: GoogleFonts.manrope(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w700,
+                        ),
+                      ),
+                      const SizedBox(width: 2),
+                      const Icon(Icons.arrow_forward_rounded, size: 14),
+                    ],
+                  ),
                 ),
               ],
             ),

@@ -122,9 +122,14 @@ class _RegisterScreenState extends State<RegisterScreen> {
                       _obscurePassword,
                       () =>
                           setState(() => _obscurePassword = !_obscurePassword),
-                      (v) => v != null && v.length >= 8
-                          ? null
-                          : 'Password minimal 8 karakter'),
+                      (v) {
+                        if (v == null || v.isEmpty) return 'Password wajib diisi';
+                        if (v.length < 8) return 'Password minimal 8 karakter';
+                        if (!RegExp(r'[A-Z]').hasMatch(v)) return 'Password harus mengandung huruf besar';
+                        if (!RegExp(r'[a-z]').hasMatch(v)) return 'Password harus mengandung huruf kecil';
+                        if (!RegExp(r'[0-9]').hasMatch(v)) return 'Password harus mengandung angka';
+                        return null;
+                      }),
                   const SizedBox(height: 20),
                   _buildPasswordField(
                       'Konfirmasi Password',

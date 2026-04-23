@@ -1,4 +1,3 @@
-import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -7,6 +6,13 @@ import 'package:provider/provider.dart';
 import '../../config/theme.dart';
 import '../../models/cart.dart';
 import '../../providers/cart_provider.dart';
+import '../../widgets/common/animated_snackbar.dart';
+import '../../widgets/common/animated_stepper.dart';
+import '../../widgets/common/custom_pull_to_refresh.dart';
+import '../../widgets/common/empty_state.dart';
+import '../../widgets/common/shimmer_image.dart';
+import '../../widgets/common/skeleton_loading.dart';
+import '../../widgets/common/staggered_entrance.dart';
 
 class CartScreen extends StatefulWidget {
   const CartScreen({super.key});
@@ -58,7 +64,7 @@ class _CartScreenState extends State<CartScreen> {
             onPressed: () => Navigator.pop(context, false),
             child: Text(
               'Batal',
-              style: GoogleFonts.manrope(color: AppColors.outline),
+              style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
             ),
           ),
           ElevatedButton(
@@ -82,6 +88,31 @@ class _CartScreenState extends State<CartScreen> {
     }
   }
 
+  Future<void> _removeItemWithUndo(CartItem item) async {
+    final cartProvider = context.read<CartProvider>();
+    final merchandiseId = item.merchandiseId ?? item.variant?.id ?? '';
+    final quantity = item.quantity;
+
+    await cartProvider.removeItem(item.id);
+
+    if (mounted) {
+      AnimatedSnackbar.show(
+        context,
+        message: '${item.title} dihapus dari keranjang',
+        actionLabel: 'Batal',
+        onAction: () async {
+          if (merchandiseId.isNotEmpty) {
+            await cartProvider.addItem(
+              merchandiseId: merchandiseId,
+              quantity: quantity,
+            );
+          }
+        },
+        type: SnackbarType.info,
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -89,7 +120,9 @@ class _CartScreenState extends State<CartScreen> {
       body: Consumer<CartProvider>(
         builder: (context, cartProvider, child) {
           if (cartProvider.isLoading && cartProvider.items.isEmpty) {
-            return const Center(child: CircularProgressIndicator());
+            return const Scaffold(
+              body: CartListSkeleton(),
+            );
           }
 
           final cart = cartProvider.cart;
@@ -101,10 +134,12 @@ class _CartScreenState extends State<CartScreen> {
 
           return Stack(
             children: [
-              CustomScrollView(
-                slivers: [
-                  // App Bar
-                  SliverAppBar(
+              CustomPullToRefresh(
+                onRefresh: () => cartProvider.loadCart(),
+                child: CustomScrollView(
+                  slivers: [
+                    // App Bar
+                    SliverAppBar(
                     floating: true,
                     pinned: true,
                     elevation: 0,
@@ -134,15 +169,14 @@ class _CartScreenState extends State<CartScreen> {
                     child: _buildHeader(),
                   ),
 
-                  // Cart Items
-                  SliverList(
-                    delegate: SliverChildBuilderDelegate(
-                      (context, index) {
-                        final item = items[index];
-                        return _buildCartItem(item);
-                      },
-                      childCount: items.length,
-                    ),
+                  // Cart Items with staggered entrance
+                  SliverStaggeredEntrance(
+                    itemCount: items.length,
+                    delayMillis: 50,
+                    itemBuilder: (context, index) {
+                      final item = items[index];
+                      return _buildDismissibleCartItem(item);
+                    },
                   ),
 
                   // Summary Section
@@ -161,6 +195,7 @@ class _CartScreenState extends State<CartScreen> {
                   ),
                 ],
               ),
+              ),
 
               // Sticky Checkout Button
               Positioned(
@@ -177,61 +212,12 @@ class _CartScreenState extends State<CartScreen> {
   }
 
   Widget _buildEmptyCart() {
-    return SafeArea(
-      child: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Icon(
-                Icons.shopping_basket_outlined,
-                size: 80,
-                color: AppColors.outline.withValues(alpha: 0.5),
-              ),
-              const SizedBox(height: 24),
-              Text(
-                'Keranjang Kosong',
-                textAlign: TextAlign.center,
-                style: GoogleFonts.notoSerif(
-                  fontSize: 24,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
-                ),
-              ),
-              const SizedBox(height: 12),
-              Text(
-                'Yuk, mulai belanja dan temukan produk favorit Anda!',
-                style: GoogleFonts.manrope(
-                  fontSize: 14,
-                  color: AppColors.onSurfaceVariant,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const SizedBox(height: 32),
-              ElevatedButton(
-                onPressed: () => context.push('/products'),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  foregroundColor: AppColors.onPrimary,
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 32, vertical: 16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                child: Text(
-                  'Mulai Belanja',
-                  style: GoogleFonts.manrope(
-                    fontSize: 14,
-                    fontWeight: FontWeight.w700,
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
+    return AnimatedEmptyState(
+      icon: Icons.shopping_basket_outlined,
+      title: 'Keranjang Kosong',
+      subtitle: 'Yuk, mulai belanja dan temukan produk favorit Anda!',
+      actionLabel: 'Mulai Belanja',
+      onAction: () => context.push('/products'),
     );
   }
 
@@ -280,6 +266,33 @@ class _CartScreenState extends State<CartScreen> {
     );
   }
 
+  Widget _buildDismissibleCartItem(CartItem item) {
+    return Dismissible(
+      key: Key(item.id),
+      direction: DismissDirection.endToStart,
+      background: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+        decoration: BoxDecoration(
+          gradient: const LinearGradient(
+            colors: [Color(0xFFEF5350), Color(0xFFE53935)],
+            begin: Alignment.centerLeft,
+            end: Alignment.centerRight,
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        alignment: Alignment.centerRight,
+        padding: const EdgeInsets.only(right: 24),
+        child: const Icon(
+          Icons.delete_outline,
+          color: Colors.white,
+          size: 28,
+        ),
+      ),
+      onDismissed: (_) => _removeItemWithUndo(item),
+      child: _buildCartItem(item),
+    );
+  }
+
   Widget _buildCartItem(CartItem item) {
     final imageUrl = item.imageUrl ?? '';
     final variantInfo = item.variant?.title ?? '';
@@ -305,33 +318,13 @@ class _CartScreenState extends State<CartScreen> {
             // Product Image
             ClipRRect(
               borderRadius: BorderRadius.circular(12),
-              child: imageUrl.isNotEmpty
-                  ? CachedNetworkImage(
-                      imageUrl: imageUrl,
-                      width: 96,
-                      height: 128,
-                      fit: BoxFit.cover,
-                      placeholder: (context, url) => Container(
-                        width: 96,
-                        height: 128,
-                        color: AppColors.surfaceContainerLow,
-                        child: const Center(
-                          child: CircularProgressIndicator(strokeWidth: 2),
-                        ),
-                      ),
-                      errorWidget: (context, url, error) => Container(
-                        width: 96,
-                        height: 128,
-                        color: AppColors.surfaceContainerLow,
-                        child: const Icon(Icons.image_not_supported),
-                      ),
-                    )
-                  : Container(
-                      width: 96,
-                      height: 128,
-                      color: AppColors.surfaceContainerLow,
-                      child: const Icon(Icons.image_not_supported),
-                    ),
+              child: ShimmerImage(
+                imageUrl: imageUrl.isNotEmpty ? imageUrl : null,
+                width: 96,
+                height: 128,
+                fit: BoxFit.cover,
+                borderRadius: BorderRadius.circular(12),
+              ),
             ),
             const SizedBox(width: 16),
             // Product Info
@@ -376,7 +369,7 @@ class _CartScreenState extends State<CartScreen> {
                           size: 20,
                           color: AppColors.onSurfaceVariant,
                         ),
-                        onPressed: () => _removeItem(item),
+                        onPressed: () => _removeItemWithUndo(item),
                       ),
                     ],
                   ),
@@ -392,80 +385,12 @@ class _CartScreenState extends State<CartScreen> {
                           color: AppColors.secondary,
                         ),
                       ),
-                      // Quantity Stepper
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 8,
-                          vertical: 4,
-                        ),
-                        decoration: BoxDecoration(
-                          color: AppColors.surfaceContainerLow,
-                          borderRadius: BorderRadius.circular(20),
-                        ),
-                        child: Row(
-                          children: [
-                            GestureDetector(
-                              onTap: () => _updateQuantity(
-                                item,
-                                item.quantity - 1,
-                              ),
-                              child: Container(
-                                width: 28,
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  color: AppColors.surfaceContainerLowest,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppColors.shadow.withAlpha(20),
-                                      blurRadius: 4,
-                                    ),
-                                  ],
-                                ),
-                                child: Icon(
-                                  Icons.remove,
-                                  size: 16,
-                                  color: AppColors.primary,
-                                ),
-                              ),
-                            ),
-                            SizedBox(
-                              width: 32,
-                              child: Text(
-                                '${item.quantity}',
-                                textAlign: TextAlign.center,
-                                style: GoogleFonts.manrope(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w700,
-                                ),
-                              ),
-                            ),
-                            GestureDetector(
-                              onTap: () => _updateQuantity(
-                                item,
-                                item.quantity + 1,
-                              ),
-                              child: Container(
-                                width: 28,
-                                height: 28,
-                                decoration: BoxDecoration(
-                                  color: AppColors.primary,
-                                  shape: BoxShape.circle,
-                                  boxShadow: [
-                                    BoxShadow(
-                                      color: AppColors.shadow.withAlpha(20),
-                                      blurRadius: 4,
-                                    ),
-                                  ],
-                                ),
-                                child: const Icon(
-                                  Icons.add,
-                                  size: 16,
-                                  color: Colors.white,
-                                ),
-                              ),
-                            ),
-                          ],
+                      // Animated Quantity Stepper
+                      AnimatedStepper(
+                        quantity: item.quantity,
+                        onChanged: (newQuantity) => _updateQuantity(
+                          item,
+                          newQuantity,
                         ),
                       ),
                     ],
@@ -517,13 +442,17 @@ class _CartScreenState extends State<CartScreen> {
             const SizedBox(height: 12),
             _buildSummaryRow(
               'Biaya Pengiriman',
-              'Rp 0',
+              (cart?.shipping?.amount ?? 0) > 0
+                  ? 'Rp ${cart!.shipping!.amount!.toStringAsFixed(0)}'
+                  : 'Gratis Ongkir',
             ),
-            const SizedBox(height: 12),
-            _buildSummaryRow(
-              'Asuransi Pengiriman',
-              'Rp 12.500',
-            ),
+            if ((cart?.insurance?.amount ?? 0) > 0) ...[
+              const SizedBox(height: 12),
+              _buildSummaryRow(
+                'Asuransi Pengiriman',
+                'Rp ${cart!.insurance!.amount!.toStringAsFixed(0)}',
+              ),
+            ],
             const Padding(
               padding: EdgeInsets.symmetric(vertical: 16),
               child: Divider(height: 1),

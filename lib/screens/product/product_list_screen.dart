@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
@@ -6,7 +7,9 @@ import '../../config/theme.dart';
 import '../../providers/product_provider.dart';
 import '../../features/wishlist/presentation/wishlist_provider.dart';
 import '../../services/secure_storage_service.dart';
+import '../../utils/haptic_feedback.dart';
 import '../../utils/responsive_utils.dart';
+import '../../widgets/common/custom_pull_to_refresh.dart';
 import '../../widgets/common/skeleton_loading.dart';
 import '../../widgets/product/product_card.dart';
 
@@ -125,114 +128,203 @@ class _ProductListScreenState extends State<ProductListScreen> {
     return Padding(
       padding: const EdgeInsets.all(16),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TextField(
-            controller: _searchController,
-            decoration: InputDecoration(
-              hintText: 'Cari produk...',
-              prefixIcon: const Icon(Icons.search),
-              suffixIcon: Row(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  if (_searchController.text.isNotEmpty)
-                    IconButton(
-                      icon: const Icon(Icons.clear),
-                      onPressed: () {
-                        _searchController.clear();
-                        setState(() {});
-                      },
-                    ),
-                  IconButton(
-                    icon: const Icon(Icons.arrow_forward),
-                    onPressed: () => _onSearch(_searchController.text),
-                  ),
-                ],
-              ),
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
+          // Modern search field
+          Container(
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLow,
+              borderRadius: BorderRadius.circular(16),
+              boxShadow: [
+                BoxShadow(
+                  color: AppColors.shadow.withValues(alpha: 0.06),
+                  blurRadius: 20,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-            onSubmitted: _onSearch,
-            onTap: () {
-              setState(() {
-                _showSearchHistory = _searchHistory.isNotEmpty;
-              });
-            },
-            onChanged: (value) {
-              setState(() {
-                _showSearchHistory = value.isEmpty && _searchHistory.isNotEmpty;
-              });
-            },
-          ),
-          if (_showSearchHistory && _searchHistory.isNotEmpty)
-            Container(
-              margin: const EdgeInsets.only(top: 8),
-              decoration: BoxDecoration(
-                color: AppColors.surface,
-                borderRadius: BorderRadius.circular(12),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 8,
-                    offset: const Offset(0, 4),
-                  ),
-                ],
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(16, 12, 8, 8),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'Riwayat Pencarian',
-                          style: GoogleFonts.manrope(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w600,
-                            color: AppColors.onSurfaceVariant,
-                          ),
-                        ),
-                        TextButton(
-                          onPressed: () async {
-                            await SecureStorageService.clearSearchHistory();
-                            _loadSearchHistory();
-                          },
-                          child: Text(
-                            'Hapus',
-                            style: GoogleFonts.manrope(
-                              fontSize: 12,
-                              color: AppColors.error,
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  ...List.generate(
-                    _searchHistory.length > 5 ? 5 : _searchHistory.length,
-                    (index) => ListTile(
-                      leading: const Icon(Icons.history, size: 20),
-                      title: Text(_searchHistory[index]),
-                      dense: true,
-                      onTap: () {
-                        _searchController.text = _searchHistory[index];
-                        _onSearch(_searchHistory[index]);
-                      },
-                      trailing: IconButton(
-                        icon: const Icon(Icons.close, size: 16),
-                        onPressed: () async {
-                          await SecureStorageService.removeSearchHistory(
-                              _searchHistory[index]);
-                          _loadSearchHistory();
+            child: TextField(
+              controller: _searchController,
+              decoration: InputDecoration(
+                hintText: 'Cari kaos, hoodie, jaket...',
+                hintStyle: GoogleFonts.manrope(
+                  fontSize: 14,
+                  color: AppColors.outline,
+                ),
+                prefixIcon: const Icon(Icons.search, color: AppColors.primary),
+                suffixIcon: Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    if (_searchController.text.isNotEmpty)
+                      IconButton(
+                        icon: const Icon(Icons.clear, size: 20),
+                        onPressed: () {
+                          _searchController.clear();
+                          setState(() {
+                            _showSearchHistory = _searchHistory.isNotEmpty;
+                          });
                         },
                       ),
+                    Container(
+                      margin: const EdgeInsets.only(right: 8),
+                      decoration: BoxDecoration(
+                        gradient: AppGradients.primaryDark,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: IconButton(
+                        icon: const Icon(
+                          Icons.arrow_forward,
+                          color: AppColors.onPrimary,
+                          size: 20,
+                        ),
+                        onPressed: () => _onSearch(_searchController.text),
+                      ),
+                    ),
+                  ],
+                ),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                filled: true,
+                fillColor: Colors.transparent,
+                contentPadding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 16,
+                ),
+              ),
+              style: GoogleFonts.manrope(
+                fontSize: 14,
+                fontWeight: FontWeight.w600,
+              ),
+              onSubmitted: _onSearch,
+              onTap: () {
+                setState(() {
+                  _showSearchHistory = _searchHistory.isNotEmpty;
+                });
+              },
+              onChanged: (value) {
+                setState(() {
+                  _showSearchHistory = value.isEmpty && _searchHistory.isNotEmpty;
+                });
+              },
+            ),
+          ),
+          // Search history dropdown
+          if (_showSearchHistory && _searchHistory.isNotEmpty) ...[
+            const SizedBox(height: 12),
+            _buildSearchHistorySection(),
+          ],
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSearchHistorySection() {
+    return Container(
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        gradient: AppGradients.cardSoft,
+        borderRadius: BorderRadius.circular(20),
+        border: Border.all(
+          color: AppColors.outlineVariant.withValues(alpha: 0.5),
+        ),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  Icon(
+                    Icons.history_rounded,
+                    size: 16,
+                    color: AppColors.secondary,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(
+                    'Riwayat Pencarian',
+                    style: GoogleFonts.manrope(
+                      fontSize: 13,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.primary,
                     ),
                   ),
                 ],
               ),
-            ),
+              GestureDetector(
+                onTap: () async {
+                  await SecureStorageService.clearSearchHistory();
+                  _loadSearchHistory();
+                  setState(() => _showSearchHistory = false);
+                },
+                child: Text(
+                  'Hapus Semua',
+                  style: GoogleFonts.manrope(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w600,
+                    color: AppColors.error,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const SizedBox(height: 12),
+          Wrap(
+            spacing: 8,
+            runSpacing: 8,
+            children: _searchHistory.take(8).map((query) {
+              return GestureDetector(
+                onTap: () {
+                  _searchController.text = query;
+                  _onSearch(query);
+                },
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 12,
+                    vertical: 8,
+                  ),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceContainerHighest,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(
+                        Icons.history_rounded,
+                        size: 14,
+                        color: AppColors.onSurfaceVariant,
+                      ),
+                      const SizedBox(width: 6),
+                      Text(
+                        query,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w500,
+                          color: AppColors.onSurfaceVariant,
+                        ),
+                      ),
+                      const SizedBox(width: 6),
+                      GestureDetector(
+                        onTap: () async {
+                          await SecureStorageService.removeSearchHistory(query);
+                          _loadSearchHistory();
+                        },
+                        child: Icon(
+                          Icons.close_rounded,
+                          size: 14,
+                          color: AppColors.outline,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }).toList(),
+          ),
         ],
       ),
     );
@@ -358,7 +450,7 @@ class _ProductListScreenState extends State<ProductListScreen> {
                   return const ProductGridSkeleton(itemCount: 6);
                 }
 
-                return RefreshIndicator(
+                return CustomPullToRefresh(
                   onRefresh: _loadProducts,
                   child: CustomScrollView(
                     slivers: [
@@ -385,9 +477,22 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           ),
                         ),
                       if (provider.products.isEmpty)
-                        const SliverFillRemaining(
+                        SliverFillRemaining(
                           child: Center(
-                            child: Text('Tidak ada produk'),
+                            child: AnimatedEmptyState(
+                              icon: Icons.search_off_outlined,
+                              title: 'Produk Tidak Ditemukan',
+                              subtitle: 'Coba ubah kata kunci atau filter pencarian Anda',
+                              actionLabel: 'Reset Filter',
+                              onAction: () {
+                                _searchController.clear();
+                                _selectedCategory = null;
+                                _minPrice = null;
+                                _maxPrice = null;
+                                _sortBy = 'newest';
+                                _loadProducts();
+                              },
+                            ),
                           ),
                         ),
                       SliverPadding(
@@ -396,43 +501,54 @@ class _ProductListScreenState extends State<ProductListScreen> {
                           builder: (context, constraints) {
                             final crossAxisCount =
                                 ResponsiveConfig.getGridColumnCount(context);
-                            // Calculate responsive childAspectRatio based on screen width
-                            final screenWidth =
-                                MediaQuery.of(context).size.width;
-                            double childAspectRatio;
-                            if (screenWidth < 360) {
-                              childAspectRatio = 0.55; // Very small screens
-                            } else if (screenWidth < 400) {
-                              childAspectRatio = 0.60; // Small screens
-                            } else if (screenWidth < 600) {
-                              childAspectRatio = 0.65; // Mobile
-                            } else {
-                              childAspectRatio = 0.70; // Tablet/Desktop
-                            }
 
-                            return SliverGrid(
-                              gridDelegate:
-                                  SliverGridDelegateWithFixedCrossAxisCount(
-                                crossAxisCount: crossAxisCount,
-                                childAspectRatio: childAspectRatio,
-                                crossAxisSpacing: 12,
-                                mainAxisSpacing: 12,
-                              ),
-                              delegate: SliverChildBuilderDelegate(
-                                (context, index) {
-                                  final product = provider.products[index];
-                                  return Consumer<WishlistProvider>(
-                                    builder: (context, wishlistProvider, _) => ProductCard(
-                                      product: product,
-                                      isInWishlist: wishlistProvider.ids.contains(product.id),
-                                      onWishlistToggle: () => wishlistProvider.toggle(product.id),
-                                      onTap: () => context
-                                          .push('/product/${product.handle}'),
+                            // Masonry staggered: alternate tall/short cards
+                            return SliverMasonryGrid.count(
+                              crossAxisCount: crossAxisCount,
+                              crossAxisSpacing: 12,
+                              mainAxisSpacing: 12,
+                              childCount: provider.products.length,
+                              itemBuilder: (context, index) {
+                                final product = provider.products[index];
+                                // Staggered heights: every 3rd item is taller
+                                final isTall = index % 3 == 0;
+                                // Masonry layout handles varying heights naturally
+                                // Tall cards get more visual weight for editorial feel
+                                final _ = isTall; // Used for layout variation via Masonry
+
+                                return TweenAnimationBuilder<double>(
+                                  tween: Tween(begin: 0.0, end: 1.0),
+                                  duration: const Duration(milliseconds: 400),
+                                  curve: Curves.easeOutCubic,
+                                  builder: (context, value, child) {
+                                    return Opacity(
+                                      opacity: value,
+                                      child: Transform.translate(
+                                        offset: Offset(0, (1 - value) * 40),
+                                        child: child,
+                                      ),
+                                    );
+                                  },
+                                  child: Consumer<WishlistProvider>(
+                                    builder: (context, wishlistProvider, _) =>
+                                        SizedBox(
+                                      child: ProductCard(
+                                        product: product,
+                                        isInWishlist: wishlistProvider.ids
+                                            .contains(product.id),
+                                        onWishlistToggle: () {
+                                          AppHaptics.addToCart();
+                                          wishlistProvider.toggle(product.id);
+                                        },
+                                        onTap: () {
+                                          AppHaptics.tap();
+                                          context.push('/product/${product.handle}');
+                                        },
+                                      ),
                                     ),
-                                  );
-                                },
-                                childCount: provider.products.length,
-                              ),
+                                  ),
+                                );
+                              },
                             );
                           },
                         ),

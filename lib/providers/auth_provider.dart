@@ -92,7 +92,23 @@ class AuthProvider extends ChangeNotifier {
           password: password,
           passwordConfirmation: passwordConfirmation,
           phone: phone);
+
+      final hasValidAuth =
+          response.user != null && (response.token?.isNotEmpty ?? false);
+      if (!hasValidAuth) {
+        final message =
+            response.message ?? 'Registrasi gagal: data autentikasi tidak lengkap.';
+        _setError(message);
+        return false;
+      }
+
       _user = response.user;
+
+      // Merge guest cart with authenticated cart (run in background)
+      if (response.token != null) {
+        unawaited(_cartService.mergeGuestCart(response.token!));
+      }
+
       notifyListeners();
       return true;
     } catch (e) {

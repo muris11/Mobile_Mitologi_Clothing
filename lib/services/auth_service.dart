@@ -48,7 +48,16 @@ class AuthService {
       if (phone != null) 'phone': phone,
     });
     final data = _unwrapResponse(response);
-    return AuthResponse.fromJson(data);
+    final authResponse = AuthResponse.fromJson(data);
+
+    // Persist auth data after registration (auto-login)
+    if (authResponse.token != null) {
+      await _sessionManager.saveToken(authResponse.token!);
+    }
+    if (authResponse.user != null) {
+      await _sessionManager.saveUserData(authResponse.user!.toJsonString());
+    }
+    return authResponse;
   }
 
   Future<AuthResponse> login(

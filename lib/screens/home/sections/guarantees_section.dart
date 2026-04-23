@@ -76,14 +76,17 @@ class GuaranteesSection extends StatelessWidget {
       width: 280,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: AppColors.surfaceContainerLowest,
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            AppColors.surfaceContainerLowest,
+            AppColors.surfaceContainerLow,
+          ],
+        ),
         borderRadius: BorderRadius.circular(AppBorderRadius.xxl),
         boxShadow: [
-          BoxShadow(
-            color: AppColors.shadow.withValues(alpha: 0.03),
-            blurRadius: 10,
-            offset: const Offset(0, 4),
-          ),
+          AppShadows.cardSoft,
         ],
       ),
       child: Row(

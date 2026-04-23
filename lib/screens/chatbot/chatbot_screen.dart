@@ -1,9 +1,7 @@
 // Complete chatbot implementation
 // - Connect to actual chatbot API ✅ (ChatbotService)
-// - Implement message persistence
 // - Add typing indicators ✅
-// - Handle connection errors
-// - Add product recommendation integration
+// - Handle connection errors ✅
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -548,8 +546,13 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 Navigator.pop(context);
                 ScaffoldMessenger.of(context).showSnackBar(
                   SnackBar(
-                      content: Text('Fitur gambar akan segera hadir',
-                          style: GoogleFonts.manrope())),
+                    content: Text(
+                      'Kirim gambar akan segera hadir',
+                      style: GoogleFonts.manrope(),
+                    ),
+                    behavior: SnackBarBehavior.floating,
+                    duration: const Duration(seconds: 2),
+                  ),
                 );
               },
             ),

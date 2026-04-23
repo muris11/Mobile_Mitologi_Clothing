@@ -33,7 +33,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/register',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/register',
           TestHelpers.sampleAuthResponse,
         );
 
@@ -56,7 +56,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/register',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/register',
           {'message': 'Email already exists'},
           statusCode: 422,
         );
@@ -79,7 +79,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/login',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/login',
           TestHelpers.sampleAuthResponse,
         );
 
@@ -98,7 +98,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/login',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/login',
           TestHelpers.sampleAuthResponse,
         );
 
@@ -117,7 +117,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/login',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/login',
           {'message': 'Invalid credentials'},
           statusCode: 401,
         );
@@ -138,7 +138,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/logout',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/logout',
           {'message': 'Logged out successfully'},
         );
 
@@ -152,7 +152,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'GET',
-          'https://adminmitologi.based.my.id/api/v1/auth/user',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/user',
           {'user': TestHelpers.sampleUser},
         );
 
@@ -182,7 +182,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/forgot-password',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/forgot-password',
           {'message': 'Password reset link sent'},
         );
 
@@ -197,7 +197,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/forgot-password',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/forgot-password',
           {'message': 'Email not found'},
           statusCode: 404,
         );
@@ -215,7 +215,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/reset-password',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/reset-password',
           {'message': 'Password reset successful'},
         );
 
@@ -235,7 +235,7 @@ void main() {
         // Arrange
         mockClient.setResponse(
           'POST',
-          'https://adminmitologi.based.my.id/api/v1/auth/reset-password',
+          'https://adminmitologiclothing.center.biz.id/api/v1/auth/reset-password',
           {'message': 'Invalid token'},
           statusCode: 400,
         );

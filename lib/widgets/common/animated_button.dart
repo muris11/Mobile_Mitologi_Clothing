@@ -209,12 +209,14 @@ class AnimatedFavoriteButton extends StatefulWidget {
   final bool isFavorite;
   final VoidCallback? onToggle;
   final double size;
+  final Color activeColor;
 
   const AnimatedFavoriteButton({
     super.key,
     required this.isFavorite,
     this.onToggle,
     this.size = 24,
+    this.activeColor = const Color(0xFFE53935),
   });
 
   @override
@@ -225,18 +227,56 @@ class _AnimatedFavoriteButtonState extends State<AnimatedFavoriteButton>
     with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
+  late Animation<double> _rotateAnimation;
+  final List<_Particle> _particles = [];
 
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(milliseconds: 300),
+      duration: const Duration(milliseconds: 600),
       vsync: this,
     );
+
     _scaleAnimation = TweenSequence<double>([
-      TweenSequenceItem(tween: Tween(begin: 1.0, end: 1.3), weight: 50),
-      TweenSequenceItem(tween: Tween(begin: 1.3, end: 1.0), weight: 50),
-    ]).animate(CurvedAnimation(parent: _controller, curve: Curves.easeOut));
+      TweenSequenceItem(
+        tween: Tween(begin: 1.0, end: 0.8),
+        weight: 20,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 0.8, end: 1.4),
+        weight: 30,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 1.4, end: 1.0),
+        weight: 50,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeOutBack,
+      ),
+    );
+
+    _rotateAnimation = TweenSequence<double>([
+      TweenSequenceItem(
+        tween: Tween(begin: 0.0, end: -0.15),
+        weight: 25,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: -0.15, end: 0.15),
+        weight: 50,
+      ),
+      TweenSequenceItem(
+        tween: Tween(begin: 0.15, end: 0.0),
+        weight: 25,
+      ),
+    ]).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Curves.easeInOut,
+      ),
+    );
   }
 
   @override
@@ -246,8 +286,28 @@ class _AnimatedFavoriteButtonState extends State<AnimatedFavoriteButton>
   }
 
   void _handleTap() {
+    if (!widget.isFavorite) {
+      // Only burst when adding to favorites
+      _generateParticles();
+    }
     _controller.forward(from: 0);
     widget.onToggle?.call();
+  }
+
+  void _generateParticles() {
+    _particles.clear();
+    const count = 8;
+    for (int i = 0; i < count; i++) {
+      final angle = (i / count) * 2 * 3.14159;
+      _particles.add(_Particle(
+        angle: angle,
+        distance: 20 + (i % 3) * 10,
+        size: 3 + (i % 2) * 2,
+        color: widget.activeColor.withValues(
+          alpha: 0.6 + (i % 3) * 0.15,
+        ),
+      ));
+    }
   }
 
   @override
@@ -255,17 +315,103 @@ class _AnimatedFavoriteButtonState extends State<AnimatedFavoriteButton>
     return GestureDetector(
       onTap: _handleTap,
       child: AnimatedBuilder(
-        animation: _scaleAnimation,
-        builder: (context, child) => Transform.scale(
-          scale: _scaleAnimation.value,
-          child: child,
-        ),
-        child: Icon(
-          widget.isFavorite ? Icons.favorite : Icons.favorite_outline,
-          size: widget.size,
-          color: widget.isFavorite ? Colors.red : AppColors.onSurfaceVariant,
-        ),
+        animation: _controller,
+        builder: (context, child) {
+          return Transform.scale(
+            scale: _scaleAnimation.value,
+            child: Transform.rotate(
+              angle: _rotateAnimation.value,
+              child: Stack(
+                alignment: Alignment.center,
+                children: [
+                  // Particles burst
+                  if (!widget.isFavorite)
+                    ..._particles.map((particle) {
+                      final progress = _controller.value;
+                      final distance = particle.distance * progress;
+                      final dx = distance * particle.cos;
+                      final dy = distance * particle.sin;
+                      final opacity = 1.0 - progress;
+                      final particleSize = particle.size * (1 - progress * 0.5);
+
+                      return Positioned(
+                        left: widget.size / 2 + dx - particleSize / 2,
+                        top: widget.size / 2 + dy - particleSize / 2,
+                        child: Opacity(
+                          opacity: opacity.clamp(0, 1),
+                          child: Container(
+                            width: particleSize.clamp(1, 10),
+                            height: particleSize.clamp(1, 10),
+                            decoration: BoxDecoration(
+                              color: particle.color,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                      );
+                    }),
+                  // Heart icon with glow when active
+                  Container(
+                    decoration: widget.isFavorite
+                        ? BoxDecoration(
+                            shape: BoxShape.circle,
+                            boxShadow: [
+                              BoxShadow(
+                                color: widget.activeColor.withValues(
+                                  alpha: 0.3 * _controller.value,
+                                ),
+                                blurRadius: 12,
+                                spreadRadius: 2,
+                              ),
+                            ],
+                          )
+                        : null,
+                    child: Icon(
+                      widget.isFavorite
+                          ? Icons.favorite_rounded
+                          : Icons.favorite_outline_rounded,
+                      size: widget.size,
+                      color: widget.isFavorite
+                          ? widget.activeColor
+                          : AppColors.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          );
+        },
       ),
     );
+  }
+}
+
+class _Particle {
+  final double angle;
+  final double distance;
+  final double size;
+  final Color color;
+
+  _Particle({
+    required this.angle,
+    required this.distance,
+    required this.size,
+    required this.color,
+  });
+
+  double get cos => _cosLookup();
+  double get sin => _sinLookup();
+
+  double _cosLookup() {
+    // Small lookup for common angles to avoid repeated trig
+    const values = [1.0, 0.707, 0.0, -0.707, -1.0, -0.707, 0.0, 0.707];
+    final idx = ((angle / (3.14159 / 4)).round()) % 8;
+    return values[idx];
+  }
+
+  double _sinLookup() {
+    const values = [0.0, 0.707, 1.0, 0.707, 0.0, -0.707, -1.0, -0.707];
+    final idx = ((angle / (3.14159 / 4)).round()) % 8;
+    return values[idx];
   }
 }
