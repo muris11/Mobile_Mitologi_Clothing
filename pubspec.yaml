@@ -20,22 +20,18 @@ dependencies:
 
   # HTTP & API
   http: ^1.2.2
-  dio: ^5.7.0
 
   # UI Components
   google_fonts: ^6.2.1
   cached_network_image: ^3.4.1
   shimmer: ^3.0.0
-  carousel_slider: ^5.0.0
   flutter_svg: ^2.0.10+1
-  lottie: ^3.1.2
   flutter_staggered_grid_view: ^0.7.0
 
   # Functionality
   flutter_secure_storage: ^9.2.2
   shared_preferences: ^2.3.2
   image_picker: ^1.1.2
-  webview_flutter: ^4.9.0
   url_launcher: ^6.3.1
   intl: ^0.19.0
 
@@ -47,9 +43,6 @@ dependencies:
   uuid: ^4.5.1
   json_annotation: ^4.9.0
   equatable: ^2.0.5
-
-  # Deep Linking
-  app_links: ^6.3.2
 
 dev_dependencies:
   flutter_test:

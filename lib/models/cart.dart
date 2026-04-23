@@ -9,6 +9,8 @@ class Cart {
   final Money? cost;
   final Money? subtotal;
   final Money? totalTax;
+  final Money? shipping;
+  final Money? insurance;
   final List<CartItem> items;
 
   Cart({
@@ -18,6 +20,8 @@ class Cart {
     this.cost,
     this.subtotal,
     this.totalTax,
+    this.shipping,
+    this.insurance,
     required this.items,
   });
 
@@ -39,6 +43,12 @@ class Cart {
           : null,
       totalTax: cartData['total_tax'] != null
           ? Money.fromJson(cartData['total_tax'])
+          : null,
+      shipping: cartData['shipping'] != null
+          ? Money.fromJson(cartData['shipping'])
+          : null,
+      insurance: cartData['insurance'] != null
+          ? Money.fromJson(cartData['insurance'])
           : null,
       items: cartData['items'] != null
           ? (cartData['items'] as List)

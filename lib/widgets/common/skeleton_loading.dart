@@ -294,7 +294,7 @@ class ListItemSkeleton extends StatelessWidget {
                   ),
                   const SizedBox(height: 8),
                   Container(
-                    width: MediaQuery.of(context).size.width * 0.3,
+                    width: MediaQuery.sizeOf(context).width * 0.3,
                     height: 12,
                     decoration: BoxDecoration(
                       color: AppColors.surfaceContainerHighest,
@@ -413,7 +413,7 @@ class ProductDetailSkeleton extends StatelessWidget {
                 ),
                 const SizedBox(height: 8),
                 Container(
-                  width: MediaQuery.of(context).size.width * 0.6,
+                  width: MediaQuery.sizeOf(context).width * 0.6,
                   height: 28,
                   decoration: BoxDecoration(
                     color: AppColors.surfaceContainerHighest,

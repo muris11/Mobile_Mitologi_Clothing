@@ -59,6 +59,11 @@ class _MitologiAppState extends State<MitologiApp> {
   late final CartService cartService;
   late final AuthProvider authProvider;
   late final OrderService orderService;
+  late final ProductService productService;
+  late final WishlistService wishlistService;
+  late final ProfileService profileService;
+  late final ChatbotService chatbotService;
+  late final ReviewService reviewService;
 
   @override
   void initState() {
@@ -67,6 +72,11 @@ class _MitologiAppState extends State<MitologiApp> {
     authService = AuthService(apiService);
     cartService = CartService(apiService);
     orderService = OrderService(apiService);
+    productService = ProductService(apiService);
+    wishlistService = WishlistService(apiService);
+    profileService = ProfileService(apiService);
+    chatbotService = ChatbotService(apiService);
+    reviewService = ReviewService(apiService);
     authProvider = AuthProvider(authService, cartService);
     // Set callback to clear token caches on logout
     authProvider.setOnLogoutCallback(() {
@@ -76,13 +86,6 @@ class _MitologiAppState extends State<MitologiApp> {
 
   @override
   Widget build(BuildContext context) {
-    final productService = ProductService(apiService);
-    final cartService = CartService(apiService);
-    // orderService already created in initState
-    final wishlistService = WishlistService(apiService);
-    final profileService = ProfileService(apiService);
-    final chatbotService = ChatbotService(apiService);
-    final reviewService = ReviewService(apiService);
 
     return MultiProvider(
       providers: [

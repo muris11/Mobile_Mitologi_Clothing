@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 
 import '../../config/theme.dart';
@@ -21,7 +22,6 @@ class _HomeScreenState extends State<HomeScreen> {
   final TextEditingController _searchController = TextEditingController();
   final ScrollController _scrollController = ScrollController();
   final _searchDebouncer = Debouncer(delay: const Duration(milliseconds: 300));
-  int _currentHeroIndex = 0;
 
   @override
   void initState() {
@@ -134,8 +134,6 @@ class _HomeScreenState extends State<HomeScreen> {
             animation: ScrollRevealAnimation.fade,
             child: HeroSection(
               heroSlides: provider.heroSlides,
-              currentHeroIndex: _currentHeroIndex,
-              onPageChanged: (index) => setState(() => _currentHeroIndex = index),
             ),
           ),
         ),

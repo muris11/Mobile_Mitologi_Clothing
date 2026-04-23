@@ -443,14 +443,14 @@ class _CartScreenState extends State<CartScreen> {
             _buildSummaryRow(
               'Biaya Pengiriman',
               (cart?.shipping?.amount ?? 0) > 0
-                  ? 'Rp ${cart!.shipping!.amount!.toStringAsFixed(0)}'
+                  ? 'Rp ${cart!.shipping!.amount.toStringAsFixed(0)}'
                   : 'Gratis Ongkir',
             ),
             if ((cart?.insurance?.amount ?? 0) > 0) ...[
               const SizedBox(height: 12),
               _buildSummaryRow(
                 'Asuransi Pengiriman',
-                'Rp ${cart!.insurance!.amount!.toStringAsFixed(0)}',
+                'Rp ${cart!.insurance!.amount.toStringAsFixed(0)}',
               ),
             ],
             const Padding(
@@ -705,7 +705,7 @@ class _CartScreenState extends State<CartScreen> {
           left: 24,
           right: 24,
           top: 20,
-          bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+          bottom: MediaQuery.viewInsetsOf(context).bottom + 20,
         ),
         child: Column(
           mainAxisSize: MainAxisSize.min,

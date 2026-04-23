@@ -1,3 +1,4 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -328,12 +329,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 width: 72,
                 height: 72,
                 child: avatarUrl.isNotEmpty
-                    ? Image.network(
-                        avatarUrl,
+                    ? CachedNetworkImage(
+                        imageUrl: avatarUrl,
                         fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return _buildAvatarFallback();
-                        },
+                        memCacheWidth: 144,
+                        memCacheHeight: 144,
+                        placeholder: (context, url) => Container(
+                          color: AppColors.surfaceContainerLow,
+                          child: const Center(
+                            child: CircularProgressIndicator(strokeWidth: 2),
+                          ),
+                        ),
+                        errorWidget: (context, url, error) => _buildAvatarFallback(),
                       )
                     : _buildAvatarFallback(),
               ),

@@ -9,7 +9,7 @@ class ResponsiveConfig {
 
   /// Get device type based on screen width
   static DeviceType getDeviceType(BuildContext context) {
-    final width = MediaQuery.of(context).size.width;
+    final width = MediaQuery.sizeOf(context).width;
     if (width < mobileBreakpoint) return DeviceType.mobile;
     if (width < tabletBreakpoint) return DeviceType.tablet;
     return DeviceType.desktop;

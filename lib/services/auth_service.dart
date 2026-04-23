@@ -1,5 +1,7 @@
 import 'dart:async';
 
+import 'package:flutter/foundation.dart';
+
 import '../config/api_config.dart';
 import '../core/session/auth_session_manager.dart';
 import '../models/user.dart';
@@ -88,7 +90,9 @@ class AuthService {
         await _apiService.post(ApiEndpoints.authLogout,
             requiresAuth: true, authToken: token);
       } catch (e) {
-        // Logout failed but we still clear local auth data below
+        // Logout API call failed but we still clear local auth data below
+        // Log for debugging - token may already be invalid server-side
+        debugPrint('Logout API call failed: $e');
       }
     }
     await _sessionManager.clear();
@@ -106,6 +110,8 @@ class AuthService {
           : data;
       return User.fromJson(userData);
     } catch (e) {
+      // Token may be expired or invalid - user will be redirected to login
+      debugPrint('getCurrentUser failed: $e');
       return null;
     }
   }

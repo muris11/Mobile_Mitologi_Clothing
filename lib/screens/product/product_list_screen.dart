@@ -10,6 +10,7 @@ import '../../services/secure_storage_service.dart';
 import '../../utils/haptic_feedback.dart';
 import '../../utils/responsive_utils.dart';
 import '../../widgets/common/custom_pull_to_refresh.dart';
+import '../../widgets/common/empty_state.dart';
 import '../../widgets/common/skeleton_loading.dart';
 import '../../widgets/product/product_card.dart';
 

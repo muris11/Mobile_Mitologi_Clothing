@@ -7,6 +7,7 @@ import 'package:url_launcher/url_launcher.dart';
 import '../../config/theme.dart';
 import '../../models/order.dart';
 import '../../services/order_service.dart';
+import '../../utils/order_status.dart';
 import '../../widgets/common/loading_indicator.dart';
 
 class OrderDetailScreen extends StatefulWidget {
@@ -51,39 +52,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     }
   }
 
-  Color _getStatusColor(String? status) {
-    switch (status?.toLowerCase()) {
-      case 'pending':
-        return Colors.orange;
-      case 'processing':
-        return Colors.blue;
-      case 'shipped':
-        return Colors.indigo;
-      case 'completed':
-        return Colors.green;
-      case 'cancelled':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  IconData _getStatusIcon(String? status) {
-    switch (status?.toLowerCase()) {
-      case 'pending':
-        return Icons.access_time;
-      case 'processing':
-        return Icons.inventory_2_outlined;
-      case 'shipped':
-        return Icons.local_shipping_outlined;
-      case 'completed':
-        return Icons.check_circle_outline;
-      case 'cancelled':
-        return Icons.cancel_outlined;
-      default:
-        return Icons.shopping_bag_outlined;
-    }
-  }
+  // Status colors and icons now use shared OrderStatusUtils
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +132,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   }
 
   Widget _buildStatusCard() {
-    final statusColor = _getStatusColor(_order!.status);
+    final statusColor = _order!.status.statusColor;
     return Container(
       width: double.infinity,
       padding: const EdgeInsets.all(16),
@@ -174,7 +143,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       ),
       child: Column(
         children: [
-          Icon(_getStatusIcon(_order!.status), size: 48, color: statusColor),
+          Icon(_order!.status.statusIcon, size: 48, color: statusColor),
           const SizedBox(height: 12),
           Text(
             _order!.displayStatus,
@@ -552,13 +521,19 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         if (await canLaunchUrl(uri)) {
           await launchUrl(uri, mode: LaunchMode.externalApplication);
         }
-      } else if (paymentInfo.snapToken != null) {
-        // For Midtrans Snap, would need a webview - show message for now
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-              content:
-                  Text('Silakan membuka tautan pembayaran dari notifikasi')),
-        );
+      } else if (paymentInfo.snapToken != null && paymentInfo.snapToken!.isNotEmpty) {
+        // For Midtrans Snap, open payment in external browser
+        final snapUrl = 'https://app.midtrans.com/snap/v2/vtweb/${paymentInfo.snapToken}';
+        final uri = Uri.parse(snapUrl);
+        if (await canLaunchUrl(uri)) {
+          await launchUrl(uri, mode: LaunchMode.externalApplication);
+        } else {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Tidak dapat membuka halaman pembayaran'),
+            ),
+          );
+        }
       }
     } catch (e) {
       if (mounted) {

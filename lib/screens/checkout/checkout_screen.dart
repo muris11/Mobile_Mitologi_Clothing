@@ -11,6 +11,7 @@ import '../../models/shipping_rate.dart';
 import '../../providers/cart_provider.dart';
 import '../../services/order_service.dart';
 import '../../services/profile_service.dart';
+import '../../widgets/common/empty_state.dart';
 
 class CheckoutScreen extends StatefulWidget {
   const CheckoutScreen({super.key});
@@ -111,11 +112,11 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
   }
 
   Future<void> _processCheckout() async {
-    if (_selectedAddress == null) {
+    if (_selectedAddress == null || _selectedAddress!.id == null) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            'Pilih alamat pengiriman terlebih dahulu',
+            'Pilih alamat pengiriman yang valid',
             style: GoogleFonts.manrope(),
           ),
           backgroundColor: AppColors.error,
@@ -139,9 +140,10 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
       );
 
       if (mounted) {
-        if (result.snapToken != null) {
+        final snapToken = result.snapToken;
+        if (snapToken != null && snapToken.isNotEmpty) {
           // Show Midtrans payment
-          _showMidtransPayment(result.snapToken!);
+          _showMidtransPayment(snapToken);
         } else {
           // Go to order confirmation
           context.push('/orders/${result.orderNumber}');
@@ -470,7 +472,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                       ),
                       const SizedBox(height: 4),
                       Text(
-                        '${address.city}, ${address.city}${address.postalCode.isNotEmpty ? ' ${address.postalCode}' : ''}',
+                        '${address.city}${address.province != null && address.province!.isNotEmpty ? ', ${address.province}' : ''}${address.postalCode.isNotEmpty ? ' ${address.postalCode}' : ''}',
                         style: GoogleFonts.manrope(
                           fontSize: 12,
                           color: AppColors.onSurfaceVariant,
@@ -523,7 +525,7 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     ),
                     const SizedBox(height: 2),
                     Text(
-                      '${_selectedAddress!.city}, ${_selectedAddress!.city}',
+                      '${_selectedAddress!.city}${_selectedAddress!.province != null && _selectedAddress!.province!.isNotEmpty ? ', ${_selectedAddress!.province}' : ''}',
                       style: GoogleFonts.manrope(
                         fontSize: 12,
                         color: AppColors.onSurfaceVariant,
@@ -714,8 +716,8 @@ class _CheckoutScreenState extends State<CheckoutScreen> {
                     const SizedBox(height: 12),
                     _buildSummaryRow(
                       'Pengiriman',
-                      (_shippingRate?.cost.amount ?? 0) > 0
-                          ? 'Rp ${_shippingRate!.cost.amount!.toStringAsFixed(0)}'
+                      (_shippingRate?.cost ?? 0) > 0
+                          ? 'Rp ${_shippingRate!.cost.toStringAsFixed(0)}'
                           : 'Gratis Ongkir',
                     ),
                     const Padding(

@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 import '../../config/theme.dart';
 import '../../models/order.dart';
 import '../../services/order_service.dart';
+import '../../utils/order_status.dart';
 import '../../widgets/common/custom_pull_to_refresh.dart';
 import '../../widgets/common/empty_state.dart';
 import '../../widgets/common/skeleton_loading.dart';
@@ -68,39 +69,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
         .toList();
   }
 
-  Color _getStatusColor(String? status) {
-    switch (status?.toLowerCase()) {
-      case 'pending':
-        return Colors.orange;
-      case 'processing':
-        return Colors.blue;
-      case 'shipped':
-        return Colors.indigo;
-      case 'completed':
-        return Colors.green;
-      case 'cancelled':
-        return Colors.red;
-      default:
-        return Colors.grey;
-    }
-  }
-
-  IconData _getStatusIcon(String? status) {
-    switch (status?.toLowerCase()) {
-      case 'pending':
-        return Icons.access_time;
-      case 'processing':
-        return Icons.inventory_2_outlined;
-      case 'shipped':
-        return Icons.local_shipping_outlined;
-      case 'completed':
-        return Icons.check_circle_outline;
-      case 'cancelled':
-        return Icons.cancel_outlined;
-      default:
-        return Icons.shopping_bag_outlined;
-    }
-  }
+  // Status colors and icons now use shared OrderStatusUtils
 
   @override
   Widget build(BuildContext context) {
@@ -232,7 +201,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
   }
 
   Widget _buildOrderCard(Order order, NumberFormat currencyFormat) {
-    final statusColor = _getStatusColor(order.status);
+    final statusColor = order.status.statusColor;
     final items = order.items ?? [];
 
     return Card(
@@ -281,7 +250,7 @@ class _OrderListScreenState extends State<OrderListScreen> {
                       mainAxisSize: MainAxisSize.min,
                       children: [
                         Icon(
-                          _getStatusIcon(order.status),
+                          order.status.statusIcon,
                           size: 12,
                           color: statusColor,
                         ),

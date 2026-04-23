@@ -326,7 +326,7 @@ class _AddressListScreenState extends State<AddressListScreen> {
             left: 24,
             right: 24,
             top: 20,
-            bottom: MediaQuery.of(context).viewInsets.bottom + 20,
+            bottom: MediaQuery.viewInsetsOf(context).bottom + 20,
           ),
           child: SingleChildScrollView(
             child: Column(

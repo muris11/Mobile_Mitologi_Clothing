@@ -41,7 +41,7 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   List<Product> _recommendations = const [];
   Map<String, dynamic>? _reviewsPayload;
   final ScrollController _scrollController = ScrollController();
-  double _scrollOffset = 0;
+  final ValueNotifier<double> _scrollOffsetNotifier = ValueNotifier(0);
   final GlobalKey _imageKey = GlobalKey();
 
   void _debugLog(String message) {}
@@ -54,15 +54,14 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
   }
 
   void _onScroll() {
-    setState(() {
-      _scrollOffset = _scrollController.offset;
-    });
+    _scrollOffsetNotifier.value = _scrollController.offset;
   }
 
   @override
   void dispose() {
     _scrollController.removeListener(_onScroll);
     _scrollController.dispose();
+    _scrollOffsetNotifier.dispose();
     super.dispose();
   }
 
@@ -135,10 +134,11 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
 
     // Find variant matching selected options
     for (final variant in _product!.variants!) {
-      if (variant.selectedOptions != null) {
+      final selectedOptions = variant.selectedOptions;
+      if (selectedOptions != null) {
         bool matches = true;
         for (final entry in _selectedOptions.entries) {
-          final hasOption = variant.selectedOptions!.any(
+          final hasOption = selectedOptions.any(
             (opt) => opt.name == entry.key && opt.value == entry.value,
           );
           if (!hasOption) {
@@ -257,10 +257,6 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
         (product.featuredImage != null ? [product.featuredImage!] : []);
     final price = _selectedVariant?.price ?? product.price;
 
-    // Frosted glass opacity/blur based on scroll
-    final appBarOpacity = (_scrollOffset / 100).clamp(0.0, 1.0);
-    final blurSigma = (_scrollOffset / 20).clamp(0.0, 15.0);
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Stack(
@@ -295,9 +291,10 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
               ),
 
               // Specifications
-              SliverToBoxAdapter(
-                child: _buildSpecifications(product),
-              ),
+              if (product.options != null && product.options!.isNotEmpty)
+                SliverToBoxAdapter(
+                  child: _buildSpecifications(product),
+                ),
 
               // Reviews Section
               SliverToBoxAdapter(child: _buildReviewsSection()),
@@ -322,94 +319,101 @@ class _ProductDetailScreenState extends State<ProductDetailScreen> {
           ),
 
           // Frosted Glass App Bar
-          Positioned(
-            top: 0,
-            left: 0,
-            right: 0,
-            child: ClipRRect(
-              child: BackdropFilter(
-                filter: ImageFilter.blur(
-                  sigmaX: blurSigma,
-                  sigmaY: blurSigma,
-                ),
-                child: Container(
-                  color: AppColors.surface.withValues(alpha: 0.7 * appBarOpacity),
-                  child: SafeArea(
-                    bottom: false,
+          ValueListenableBuilder<double>(
+            valueListenable: _scrollOffsetNotifier,
+            builder: (context, scrollOffset, child) {
+              final appBarOpacity = (scrollOffset / 100).clamp(0.0, 1.0);
+              final blurSigma = (scrollOffset / 20).clamp(0.0, 15.0);
+              return Positioned(
+                top: 0,
+                left: 0,
+                right: 0,
+                child: ClipRRect(
+                  child: BackdropFilter(
+                    filter: ImageFilter.blur(
+                      sigmaX: blurSigma,
+                      sigmaY: blurSigma,
+                    ),
                     child: Container(
-                      height: 56,
-                      padding: const EdgeInsets.symmetric(horizontal: 8),
-                      child: Row(
-                        children: [
-                          IconButton(
-                            icon: const Icon(Icons.arrow_back),
-                            onPressed: () => context.pop(),
-                          ),
-                          Expanded(
-                            child: Opacity(
-                              opacity: appBarOpacity,
-                              child: Text(
-                                'Detail Produk',
-                                style: GoogleFonts.notoSerif(
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w600,
-                                ),
-                                textAlign: TextAlign.center,
+                      color: AppColors.surface.withValues(alpha: 0.7 * appBarOpacity),
+                      child: SafeArea(
+                        bottom: false,
+                        child: Container(
+                          height: 56,
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Row(
+                            children: [
+                              IconButton(
+                                icon: const Icon(Icons.arrow_back),
+                                onPressed: () => context.pop(),
                               ),
-                            ),
-                          ),
-                          IconButton(
-                            icon: const Icon(Icons.share_outlined),
-                            onPressed: () {
-                              AppHaptics.tap();
-                              ShareSheet.show(context, product);
-                            },
-                          ),
-                          Consumer<WishlistProvider>(
-                            builder: (context, wishlistProvider, _) {
-                              final isInWishlist =
-                                  wishlistProvider.ids.contains(product.id);
-                              return Padding(
-                                padding: const EdgeInsets.only(right: 8),
-                                child: AnimatedFavoriteButton(
-                                  isFavorite: isInWishlist,
-                                  size: 28,
-                                  onToggle: () async {
-                                    final scaffoldContext = context;
-                                    final result =
-                                        await wishlistProvider.toggle(product.id);
-                                    if (!mounted) return;
-                                    if (wishlistProvider.error != null) {
-                                      AppHaptics.error();
-                                      if (scaffoldContext.mounted) {
-                                        AnimatedSnackbar.error(
-                                          scaffoldContext,
-                                          wishlistProvider.error!,
-                                        );
-                                      }
-                                      return;
-                                    }
-                                    AppHaptics.addToCart();
-                                    if (scaffoldContext.mounted) {
-                                      AnimatedSnackbar.success(
-                                        scaffoldContext,
-                                        result
-                                            ? 'Ditambahkan ke wishlist'
-                                            : 'Dihapus dari wishlist',
-                                      );
-                                    }
-                                  },
+                              Expanded(
+                                child: Opacity(
+                                  opacity: appBarOpacity,
+                                  child: Text(
+                                    'Detail Produk',
+                                    style: GoogleFonts.notoSerif(
+                                      fontSize: 18,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                    textAlign: TextAlign.center,
+                                  ),
                                 ),
-                              );
-                            },
+                              ),
+                              IconButton(
+                                icon: const Icon(Icons.share_outlined),
+                                onPressed: () {
+                                  AppHaptics.tap();
+                                  ShareSheet.show(context, product);
+                                },
+                              ),
+                              Consumer<WishlistProvider>(
+                                builder: (context, wishlistProvider, _) {
+                                  final isInWishlist =
+                                      wishlistProvider.ids.contains(product.id);
+                                  return Padding(
+                                    padding: const EdgeInsets.only(right: 8),
+                                    child: AnimatedFavoriteButton(
+                                      isFavorite: isInWishlist,
+                                      size: 28,
+                                      onToggle: () async {
+                                        final scaffoldContext = context;
+                                        final result =
+                                            await wishlistProvider.toggle(product.id);
+                                        if (!mounted) return;
+                                        if (wishlistProvider.error != null) {
+                                          AppHaptics.error();
+                                          if (scaffoldContext.mounted) {
+                                            AnimatedSnackbar.error(
+                                              scaffoldContext,
+                                              wishlistProvider.error!,
+                                            );
+                                          }
+                                          return;
+                                        }
+                                        AppHaptics.addToCart();
+                                        if (scaffoldContext.mounted) {
+                                          AnimatedSnackbar.success(
+                                            scaffoldContext,
+                                            result
+                                                ? 'Ditambahkan ke wishlist'
+                                                : 'Dihapus dari wishlist',
+                                          );
+                                        }
+                                      },
+                                    ),
+                                  );
+                                },
+                              ),
+                            ],
                           ),
-                        ],
+                        ),
                       ),
                     ),
                   ),
                 ),
-              ),
-            ),
+              );
+            },
           ),
         ],
       ),
@@ -1678,7 +1682,7 @@ class _WriteReviewBottomSheetState extends State<_WriteReviewBottomSheet>
           ],
         ),
         padding: EdgeInsets.only(
-          bottom: MediaQuery.of(context).viewInsets.bottom + 32,
+          bottom: MediaQuery.viewInsetsOf(context).bottom + 32,
           left: 24,
           right: 24,
           top: 16,

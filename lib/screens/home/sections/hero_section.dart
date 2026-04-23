@@ -6,17 +6,20 @@ import '../../../config/theme.dart';
 import '../../../utils/responsive_utils.dart';
 import '../../../widgets/common/interactive_widgets.dart';
 
-class HeroSection extends StatelessWidget {
+class HeroSection extends StatefulWidget {
   final List<Map<String, dynamic>> heroSlides;
-  final int currentHeroIndex;
-  final Function(int) onPageChanged;
 
   const HeroSection({
     super.key,
     required this.heroSlides,
-    required this.currentHeroIndex,
-    required this.onPageChanged,
   });
+
+  @override
+  State<HeroSection> createState() => _HeroSectionState();
+}
+
+class _HeroSectionState extends State<HeroSection> {
+  int _currentIndex = 0;
 
   @override
   Widget build(BuildContext context) {
@@ -34,10 +37,10 @@ class HeroSection extends StatelessWidget {
             height: heroHeight,
             child: PageView.builder(
               controller: PageController(viewportFraction: 0.92),
-              onPageChanged: onPageChanged,
-              itemCount: heroSlides.length,
+              onPageChanged: (index) => setState(() => _currentIndex = index),
+              itemCount: widget.heroSlides.length,
               itemBuilder: (context, index) {
-                final slide = heroSlides[index];
+                final slide = widget.heroSlides[index];
                 String? imageUrl = slide['imageUrl'] ??
                     slide['image_url'] ??
                     slide['image'] ??
@@ -244,16 +247,16 @@ class HeroSection extends StatelessWidget {
           Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: List.generate(
-              heroSlides.length,
+              widget.heroSlides.length,
               (index) => AnimatedContainer(
                 duration: const Duration(milliseconds: 300),
                 curve: Curves.easeOutQuart,
-                width: currentHeroIndex == index ? 28 : 8,
+                width: _currentIndex == index ? 28 : 8,
                 height: 8,
                 margin: const EdgeInsets.symmetric(horizontal: 3),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(4),
-                  color: currentHeroIndex == index
+                  color: _currentIndex == index
                       ? AppColors.primary
                       : AppColors.outline.withValues(alpha: 0.35),
                 ),
