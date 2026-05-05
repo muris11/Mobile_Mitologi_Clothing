@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 
-import '../../config/theme.dart';
-import '../../utils/responsive_utils.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/utils/responsive_utils.dart';
 
-/// A sophisticated shimmer effect that creates an elegant light-wave sweep.
-/// Uses ShaderMask with an animated gradient for a premium loading experience.
 class Shimmer extends StatefulWidget {
   final Widget child;
   final Duration duration;
@@ -105,7 +103,6 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
   }
 }
 
-/// Individual shimmer skeleton block.
 class ShimmerBlock extends StatelessWidget {
   final double width;
   final double height;
@@ -134,7 +131,6 @@ class ShimmerBlock extends StatelessWidget {
   }
 }
 
-/// Elegant product card skeleton with shimmer wave.
 class ProductCardSkeleton extends StatelessWidget {
   const ProductCardSkeleton({super.key});
 
@@ -225,7 +221,6 @@ class ProductCardSkeleton extends StatelessWidget {
   }
 }
 
-/// Skeleton grid for products with staggered shimmer delays.
 class ProductGridSkeleton extends StatelessWidget {
   final int itemCount;
 
@@ -252,7 +247,6 @@ class ProductGridSkeleton extends StatelessWidget {
   }
 }
 
-/// Horizontal list item skeleton.
 class ListItemSkeleton extends StatelessWidget {
   final double height;
   final bool showAvatar;
@@ -311,7 +305,6 @@ class ListItemSkeleton extends StatelessWidget {
   }
 }
 
-/// Hero banner skeleton with shimmer.
 class HeroSkeleton extends StatelessWidget {
   const HeroSkeleton({super.key});
 
@@ -332,7 +325,6 @@ class HeroSkeleton extends StatelessWidget {
   }
 }
 
-/// Category pills skeleton.
 class CategoriesSkeleton extends StatelessWidget {
   const CategoriesSkeleton({super.key});
 
@@ -373,7 +365,6 @@ class CategoriesSkeleton extends StatelessWidget {
   }
 }
 
-/// Full page skeleton for product detail loading state.
 class ProductDetailSkeleton extends StatelessWidget {
   const ProductDetailSkeleton({super.key});
 
@@ -383,7 +374,6 @@ class ProductDetailSkeleton extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          // Image skeleton
           Container(
             height: 400,
             color: AppColors.surfaceContainerHigh,
@@ -447,7 +437,6 @@ class ProductDetailSkeleton extends StatelessWidget {
   }
 }
 
-/// Cart item skeleton with image, title, price, quantity.
 class CartItemSkeleton extends StatelessWidget {
   const CartItemSkeleton({super.key});
 
@@ -527,7 +516,6 @@ class CartItemSkeleton extends StatelessWidget {
   }
 }
 
-/// Cart list skeleton with multiple items.
 class CartListSkeleton extends StatelessWidget {
   final int itemCount;
 
@@ -656,7 +644,6 @@ class CartListSkeleton extends StatelessWidget {
   }
 }
 
-/// Wishlist grid skeleton.
 class WishlistGridSkeleton extends StatelessWidget {
   final int itemCount;
 
@@ -711,7 +698,6 @@ class WishlistGridSkeleton extends StatelessWidget {
   }
 }
 
-/// Order card skeleton.
 class OrderCardSkeleton extends StatelessWidget {
   const OrderCardSkeleton({super.key});
 
@@ -822,7 +808,6 @@ class OrderCardSkeleton extends StatelessWidget {
   }
 }
 
-/// Order list skeleton.
 class OrderListSkeleton extends StatelessWidget {
   final int itemCount;
 
@@ -841,7 +826,6 @@ class OrderListSkeleton extends StatelessWidget {
   }
 }
 
-/// Profile screen skeleton with header, avatar, cards.
 class ProfileSkeleton extends StatelessWidget {
   const ProfileSkeleton({super.key});
 
@@ -851,11 +835,9 @@ class ProfileSkeleton extends StatelessWidget {
       child: CustomScrollView(
         physics: const NeverScrollableScrollPhysics(),
         slivers: [
-          // App bar placeholder
           const SliverToBoxAdapter(
             child: SizedBox(height: 100),
           ),
-          // Profile header skeleton
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.all(24),
@@ -914,7 +896,6 @@ class ProfileSkeleton extends StatelessWidget {
               ),
             ),
           ),
-          // Menu grid skeleton
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -948,7 +929,6 @@ class ProfileSkeleton extends StatelessWidget {
             ),
           ),
           const SliverToBoxAdapter(child: SizedBox(height: 24)),
-          // Info cards skeleton
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),

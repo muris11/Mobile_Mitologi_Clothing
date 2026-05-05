@@ -1,11 +1,8 @@
-import '../core/network/api_error.dart';
+import 'package:mitologi_clothing_mobile/core/network/api_error.dart';
 
-/// Maps technical errors to user-friendly messages
 class ErrorMapper {
   static String mapAuthError(dynamic error) {
-    // Prioritas 1: Jika error adalah ApiError, ambil pesan langsung dari object
     if (error is ApiError) {
-      // Jika ada field errors (validation), tampilkan yang pertama
       if (error.isValidationError && error.fieldErrors != null) {
         final firstError = error.fieldErrors!.values
             .expand((e) => e)
@@ -14,13 +11,11 @@ class ErrorMapper {
           return _mapBackendMessage(firstError);
         }
       }
-      // Map pesan utama backend
       return _mapBackendMessage(error.message);
     }
 
     final errorString = error.toString().toLowerCase();
 
-    // Map specific backend errors to friendly messages
     if (errorString.contains('invalid credentials') ||
         errorString.contains('401')) {
       return 'Email atau password salah';
@@ -39,14 +34,12 @@ class ErrorMapper {
       return 'Waktu tunggu habis, silakan coba lagi';
     }
     if (errorString.contains('apierror') || errorString.contains('apiexception')) {
-      // Extract message dari toString format: "ApiError: message (Status: X)"
       final match = RegExp(r'ApiError: (.+) \(Status:').firstMatch(error.toString());
       if (match != null) {
         return _mapBackendMessage(match.group(1)?.trim() ?? '');
       }
     }
 
-    // Handle plain Exception messages (e.g., from client-side validation in AuthService)
     if (error is Exception) {
       final match = RegExp(r'^Exception: (.+)$').firstMatch(error.toString());
       if (match != null) {
@@ -54,11 +47,9 @@ class ErrorMapper {
       }
     }
 
-    // Generic fallback - don't expose raw technical details
     return 'Terjadi kesalahan, silakan coba lagi';
   }
 
-  /// Map pesan dari backend ke Bahasa Indonesia yang lebih user-friendly
   static String _mapBackendMessage(String message) {
     final lower = message.toLowerCase();
 
@@ -129,7 +120,6 @@ class ErrorMapper {
       return 'Terlalu banyak percobaan, silakan tunggu beberapa saat';
     }
 
-    // Jika pesan dari backend sudah dalam bahasa Indonesia dan cukup jelas
     if (lower.contains('wajib diisi') ||
         lower.contains('tidak valid') ||
         lower.contains('tidak ditemukan') ||

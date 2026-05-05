@@ -1,8 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import '../../config/theme.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 
-/// Cached image widget with placeholder and error handling
 class CachedImageWidget extends StatelessWidget {
   final String? imageUrl;
   final double? width;

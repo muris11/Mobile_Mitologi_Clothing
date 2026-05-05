@@ -1,7 +1,7 @@
-import '../../../models/product.dart';
+import 'models/product_model.dart';
 
 class PaginatedProducts {
-  final List<Product> products;
+  final List<ProductModel> products;
   final int total;
   final int perPage;
   final int currentPage;
@@ -25,3 +25,4 @@ class PaginatedProducts {
     );
   }
 }
+

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import '../../config/theme.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 
-/// Section header with title and "see all" button
 class SectionHeader extends StatelessWidget {
   final String title;
   final VoidCallback? onSeeAll;

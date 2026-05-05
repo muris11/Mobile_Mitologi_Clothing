@@ -1,16 +1,29 @@
-import '../domain/cms_page.dart';
-import '../domain/portfolio_item.dart';
+import 'package:dio/dio.dart';
+import 'package:mitologi_clothing_mobile/core/api/api_client.dart';
+import 'package:mitologi_clothing_mobile/core/constants/api_endpoints.dart';
 
 class ContentService {
-  ContentService();
+  final ApiClient _apiClient;
 
-  ContentService.forTest();
+  ContentService(this._apiClient);
 
-  Future<CmsPage> fetchPage(String handle) async {
-    throw UnimplementedError('fetchPage must be implemented');
+  Future<Response> getPage(String handle) async {
+    return await _apiClient.dio.get(ApiEndpoints.pageDetail(handle));
   }
 
-  Future<PortfolioItem> fetchPortfolio(String slug) async {
-    throw UnimplementedError('fetchPortfolio must be implemented');
+  Future<Response> getPortfolios() async {
+    return await _apiClient.dio.get(ApiEndpoints.portfolios);
+  }
+
+  Future<Response> getPortfolioDetail(String slug) async {
+    return await _apiClient.dio.get(ApiEndpoints.portfolioDetail(slug));
+  }
+
+  Future<Response> getCollections() async {
+    return await _apiClient.dio.get(ApiEndpoints.collections);
+  }
+
+  Future<Response> getCollectionProducts(String handle) async {
+    return await _apiClient.dio.get(ApiEndpoints.collectionProducts(handle));
   }
 }

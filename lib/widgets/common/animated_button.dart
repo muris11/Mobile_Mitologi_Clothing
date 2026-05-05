@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../config/theme.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 
 class AnimatedButton extends StatefulWidget {
   final String text;
@@ -287,7 +287,6 @@ class _AnimatedFavoriteButtonState extends State<AnimatedFavoriteButton>
 
   void _handleTap() {
     if (!widget.isFavorite) {
-      // Only burst when adding to favorites
       _generateParticles();
     }
     _controller.forward(from: 0);
@@ -324,7 +323,6 @@ class _AnimatedFavoriteButtonState extends State<AnimatedFavoriteButton>
               child: Stack(
                 alignment: Alignment.center,
                 children: [
-                  // Particles burst
                   if (!widget.isFavorite)
                     ..._particles.map((particle) {
                       final progress = _controller.value;
@@ -350,7 +348,6 @@ class _AnimatedFavoriteButtonState extends State<AnimatedFavoriteButton>
                         ),
                       );
                     }),
-                  // Heart icon with glow when active
                   Container(
                     decoration: widget.isFavorite
                         ? BoxDecoration(
@@ -403,7 +400,6 @@ class _Particle {
   double get sin => _sinLookup();
 
   double _cosLookup() {
-    // Small lookup for common angles to avoid repeated trig
     const values = [1.0, 0.707, 0.0, -0.707, -1.0, -0.707, 0.0, 0.707];
     final idx = ((angle / (3.14159 / 4)).round()) % 8;
     return values[idx];

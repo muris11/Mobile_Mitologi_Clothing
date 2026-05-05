@@ -12,14 +12,14 @@ dependencies:
   flutter:
     sdk: flutter
 
-  # State Management
+  # State Management (Scoped, NOT global)
   provider: ^6.1.2
 
   # Navigation
   go_router: ^14.2.0
 
   # HTTP & API
-  http: ^1.2.2
+  dio: ^5.4.0
 
   # UI Components
   google_fonts: ^6.2.1
@@ -27,6 +27,8 @@ dependencies:
   shimmer: ^3.0.0
   flutter_svg: ^2.0.10+1
   flutter_staggered_grid_view: ^0.7.0
+  gap: ^3.0.1
+  phosphor_flutter: ^2.1.0
 
   # Functionality
   flutter_secure_storage: ^9.2.2
@@ -35,9 +37,18 @@ dependencies:
   url_launcher: ^6.3.1
   intl: ^0.19.0
 
+  # WebView (for Midtrans payment)
+  webview_flutter: ^4.7.0
+
+  # HTML rendering (CMS pages)
+  flutter_html: ^3.0.0-beta.2
+
   # Icons
   cupertino_icons: ^1.0.8
   material_symbols_icons: ^4.2801.0
+
+  # Splash Screen
+  flutter_native_splash: ^2.4.3
 
   # Utils
   uuid: ^4.5.1
@@ -60,6 +71,18 @@ flutter_launcher_icons:
   image_path: "assets/images/logo.png"
   min_sdk_android: 21
   remove_alpha_ios: true
+
+flutter_native_splash:
+  color: "#000613"
+  image: assets/images/logo.png
+  color_dark: "#000613"
+  image_dark: assets/images/logo.png
+  android_12:
+    image: assets/images/logo.png
+    color: "#000613"
+    icon_background_color: "#000613"
+  web: false
+  fullscreen: true
 
 flutter:
   uses-material-design: true

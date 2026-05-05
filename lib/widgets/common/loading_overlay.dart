@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../../config/theme.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 
 class LoadingOverlay extends StatelessWidget {
   final bool isLoading;

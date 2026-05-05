@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/foundation.dart';
 
-/// Utility for debouncing function calls
 class Debouncer {
   final Duration delay;
   Timer? _timer;
@@ -18,7 +17,6 @@ class Debouncer {
   }
 }
 
-/// Extension for debouncing search operations
 extension DebounceExtension on Function(String) {
   Function(String) debounce(Duration delay) {
     final debouncer = Debouncer(delay: delay);

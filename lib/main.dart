@@ -1,49 +1,124 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+import 'package:mitologi_clothing_mobile/core/api/api_client.dart';
+import 'package:mitologi_clothing_mobile/core/router/app_router.dart';
+import 'package:mitologi_clothing_mobile/core/storage/cart_storage.dart';
+import 'package:mitologi_clothing_mobile/core/storage/token_storage.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_theme.dart';
+import 'package:mitologi_clothing_mobile/features/ai/data/ai_repository.dart';
+import 'package:mitologi_clothing_mobile/features/ai/data/ai_service.dart';
+import 'package:mitologi_clothing_mobile/features/ai/presentation/chatbot_provider.dart';
+import 'package:mitologi_clothing_mobile/features/auth/data/auth_repository.dart';
+import 'package:mitologi_clothing_mobile/features/auth/data/auth_service.dart';
+import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/cart/data/cart_repository.dart';
+import 'package:mitologi_clothing_mobile/features/cart/data/cart_service.dart';
+import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/catalog/data/catalog_repository.dart';
+import 'package:mitologi_clothing_mobile/features/catalog/data/catalog_service.dart';
+import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_service.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/content/data/content_repository.dart';
+import 'package:mitologi_clothing_mobile/features/content/data/content_service.dart';
+import 'package:mitologi_clothing_mobile/features/content/presentation/content_provider.dart';
+import 'package:mitologi_clothing_mobile/features/home/data/home_repository.dart';
+import 'package:mitologi_clothing_mobile/features/home/data/home_service.dart';
+import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/profile/data/profile_repository.dart';
+import 'package:mitologi_clothing_mobile/features/profile/data/profile_service.dart';
+import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/splash/presentation/splash_screen.dart';
+import 'package:mitologi_clothing_mobile/features/wishlist/data/wishlist_repository.dart';
+import 'package:mitologi_clothing_mobile/features/wishlist/data/wishlist_service.dart';
+import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:provider/provider.dart';
 
-import 'app.dart';
-import 'config/theme.dart';
-import 'features/chatbot/data/chatbot_service_adapter.dart';
-import 'features/chatbot/presentation/chatbot_provider.dart';
-import 'features/content/data/content_service_adapter.dart';
-import 'features/content/presentation/content_provider.dart';
-import 'features/wishlist/data/wishlist_service_adapter.dart';
-import 'features/wishlist/presentation/wishlist_provider.dart';
-import 'providers/auth_provider.dart';
-import 'providers/cart_provider.dart';
-import 'providers/checkout_provider.dart';
-import 'providers/order_provider.dart';
-import 'providers/product_provider.dart';
-import 'providers/profile_provider.dart';
-import 'services/api_service.dart';
-import 'services/auth_service.dart';
-import 'services/cart_service.dart';
-import 'services/chatbot_service.dart';
-import 'services/order_service.dart';
-import 'services/product_service.dart';
-import 'services/profile_service.dart';
-import 'services/review_service.dart';
-import 'services/wishlist_service.dart';
+void main() async {
+  final widgetsBinding = WidgetsFlutterBinding.ensureInitialized();
+  FlutterNativeSplash.preserve(widgetsBinding: widgetsBinding);
 
-void main() {
-  WidgetsFlutterBinding.ensureInitialized();
+  FlutterError.onError = (details) {
+    FlutterError.presentError(details);
+    debugPrint('FlutterError: ${details.exception}\n${details.stack}');
+  };
+
+  ErrorWidget.builder = (FlutterErrorDetails details) {
+    return Material(
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.all(24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            const Icon(Icons.error_outline, color: Colors.red, size: 48),
+            const SizedBox(height: 16),
+            Text(
+              'Error: ${details.exception}',
+              textAlign: TextAlign.center,
+              style: const TextStyle(color: Colors.red, fontSize: 13),
+            ),
+          ],
+        ),
+      ),
+    );
+  };
+
+  final tokenStorage = TokenStorage();
+  final cartStorage = CartStorage();
+  final apiClient = ApiClient(tokenStorage, cartStorage);
+
+  final authRepository = AuthRepository(AuthService(apiClient), tokenStorage);
+  final homeRepository = HomeRepository(HomeService(apiClient));
+  final catalogRepository = CatalogRepository(CatalogService(apiClient));
+  final cartRepository = CartRepository(CartService(apiClient), cartStorage);
+  final checkoutRepository = CheckoutRepository(CheckoutService(apiClient));
+  final profileRepository = ProfileRepository(ProfileService(apiClient));
+  final wishlistRepository = WishlistRepository(WishlistService(apiClient));
+  final aiRepository = AiRepository(AiService(apiClient));
+  final contentRepository = ContentRepository(ContentService(apiClient));
 
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.transparent,
-      systemNavigationBarIconBrightness: Brightness.dark,
     ),
   );
 
-  SystemChrome.setPreferredOrientations([
-    DeviceOrientation.portraitUp,
-    DeviceOrientation.portraitDown,
-  ]);
-
-  runApp(const MitologiApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        Provider<AuthRepository>.value(value: authRepository),
+        Provider<HomeRepository>.value(value: homeRepository),
+        Provider<CatalogRepository>.value(value: catalogRepository),
+        Provider<CartRepository>.value(value: cartRepository),
+        Provider<CheckoutRepository>.value(value: checkoutRepository),
+        Provider<ProfileRepository>.value(value: profileRepository),
+        Provider<WishlistRepository>.value(value: wishlistRepository),
+        Provider<AiRepository>.value(value: aiRepository),
+        Provider<ContentRepository>.value(value: contentRepository),
+        ChangeNotifierProvider(
+            create: (_) => WishlistProvider(wishlistRepository)),
+        ChangeNotifierProvider(create: (_) => ChatbotProvider(aiRepository)),
+        ChangeNotifierProvider(
+            create: (_) => ContentProvider(contentRepository)),
+        ChangeNotifierProvider(
+          create: (_) => AuthViewModel(authRepository),
+        ),
+        ChangeNotifierProvider(
+            create: (_) => ProfileViewModel(profileRepository)),
+        ChangeNotifierProvider(create: (_) => HomeViewModel(homeRepository)),
+        ChangeNotifierProvider(
+            create: (_) => CatalogViewModel(catalogRepository)),
+        ChangeNotifierProvider(create: (_) => CartViewModel(cartRepository)),
+        ChangeNotifierProvider(
+            create: (_) => CheckoutViewModel(checkoutRepository)),
+      ],
+      child: const MitologiApp(),
+    ),
+  );
 }
 
 class MitologiApp extends StatefulWidget {
@@ -54,81 +129,38 @@ class MitologiApp extends StatefulWidget {
 }
 
 class _MitologiAppState extends State<MitologiApp> {
-  late final ApiService apiService;
-  late final AuthService authService;
-  late final CartService cartService;
-  late final AuthProvider authProvider;
-  late final OrderService orderService;
-  late final ProductService productService;
-  late final WishlistService wishlistService;
-  late final ProfileService profileService;
-  late final ChatbotService chatbotService;
-  late final ReviewService reviewService;
+  bool _initialized = false;
 
-  @override
-  void initState() {
-    super.initState();
-    apiService = ApiService();
-    authService = AuthService(apiService);
-    cartService = CartService(apiService);
-    orderService = OrderService(apiService);
-    productService = ProductService(apiService);
-    wishlistService = WishlistService(apiService);
-    profileService = ProfileService(apiService);
-    chatbotService = ChatbotService(apiService);
-    reviewService = ReviewService(apiService);
-    authProvider = AuthProvider(authService, cartService);
-    // Set callback to clear token caches on logout
-    authProvider.setOnLogoutCallback(() {
-      orderService.clearTokenCache();
-    });
+  Future<void> _initialize() async {
+    try {
+      final authVM = context.read<AuthViewModel>();
+      final cartVM = context.read<CartViewModel>();
+      await authVM.checkAuthStatus();
+      if (authVM.isAuthenticated) {
+        await cartVM.fetchCart();
+      }
+    } catch (_) {
+    } finally {
+      FlutterNativeSplash.remove();
+      if (mounted) setState(() => _initialized = true);
+    }
   }
 
   @override
   Widget build(BuildContext context) {
+    final app = MaterialApp.router(
+      title: 'Mitologi Clothing',
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      routerConfig: AppRouter.router,
+    );
 
-    return MultiProvider(
-      providers: [
-        Provider<ApiService>.value(value: apiService),
-        Provider<AuthService>.value(value: authService),
-        Provider<ProductService>.value(value: productService),
-        Provider<CartService>.value(value: cartService),
-        Provider<OrderService>.value(value: orderService),
-        Provider<WishlistService>.value(value: wishlistService),
-        Provider<ProfileService>.value(value: profileService),
-        Provider<ChatbotService>.value(value: chatbotService),
-        Provider<ReviewService>.value(value: reviewService),
-        ChangeNotifierProvider<AuthProvider>.value(value: authProvider),
-        ChangeNotifierProvider(create: (_) => CartProvider(cartService)),
-        ChangeNotifierProvider(create: (_) => ProductProvider(productService)),
-        ChangeNotifierProvider(create: (_) => ProfileProvider(profileService)),
-        ChangeNotifierProvider(
-          create: (_) => ChatbotProvider(ChatbotServiceAdapter(chatbotService)),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => ContentProvider(ProductContentServiceAdapter(productService)),
-        ),
-        ChangeNotifierProvider(
-          create: (_) => WishlistProvider(WishlistServiceAdapter(wishlistService)),
-        ),
-        ChangeNotifierProxyProvider<CartProvider, CheckoutProvider>(
-          create: (context) => CheckoutProvider(
-            context.read<CartProvider>(),
-            profileService,
-            orderService,
-          ),
-          update: (context, cartProvider, previous) =>
-              previous ??
-              CheckoutProvider(cartProvider, profileService, orderService),
-        ),
-        ChangeNotifierProvider(create: (_) => OrderProvider(orderService)),
-      ],
-      child: MaterialApp.router(
-        title: 'Mitologi Clothing',
-        debugShowCheckedModeBanner: false,
-        theme: AppTheme.lightTheme,
-        routerConfig: AppRouter.router,
-      ),
+    if (_initialized) return app;
+
+    return MaterialApp(
+      debugShowCheckedModeBanner: false,
+      theme: AppTheme.lightTheme,
+      home: SplashScreen(onInitComplete: _initialize),
     );
   }
 }

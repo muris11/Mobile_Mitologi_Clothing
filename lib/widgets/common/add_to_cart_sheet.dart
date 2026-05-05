@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import '../../models/product.dart';
+import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 
 class AddToCartBottomSheet {
   static Future<void> show({
     required BuildContext context,
-    required Product product,
+    required ProductModel product,
     dynamic selectedVariant,
     required int quantity,
     VoidCallback? onContinueShopping,
@@ -20,7 +20,7 @@ class AddToCartBottomSheet {
           children: [
             const Text('Produk ditambahkan ke keranjang', style: TextStyle(fontWeight: FontWeight.bold)),
             const SizedBox(height: 8),
-            Text(product.title),
+            Text(product.name),
             const SizedBox(height: 16),
             Row(
               children: [
@@ -45,3 +45,4 @@ class AddToCartBottomSheet {
     );
   }
 }
+

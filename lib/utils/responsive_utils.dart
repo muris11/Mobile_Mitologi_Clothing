@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
 
-/// Responsive utilities for adaptive layouts
 class ResponsiveConfig {
-  /// Breakpoints for different device types
   static const double mobileBreakpoint = 600;
   static const double tabletBreakpoint = 900;
   static const double desktopBreakpoint = 1200;
 
-  /// Get device type based on screen width
   static DeviceType getDeviceType(BuildContext context) {
     final width = MediaQuery.sizeOf(context).width;
     if (width < mobileBreakpoint) return DeviceType.mobile;
@@ -15,19 +12,15 @@ class ResponsiveConfig {
     return DeviceType.desktop;
   }
 
-  /// Check if current device is mobile
   static bool isMobile(BuildContext context) =>
       getDeviceType(context) == DeviceType.mobile;
 
-  /// Check if current device is tablet
   static bool isTablet(BuildContext context) =>
       getDeviceType(context) == DeviceType.tablet;
 
-  /// Check if current device is desktop
   static bool isDesktop(BuildContext context) =>
       getDeviceType(context) == DeviceType.desktop;
 
-  /// Get responsive value based on device type
   static T getResponsiveValue<T>({
     required BuildContext context,
     required T mobile,
@@ -45,7 +38,6 @@ class ResponsiveConfig {
     }
   }
 
-  /// Get responsive padding
   static EdgeInsets getResponsivePadding(BuildContext context) {
     return getResponsiveValue(
       context: context,
@@ -55,7 +47,6 @@ class ResponsiveConfig {
     );
   }
 
-  /// Get responsive grid column count
   static int getGridColumnCount(BuildContext context) {
     return getResponsiveValue(
       context: context,
@@ -65,7 +56,6 @@ class ResponsiveConfig {
     );
   }
 
-  /// Get responsive font size multiplier
   static double getFontSizeMultiplier(BuildContext context) {
     return getResponsiveValue(
       context: context,
@@ -82,7 +72,6 @@ enum DeviceType {
   desktop,
 }
 
-/// Responsive widget builder
 class ResponsiveBuilder extends StatelessWidget {
   final Widget mobile;
   final Widget tablet;
@@ -111,7 +100,6 @@ class ResponsiveBuilder extends StatelessWidget {
   }
 }
 
-/// Responsive grid for products
 class ResponsiveProductGrid extends StatelessWidget {
   final List<dynamic> products;
   final Function(dynamic product) onProductTap;

@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class AnimatedEmptyState extends StatelessWidget {
   final IconData icon;
@@ -22,17 +25,56 @@ class AnimatedEmptyState extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.all(24),
+        padding: const EdgeInsets.all(32),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Icon(icon, size: 56, color: iconColor ?? Colors.grey),
+            Icon(
+              icon,
+              size: 80,
+              color: (iconColor ?? AppColors.primary).withValues(alpha: 0.2),
+            ),
+            const SizedBox(height: 24),
+            Text(
+              title,
+              style: GoogleFonts.notoSerif(
+                fontSize: 24,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+              ),
+              textAlign: TextAlign.center,
+            ),
             const SizedBox(height: 12),
-            Text(title, textAlign: TextAlign.center),
-            const SizedBox(height: 8),
-            Text(subtitle, textAlign: TextAlign.center),
-            const SizedBox(height: 16),
-            ElevatedButton(onPressed: onAction, child: Text(actionLabel)),
+            Text(
+              subtitle,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.manrope(
+                fontSize: 14,
+                color: AppColors.outline,
+              ),
+            ),
+            const SizedBox(height: 32),
+            ElevatedButton(
+              onPressed: onAction,
+              style: ElevatedButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                foregroundColor: Colors.white,
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 32,
+                  vertical: 16,
+                ),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                actionLabel,
+                style: GoogleFonts.manrope(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
           ],
         ),
       ),
@@ -55,10 +97,10 @@ class LoginRequiredState extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AnimatedEmptyState(
-      icon: Icons.lock_outline,
+      icon: PhosphorIconsRegular.lockKey,
       title: title,
       subtitle: subtitle,
-      actionLabel: 'Login',
+      actionLabel: 'Masuk / Daftar',
       onAction: onLogin,
     );
   }
@@ -67,26 +109,72 @@ class LoginRequiredState extends StatelessWidget {
 class ErrorState extends StatelessWidget {
   final String message;
   final VoidCallback onRetry;
+  final String title;
 
   const ErrorState({
     super.key,
     required this.message,
     required this.onRetry,
+    this.title = 'Terjadi Kesalahan',
   });
 
   @override
   Widget build(BuildContext context) {
     return Center(
-      child: Padding(
+      child: Container(
+        margin: const EdgeInsets.all(24),
         padding: const EdgeInsets.all(24),
+        decoration: BoxDecoration(
+          color: Colors.red.withValues(alpha: 0.05),
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: Colors.red.withValues(alpha: 0.1),
+          ),
+        ),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [
-            const Icon(Icons.error_outline, size: 48, color: Colors.red),
-            const SizedBox(height: 12),
-            Text(message, textAlign: TextAlign.center),
-            const SizedBox(height: 12),
-            ElevatedButton(onPressed: onRetry, child: const Text('Coba Lagi')),
+            const Icon(
+              PhosphorIconsRegular.warning,
+              size: 48,
+              color: Colors.redAccent,
+            ),
+            const SizedBox(height: 16),
+            Text(
+              title,
+              style: GoogleFonts.notoSerif(
+                fontSize: 18,
+                fontWeight: FontWeight.w700,
+                color: Colors.red[900],
+              ),
+              textAlign: TextAlign.center,
+            ),
+            const SizedBox(height: 8),
+            Text(
+              message,
+              textAlign: TextAlign.center,
+              style: GoogleFonts.manrope(
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
+            const SizedBox(height: 24),
+            SizedBox(
+              width: double.infinity,
+              child: ElevatedButton.icon(
+                onPressed: onRetry,
+                icon: const Icon(PhosphorIconsRegular.arrowClockwise, size: 18),
+                label: const Text('COBA LAGI'),
+                style: ElevatedButton.styleFrom(
+                  backgroundColor: Colors.black,
+                  foregroundColor: Colors.white,
+                  padding: const EdgeInsets.symmetric(vertical: 16),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+              ),
+            ),
           ],
         ),
       ),

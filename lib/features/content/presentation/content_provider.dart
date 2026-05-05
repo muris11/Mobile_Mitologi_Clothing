@@ -1,51 +1,62 @@
-import 'package:flutter/foundation.dart';
-
-import '../data/content_service.dart';
-import '../domain/cms_page.dart';
-import '../domain/portfolio_item.dart';
+import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/features/content/data/content_repository.dart';
+import 'package:mitologi_clothing_mobile/features/content/domain/models/content_models.dart';
 
 class ContentProvider extends ChangeNotifier {
-  final ContentService _service;
+  final ContentRepository _repository;
 
-  ContentProvider(this._service);
+  ContentProvider(this._repository);
 
-  CmsPage? _page;
-  PortfolioItem? _portfolio;
   bool _isLoading = false;
   String? _error;
+  
+  List<PortfolioItem> _portfolios = [];
+  List<CollectionDetail> _collections = [];
 
-  CmsPage? get page => _page;
-  PortfolioItem? get portfolio => _portfolio;
   bool get isLoading => _isLoading;
   String? get error => _error;
+  List<PortfolioItem> get portfolios => _portfolios;
+  List<CollectionDetail> get collections => _collections;
 
-  Future<void> loadPage(String handle) async {
+  Future<void> loadPortfolios() async {
     _isLoading = true;
     _error = null;
     notifyListeners();
+
     try {
-      _page = await _service.fetchPage(handle);
+      _portfolios = await _repository.getPortfolios();
     } catch (e) {
-      _error = e.toString();
-      _page = null;
+      _error = 'Gagal memuat portfolio.';
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<void> loadPortfolio(String slug) async {
+  Future<void> loadCollections() async {
     _isLoading = true;
     _error = null;
     notifyListeners();
+
     try {
-      _portfolio = await _service.fetchPortfolio(slug);
+      _collections = await _repository.getCollections();
     } catch (e) {
-      _error = e.toString();
-      _portfolio = null;
+      _error = 'Gagal memuat koleksi.';
     } finally {
       _isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<CmsPage?> getPage(String handle) async {
+    return await _repository.getPage(handle);
+  }
+
+  Future<PortfolioItem?> getPortfolioDetail(String slug) async {
+    return await _repository.getPortfolioDetail(slug);
+  }
+
+  Future<CollectionDetail?> getCollectionWithProducts(String handle) async {
+    return await _repository.getCollectionWithProducts(handle);
   }
 }

@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-
-import '../../config/theme.dart';
-import '../../models/product.dart';
-import '../../utils/haptic_feedback.dart';
-import '../common/interactive_widgets.dart';
-import '../common/quick_view_sheet.dart';
-import '../common/shimmer_image.dart';
+import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
+import 'package:mitologi_clothing_mobile/utils/haptic_feedback.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/interactive_widgets.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class ProductCard extends StatelessWidget {
-  final Product product;
+  final ProductModel product;
   final double? width;
   final bool showBrand;
   final bool isInWishlist;
@@ -29,143 +29,93 @@ class ProductCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final price = product.price;
-    final formattedPrice = price?.formatted ?? 'Rp 0';
-    final vendor = (product.vendor ?? '').trim();
-
     return LayoutBuilder(
       builder: (context, constraints) {
         final cardWidth = width ?? constraints.maxWidth;
         final isSmallScreen = cardWidth < 160;
         final availableHeight = constraints.maxHeight;
         final imageHeight = availableHeight > 0
-            ? availableHeight * 0.62
-            : (isSmallScreen ? 120.0 : 160.0);
+            ? availableHeight * 0.6
+            : (isSmallScreen ? 136.0 : 176.0);
 
         return InteractiveScale(
-          onTap: onTap ?? () {
-            AppHaptics.tap();
-            context.push('/product/${product.handle}');
-          },
+          onTap: onTap ??
+              () {
+                AppHaptics.tap();
+                context.push('/product/${product.slug}');
+              },
           child: Container(
             width: cardWidth == double.infinity ? null : cardWidth,
             height: availableHeight > 0 ? availableHeight : null,
             decoration: BoxDecoration(
               color: AppColors.surfaceContainerLowest,
-              borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
+              borderRadius: BorderRadius.circular(22),
+              border: Border.all(color: AppColors.outlineVariant),
               boxShadow: [
-                AppShadows.cardSoft,
+                BoxShadow(
+                  color: AppColors.shadow.withValues(alpha: 0.04),
+                  blurRadius: 12,
+                  offset: const Offset(0, 4),
+                ),
               ],
             ),
             child: ClipRRect(
-              borderRadius: BorderRadius.circular(isSmallScreen ? 16 : 20),
+              borderRadius: BorderRadius.circular(22),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  // Image Section with soft edge fade
                   SizedBox(
                     height: imageHeight,
                     child: Stack(
                       fit: StackFit.expand,
                       children: [
                         _buildProductImage(),
-                        // Bottom soft fade for seamless text overlay
-                        Positioned(
-                          bottom: 0,
-                          left: 0,
-                          right: 0,
-                          height: 40,
-                          child: Container(
-                            decoration: BoxDecoration(
-                              gradient: LinearGradient(
-                                begin: Alignment.topCenter,
-                                end: Alignment.bottomCenter,
-                                colors: [
-                                  Colors.transparent,
-                                  AppColors.surfaceContainerLowest.withValues(alpha: 0.8),
-                                ],
+                        if (product.onSale)
+                          Positioned(
+                            left: 12,
+                            bottom: 12,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 10,
+                                vertical: 6,
+                              ),
+                              decoration: BoxDecoration(
+                                color: const Color(0xD6142033),
+                                borderRadius: BorderRadius.circular(999),
+                              ),
+                              child: const Text(
+                                'PROMO',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 10,
+                                  fontWeight: FontWeight.w800,
+                                  letterSpacing: 1.1,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                        // Quick view button
-                        Positioned(
-                          top: isSmallScreen ? 8 : 10,
-                          right: isSmallScreen ? 40 : 46,
-                          child: Builder(
-                            builder: (context) => _buildQuickViewButton(
-                              context,
-                              isSmallScreen,
-                            ),
-                          ),
-                        ),
-                        // Wishlist button - floating style
                         Positioned(
                           top: isSmallScreen ? 8 : 10,
                           right: isSmallScreen ? 8 : 10,
                           child: _buildWishlistButton(isSmallScreen),
                         ),
-                        // Discount badge - bold style
-                        if (product.isOnSale &&
-                            product.discountPercentage != null)
-                          Positioned(
-                            top: isSmallScreen ? 8 : 10,
-                            left: isSmallScreen ? 8 : 10,
-                            child: Container(
-                              padding: EdgeInsets.symmetric(
-                                horizontal: isSmallScreen ? 6 : 8,
-                                vertical: isSmallScreen ? 3 : 4,
-                              ),
-                              decoration: BoxDecoration(
-                                gradient: const LinearGradient(
-                                  colors: [
-                                    Color(0xFFE53935),
-                                    Color(0xFFC62828),
-                                  ],
-                                ),
-                                borderRadius: BorderRadius.circular(8),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: const Color(0xFFE53935).withValues(alpha: 0.3),
-                                    blurRadius: 6,
-                                    offset: const Offset(0, 2),
-                                  ),
-                                ],
-                              ),
-                              child: Text(
-                                '-${product.discountPercentage}%',
-                                style: GoogleFonts.manrope(
-                                  fontSize: isSmallScreen ? 9 : 10,
-                                  fontWeight: FontWeight.w800,
-                                  color: Colors.white,
-                                  letterSpacing: 0.3,
-                                ),
-                              ),
-                            ),
-                          ),
                       ],
                     ),
                   ),
-                  // Content Section
                   Expanded(
                     child: Padding(
-                      padding: EdgeInsets.fromLTRB(
-                        isSmallScreen ? 10 : 12,
-                        isSmallScreen ? 6 : 8,
-                        isSmallScreen ? 10 : 12,
-                        isSmallScreen ? 10 : 12,
-                      ),
+                      padding: const EdgeInsets.fromLTRB(14, 12, 14, 14),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         mainAxisSize: MainAxisSize.min,
                         mainAxisAlignment: MainAxisAlignment.start,
                         children: [
-                          if (showBrand && vendor.isNotEmpty) ...[
+                          if (showBrand && product.vendor != null) ...[
                             Text(
-                              vendor.toUpperCase(),
+                              product.vendor!.toUpperCase(),
                               style: GoogleFonts.manrope(
-                                fontSize: isSmallScreen ? 8 : 9,
+                                fontSize: 9,
                                 fontWeight: FontWeight.w700,
                                 color: AppColors.outline,
                                 letterSpacing: 0.8,
@@ -177,52 +127,127 @@ class ProductCard extends StatelessWidget {
                             SizedBox(height: isSmallScreen ? 2 : 4),
                           ],
                           Text(
-                            product.title,
+                            product.name,
                             style: GoogleFonts.manrope(
-                              fontSize: isSmallScreen ? 11 : 13,
+                              fontSize: isSmallScreen ? 12 : 14,
                               fontWeight: FontWeight.w700,
-                              color: AppColors.onSurface,
-                              height: 1.25,
+                              color: const Color(0xFF253041),
+                              height: 1.28,
                             ),
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                           ),
                           const Spacer(),
-                          // Price Row - Bold and prominent
                           Row(
-                            crossAxisAlignment: CrossAxisAlignment.end,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Expanded(
                                 child: Text(
-                                  formattedPrice,
+                                  _formatPrice(product.displayPrice),
                                   style: GoogleFonts.manrope(
-                                    fontSize: isSmallScreen ? 12 : 14,
+                                    fontSize: 18,
                                     fontWeight: FontWeight.w800,
-                                    color: AppColors.secondary,
+                                    color: AppColors.primary,
                                     height: 1.0,
                                   ),
-                                  maxLines: 1,
-                                  overflow: TextOverflow.ellipsis,
+                                  maxLines: 2,
+                                  overflow: TextOverflow.fade,
                                 ),
                               ),
-                              if (product.isOnSale &&
-                                  product.compareAtPrice != null) ...[
-                                const SizedBox(width: 6),
-                                Flexible(
-                                  child: Text(
-                                    product.compareAtPrice!.formatted,
-                                    style: GoogleFonts.manrope(
-                                      fontSize: isSmallScreen ? 9 : 10,
-                                      fontWeight: FontWeight.w500,
-                                      color: AppColors.outline,
-                                      decoration: TextDecoration.lineThrough,
-                                      height: 1.0,
-                                    ),
-                                    maxLines: 1,
-                                    overflow: TextOverflow.ellipsis,
+                            ],
+                          ),
+                          const SizedBox(height: 8),
+                          Row(
+                            children: [
+                              if ((product.rating ?? 0) > 0) ...[
+                                const Icon(
+                                  PhosphorIconsFill.star,
+                                  size: 13,
+                                  color: Color(0xFFB9955B),
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  product.rating!.toStringAsFixed(1),
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 11,
+                                    color: AppColors.onSurfaceVariant,
                                   ),
                                 ),
                               ],
+                              if ((product.rating ?? 0) > 0 &&
+                                  product.reviewsCount > 0)
+                                Container(
+                                  width: 3,
+                                  height: 3,
+                                  margin:
+                                      const EdgeInsets.symmetric(horizontal: 6),
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.outlineVariant,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                              if (product.reviewsCount > 0)
+                                Expanded(
+                                  child: Text(
+                                    '${product.reviewsCount} review',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 11,
+                                      color: AppColors.onSurfaceVariant,
+                                    ),
+                                  ),
+                                )
+                              else
+                                Expanded(
+                                  child: Text(
+                                    'Siap dikirim',
+                                    maxLines: 1,
+                                    overflow: TextOverflow.ellipsis,
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 11,
+                                      color: AppColors.onSurfaceVariant,
+                                    ),
+                                  ),
+                                ),
+                            ],
+                          ),
+                          const SizedBox(height: 6),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  _buildVariantLabel(),
+                                  maxLines: 1,
+                                  overflow: TextOverflow.ellipsis,
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 11,
+                                    color: AppColors.outline,
+                                  ),
+                                ),
+                              ),
+                              if (product.stock > 0 && product.stock <= 5)
+                                Container(
+                                  padding: const EdgeInsets.symmetric(
+                                    horizontal: 8,
+                                    vertical: 4,
+                                  ),
+                                  decoration: BoxDecoration(
+                                    color: const Color(0xFFFFF1F2),
+                                    borderRadius: BorderRadius.circular(999),
+                                    border: Border.all(
+                                      color: const Color(0xFFFFD5DB),
+                                    ),
+                                  ),
+                                  child: Text(
+                                    'Sisa ${product.stock}',
+                                    style: GoogleFonts.manrope(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w800,
+                                      color: const Color(0xFFE53935),
+                                    ),
+                                  ),
+                                ),
                             ],
                           ),
                         ],
@@ -249,49 +274,24 @@ class ProductCard extends StatelessWidget {
         width: isSmallScreen ? 28 : 32,
         height: isSmallScreen ? 28 : 32,
         decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.95),
+          color: Colors.white,
           shape: BoxShape.circle,
+          border: Border.all(color: AppColors.outlineVariant),
           boxShadow: [
             BoxShadow(
-              color: AppColors.shadow.withValues(alpha: 0.12),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
+              color: AppColors.shadow.withValues(alpha: 0.08),
+              blurRadius: 6,
+              offset: const Offset(0, 1),
             ),
           ],
         ),
         child: Icon(
-          isInWishlist ? Icons.favorite_rounded : Icons.favorite_outline_rounded,
-          color: isInWishlist ? const Color(0xFFE53935) : AppColors.onSurfaceVariant,
-          size: isSmallScreen ? 14 : 16,
-        ),
-      ),
-    );
-  }
-
-  Widget _buildQuickViewButton(BuildContext context, bool isSmallScreen) {
-    return InteractiveScale(
-      onTap: () {
-        AppHaptics.tap();
-        QuickViewBottomSheet.show(context, product);
-      },
-      scaleDown: 0.85,
-      child: Container(
-        width: isSmallScreen ? 28 : 32,
-        height: isSmallScreen ? 28 : 32,
-        decoration: BoxDecoration(
-          color: Colors.white.withValues(alpha: 0.95),
-          shape: BoxShape.circle,
-          boxShadow: [
-            BoxShadow(
-              color: AppColors.shadow.withValues(alpha: 0.12),
-              blurRadius: 8,
-              offset: const Offset(0, 2),
-            ),
-          ],
-        ),
-        child: Icon(
-          Icons.visibility_outlined,
-          color: AppColors.onSurfaceVariant,
+          isInWishlist
+              ? Icons.favorite_rounded
+              : Icons.favorite_outline_rounded,
+          color: isInWishlist
+              ? const Color(0xFFE53935)
+              : AppColors.onSurfaceVariant,
           size: isSmallScreen ? 14 : 16,
         ),
       ),
@@ -299,16 +299,39 @@ class ProductCard extends StatelessWidget {
   }
 
   Widget _buildProductImage() {
-    final imageUrl = product.featuredImage?.url;
-
     return Hero(
       tag: 'product-image-${product.id}',
       child: ShimmerImage(
-        imageUrl: imageUrl,
+        imageUrl: ApiConfig.buildImageUrl(product.featuredImageUrl),
         fit: BoxFit.cover,
         width: double.infinity,
         height: double.infinity,
       ),
     );
+  }
+
+  String _formatPrice(double price) {
+    final whole = price.toStringAsFixed(0);
+    final buffer = StringBuffer();
+    for (int i = 0; i < whole.length; i++) {
+      final reverseIndex = whole.length - i;
+      buffer.write(whole[i]);
+      if (reverseIndex > 1 && reverseIndex % 3 == 1) {
+        buffer.write('.');
+      }
+    }
+    return 'Rp $buffer';
+  }
+
+  String _buildVariantLabel() {
+    if (product.stock <= 0) {
+      return 'Stok habis';
+    }
+
+    if (product.onSale) {
+      return 'Promo tersedia';
+    }
+
+    return 'Siap dikirim';
   }
 }

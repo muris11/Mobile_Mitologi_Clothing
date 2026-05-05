@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 
-import '../../config/theme.dart';
-import '../../utils/html_parser.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/utils/html_parser.dart';
 
 class HtmlSectionWidget extends StatelessWidget {
   final HtmlSection section;

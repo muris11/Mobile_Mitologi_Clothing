@@ -1,0 +1,593 @@
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:google_fonts/google_fonts.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/cart_icon_button.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/loading_indicator.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+
+class ProfileView extends StatefulWidget {
+  const ProfileView({super.key});
+
+  @override
+  State<ProfileView> createState() => _ProfileViewState();
+}
+
+class _ProfileViewState extends State<ProfileView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final authViewModel = context.read<AuthViewModel>();
+      if (authViewModel.isAuthenticated) {
+        context.read<ProfileViewModel>().fetchProfileData();
+      }
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Consumer2<AuthViewModel, ProfileViewModel>(
+      builder: (context, authVM, profileVM, child) {
+        if (!authVM.isAuthenticated) {
+          return _buildGuestView();
+        }
+
+        return AnnotatedRegion<SystemUiOverlayStyle>(
+          value: SystemUiOverlayStyle.dark.copyWith(
+            statusBarColor: Colors.transparent,
+          ),
+          child: Scaffold(
+            backgroundColor: AppColors.background,
+            body: profileVM.isLoading
+                ? const Center(child: LoadingIndicator())
+                : RefreshIndicator(
+                    onRefresh: () => profileVM.fetchProfileData(),
+                    child: CustomScrollView(
+                      slivers: [
+                        _buildSliverAppBar(context, authVM),
+                        _buildHeader(authVM),
+                        _buildMenuSection(context),
+                        if (profileVM.orders.isNotEmpty)
+                          _buildRecentOrders(profileVM),
+                        const SliverToBoxAdapter(child: Gap(32)),
+                      ],
+                    ),
+                  ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildSliverAppBar(BuildContext context, AuthViewModel authVM) {
+    return SliverAppBar(
+      pinned: true,
+      elevation: 0,
+      backgroundColor: Colors.white,
+      surfaceTintColor: Colors.transparent,
+      title: Text(
+        'Akun Saya',
+        style: GoogleFonts.notoSerif(
+          fontSize: 18,
+          fontWeight: FontWeight.w800,
+          color: AppColors.primary,
+        ),
+      ),
+      centerTitle: false,
+      actions: [
+        const CartIconButton(),
+        IconButton(
+          icon: const Icon(
+            PhosphorIconsRegular.signOut,
+            color: AppColors.primary,
+          ),
+          onPressed: () => _handleLogout(context, authVM),
+          tooltip: 'Keluar',
+        ),
+        const Gap(8),
+      ],
+      bottom: PreferredSize(
+        preferredSize: const Size.fromHeight(0.8),
+        child: Container(height: 0.8, color: AppColors.outlineVariant),
+      ),
+    );
+  }
+
+  Widget _buildGuestView() {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                width: 80,
+                height: 80,
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(24),
+                ),
+                child: const Icon(
+                  PhosphorIconsRegular.user,
+                  size: 36,
+                  color: AppColors.outline,
+                ),
+              ),
+              const Gap(24),
+              Text(
+                'Masuk ke Akun Anda',
+                style: GoogleFonts.notoSerif(
+                  fontSize: 22,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primary,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Gap(8),
+              Text(
+                'Login untuk mengakses profil, pesanan, dan wishlist Anda.',
+                style: GoogleFonts.manrope(
+                  fontSize: 14,
+                  color: AppColors.onSurfaceVariant,
+                  height: 1.5,
+                ),
+                textAlign: TextAlign.center,
+              ),
+              const Gap(28),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton.icon(
+                  onPressed: () => context.push('/login'),
+                  icon: const Icon(PhosphorIconsRegular.signIn),
+                  label: const Text('Masuk / Daftar'),
+                  style: FilledButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeader(AuthViewModel authVM) {
+    final user = authVM.user;
+    final initial = user?.name.isNotEmpty == true
+        ? user!.name.substring(0, 1).toUpperCase()
+        : 'U';
+
+    return SliverToBoxAdapter(
+      child: Container(
+        margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        padding: const EdgeInsets.all(20),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          border: Border.all(color: AppColors.outlineVariant),
+          boxShadow: [AppShadows.cardSoft],
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 64,
+              height: 64,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  colors: [AppColors.primary, AppColors.primaryContainer],
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                ),
+                borderRadius: BorderRadius.circular(20),
+              ),
+              child: Center(
+                child: Text(
+                  initial,
+                  style: GoogleFonts.notoSerif(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w800,
+                    color: Colors.white,
+                  ),
+                ),
+              ),
+            ),
+            const Gap(16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    user?.name ?? 'Pengguna',
+                    style: GoogleFonts.notoSerif(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const Gap(2),
+                  Text(
+                    user?.email ?? '',
+                    style: GoogleFonts.manrope(
+                      fontSize: 13,
+                      color: AppColors.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuSection(BuildContext context) {
+    final menuItems = [
+      _MenuItem(
+        icon: PhosphorIconsRegular.shoppingBag,
+        label: 'Pesanan Saya',
+        subtitle: 'Lacak dan lihat riwayat pesanan',
+        onTap: () => context.push('/orders'),
+      ),
+      _MenuItem(
+        icon: PhosphorIconsRegular.heart,
+        label: 'Wishlist',
+        subtitle: 'Produk yang kamu simpan',
+        onTap: () => context.push('/wishlist'),
+      ),
+      _MenuItem(
+        icon: PhosphorIconsRegular.mapPin,
+        label: 'Alamat Pengiriman',
+        subtitle: 'Kelola alamat pengiriman',
+        onTap: () => context.push('/profile/addresses'),
+      ),
+      _MenuItem(
+        icon: PhosphorIconsRegular.sparkle,
+        label: 'Mitologi AI Assistant',
+        subtitle: 'Rekomendasi outfit personal',
+        onTap: () => context.push('/chatbot'),
+      ),
+      _MenuItem(
+        icon: PhosphorIconsRegular.question,
+        label: 'FAQ',
+        subtitle: 'Pertanyaan yang sering diajukan',
+        onTap: () => context.push('/faq'),
+      ),
+      _MenuItem(
+        icon: PhosphorIconsRegular.ruler,
+        label: 'Panduan Ukuran',
+        subtitle: 'Cari ukuran yang tepat',
+        onTap: () => context.push('/panduan-ukuran'),
+      ),
+      _MenuItem(
+        icon: PhosphorIconsRegular.tag,
+        label: 'Promo & Penawaran',
+        subtitle: 'Diskon dan benefit eksklusif',
+        onTap: () => context.push('/promo'),
+      ),
+      _MenuItem(
+        icon: PhosphorIconsRegular.info,
+        label: 'Tentang Kami',
+        subtitle: 'Cerita di balik Mitologi',
+        onTap: () => context.push('/tentang-kami'),
+      ),
+      _MenuItem(
+        icon: PhosphorIconsRegular.fileText,
+        label: 'Kebijakan & Syarat',
+        subtitle: 'Privasi, pengembalian, ketentuan',
+        onTap: () => context.push('/kebijakan-privasi'),
+      ),
+    ];
+
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 4, bottom: 8),
+              child: Text(
+                'MENU',
+                style: GoogleFonts.manrope(
+                  fontSize: 11,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.onSurfaceVariant,
+                  letterSpacing: 1.2,
+                ),
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppColors.outlineVariant),
+                boxShadow: [AppShadows.cardSoft],
+              ),
+              child: Column(
+                children: List.generate(menuItems.length, (i) {
+                  final item = menuItems[i];
+                  final isLast = i == menuItems.length - 1;
+                  return _buildMenuItem(item, isLast);
+                }),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildMenuItem(_MenuItem item, bool isLast) {
+    return InkWell(
+      onTap: item.onTap,
+      borderRadius: BorderRadius.circular(24),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Row(
+          children: [
+            Container(
+              width: 40,
+              height: 40,
+              decoration: BoxDecoration(
+                color: AppColors.surfaceContainerLow,
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Icon(
+                item.icon,
+                size: 20,
+                color: AppColors.primary,
+              ),
+            ),
+            const Gap(14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    item.label,
+                    style: GoogleFonts.manrope(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                      color: AppColors.onSurface,
+                    ),
+                  ),
+                  if (item.subtitle != null)
+                    Text(
+                      item.subtitle!,
+                      style: GoogleFonts.manrope(
+                        fontSize: 12,
+                        color: AppColors.onSurfaceVariant,
+                        fontWeight: FontWeight.w400,
+                      ),
+                    ),
+                ],
+              ),
+            ),
+            const Icon(
+              PhosphorIconsRegular.caretRight,
+              size: 18,
+              color: AppColors.outline,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildRecentOrders(ProfileViewModel profileVM) {
+    final orders = profileVM.orders.take(3).toList();
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Padding(
+              padding: const EdgeInsets.only(left: 4, bottom: 8),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'PESANAN TERBARU',
+                    style: GoogleFonts.manrope(
+                      fontSize: 11,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.onSurfaceVariant,
+                      letterSpacing: 1.2,
+                    ),
+                  ),
+                  TextButton(
+                    onPressed: () => context.push('/orders'),
+                    child: Text(
+                      'Lihat Semua',
+                      style: GoogleFonts.manrope(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Container(
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(24),
+                border: Border.all(color: AppColors.outlineVariant),
+                boxShadow: [AppShadows.cardSoft],
+              ),
+              child: Column(
+                children: List.generate(orders.length, (i) {
+                  final order = orders[i];
+                  final isLast = i == orders.length - 1;
+                  return _buildOrderCard(order, isLast);
+                }),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildOrderCard(dynamic order, bool isLast) {
+    final statusColors = <String, Color>{
+      'pending': const Color(0xFFB45309),
+      'paid': const Color(0xFF047857),
+      'processing': const Color(0xFF1D4ED8),
+      'shipped': const Color(0xFF7C3AED),
+      'delivered': const Color(0xFF0F766E),
+      'completed': const Color(0xFF15803D),
+      'cancelled': const Color(0xFFDC2626),
+      'refunded': const Color(0xFF475569),
+    };
+    final statusLabels = <String, String>{
+      'pending': 'Menunggu Bayar',
+      'paid': 'Lunas',
+      'processing': 'Diproses',
+      'shipped': 'Dikirim',
+      'delivered': 'Terkirim',
+      'completed': 'Selesai',
+      'cancelled': 'Dibatalkan',
+      'refunded': 'Dikembalikan',
+    };
+    final color = statusColors[order.status] ?? AppColors.onSurfaceVariant;
+    final label = statusLabels[order.status] ?? order.status;
+
+    return InkWell(
+      onTap: () => context.push('/orders/${order.orderNumber}'),
+      borderRadius: BorderRadius.circular(24),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '#${order.orderNumber}',
+                  style: GoogleFonts.manrope(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 14,
+                    color: AppColors.primary,
+                  ),
+                ),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: color.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    label,
+                    style: TextStyle(
+                      color: color,
+                      fontSize: 11,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+            const Gap(4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  '${order.items.length} item',
+                  style: GoogleFonts.manrope(
+                    fontSize: 12,
+                    color: AppColors.onSurfaceVariant,
+                  ),
+                ),
+                Text(
+                  _formatCurrency(order.totalAmount),
+                  style: GoogleFonts.manrope(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 13,
+                  ),
+                ),
+              ],
+            ),
+            if (!isLast) const Divider(height: 16),
+          ],
+        ),
+      ),
+    );
+  }
+
+  String _formatCurrency(double amount) {
+    return 'Rp ${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r"(\d{1,3})(?=(\d{3})+(?!\d))"), (m) => "${m[1]}.")}';
+  }
+
+  void _handleLogout(BuildContext context, AuthViewModel authVM) {
+    showDialog(
+      context: context,
+      builder: (ctx) => AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+        title: Text(
+          'Keluar dari Akun?',
+          style: GoogleFonts.notoSerif(fontWeight: FontWeight.w800),
+        ),
+        content: Text(
+          'Apakah Anda yakin ingin keluar dari akun ini?',
+          style: GoogleFonts.manrope(fontSize: 14),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => ctx.pop(),
+            child: Text(
+              'Batal',
+              style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+            ),
+          ),
+          FilledButton(
+            onPressed: () {
+              authVM.logout();
+              ctx.pop();
+            },
+            style: FilledButton.styleFrom(
+              backgroundColor: AppColors.error,
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10)),
+            ),
+            child: Text(
+              'Keluar',
+              style: GoogleFonts.manrope(fontWeight: FontWeight.w700),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+
+class _MenuItem {
+  final IconData icon;
+  final String label;
+  final String? subtitle;
+  final VoidCallback onTap;
+  const _MenuItem({
+    required this.icon,
+    required this.label,
+    this.subtitle,
+    required this.onTap,
+  });
+}

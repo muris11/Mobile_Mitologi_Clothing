@@ -1,0 +1,423 @@
+import 'package:flutter/material.dart';
+import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
+
+class CheckoutView extends StatefulWidget {
+  const CheckoutView({super.key});
+
+  @override
+  State<CheckoutView> createState() => _CheckoutViewState();
+}
+
+class _CheckoutViewState extends State<CheckoutView> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<CheckoutViewModel>().fetchAddresses();
+    });
+  }
+
+  String _formatIDR(double amount) {
+    return 'Rp ${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]}.')}';
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final viewModel = context.watch<CheckoutViewModel>();
+    final cartVM = context.watch<CartViewModel>();
+
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: AppColors.background,
+        elevation: 0,
+        leading: IconButton(
+          icon: const Icon(PhosphorIconsRegular.arrowLeft),
+          onPressed: () => context.pop(),
+        ),
+        title: const Text(
+          'Checkout',
+          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
+        ),
+      ),
+      body: viewModel.isLoading
+          ? const Center(child: CircularProgressIndicator())
+          : _buildCheckoutContent(viewModel, cartVM),
+      bottomNavigationBar: _buildBottomBar(context, viewModel),
+    );
+  }
+
+  Widget _buildCheckoutContent(
+      CheckoutViewModel viewModel, CartViewModel cartVM) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(20),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          _buildSectionTitle('Alamat Pengiriman', PhosphorIconsRegular.mapPin),
+          const Gap(12),
+          if (viewModel.addresses.isEmpty)
+            Container(
+              padding: const EdgeInsets.all(20),
+              decoration: BoxDecoration(
+                color: AppColors.surfaceContainerLowest,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: AppColors.outlineVariant),
+              ),
+              child: Row(
+                children: [
+                  const Icon(PhosphorIconsRegular.warningCircle,
+                      color: AppColors.onSurfaceVariant),
+                  const Gap(12),
+                  Text(
+                    'Belum ada alamat. Silakan tambahkan.',
+                    style: TextStyle(color: AppColors.onSurfaceVariant),
+                  ),
+                ],
+              ),
+            )
+          else
+            ...viewModel.addresses.map((address) {
+              final isSelected = viewModel.selectedAddress == address;
+              return GestureDetector(
+                onTap: () => viewModel.selectAddress(address),
+                child: AnimatedContainer(
+                  duration: const Duration(milliseconds: 200),
+                  margin: const EdgeInsets.only(bottom: 12),
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: isSelected
+                        ? AppColors.primary
+                        : AppColors.surfaceContainerLowest,
+                    borderRadius: BorderRadius.circular(16),
+                    border: Border.all(
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.outlineVariant,
+                      width: isSelected ? 2 : 1,
+                    ),
+                    boxShadow: isSelected ? [AppShadows.card] : [],
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        isSelected
+                            ? PhosphorIconsFill.checkCircle
+                            : PhosphorIconsRegular.circle,
+                        color: isSelected
+                            ? AppColors.secondaryContainer
+                            : AppColors.outlineVariant,
+                        size: 22,
+                      ),
+                      const Gap(14),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              address.label,
+                              style: TextStyle(
+                                fontWeight: FontWeight.w800,
+                                fontSize: 14,
+                                color: isSelected
+                                    ? Colors.white
+                                    : AppColors.onSurface,
+                              ),
+                            ),
+                            const Gap(4),
+                            Text(
+                              address.fullAddress,
+                              style: TextStyle(
+                                fontSize: 12,
+                                height: 1.4,
+                                color: isSelected
+                                    ? Colors.white70
+                                    : AppColors.onSurfaceVariant,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          const Gap(28),
+          _buildSectionTitle('Metode Pengiriman', PhosphorIconsRegular.truck),
+          const Gap(12),
+          _buildShippingOption(
+            viewModel,
+            value: 'standard',
+            title: 'Reguler',
+            subtitle: '3-5 hari kerja',
+            price: 'Gratis',
+          ),
+          const Gap(10),
+          _buildShippingOption(
+            viewModel,
+            value: 'express',
+            title: 'Express',
+            subtitle: '1-2 hari kerja',
+            price: 'Rp 25.000',
+          ),
+          const Gap(28),
+          _buildSectionTitle('Ringkasan Pesanan', PhosphorIconsRegular.receipt),
+          const Gap(12),
+          Container(
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLowest,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: AppColors.outlineVariant),
+            ),
+            child: Column(
+              children: [
+                _buildSummaryRow(
+                  'Subtotal',
+                  cartVM.cart != null
+                      ? _formatIDR(cartVM.cart!.totalPrice)
+                      : 'Memuat...',
+                ),
+                const Gap(8),
+                _buildSummaryRow(
+                  'Ongkos Kirim',
+                  viewModel.selectedShippingMethod == 'express'
+                      ? 'Rp 25.000'
+                      : 'Gratis',
+                ),
+                const Divider(height: 24),
+                Builder(builder: (context) {
+                  final subtotal = cartVM.cart?.totalPrice ?? 0;
+                  final shipping = viewModel.selectedShippingMethod == 'express'
+                      ? 25000.0
+                      : 0.0;
+                  final total = subtotal + shipping;
+                  return Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const Text(
+                        'Total',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
+                        ),
+                      ),
+                      Text(
+                        cartVM.cart != null
+                            ? _formatIDR(total)
+                            : 'Menghitung...',
+                        style: const TextStyle(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 16,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                    ],
+                  );
+                }),
+              ],
+            ),
+          ),
+          const Gap(100),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildSectionTitle(String title, IconData icon) {
+    return Row(
+      children: [
+        Container(
+          padding: const EdgeInsets.all(8),
+          decoration: BoxDecoration(
+            color: AppColors.primary,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Icon(icon, color: AppColors.secondaryContainer, size: 18),
+        ),
+        const Gap(10),
+        Text(
+          title,
+          style: const TextStyle(
+            fontSize: 16,
+            fontWeight: FontWeight.w900,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildShippingOption(
+    CheckoutViewModel viewModel, {
+    required String value,
+    required String title,
+    required String subtitle,
+    required String price,
+  }) {
+    final isSelected = viewModel.selectedShippingMethod == value;
+    return GestureDetector(
+      onTap: () => viewModel.selectShippingMethod(value),
+      child: AnimatedContainer(
+        duration: const Duration(milliseconds: 200),
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          color:
+              isSelected ? AppColors.primary : AppColors.surfaceContainerLowest,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: isSelected ? AppColors.primary : AppColors.outlineVariant,
+            width: isSelected ? 2 : 1,
+          ),
+        ),
+        child: Row(
+          children: [
+            Icon(
+              isSelected
+                  ? PhosphorIconsFill.checkCircle
+                  : PhosphorIconsRegular.circle,
+              color: isSelected
+                  ? AppColors.secondaryContainer
+                  : AppColors.outlineVariant,
+              size: 22,
+            ),
+            const Gap(14),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: TextStyle(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 14,
+                      color: isSelected ? Colors.white : AppColors.onSurface,
+                    ),
+                  ),
+                  Text(
+                    subtitle,
+                    style: TextStyle(
+                      fontSize: 12,
+                      color: isSelected
+                          ? Colors.white70
+                          : AppColors.onSurfaceVariant,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Text(
+              price,
+              style: TextStyle(
+                fontWeight: FontWeight.w800,
+                fontSize: 13,
+                color: isSelected
+                    ? AppColors.secondaryContainer
+                    : AppColors.primary,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildSummaryRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(label,
+            style: const TextStyle(
+                color: AppColors.onSurfaceVariant, fontSize: 13)),
+        Text(value,
+            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+      ],
+    );
+  }
+
+  Widget _buildBottomBar(BuildContext context, CheckoutViewModel viewModel) {
+    return Container(
+      padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      decoration: BoxDecoration(
+        color: AppColors.surfaceContainerLowest,
+        boxShadow: [AppShadows.bottomNav],
+        borderRadius: const BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      child: SafeArea(
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            SizedBox(
+              width: double.infinity,
+              child: FilledButton(
+                onPressed: viewModel.isLoading
+                    ? null
+                    : () async {
+                        final success = await viewModel.placeOrder();
+                        if (!context.mounted) return;
+
+                        if (success) {
+                          final order = viewModel.lastOrder;
+                          final orderNum = order?.orderNumber;
+                          final paymentUrl = order?.paymentUrl;
+
+                          if (paymentUrl != null && paymentUrl.isNotEmpty) {
+                            final encodedUrl = Uri.encodeComponent(paymentUrl);
+                            final encodedOrder =
+                                Uri.encodeComponent(orderNum ?? '');
+                            context.push(
+                              '/payment/midtrans?url=$encodedUrl&order=$encodedOrder',
+                            );
+                          } else if (orderNum != null) {
+                            context.go('/checkout/success?order=$orderNum');
+                          } else {
+                            context.go('/checkout/success');
+                          }
+                        } else if (viewModel.error != null) {
+                          ScaffoldMessenger.of(context).showSnackBar(
+                            SnackBar(
+                              content: Text(viewModel.error!),
+                              backgroundColor: AppColors.error,
+                            ),
+                          );
+                        }
+                      },
+                style: FilledButton.styleFrom(
+                  backgroundColor: AppColors.primary,
+                  padding: const EdgeInsets.all(18),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(16),
+                  ),
+                ),
+                child: viewModel.isLoading
+                    ? const SizedBox(
+                        width: 22,
+                        height: 22,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2.5,
+                          color: Colors.white,
+                        ),
+                      )
+                    : const Text(
+                        'BUAT PESANAN',
+                        style: TextStyle(
+                          fontWeight: FontWeight.w900,
+                          letterSpacing: 1,
+                          fontSize: 15,
+                        ),
+                      ),
+              ),
+            ),
+            const Gap(8),
+          ],
+        ),
+      ),
+    );
+  }
+}

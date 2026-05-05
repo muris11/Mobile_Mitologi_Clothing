@@ -1,6 +1,4 @@
-/// Input validation utilities for forms
 class InputValidator {
-  /// Validates that password and confirmation match
   static String? validatePasswordConfirmation(
     String password,
     String passwordConfirmation,
@@ -14,7 +12,6 @@ class InputValidator {
     return null; // Valid
   }
 
-  /// Validates password strength
   static String? validatePassword(String password) {
     if (password.isEmpty) {
       return 'Password wajib diisi';
@@ -34,7 +31,6 @@ class InputValidator {
     return null; // Valid
   }
 
-  /// Validates email format
   static String? validateEmail(String email) {
     if (email.isEmpty) {
       return 'Email wajib diisi';
@@ -46,7 +42,6 @@ class InputValidator {
     return null; // Valid
   }
 
-  /// Sanitizes input to prevent XSS
   static String sanitizeInput(String input) {
     return input
         .replaceAll('<', '&lt;')

@@ -1,7 +1,7 @@
 import 'package:flutter/foundation.dart';
 
-import '../domain/catalog_query.dart';
-import '../domain/paginated_products.dart';
+import 'package:mitologi_clothing_mobile/features/catalog/domain/catalog_query.dart';
+import 'package:mitologi_clothing_mobile/features/catalog/domain/paginated_products.dart';
 
 abstract class CatalogDataSource {
   Future<PaginatedProducts> fetchProducts(CatalogQuery query);

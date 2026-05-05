@@ -1,73 +1,77 @@
-import 'package:flutter/foundation.dart';
-
-abstract class WishlistDataSource {
-  Future<List<int>> fetchWishlistIds();
-  Future<void> save(int productId);
-  Future<void> remove(int productId);
-}
+import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/features/wishlist/data/wishlist_repository.dart';
+import 'package:mitologi_clothing_mobile/features/wishlist/domain/models/wishlist_item.dart';
 
 class WishlistProvider extends ChangeNotifier {
-  final WishlistDataSource _source;
+  final WishlistRepository _repository;
 
-  WishlistProvider(this._source);
+  WishlistProvider(this._repository);
 
-  final Set<int> _ids = {};
+  List<WishlistItem> _items = [];
+  Set<int> _wishlistedIds = {};
   bool _isLoading = false;
   String? _error;
 
-  Set<int> get ids => _ids;
+  List<WishlistItem> get items => _items;
+  Set<int> get wishlistedIds => _wishlistedIds;
   bool get isLoading => _isLoading;
   String? get error => _error;
 
-  Future<void> load() async {
+  Future<void> loadWishlist() async {
     _isLoading = true;
     _error = null;
     notifyListeners();
 
     try {
-      _ids
-        ..clear()
-        ..addAll(await _source.fetchWishlistIds());
+      _items = await _repository.getWishlist();
+      _wishlistedIds = _items.map((e) => e.productId).toSet();
     } catch (e) {
-      _error = e.toString();
+      _error = 'Gagal memuat wishlist. Silakan coba lagi.';
     } finally {
       _isLoading = false;
       notifyListeners();
     }
   }
 
-  Future<bool> toggle(int productId) async {
-    final wasInWishlist = _ids.contains(productId);
-    _isLoading = true;
-    _error = null;
+  Future<bool> toggleWishlist(int productId) async {
+    final wasInWishlist = _wishlistedIds.contains(productId);
+    if (wasInWishlist) {
+      _wishlistedIds.remove(productId);
+      _items.removeWhere((item) => item.productId == productId);
+    } else {
+      _wishlistedIds.add(productId);
+    }
     notifyListeners();
 
     try {
-      if (wasInWishlist) {
-        await _source.remove(productId);
-      } else {
-        await _source.save(productId);
+      final isNowInWishlist = await _repository.toggleWishlist(productId);
+      
+      if (isNowInWishlist != !wasInWishlist) {
+        if (isNowInWishlist) {
+          _wishlistedIds.add(productId);
+        } else {
+          _wishlistedIds.remove(productId);
+          _items.removeWhere((item) => item.productId == productId);
+        }
+        notifyListeners();
       }
-
-      final latest = await _source.fetchWishlistIds();
-      _ids
-        ..clear()
-        ..addAll(latest);
-
-      final isNowInWishlist = _ids.contains(productId);
-      if (isNowInWishlist == wasInWishlist) {
-        _error = wasInWishlist
-            ? 'Gagal menghapus produk dari wishlist'
-            : 'Gagal menambahkan produk ke wishlist';
+      
+      if (!wasInWishlist && isNowInWishlist) {
       }
-
+      
       return isNowInWishlist;
     } catch (e) {
-      _error = e.toString();
-      return wasInWishlist;
-    } finally {
-      _isLoading = false;
+      if (wasInWishlist) {
+        _wishlistedIds.add(productId);
+      } else {
+        _wishlistedIds.remove(productId);
+      }
       notifyListeners();
+      return wasInWishlist;
     }
+  }
+
+  bool isInWishlist(int productId) {
+    return _wishlistedIds.contains(productId);
   }
 }

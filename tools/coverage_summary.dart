@@ -1,3 +1,5 @@
+// ignore_for_file: avoid_print
+
 import 'dart:io';
 
 void main() {
@@ -52,8 +54,8 @@ void main() {
   print('║      MITOLOGI CLOTHING - TEST COVERAGE REPORT              ║');
   print('╚════════════════════════════════════════════════════════════╝');
   print('');
-  print('📊 OVERALL COVERAGE: ${overallPercentage}%');
-  print('   Lines Covered: ${coveredLines} / ${totalLines}');
+  print('📊 OVERALL COVERAGE: $overallPercentage%');
+  print('   Lines Covered: $coveredLines / $totalLines');
   print('   Total Files: ${fileStats.length}');
   print('');
   print('📁 COVERAGE BY MODULE:');
@@ -103,7 +105,7 @@ void main() {
             ? '⚠️ '
             : '❌';
     final bar = '█' * (avg ~/ 5) + '░' * (20 - (avg ~/ 5));
-    print('  ${icon} ${module.padRight(12)} ${bar} ${avg.toString().padLeft(3)}% (${files.length} files)');
+    print('  $icon ${module.padRight(12)} $bar ${avg.toString().padLeft(3)}% (${files.length} files)');
   });
 
   print('');
