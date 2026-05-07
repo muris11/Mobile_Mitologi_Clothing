@@ -4,7 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 enum MidtransPaymentResult { success, pending, failed, cancelled }
@@ -96,6 +98,12 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
 
   void _handleResult(MidtransPaymentResult result) {
     if (!mounted) return;
+    
+    // Refresh profile data if payment was successful or pending
+    if (result == MidtransPaymentResult.success || result == MidtransPaymentResult.pending) {
+      context.read<ProfileViewModel>().fetchProfileData();
+    }
+
     Timer(const Duration(milliseconds: 600), () {
       if (!mounted) return;
       Navigator.of(context).pop(result);

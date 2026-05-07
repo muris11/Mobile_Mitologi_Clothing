@@ -40,4 +40,38 @@ class ProfileViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<bool> updateAvatar(String imagePath) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      await _profileRepository.updateAvatar(imagePath);
+      await fetchProfileData();
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
+
+  Future<bool> updateProfile({required String name, required String phone}) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      await _profileRepository.updateProfile(name: name, phone: phone);
+      await fetchProfileData();
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      _isLoading = false;
+      notifyListeners();
+      return false;
+    }
+  }
 }

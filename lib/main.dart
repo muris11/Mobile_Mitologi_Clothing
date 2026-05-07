@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -135,14 +137,25 @@ class _MitologiAppState extends State<MitologiApp> {
     try {
       final authVM = context.read<AuthViewModel>();
       final cartVM = context.read<CartViewModel>();
-      await authVM.checkAuthStatus();
+
+      await authVM.checkAuthStatus().timeout(
+        const Duration(seconds: 5),
+        onTimeout: () => debugPrint('Auth initialization timed out'),
+      );
+
       if (authVM.isAuthenticated) {
-        await cartVM.fetchCart();
+        unawaited(cartVM.fetchCart().timeout(
+          const Duration(seconds: 3),
+          onTimeout: () => debugPrint('Cart fetch timed out'),
+        ));
       }
-    } catch (_) {
+    } catch (e) {
+      debugPrint('Initialization error: $e');
     } finally {
-      FlutterNativeSplash.remove();
-      if (mounted) setState(() => _initialized = true);
+      if (mounted) {
+        FlutterNativeSplash.remove();
+        setState(() => _initialized = true);
+      }
     }
   }
 

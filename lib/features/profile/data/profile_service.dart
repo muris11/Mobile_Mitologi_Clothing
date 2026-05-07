@@ -15,6 +15,13 @@ class ProfileService {
     return await _apiClient.dio.put(ApiEndpoints.profile, data: data);
   }
 
+  Future<Response> updateAvatar(String imagePath) async {
+    final formData = FormData.fromMap({
+      'avatar': await MultipartFile.fromFile(imagePath),
+    });
+    return await _apiClient.dio.post(ApiEndpoints.profile, data: formData);
+  }
+
   Future<Response> getOrders() async {
     return await _apiClient.dio.get(ApiEndpoints.orders);
   }

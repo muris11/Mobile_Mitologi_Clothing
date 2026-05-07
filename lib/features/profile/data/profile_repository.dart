@@ -24,4 +24,14 @@ class ProfileRepository {
     final data = response.data['data'] ?? response.data;
     return OrderModel.fromJson(data as Map<String, dynamic>);
   }
+  Future<void> updateAvatar(String imagePath) async {
+    await _profileService.updateAvatar(imagePath);
+  }
+
+  Future<void> updateProfile({required String name, required String phone}) async {
+    await _profileService.updateProfile({
+      'name': name,
+      'phone': phone,
+    });
+  }
 }

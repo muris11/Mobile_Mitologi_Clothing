@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -363,6 +364,9 @@ class _CheckoutViewState extends State<CheckoutView> {
                         if (!context.mounted) return;
 
                         if (success) {
+                          if (context.mounted) {
+                            context.read<ProfileViewModel>().fetchProfileData();
+                          }
                           final order = viewModel.lastOrder;
                           final orderNum = order?.orderNumber;
                           final paymentUrl = order?.paymentUrl;

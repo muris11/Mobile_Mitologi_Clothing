@@ -175,7 +175,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
       duration: Duration(milliseconds: 400 + (index * 50)),
-      curve: Curves.easeOutCubic,
+      curve: Curves.easeOutBack,
       builder: (context, value, child) {
         return Opacity(
           opacity: value,
