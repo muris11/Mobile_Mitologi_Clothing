@@ -15,11 +15,13 @@ class CartModel extends Equatable {
   });
 
   factory CartModel.fromJson(Map<String, dynamic> json) {
+    final cost = ParserUtils.parseMap(json['cost']);
+    final totalAmount = ParserUtils.parseMap(cost['totalAmount']);
     return CartModel(
       id: json['id']?.toString() ?? '',
-      items: ParserUtils.parseList(json['items'], CartItemModel.fromJson),
-      totalPrice: ParserUtils.parseDouble(json['total_price']),
-      totalItems: ParserUtils.parseInt(json['total_items']),
+      items: ParserUtils.parseList(json['lines'], CartItemModel.fromJson),
+      totalPrice: ParserUtils.parseDouble(totalAmount['amount']),
+      totalItems: ParserUtils.parseInt(json['totalQuantity']),
     );
   }
 
@@ -47,16 +49,19 @@ class CartItemModel extends Equatable {
   });
 
   factory CartItemModel.fromJson(Map<String, dynamic> json) {
+    final merchandise = ParserUtils.parseMap(json['merchandise']);
+    final product = ParserUtils.parseMap(merchandise['product']);
+    final cost = ParserUtils.parseMap(json['cost']);
+    final totalAmount = ParserUtils.parseMap(cost['totalAmount']);
+    final featuredImage = ParserUtils.parseMap(product['featuredImage']);
     return CartItemModel(
       id: ParserUtils.parseInt(json['id']),
-      productId: ParserUtils.parseInt(json['product_id']),
-      name: json['name'] as String? ?? '',
-      price: ParserUtils.parseDouble(json['price']),
+      productId: ParserUtils.parseInt(product['id']),
+      name: product['title'] as String? ?? '',
+      price: ParserUtils.parseDouble(totalAmount['amount']),
       quantity: ParserUtils.parseInt(json['quantity'], defaultValue: 1),
-      variantId: json['variant_id'] != null
-          ? ParserUtils.parseInt(json['variant_id'])
-          : null,
-      featuredImageUrl: json['featured_image_url'] as String?,
+      variantId: ParserUtils.parseInt(merchandise['id']),
+      featuredImageUrl: featuredImage['url'] as String?,
     );
   }
 
