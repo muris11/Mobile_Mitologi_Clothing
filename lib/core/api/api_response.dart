@@ -19,7 +19,7 @@ class ApiResponse<T> {
       status: json['status'] ?? false,
       message: json['message'] ?? '',
       data: json['data'] != null ? fromJsonT(json['data']) : null,
-      meta: json['meta'] is Map<String, dynamic> ? json['meta'] as Map<String, dynamic> : null,
+      meta: json['meta'] is Map ? Map<String, dynamic>.from(json['meta'] as Map) : null,
     );
   }
 }

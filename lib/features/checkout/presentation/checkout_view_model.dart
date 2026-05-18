@@ -81,4 +81,40 @@ class CheckoutViewModel extends ChangeNotifier {
       notifyListeners();
     }
   }
+
+  Future<bool> addAddress(AddressModel address) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      await _checkoutRepository.addAddress(address);
+      await fetchAddresses();
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<bool> updateAddress(AddressModel address) async {
+    _isLoading = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      await _checkoutRepository.updateAddress(address);
+      await fetchAddresses();
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      return false;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
 }

@@ -15,8 +15,9 @@ class WishlistRepository {
       final data = response.data;
 
       List items = [];
-      if (data is Map<String, dynamic>) {
-        items = data['data'] ?? data['items'] ?? data['wishlist'] ?? [];
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
+        items = map['data'] ?? map['items'] ?? map['wishlist'] ?? [];
       } else if (data is List) {
         items = data;
       }
@@ -32,9 +33,10 @@ class WishlistRepository {
     try {
       final response = await _wishlistService.toggleWishlist(productId);
       final data = response.data;
-      if (data is Map<String, dynamic>) {
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
         return ParserUtils.parseBool(
-            data['in_wishlist'] ?? data['is_wishlisted'] ?? data['success']);
+            map['in_wishlist'] ?? map['is_wishlisted'] ?? map['success']);
       }
       return response.statusCode == 200 || response.statusCode == 201;
     } catch (e) {
@@ -47,9 +49,10 @@ class WishlistRepository {
     try {
       final response = await _wishlistService.checkWishlist(productId);
       final data = response.data;
-      if (data is Map<String, dynamic>) {
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
         return ParserUtils.parseBool(
-            data['in_wishlist'] ?? data['is_wishlisted']);
+            map['in_wishlist'] ?? map['is_wishlisted']);
       }
       return false;
     } catch (_) {

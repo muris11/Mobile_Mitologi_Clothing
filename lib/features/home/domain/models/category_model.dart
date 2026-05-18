@@ -19,7 +19,11 @@ class CategoryModel extends Equatable {
       id: ParserUtils.parseInt(json['id']),
       name: (json['name'] as String?) ?? (json['categoryName'] as String?) ?? (json['title'] as String?) ?? '',
       slug: (json['slug'] as String?) ?? (json['handle'] as String?) ?? (json['link'] as String?) ?? '',
-      iconUrl: (json['icon_url'] as String?) ?? (json['image'] as String?) ?? (json['imageURL'] as String?) ?? (json['imageUrl'] as String?),
+      iconUrl: (json['icon_url'] as String?) ??
+               (json['image'] as String?) ??
+               (json['imageUrl'] as String?) ??
+               (json['imageURL'] as String?) ??
+               (json['icon'] as String?),
     );
   }
 

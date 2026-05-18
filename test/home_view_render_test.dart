@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:go_router/go_router.dart';
@@ -25,6 +27,7 @@ import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settin
 import 'package:mitologi_clothing_mobile/features/home/domain/models/team_member_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/testimonial_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/home/presentation/main_shell.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/views/home_view.dart';
 import 'package:provider/provider.dart';
 
@@ -82,6 +85,156 @@ void main() {
     await tester.pump(const Duration(milliseconds: 100));
 
     expect(find.text('MITOLOGI'), findsWidgets);
+    expect(find.text('Kala Makara'), findsWidgets);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('HomeView renders fallback hero when home data is empty',
+      (tester) async {
+    final router = GoRouter(
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, state) => MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => HomeViewModel(
+                  _FakeHomeRepository(HomeDataModel.empty()),
+                ),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => CartViewModel(_FakeCartRepository()),
+              ),
+            ],
+            child: const HomeView(),
+          ),
+        ),
+        GoRoute(
+          path: '/products',
+          builder: (context, state) => const Scaffold(body: SizedBox.shrink()),
+        ),
+        GoRoute(
+          path: '/cart',
+          builder: (context, state) => const Scaffold(body: SizedBox.shrink()),
+        ),
+      ],
+    );
+
+    await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 50));
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.text('MITOLOGI'), findsWidgets);
+    expect(find.text('Premium Quality\nCustom Clothing'), findsOneWidget);
+    expect(find.text('WHO WE ARE'), findsOneWidget);
+    expect(find.text('Pesan Sekarang'), findsOneWidget);
+    expect(tester.takeException(), isNull);
+  });
+
+  testWidgets('HomeView keeps fallback content visible while loading',
+      (tester) async {
+    final repository = _PendingHomeRepository();
+    final router = GoRouter(
+      routes: [
+        GoRoute(
+          path: '/',
+          builder: (context, state) => MultiProvider(
+            providers: [
+              ChangeNotifierProvider(
+                create: (_) => HomeViewModel(repository),
+              ),
+              ChangeNotifierProvider(
+                create: (_) => CartViewModel(_FakeCartRepository()),
+              ),
+            ],
+            child: const HomeView(),
+          ),
+        ),
+        GoRoute(
+          path: '/products',
+          builder: (context, state) => const Scaffold(body: SizedBox.shrink()),
+        ),
+        GoRoute(
+          path: '/cart',
+          builder: (context, state) => const Scaffold(body: SizedBox.shrink()),
+        ),
+      ],
+    );
+
+    await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+    await tester.pump();
+    await tester.pump();
+
+    expect(find.text('MITOLOGI'), findsWidgets);
+    expect(find.text('Premium Quality\nCustom Clothing'), findsOneWidget);
+    expect(find.text('WHO WE ARE'), findsOneWidget);
+    expect(find.byType(LinearProgressIndicator), findsOneWidget);
+    expect(tester.takeException(), isNull);
+
+    repository.complete(HomeDataModel.empty());
+  });
+
+  testWidgets('MainShell renders HomeView fallback content on Beranda',
+      (tester) async {
+    final router = GoRouter(
+      routes: [
+        ShellRoute(
+          builder: (context, state, child) => MainShell(child: child),
+          routes: [
+            GoRoute(
+              path: '/',
+              builder: (context, state) => MultiProvider(
+                providers: [
+                  ChangeNotifierProvider(
+                    create: (_) => HomeViewModel(
+                      _FakeHomeRepository(HomeDataModel.empty()),
+                    ),
+                  ),
+                  ChangeNotifierProvider(
+                    create: (_) => CartViewModel(_FakeCartRepository()),
+                  ),
+                ],
+                child: const HomeView(),
+              ),
+            ),
+            GoRoute(
+              path: '/products',
+              builder: (context, state) =>
+                  const Scaffold(body: SizedBox.shrink()),
+            ),
+            GoRoute(
+              path: '/wishlist',
+              builder: (context, state) =>
+                  const Scaffold(body: SizedBox.shrink()),
+            ),
+            GoRoute(
+              path: '/portfolio-tab',
+              builder: (context, state) =>
+                  const Scaffold(body: SizedBox.shrink()),
+            ),
+            GoRoute(
+              path: '/profile',
+              builder: (context, state) =>
+                  const Scaffold(body: SizedBox.shrink()),
+            ),
+          ],
+        ),
+        GoRoute(
+          path: '/cart',
+          builder: (context, state) => const Scaffold(body: SizedBox.shrink()),
+        ),
+      ],
+    );
+
+    await tester.pumpWidget(MaterialApp.router(routerConfig: router));
+    await tester.pump();
+    await tester.pump(const Duration(milliseconds: 100));
+
+    expect(find.text('Beranda'), findsOneWidget);
+    expect(find.text('Premium Quality\nCustom Clothing'), findsOneWidget);
+    expect(find.text('WHO WE ARE'), findsOneWidget);
+    expect(find.text('Pesan Sekarang'), findsOneWidget);
     expect(tester.takeException(), isNull);
   });
 }
@@ -96,6 +249,24 @@ class _FakeHomeRepository extends HomeRepository {
 
   @override
   Future<HomeDataModel> getHomeData() async => data;
+}
+
+class _PendingHomeRepository extends HomeRepository {
+  _PendingHomeRepository()
+      : super(
+          HomeService(ApiClient(TokenStorage(), CartStorage())),
+        );
+
+  final Completer<HomeDataModel> _completer = Completer<HomeDataModel>();
+
+  @override
+  Future<HomeDataModel> getHomeData() => _completer.future;
+
+  void complete(HomeDataModel data) {
+    if (!_completer.isCompleted) {
+      _completer.complete(data);
+    }
+  }
 }
 
 class _FakeCartRepository extends CartRepository {

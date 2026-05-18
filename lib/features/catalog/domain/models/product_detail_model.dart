@@ -28,10 +28,9 @@ class ProductDetailModel extends ProductModel {
   });
 
   factory ProductDetailModel.fromJson(Map<String, dynamic> json) {
-    final featuredImage = json['featuredImage'] as Map<String, dynamic>?;
-    final priceRange = json['priceRange'] as Map<String, dynamic>?;
-    final minVariantPrice =
-        priceRange?['minVariantPrice'] as Map<String, dynamic>?;
+    final featuredImage = ParserUtils.parseMap(json['featuredImage']);
+    final priceRange = ParserUtils.parseMap(json['priceRange']);
+    final minVariantPrice = ParserUtils.parseMap(priceRange['minVariantPrice']);
     final images = (json['images'] as List?) ?? const [];
 
     return ProductDetailModel(
@@ -40,13 +39,13 @@ class ProductDetailModel extends ProductModel {
       slug: json['slug'] as String? ?? json['handle'] as String? ?? '',
       description: json['description'] as String? ?? '',
       price: ParserUtils.parseDouble(
-        json['price'] ?? minVariantPrice?['amount'],
+        json['price'] ?? minVariantPrice['amount'],
       ),
       salePrice: json['sale_price'] != null
           ? ParserUtils.parseDouble(json['sale_price'])
           : null,
       featuredImageUrl: json['featured_image_url'] as String? ??
-          featuredImage?['url'] as String? ??
+          featuredImage['url'] as String? ??
           '',
       isFeatured: ParserUtils.parseBool(json['is_featured']),
       isNew: ParserUtils.parseBool(json['is_new'] ?? json['availableForSale']),
@@ -61,7 +60,7 @@ class ProductDetailModel extends ProductModel {
       ),
       images: images
           .map(
-            (e) => e is Map<String, dynamic>
+            (e) => e is Map
                 ? e['url']?.toString() ?? ''
                 : e.toString(),
           )
@@ -99,7 +98,7 @@ class ProductVariant extends Equatable {
     final selectedOptions = (json['selectedOptions'] as List?) ?? const [];
     final selectedLabel = selectedOptions
         .map((e) =>
-            e is Map<String, dynamic> ? e['value']?.toString() ?? '' : '')
+            e is Map ? e['value']?.toString() ?? '' : '')
         .where((value) => value.isNotEmpty)
         .join(' / ');
 
@@ -111,7 +110,7 @@ class ProductVariant extends Equatable {
       stock: ParserUtils.parseInt(json['stock']),
       priceAdjustment: ParserUtils.parseDouble(
         json['price_adjustment'] ??
-            (json['price'] as Map<String, dynamic>?)?['amount'],
+            ParserUtils.parseMap(json['price'])['amount'],
       ),
     );
   }

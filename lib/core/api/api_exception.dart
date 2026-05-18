@@ -38,8 +38,8 @@ class ApiException implements Exception {
     String message = "Something went wrong";
     dynamic errors;
 
-    if (error is Map<String, dynamic>) {
-      message = error['message'] ?? message;
+    if (error is Map) {
+      message = error['message']?.toString() ?? message;
       errors = error['errors'];
     }
 

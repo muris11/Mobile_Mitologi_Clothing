@@ -4,6 +4,59 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 abstract final class AppTextStyles {
+  static const String fontFamily = 'PlusJakartaSans';
+  static const String notoSerifFamily = 'NotoSerif';
+  static const String manropeFamily = 'Manrope';
+  static const String plusJakartaSansFamily = 'PlusJakartaSans';
+
+  static TextStyle notoSerif({
+    double fontSize = 14,
+    FontWeight fontWeight = FontWeight.w400,
+    Color? color,
+    double? height,
+    double? letterSpacing,
+  }) {
+    return GoogleFonts.notoSerif(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color ?? AppColors.onSurface,
+      height: height,
+      letterSpacing: letterSpacing,
+    );
+  }
+
+  static TextStyle manrope({
+    double fontSize = 14,
+    FontWeight fontWeight = FontWeight.w400,
+    Color? color,
+    double? height,
+    double? letterSpacing,
+  }) {
+    return GoogleFonts.manrope(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color ?? AppColors.onSurface,
+      height: height,
+      letterSpacing: letterSpacing,
+    );
+  }
+
+  static TextStyle plusJakartaSans({
+    double fontSize = 14,
+    FontWeight fontWeight = FontWeight.w400,
+    Color? color,
+    double? height,
+    double? letterSpacing,
+  }) {
+    return GoogleFonts.plusJakartaSans(
+      fontSize: fontSize,
+      fontWeight: fontWeight,
+      color: color ?? AppColors.onSurface,
+      height: height,
+      letterSpacing: letterSpacing,
+    );
+  }
+
   static final TextStyle displayLarge = GoogleFonts.plusJakartaSans(
     fontSize: 32,
     fontWeight: FontWeight.w800,
@@ -97,5 +150,7 @@ abstract final class AppTextStyles {
 
   static Future<void> preload() => GoogleFonts.pendingFonts([
         GoogleFonts.plusJakartaSans(),
+        GoogleFonts.notoSerif(),
+        GoogleFonts.manrope(),
       ]);
 }

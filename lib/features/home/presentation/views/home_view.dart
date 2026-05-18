@@ -9,11 +9,11 @@ import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
+import 'package:mitologi_clothing_mobile/features/home/domain/models/banner_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/order_step_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/product_pricing_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
-import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -89,17 +89,10 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
     final theme = Theme.of(context);
-    log('HomeView: build — isLoading=${viewModel.isLoading} banners=${viewModel.banners.length} error=${viewModel.error}',
+    log('HomeView: build — isLoading=${viewModel.isLoading} banners=${viewModel.banners.length} categories=${viewModel.categories.length} bestSellers=${viewModel.bestSellers.length} error=${viewModel.error}',
         name: 'HOME');
 
-    if (viewModel.isLoading && viewModel.banners.isEmpty) {
-      return Scaffold(
-        backgroundColor: AppColors.background,
-        body: _buildSkeletonLoading(),
-      );
-    }
-
-    if (viewModel.error != null && viewModel.banners.isEmpty) {
+    if (viewModel.error != null && viewModel.banners.isEmpty && viewModel.categories.isEmpty && viewModel.bestSellers.isEmpty) {
       return Scaffold(
         backgroundColor: AppColors.background,
         body: _buildErrorState(context, viewModel),
@@ -126,20 +119,24 @@ class _HomeViewState extends State<HomeView> {
                 _buildIntro(theme),
                 _buildFeaturesSection(viewModel),
                 _buildCategories(viewModel),
-                _buildSectionHeader(
-                  context,
-                  title: 'Best Sellers',
-                  subtitle: 'Pilihan paling dicari minggu ini',
-                  onSeeAll: () => context.push('/products'),
-                ),
-                _buildProductList(viewModel.bestSellers),
-                _buildSectionHeader(
-                  context,
-                  title: 'New Arrivals',
-                  subtitle: 'Rilis terbaru untuk tampilan harian',
-                  onSeeAll: () => context.push('/products'),
-                ),
-                _buildProductList(viewModel.newArrivals),
+                if (viewModel.bestSellers.isNotEmpty) ...[
+                  _buildSectionHeader(
+                    context,
+                    title: 'Best Sellers',
+                    subtitle: 'Pilihan paling dicari minggu ini',
+                    onSeeAll: () => context.push('/products'),
+                  ),
+                  _buildProductList(viewModel.bestSellers),
+                ],
+                if (viewModel.newArrivals.isNotEmpty) ...[
+                  _buildSectionHeader(
+                    context,
+                    title: 'New Arrivals',
+                    subtitle: 'Rilis terbaru untuk tampilan harian',
+                    onSeeAll: () => context.push('/products'),
+                  ),
+                  _buildProductList(viewModel.newArrivals),
+                ],
                 _buildAboutSection(viewModel),
                 _buildPlastisolPricingSection(viewModel),
                 _buildMaterialsSection(viewModel),
@@ -267,7 +264,7 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildHeroCarousel(HomeViewModel viewModel) {
     if (viewModel.banners.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox(height: 300));
+      return _buildFallbackHero();
     }
 
     return SliverToBoxAdapter(
@@ -281,22 +278,28 @@ class _HomeViewState extends State<HomeView> {
               onPageChanged: (i) => setState(() => _currentBannerIndex = i),
               itemBuilder: (context, index) {
                 final banner = viewModel.banners[index];
+                final title = _heroTitle(banner);
+                final subtitle = _heroSubtitle(banner);
+                final description = _heroDescription(banner);
+                final imageUrl = banner.imageUrl.trim();
                 return Stack(
                   fit: StackFit.expand,
                   children: [
-                    AppImage(
-                      imageUrl: ApiConfig.buildImageUrl(banner.imageUrl),
-                      fit: BoxFit.cover,
-                    ),
+                    _buildHeroBackdrop(),
+                    if (imageUrl.isNotEmpty)
+                      AppImage(
+                        imageUrl: ApiConfig.buildImageUrl(imageUrl),
+                        fit: BoxFit.cover,
+                      ),
                     DecoratedBox(
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withValues(alpha: 0.4),
-                            Colors.transparent,
-                            Colors.black.withValues(alpha: 0.85),
+                            Colors.black.withValues(alpha: 0.48),
+                            Colors.black.withValues(alpha: 0.18),
+                            Colors.black.withValues(alpha: 0.88),
                           ],
                           stops: const [0.0, 0.4, 1.0],
                         ),
@@ -309,27 +312,26 @@ class _HomeViewState extends State<HomeView> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          if (banner.subtitle.isNotEmpty)
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                  horizontal: 12, vertical: 6),
-                              decoration: BoxDecoration(
-                                color: AppColors.secondary,
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              child: Text(
-                                banner.subtitle.toUpperCase(),
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 10,
-                                  fontWeight: FontWeight.w800,
-                                  letterSpacing: 1.5,
-                                ),
+                          Container(
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 12, vertical: 6),
+                            decoration: BoxDecoration(
+                              color: AppColors.secondary,
+                              borderRadius: BorderRadius.circular(6),
+                            ),
+                            child: Text(
+                              subtitle.toUpperCase(),
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 1.5,
                               ),
                             ),
+                          ),
                           const Gap(12),
                           Text(
-                            banner.title,
+                            title,
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 40,
@@ -337,20 +339,17 @@ class _HomeViewState extends State<HomeView> {
                               height: 1.05,
                             ),
                           ),
-                          if (banner.description != null &&
-                              banner.description!.isNotEmpty) ...[
-                            const Gap(12),
-                            Text(
-                              banner.description!,
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                              style: TextStyle(
-                                color: Colors.white.withValues(alpha: 0.8),
-                                fontSize: 15,
-                                height: 1.4,
-                              ),
+                          const Gap(12),
+                          Text(
+                            description,
+                            maxLines: 2,
+                            overflow: TextOverflow.ellipsis,
+                            style: TextStyle(
+                              color: Colors.white.withValues(alpha: 0.84),
+                              fontSize: 15,
+                              height: 1.4,
                             ),
-                          ],
+                          ),
                           const Gap(20),
                           Row(
                             children: [
@@ -433,6 +432,148 @@ class _HomeViewState extends State<HomeView> {
         ),
       ),
     );
+  }
+
+  Widget _buildFallbackHero() {
+    return SliverToBoxAdapter(
+      child: SizedBox(
+        height: 360,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            _buildHeroBackdrop(),
+            DecoratedBox(
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    Colors.black.withValues(alpha: 0.12),
+                    Colors.transparent,
+                    Colors.black.withValues(alpha: 0.24),
+                  ],
+                ),
+              ),
+            ),
+            Positioned(
+              left: 24,
+              right: 24,
+              bottom: 56,
+              child: _buildHeroCopy(
+                subtitle: 'CUSTOM CLOTHING',
+                title: 'Premium Quality\nCustom Clothing',
+                description:
+                    'Vendor konveksi terpercaya untuk kaos, hoodie, dan kebutuhan produksi apparel.',
+                primaryLabel: 'SHOP NOW',
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeroBackdrop() {
+    return Container(
+      decoration: const BoxDecoration(
+        gradient: LinearGradient(
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+          colors: [
+            Color(0xFF000613),
+            Color(0xFF001F3F),
+            Color(0xFF735C00),
+          ],
+          stops: [0, 0.68, 1],
+        ),
+      ),
+    );
+  }
+
+  Widget _buildHeroCopy({
+    required String subtitle,
+    required String title,
+    required String description,
+    required String primaryLabel,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
+          decoration: BoxDecoration(
+            color: AppColors.secondary,
+            borderRadius: BorderRadius.circular(6),
+          ),
+          child: Text(
+            subtitle.toUpperCase(),
+            style: const TextStyle(
+              color: Colors.white,
+              fontSize: 10,
+              fontWeight: FontWeight.w800,
+              letterSpacing: 1.5,
+            ),
+          ),
+        ),
+        const Gap(12),
+        Text(
+          title,
+          style: const TextStyle(
+            color: Colors.white,
+            fontSize: 36,
+            fontWeight: FontWeight.w900,
+            height: 1.1,
+          ),
+        ),
+        const Gap(12),
+        Text(
+          description,
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.84),
+            fontSize: 14,
+            height: 1.45,
+          ),
+        ),
+        const Gap(18),
+        GestureDetector(
+          onTap: () => context.push('/products'),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+            decoration: BoxDecoration(
+              color: AppColors.secondaryContainer,
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Text(
+              primaryLabel,
+              style: const TextStyle(
+                color: AppColors.primary,
+                fontSize: 12,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 1,
+              ),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  String _heroTitle(BannerModel banner) {
+    final title = banner.title.trim();
+    return title.isNotEmpty ? title : 'Premium Quality\nCustom Clothing';
+  }
+
+  String _heroSubtitle(BannerModel banner) {
+    final subtitle = banner.subtitle.trim();
+    return subtitle.isNotEmpty ? subtitle : 'CUSTOM CLOTHING';
+  }
+
+  String _heroDescription(BannerModel banner) {
+    final description = banner.description?.trim();
+    if (description != null && description.isNotEmpty) return description;
+    return 'Vendor konveksi terpercaya untuk kaos, hoodie, dan kebutuhan produksi apparel.';
   }
 
   Widget _buildIntro(ThemeData theme) {
@@ -1227,24 +1368,12 @@ class _HomeViewState extends State<HomeView> {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
 
-    final rawData = settings.pricingPlastisolData;
-    List<PlastisolPriceItem> items = [];
-    if (rawData is List) {
-      items = rawData
-          .map((e) => PlastisolPriceItem.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    final items = settings.plastisolPricing;
     if (items.isEmpty) {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
 
-    final rawAddons = settings.pricingAddonsData;
-    List<PricingAddonItem> addons = [];
-    if (rawAddons is List) {
-      addons = rawAddons
-          .map((e) => PricingAddonItem.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    final addons = settings.pricingAddons;
 
     final features = settings.pricingFeaturesData;
 
@@ -2081,29 +2210,17 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildSkeletonLoading() {
-    return SingleChildScrollView(
-      physics: const NeverScrollableScrollPhysics(),
-      child: Column(
-        children: [
-          const HeroSkeleton(),
-          const SizedBox(height: 24),
-          const CategoriesSkeleton(),
-          const SizedBox(height: 24),
-          const ProductGridSkeleton(itemCount: 4),
-        ],
-      ),
-    );
-  }
-
   Widget _buildErrorState(BuildContext context, HomeViewModel viewModel) {
     return Padding(
       padding: const EdgeInsets.all(32),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          const Icon(PhosphorIconsRegular.warningCircle,
-              size: 64, color: AppColors.error),
+          const Icon(
+            PhosphorIconsRegular.warningCircle,
+            size: 64,
+            color: AppColors.error,
+          ),
           const Gap(24),
           const Text(
             'Failed to load home',
@@ -2123,7 +2240,8 @@ class _HomeViewState extends State<HomeView> {
               style: FilledButton.styleFrom(
                 padding: const EdgeInsets.all(20),
                 shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16)),
+                  borderRadius: BorderRadius.circular(16),
+                ),
               ),
               child: const Text('RETRY CONNECTION'),
             ),

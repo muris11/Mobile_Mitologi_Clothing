@@ -26,7 +26,7 @@ class WishlistItem extends Equatable {
   double get displayPrice => (salePrice != null && salePrice! < price) ? salePrice! : price;
 
   factory WishlistItem.fromJson(Map<String, dynamic> json) {
-    final productJson = json['product'] as Map<String, dynamic>? ?? json;
+    final productJson = ParserUtils.parseMap(json['product'] ?? json);
     
     return WishlistItem(
       id: ParserUtils.parseInt(json['id'] ?? productJson['id']),
@@ -41,10 +41,10 @@ class WishlistItem extends Equatable {
   }
 
 
-  static String _parseImageUrl(Map<String, dynamic> json) {
+  static String _parseImageUrl(Map<dynamic, dynamic> json) {
     final image = json['featured_image'] ?? json['image'] ?? json['featuredImage'];
     if (image is String) return image;
-    if (image is Map<String, dynamic>) {
+    if (image is Map) {
       return image['url']?.toString() ?? image['src']?.toString() ?? '';
     }
     return json['featured_image_url']?.toString() ?? json['image_url']?.toString() ?? '';

@@ -29,4 +29,17 @@ class ProfileService {
   Future<Response> getOrderDetail(String orderNumber) async {
     return await _apiClient.dio.get(ApiEndpoints.orderDetail(orderNumber));
   }
+
+  Future<Response> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    return await _apiClient.dio.post(
+      ApiEndpoints.changePassword,
+      data: {
+        'current_password': currentPassword,
+        'new_password': newPassword,
+      },
+    );
+  }
 }

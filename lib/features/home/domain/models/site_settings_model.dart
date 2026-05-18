@@ -1,3 +1,5 @@
+import 'package:mitologi_clothing_mobile/core/utils/parser_utils.dart';
+
 class SiteSettingsModel {
   final String? siteName;
   final String? siteTagline;
@@ -72,32 +74,26 @@ class SiteSettingsModel {
   });
 
   factory SiteSettingsModel.fromJson(Map<String, dynamic> json) {
-    final general = json['general'] as Map<String, dynamic>? ?? {};
-    final about = json['about'] as Map<String, dynamic>? ?? {};
-    final beranda = json['beranda'] as Map<String, dynamic>? ?? {};
-    final cta = json['cta'] as Map<String, dynamic>? ?? {};
-    final contact = json['contact'] as Map<String, dynamic>? ?? {};
+    final general = ParserUtils.parseMap(json['general']);
+    final about = ParserUtils.parseMap(json['about']);
+    final beranda = ParserUtils.parseMap(json['beranda']);
+    final cta = ParserUtils.parseMap(json['cta']);
+    final contact = ParserUtils.parseMap(json['contact']);
 
-    List<GuaranteeItem> guarantees = [];
-    if (json['guaranteesData'] is List) {
-      guarantees = (json['guaranteesData'] as List)
-          .map((e) => GuaranteeItem.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    final guarantees = ParserUtils.parseList<GuaranteeItem>(
+      json['guaranteesData'],
+      (e) => GuaranteeItem.fromJson(e),
+    );
 
-    List<GuaranteeBonusItem> garansiBonus = [];
-    if (beranda['garansiBonusData'] is List) {
-      garansiBonus = (beranda['garansiBonusData'] as List)
-          .map((e) => GuaranteeBonusItem.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    final garansiBonus = ParserUtils.parseList<GuaranteeBonusItem>(
+      beranda['garansiBonusData'],
+      (e) => GuaranteeBonusItem.fromJson(e),
+    );
 
-    List<PricingFeatureItem> pricingFeatures = [];
-    if (beranda['pricingFeaturesData'] is List) {
-      pricingFeatures = (beranda['pricingFeaturesData'] as List)
-          .map((e) => PricingFeatureItem.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    final pricingFeatures = ParserUtils.parseList<PricingFeatureItem>(
+      beranda['pricingFeaturesData'],
+      (e) => PricingFeatureItem.fromJson(e),
+    );
 
     return SiteSettingsModel(
       siteName: general['siteName'] as String?,
@@ -143,6 +139,20 @@ class SiteSettingsModel {
   }
 
   factory SiteSettingsModel.empty() => SiteSettingsModel();
+
+  List<PlastisolPriceItem> get plastisolPricing {
+    return ParserUtils.parseList<PlastisolPriceItem>(
+      pricingPlastisolData,
+      (e) => PlastisolPriceItem.fromJson(e),
+    );
+  }
+
+  List<PricingAddonItem> get pricingAddons {
+    return ParserUtils.parseList<PricingAddonItem>(
+      pricingAddonsData,
+      (e) => PricingAddonItem.fromJson(e),
+    );
+  }
 }
 
 class GuaranteeItem {

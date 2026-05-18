@@ -7,7 +7,7 @@ class ResponseNormalizer {
   }
 
   static dynamic _extractEnvelope(dynamic response) {
-    if (response is Map<String, dynamic> && response.containsKey('data')) {
+    if (response is Map && response.containsKey('data')) {
       return response['data'];
     }
     return response;

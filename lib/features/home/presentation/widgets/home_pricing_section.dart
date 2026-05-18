@@ -29,24 +29,12 @@ class HomePricingSection extends StatelessWidget {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
 
-    final rawData = settings.pricingPlastisolData;
-    List<PlastisolPriceItem> items = [];
-    if (rawData is List) {
-      items = rawData
-          .map((e) => PlastisolPriceItem.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    final items = settings.plastisolPricing;
     if (items.isEmpty) {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
 
-    final rawAddons = settings.pricingAddonsData;
-    List<PricingAddonItem> addons = [];
-    if (rawAddons is List) {
-      addons = rawAddons
-          .map((e) => PricingAddonItem.fromJson(e as Map<String, dynamic>))
-          .toList();
-    }
+    final addons = settings.pricingAddons;
 
     final features = settings.pricingFeaturesData;
 

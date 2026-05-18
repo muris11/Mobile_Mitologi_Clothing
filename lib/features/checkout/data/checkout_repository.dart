@@ -25,4 +25,12 @@ class CheckoutRepository {
     );
     return OrderModel.fromJson(response.data['data']);
   }
+
+  Future<void> addAddress(AddressModel address) async {
+    await _checkoutService.addAddress(address.toJson());
+  }
+
+  Future<void> updateAddress(AddressModel address) async {
+    await _checkoutService.updateAddress(address.id, address.toJson());
+  }
 }

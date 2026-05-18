@@ -22,9 +22,10 @@ class CatalogRepository {
         page: page,
       );
       final data = response.data['data'];
-      return ParserUtils.parseList(data, ProductModel.fromJson);
+      final productsList = data is Map ? data['products'] : null;
+      return ParserUtils.parseList(productsList, ProductModel.fromJson);
     } catch (e) {
-      return [];
+      rethrow;
     }
   }
 

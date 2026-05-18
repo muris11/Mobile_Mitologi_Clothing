@@ -33,6 +33,11 @@ class AppColors {
   static const Color surfaceContainerHighest = Color(0xFFE3E2DF);
   
   static const Color shadow = Color(0xFF000000);
+
+  static const Color secondarySoft = Color(0x1FAD8C35); // A soft tinted variant of the secondary Gold color
+  static const Color glassBorder = Color(0x22FFFFFF); // Subtle translucent white border
+  static const Color glassSurface = Color(0x80FFFFFF); // Semi-transparent white for glass surfaces
+  static const Color glassSurfaceStrong = Color(0xCCFFFFFF); // Stronger semi-transparent white for glass surfaces
 }
 
 class AppShadows {
@@ -66,6 +71,11 @@ class AppShadows {
     blurRadius: 20,
     offset: const Offset(0, 6),
     spreadRadius: -4,
+  );
+  static final BoxShadow glass = BoxShadow(
+    color: AppColors.shadow.withValues(alpha: 0.05),
+    blurRadius: 16,
+    offset: const Offset(0, 4),
   );
 }
 
@@ -116,6 +126,15 @@ class AppGradients {
     ],
     stops: [0.0, 0.5, 1.0],
   );
+
+  static const LinearGradient glassHighlight = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0x40FFFFFF),
+      Color(0x10FFFFFF),
+    ],
+  );
 }
 
 class AppBorderRadius {
@@ -126,4 +145,13 @@ class AppBorderRadius {
   static const double xl = 12;
   static const double xxl = 20;
   static const double full = 9999;
+
+  static BorderRadius get xsRadius => BorderRadius.circular(xs);
+  static BorderRadius get smRadius => BorderRadius.circular(sm);
+  static BorderRadius get mdRadius => BorderRadius.circular(md);
+  static BorderRadius get lgRadius => BorderRadius.circular(lg);
+  static BorderRadius get xlRadius => BorderRadius.circular(xl);
+  static BorderRadius get xxlRadius => BorderRadius.circular(xxl);
+  static BorderRadius get fullRadius => BorderRadius.circular(full);
+  static BorderRadius get circular => BorderRadius.circular(9999);
 }

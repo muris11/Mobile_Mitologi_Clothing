@@ -98,7 +98,7 @@ class CollectionDetail extends Equatable {
       description: data['description'] as String?,
       imageUrl: data['image_url'] as String?,
       products: data['products'] != null 
-          ? (data['products'] as List).whereType<Map<String, dynamic>>().map((e) => ProductModel.fromJson(e)).toList()
+          ? ParserUtils.parseList(data['products'], ProductModel.fromJson)
           : null,
     );
   }

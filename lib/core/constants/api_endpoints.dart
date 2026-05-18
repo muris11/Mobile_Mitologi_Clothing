@@ -58,8 +58,7 @@ class ApiEndpoints {
   static const String menus = '/menus';
   static String menuDetail(String handle) => '/menus/$handle';
 
-  static const String searchProducts = '/products'; // Uses query parameters
-
+  static const String searchProducts = '/products';
   static const String teamMembers = '/team-members';
   static String teamMemberPhoto(int id) => '/team-members/$id/photo';
   static const String shippingRates = '/shipping/rates';

@@ -34,9 +34,9 @@ class ParserUtils {
 
     final List<T> result = [];
     for (final item in value) {
-      if (item is Map<String, dynamic>) {
+      if (item is Map) {
         try {
-          result.add(mapper(item));
+          result.add(mapper(Map<String, dynamic>.from(item)));
         } catch (_) {}
       }
     }

@@ -24,10 +24,10 @@ class ProductPricingModel {
       id: ParserUtils.parseInt(json['id']),
       categoryName: (json['categoryName'] as String?) ??
           (json['category_name'] as String?) ?? '',
-      items: (json['items'] as List<dynamic>?)
-              ?.map((e) => PricingItem.fromJson(e as Map<String, dynamic>))
-              .toList() ??
-          [],
+      items: ParserUtils.parseList<PricingItem>(
+        json['items'],
+        (e) => PricingItem.fromJson(e),
+      ),
       minOrder: (json['minOrder'] as String?) ?? (json['min_order'] as String?),
       notes: json['notes'] as String?,
       isActive: ParserUtils.parseBool(json['isActive'] ?? json['is_active'] ?? true),

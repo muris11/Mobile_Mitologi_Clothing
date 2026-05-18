@@ -14,8 +14,9 @@ class AuthRepository {
 
   Future<User> login(String email, String password) async {
     final response = await _authService.login(email, password);
-    final token = response.data['token'];
-    final userData = response.data['user'];
+    final data = response.data['data'];
+    final token = data['token'];
+    final userData = data['user'];
 
     await _tokenStorage.saveToken(token);
     _currentUser = User.fromJson(userData);
@@ -34,8 +35,9 @@ class AuthRepository {
       password: password,
       phone: phone,
     );
-    final token = response.data['token'];
-    final userData = response.data['user'];
+    final data = response.data['data'];
+    final token = data['token'];
+    final userData = data['user'];
 
     await _tokenStorage.saveToken(token);
     _currentUser = User.fromJson(userData);
@@ -59,7 +61,7 @@ class AuthRepository {
 
     try {
       final response = await _authService.getUser();
-      _currentUser = User.fromJson(response.data);
+      _currentUser = User.fromJson(response.data['data']);
       return _currentUser;
     } catch (e) {
       await _tokenStorage.deleteToken();

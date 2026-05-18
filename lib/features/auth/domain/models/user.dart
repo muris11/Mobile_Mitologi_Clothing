@@ -24,8 +24,8 @@ class User extends Equatable {
       name: json['name'] as String? ?? '',
       email: json['email'] as String? ?? '',
       phone: json['phone'] as String?,
-      avatarUrl: json['avatar_url'] as String?,
-      emailVerifiedAt: DateTime.tryParse(json['email_verified_at']?.toString() ?? '') ,
+      avatarUrl: (json['avatar_url'] ?? json['avatarUrl']) as String?,
+      emailVerifiedAt: DateTime.tryParse((json['email_verified_at'] ?? json['emailVerifiedAt'])?.toString() ?? '') ,
     );
   }
 

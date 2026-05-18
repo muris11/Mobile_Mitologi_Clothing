@@ -15,6 +15,10 @@ class CheckoutService {
     return await _apiClient.dio.post(ApiEndpoints.addresses, data: data);
   }
 
+  Future<Response> updateAddress(int id, Map<String, dynamic> data) async {
+    return await _apiClient.dio.put('${ApiEndpoints.addresses}/$id', data: data);
+  }
+
   Future<Response> placeOrder({
     required int addressId,
     required String shippingMethod,

@@ -92,7 +92,7 @@ class OrderModel extends Equatable {
       ),
       shippingAddress: json['shipping_address'] != null
           ? AddressModel.fromJson(
-              json['shipping_address'] as Map<String, dynamic>)
+              ParserUtils.parseMap(json['shipping_address']))
           : null,
       createdAt: DateTime.tryParse(json['created_at']?.toString() ?? '') ??
           DateTime.now(),

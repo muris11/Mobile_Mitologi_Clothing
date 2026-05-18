@@ -13,8 +13,9 @@ class ContentRepository {
     try {
       final response = await _contentService.getPage(handle);
       final data = response.data;
-      if (data is Map<String, dynamic>) {
-        return CmsPage.fromJson(data['data'] ?? data);
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
+        return CmsPage.fromJson(ParserUtils.parseMap(map['data'] ?? map));
       }
       return null;
     } catch (e) {
@@ -29,8 +30,9 @@ class ContentRepository {
       final data = response.data;
 
       dynamic items;
-      if (data is Map<String, dynamic>) {
-        items = data['data'] ?? data['items'];
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
+        items = map['data'] ?? map['items'];
       } else {
         items = data;
       }
@@ -46,8 +48,9 @@ class ContentRepository {
     try {
       final response = await _contentService.getPortfolioDetail(slug);
       final data = response.data;
-      if (data is Map<String, dynamic>) {
-        return PortfolioItem.fromJson(data['data'] ?? data);
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
+        return PortfolioItem.fromJson(ParserUtils.parseMap(map['data'] ?? map));
       }
       return null;
     } catch (e) {
@@ -62,8 +65,9 @@ class ContentRepository {
       final data = response.data;
 
       dynamic items;
-      if (data is Map<String, dynamic>) {
-        items = data['data'] ?? data['items'];
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
+        items = map['data'] ?? map['items'];
       } else {
         items = data;
       }
@@ -79,8 +83,9 @@ class ContentRepository {
     try {
       final response = await _contentService.getCollectionProducts(handle);
       final data = response.data;
-      if (data is Map<String, dynamic>) {
-        return CollectionDetail.fromJson(data['data'] ?? data);
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
+        return CollectionDetail.fromJson(ParserUtils.parseMap(map['data'] ?? map));
       }
       return null;
     } catch (e) {

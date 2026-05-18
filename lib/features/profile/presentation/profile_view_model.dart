@@ -74,4 +74,30 @@ class ProfileViewModel extends ChangeNotifier {
       return false;
     }
   }
+
+  bool _isSaving = false;
+  bool get isSaving => _isSaving;
+
+  Future<bool> changePassword({
+    required String currentPassword,
+    required String newPassword,
+  }) async {
+    _isSaving = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      await _profileRepository.changePassword(
+        currentPassword: currentPassword,
+        newPassword: newPassword,
+      );
+      return true;
+    } catch (e) {
+      _error = e.toString();
+      return false;
+    } finally {
+      _isSaving = false;
+      notifyListeners();
+    }
+  }
 }

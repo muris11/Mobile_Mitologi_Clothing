@@ -34,6 +34,7 @@ class ProductModel extends Equatable {
 
   bool get onSale => salePrice != null && salePrice! < price;
   double get displayPrice => onSale ? salePrice! : price;
+  int get totalSold => 0;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     final featuredImage = ParserUtils.parseMap(json['featuredImage']);

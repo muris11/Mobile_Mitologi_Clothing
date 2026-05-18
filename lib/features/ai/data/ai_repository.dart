@@ -1,4 +1,5 @@
 import 'dart:developer';
+import 'package:mitologi_clothing_mobile/core/utils/parser_utils.dart';
 import 'package:mitologi_clothing_mobile/features/ai/domain/models/ai_models.dart';
 import 'ai_service.dart';
 
@@ -16,8 +17,8 @@ class AiRepository {
       );
       
       final data = response.data;
-      if (data is Map<String, dynamic>) {
-        return ChatResponse.fromJson(data);
+      if (data is Map) {
+        return ChatResponse.fromJson(ParserUtils.parseMap(data));
       }
       return null;
     } catch (e) {
@@ -32,16 +33,14 @@ class AiRepository {
       final data = response.data;
       
       List items = [];
-      if (data is Map<String, dynamic>) {
-        items = data['data'] ?? data['recommendations'] ?? [];
+      if (data is Map) {
+        final map = ParserUtils.parseMap(data);
+        items = map['data'] ?? map['recommendations'] ?? [];
       } else if (data is List) {
         items = data;
       }
       
-      return items
-          .whereType<Map<String, dynamic>>()
-          .map((e) => AiRecommendation.fromJson(e))
-          .toList();
+      return ParserUtils.parseList(items, AiRecommendation.fromJson);
     } catch (e) {
       log('Error getting AI recommendations: $e');
       return [];

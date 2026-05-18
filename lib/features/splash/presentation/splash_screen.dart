@@ -31,8 +31,8 @@ class _SplashScreenState extends State<SplashScreen>
 
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      systemNavigationBarColor: Color(0xFF000613),
+      statusBarIconBrightness: Brightness.dark,
+      systemNavigationBarColor: Colors.white,
     ));
 
     _logoController = AnimationController(
@@ -113,11 +113,11 @@ class _SplashScreenState extends State<SplashScreen>
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
-        statusBarIconBrightness: Brightness.light,
-        systemNavigationBarColor: Color(0xFF000613),
+        statusBarIconBrightness: Brightness.dark,
+        systemNavigationBarColor: Colors.white,
       ),
       child: Scaffold(
-        backgroundColor: const Color(0xFF000613),
+        backgroundColor: Colors.white,
         body: SafeArea(
           child: Column(
             children: [
@@ -174,7 +174,7 @@ class _SplashScreenState extends State<SplashScreen>
                                     style: GoogleFonts.notoSerif(
                                       fontSize: 32,
                                       fontWeight: FontWeight.w900,
-                                      color: Colors.white,
+                                      color: const Color(0xFF000613),
                                       letterSpacing: 6,
                                     ),
                                   ),
@@ -217,7 +217,7 @@ class _SplashScreenState extends State<SplashScreen>
                             height: 2,
                             child: LinearProgressIndicator(
                               backgroundColor:
-                                  Colors.white.withValues(alpha: 0.1),
+                                  const Color(0xFF000613).withValues(alpha: 0.1),
                               valueColor: const AlwaysStoppedAnimation<Color>(
                                 Color(0xFFFFD700),
                               ),
@@ -228,7 +228,7 @@ class _SplashScreenState extends State<SplashScreen>
                             'Memuat aplikasi...',
                             style: GoogleFonts.manrope(
                               fontSize: 12,
-                              color: Colors.white.withValues(alpha: 0.4),
+                              color: const Color(0xFF000613).withValues(alpha: 0.4),
                               letterSpacing: 0.5,
                             ),
                           ),
