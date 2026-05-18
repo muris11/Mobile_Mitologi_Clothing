@@ -4,11 +4,11 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:mitologi_clothing_mobile/utils/responsive_utils.dart';
-import 'package:mitologi_clothing_mobile/widgets/common/cart_icon_button.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/custom_pull_to_refresh.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:provider/provider.dart';
 
 class WishlistScreen extends StatefulWidget {
@@ -35,26 +35,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
         onRefresh: () => context.read<WishlistProvider>().loadWishlist(),
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              floating: true,
-              pinned: true,
-              elevation: 0,
-              backgroundColor: AppColors.surface.withValues(alpha: 0.95),
-              surfaceTintColor: Colors.transparent,
-              title: Text(
-                'WISHLIST',
-                style: GoogleFonts.notoSerif(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.5,
-                ),
-              ),
-              centerTitle: true,
-              actions: const [
-                CartIconButton(),
-                SizedBox(width: 8),
-              ],
-            ),
+            const MitologiSliverAppBar(pageTitle: 'Wishlist'),
             SliverToBoxAdapter(
               child: _buildHeader(),
             ),

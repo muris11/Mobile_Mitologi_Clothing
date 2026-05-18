@@ -8,6 +8,7 @@ import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_mo
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/cart_icon_button.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/loading_indicator.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -50,7 +51,21 @@ class _ProfileViewState extends State<ProfileView> {
                     onRefresh: () => profileVM.fetchProfileData(),
                     child: CustomScrollView(
                       slivers: [
-                        _buildSliverAppBar(context, authVM),
+                        MitologiSliverAppBar(
+                          pageTitle: 'Akun Saya',
+                          actions: [
+                            const CartIconButton(),
+                            IconButton(
+                              icon: const Icon(
+                                PhosphorIconsRegular.signOut,
+                                color: AppColors.primary,
+                              ),
+                              onPressed: () => _handleLogout(context, authVM),
+                              tooltip: 'Keluar',
+                            ),
+                            const Gap(8),
+                          ],
+                        ),
                         _buildHeader(authVM),
                         _buildMenuSection(context),
                         if (profileVM.orders.isNotEmpty)
@@ -65,103 +80,6 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildSliverAppBar(BuildContext context, AuthViewModel authVM) {
-    return SliverAppBar(
-      pinned: true,
-      elevation: 0,
-      backgroundColor: Colors.white,
-      surfaceTintColor: Colors.transparent,
-      title: Text(
-        'Akun Saya',
-        style: GoogleFonts.notoSerif(
-          fontSize: 18,
-          fontWeight: FontWeight.w800,
-          color: AppColors.primary,
-        ),
-      ),
-      centerTitle: false,
-      actions: [
-        const CartIconButton(),
-        IconButton(
-          icon: const Icon(
-            PhosphorIconsRegular.signOut,
-            color: AppColors.primary,
-          ),
-          onPressed: () => _handleLogout(context, authVM),
-          tooltip: 'Keluar',
-        ),
-        const Gap(8),
-      ],
-      bottom: PreferredSize(
-        preferredSize: const Size.fromHeight(0.8),
-        child: Container(height: 0.8, color: AppColors.outlineVariant),
-      ),
-    );
-  }
-
-  Widget _buildGuestView() {
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              Container(
-                width: 80,
-                height: 80,
-                decoration: BoxDecoration(
-                  color: AppColors.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(24),
-                ),
-                child: const Icon(
-                  PhosphorIconsRegular.user,
-                  size: 36,
-                  color: AppColors.outline,
-                ),
-              ),
-              const Gap(24),
-              Text(
-                'Masuk ke Akun Anda',
-                style: GoogleFonts.notoSerif(
-                  fontSize: 22,
-                  fontWeight: FontWeight.w800,
-                  color: AppColors.primary,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const Gap(8),
-              Text(
-                'Login untuk mengakses profil, pesanan, dan wishlist Anda.',
-                style: GoogleFonts.manrope(
-                  fontSize: 14,
-                  color: AppColors.onSurfaceVariant,
-                  height: 1.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-              const Gap(28),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton.icon(
-                  onPressed: () => context.push('/login'),
-                  icon: const Icon(PhosphorIconsRegular.signIn),
-                  label: const Text('Masuk / Daftar'),
-                  style: FilledButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(14),
-                    ),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-      ),
-    );
-  }
 
   Widget _buildHeader(AuthViewModel authVM) {
     final user = authVM.user;
@@ -574,6 +492,71 @@ class _ProfileViewState extends State<ProfileView> {
             ),
           ),
         ],
+      ),
+    );
+  }
+  Widget _buildGuestView() {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: Colors.white,
+        elevation: 0,
+        scrolledUnderElevation: 0,
+        title: Text(
+          'Akun Saya',
+          style: GoogleFonts.notoSerif(
+            fontSize: 18,
+            fontWeight: FontWeight.w800,
+            color: AppColors.primary,
+          ),
+        ),
+        centerTitle: false,
+      ),
+      body: Center(
+        child: Padding(
+          padding: const EdgeInsets.all(32),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Icon(PhosphorIconsRegular.userCircle,
+                  size: 80, color: AppColors.outlineVariant),
+              const Gap(16),
+              Text(
+                'Belum Masuk',
+                style: GoogleFonts.notoSerif(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
+              ),
+              const Gap(8),
+              Text(
+                'Masuk untuk melihat akun dan pesanan Anda',
+                textAlign: TextAlign.center,
+                style: GoogleFonts.manrope(
+                  fontSize: 14,
+                  color: AppColors.onSurfaceVariant,
+                ),
+              ),
+              const Gap(24),
+              SizedBox(
+                width: double.infinity,
+                child: FilledButton(
+                  onPressed: () => context.go('/login'),
+                  style: FilledButton.styleFrom(
+                    backgroundColor: AppColors.primary,
+                    foregroundColor: Colors.white,
+                    padding: const EdgeInsets.symmetric(vertical: 14),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                  ),
+                  child: const Text('Masuk'),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

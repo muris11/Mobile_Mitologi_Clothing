@@ -15,6 +15,7 @@ class MitologiSliverAppBar extends StatelessWidget {
   final bool floating;
   final double? expandedHeight;
   final Widget? flexibleSpace;
+  final double? scrolledOpacity;
 
   const MitologiSliverAppBar({
     super.key,
@@ -26,13 +27,14 @@ class MitologiSliverAppBar extends StatelessWidget {
     this.floating = false,
     this.expandedHeight,
     this.flexibleSpace,
+    this.scrolledOpacity,
   });
 
   @override
   Widget build(BuildContext context) {
-    final titleFontSize = ResponsiveConfig.sp(context, 20);
-    final brandFontSize = ResponsiveConfig.sp(context, 14);
-    final subBrandFontSize = ResponsiveConfig.sp(context, 8);
+    final titleFontSize = ResponsiveConfig.sp(context, 18);
+    final brandFontSize = ResponsiveConfig.sp(context, 13);
+    final subBrandFontSize = ResponsiveConfig.sp(context, 7.5);
     final horizontalPad = ResponsiveConfig.value(
       context: context,
       mobile: 16.0,
@@ -40,24 +42,28 @@ class MitologiSliverAppBar extends StatelessWidget {
       desktop: 32.0,
     );
 
+    final bgColor = scrolledOpacity != null
+        ? AppColors.background.withValues(alpha: scrolledOpacity)
+        : AppColors.background.withValues(alpha: 0.95);
+
     return SliverAppBar(
       pinned: pinned,
       floating: floating,
       expandedHeight: expandedHeight,
-      backgroundColor: AppColors.background.withValues(alpha: 0.9),
+      backgroundColor: bgColor,
       elevation: 0,
       scrolledUnderElevation: 0,
       leadingWidth: showBackButton
           ? null
           : ResponsiveConfig.value(
               context: context,
-              mobile: 120.0,
-              tablet: 150.0,
-              desktop: 180.0,
+              mobile: 110.0,
+              tablet: 140.0,
+              desktop: 160.0,
             ),
       leading: showBackButton
           ? Padding(
-              padding: EdgeInsets.only(left: horizontalPad * 0.75),
+              padding: EdgeInsets.only(left: horizontalPad * 0.5),
               child: GlassContainer(
                 padding: EdgeInsets.zero,
                 blur: 12,
@@ -76,9 +82,8 @@ class MitologiSliverAppBar extends StatelessWidget {
                 child: FittedBox(
                   fit: BoxFit.scaleDown,
                   alignment: Alignment.centerLeft,
-                  child: Column(
+                  child: Row(
                     mainAxisSize: MainAxisSize.min,
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       Text(
                         'MITOLOGI',
@@ -87,20 +92,34 @@ class MitologiSliverAppBar extends StatelessWidget {
                           color: AppColors.primary,
                           fontSize: brandFontSize,
                           fontWeight: FontWeight.w900,
-                          letterSpacing: 1.2,
+                          letterSpacing: 1.5,
                           height: 1.0,
                         ),
                       ),
-                      Text(
-                        'CLOTHING',
-                        style: TextStyle(
-                          fontFamily: AppTextStyles.fontFamily,
-                          fontSize: subBrandFontSize,
-                          fontWeight: FontWeight.w700,
-                          letterSpacing: 2.4,
-                          height: 1.0,
-                        ).copyWith(
-                            color: AppColors.onSurface.withValues(alpha: 0.6)),
+                      Padding(
+                        padding: EdgeInsets.only(left: 6),
+                        child: Container(
+                          width: 3,
+                          height: 3,
+                          decoration: BoxDecoration(
+                            color: AppColors.secondary,
+                            shape: BoxShape.circle,
+                          ),
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.only(left: 6),
+                        child: Text(
+                          'ID',
+                          style: TextStyle(
+                            fontFamily: AppTextStyles.fontFamily,
+                            fontSize: subBrandFontSize,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.5,
+                            color: AppColors.secondary,
+                            height: 1.0,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -122,9 +141,10 @@ class MitologiSliverAppBar extends StatelessWidget {
           [
             Padding(
               padding: EdgeInsets.only(right: horizontalPad * 0.5),
-              child: const CartIconButton(),
+              child: showBackButton
+                  ? const SizedBox(width: 36)
+                  : const CartIconButton(),
             ),
-            SizedBox(width: horizontalPad * 0.5),
           ],
       bottom: bottom != null
           ? PreferredSize(
@@ -141,12 +161,8 @@ class MitologiSliverAppBar extends StatelessWidget {
               ),
             )
           : PreferredSize(
-              preferredSize: const Size.fromHeight(0.5),
-              child: Divider(
-                color: AppColors.outlineVariant.withValues(alpha: 0.35),
-                height: 0.5,
-                thickness: 0.5,
-              ),
+              preferredSize: const Size.fromHeight(0),
+              child: const SizedBox.shrink(),
             ),
       flexibleSpace: flexibleSpace,
     );

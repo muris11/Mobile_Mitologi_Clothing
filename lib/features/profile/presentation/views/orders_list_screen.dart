@@ -36,7 +36,11 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
       final orders = await repo.getOrders();
       if (mounted) setState(() => _orders = orders);
     } catch (e) {
-      if (mounted) setState(() => _error = e.toString());
+      String msg = e.toString();
+      if (msg.startsWith('Exception: ')) {
+        msg = msg.substring('Exception: '.length);
+      }
+      if (mounted) setState(() => _error = msg);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

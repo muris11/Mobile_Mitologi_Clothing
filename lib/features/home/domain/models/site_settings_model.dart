@@ -77,7 +77,6 @@ class SiteSettingsModel {
     final general = ParserUtils.parseMap(json['general']);
     final about = ParserUtils.parseMap(json['about']);
     final beranda = ParserUtils.parseMap(json['beranda']);
-    final cta = ParserUtils.parseMap(json['cta']);
     final contact = ParserUtils.parseMap(json['contact']);
 
     final guarantees = ParserUtils.parseList<GuaranteeItem>(
@@ -86,7 +85,7 @@ class SiteSettingsModel {
     );
 
     final garansiBonus = ParserUtils.parseList<GuaranteeBonusItem>(
-      beranda['garansiBonusData'],
+      beranda['garansiBonusData'] ?? json['garansiBonusData'],
       (e) => GuaranteeBonusItem.fromJson(e),
     );
 
@@ -107,10 +106,10 @@ class SiteSettingsModel {
       aboutImage: about['aboutImage'] as String?,
       guaranteesData: guarantees,
       garansiBonusData: garansiBonus,
-      ctaTitle: cta['ctaTitle'] as String?,
-      ctaSubtitle: cta['ctaSubtitle'] as String?,
-      ctaButtonText: cta['ctaButtonText'] as String?,
-      ctaButtonLink: cta['ctaButtonLink'] as String?,
+      ctaTitle: beranda['ctaTitle'] as String?,
+      ctaSubtitle: beranda['ctaSubtitle'] as String?,
+      ctaButtonText: beranda['ctaButtonText'] as String?,
+      ctaButtonLink: beranda['ctaButtonLink'] as String?,
       contactWhatsapp: contact['contactWhatsapp'] as String? ??
           contact['whatsappNumber'] as String?,
       contactAddress: contact['contactAddress'] as String?,

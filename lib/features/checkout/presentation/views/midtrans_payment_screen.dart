@@ -26,7 +26,7 @@ class MidtransPaymentScreen extends StatefulWidget {
 }
 
 class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
-  late final WebViewController _controller;
+  late WebViewController _controller;
   bool _isLoading = true;
   bool _hasError = false;
   int _loadingProgress = 0;
@@ -53,7 +53,14 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
   @override
   void initState() {
     super.initState();
-    _initWebView();
+    final uri = Uri.tryParse(widget.paymentUrl);
+    final host = uri?.host.toLowerCase() ?? '';
+    if (!host.contains('midtrans.com')) {
+      _hasError = true;
+      _isLoading = false;
+    } else {
+      _initWebView();
+    }
   }
 
   void _initWebView() {
@@ -309,8 +316,9 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
                 setState(() {
                   _hasError = false;
                   _isLoading = true;
+                  _loadingProgress = 0;
                 });
-                _controller.loadRequest(Uri.parse(widget.paymentUrl));
+                _initWebView();
               },
               icon: const Icon(PhosphorIconsRegular.arrowClockwise, size: 18),
               label: const Text('Coba Lagi',

@@ -11,7 +11,9 @@ class ProductModel extends Equatable {
   final String featuredImageUrl;
   final bool isFeatured;
   final bool isNew;
+  final bool availableForSale;
   final int stock;
+  final int totalSold;
   final double? rating;
   final int reviewsCount;
   final String? vendor;
@@ -26,7 +28,9 @@ class ProductModel extends Equatable {
     required this.featuredImageUrl,
     this.isFeatured = false,
     this.isNew = false,
+    this.availableForSale = true,
     required this.stock,
+    this.totalSold = 0,
     this.rating,
     this.reviewsCount = 0,
     this.vendor,
@@ -34,7 +38,6 @@ class ProductModel extends Equatable {
 
   bool get onSale => salePrice != null && salePrice! < price;
   double get displayPrice => onSale ? salePrice! : price;
-  int get totalSold => 0;
 
   factory ProductModel.fromJson(Map<String, dynamic> json) {
     final featuredImage = ParserUtils.parseMap(json['featuredImage']);
@@ -58,7 +61,9 @@ class ProductModel extends Equatable {
           '',
       isFeatured: ParserUtils.parseBool(json['is_featured']),
       isNew: ParserUtils.parseBool(json['is_new']),
+      availableForSale: ParserUtils.parseBool(json['availableForSale'] ?? true),
       stock: ParserUtils.parseInt(json['stock'] ?? json['totalStock']),
+      totalSold: ParserUtils.parseInt(json['totalSold']),
       rating: json['rating'] != null
           ? ParserUtils.parseDouble(json['rating'])
           : json['averageRating'] != null
@@ -81,12 +86,15 @@ class ProductModel extends Equatable {
         'featured_image_url': featuredImageUrl,
         'is_featured': isFeatured,
         'is_new': isNew,
+        'availableForSale': availableForSale,
         'stock': stock,
+        'totalSold': totalSold,
         'rating': rating,
         'reviews_count': reviewsCount,
         'vendor': vendor,
       };
 
   @override
-  List<Object?> get props => [id, name, slug, price, salePrice, featuredImageUrl, stock, vendor];
+  List<Object?> get props =>
+      [id, name, slug, price, salePrice, featuredImageUrl, stock, vendor, availableForSale, totalSold];
 }

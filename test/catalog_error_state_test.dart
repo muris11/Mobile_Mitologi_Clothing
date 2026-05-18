@@ -62,7 +62,7 @@ class _ThrowingCatalogViewModel extends CatalogViewModel {
   String? get error => _errorInternal;
 
   @override
-  Future<void> searchProducts({String? query, int? categoryId, String? sort, bool refresh = true}) async {
+  Future<void> searchProducts({String? query, String? categoryHandle, String? sortKey, bool reverse = false, double? minPrice, double? maxPrice, bool refresh = true}) async {
     _errorInternal = 'Gagal memuat produk. Silakan coba lagi';
     _isLoadingInternal = false;
     notifyListeners();

@@ -3,7 +3,6 @@ import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:gap/gap.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
-import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 

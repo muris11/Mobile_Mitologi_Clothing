@@ -8,6 +8,7 @@ import 'package:mitologi_clothing_mobile/widgets/common/custom_pull_to_refresh.d
 import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:provider/provider.dart';
 
 import 'content_provider.dart';
@@ -36,22 +37,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
         onRefresh: () => context.read<ContentProvider>().loadPortfolios(),
         child: CustomScrollView(
           slivers: [
-            SliverAppBar(
-              floating: true,
-              pinned: true,
-              elevation: 0,
-              backgroundColor: AppColors.surface.withValues(alpha: 0.95),
-              surfaceTintColor: Colors.transparent,
-              title: Text(
-                'PORTFOLIO',
-                style: GoogleFonts.notoSerif(
-                  fontSize: 16,
-                  fontWeight: FontWeight.w800,
-                  letterSpacing: 1.5,
-                ),
-              ),
-              centerTitle: true,
-            ),
+            const MitologiSliverAppBar(pageTitle: 'Portfolio'),
             SliverToBoxAdapter(
               child: _buildHeader(),
             ),

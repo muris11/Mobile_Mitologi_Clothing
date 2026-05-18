@@ -81,41 +81,49 @@ class HomeDataModel {
     }
 
     return HomeDataModel(
-      banners: _safeParseList(data['heroSlides'] ?? data['banners'] ?? data['hero_slides'], (e) => BannerModel.fromJson(e), 'banners'),
-      categories: _safeParseList(data['categories'], (e) => CategoryModel.fromJson(e), 'categories'),
-      bestSellers: _safeParseList(data['bestSellers'] ?? data['best_sellers'], (e) => ProductModel.fromJson(e), 'bestSellers'),
-      newArrivals: _safeParseList(data['newArrivals'] ?? data['new_arrivals'], (e) => ProductModel.fromJson(e), 'newArrivals'),
-      features: _safeParseList(data['features'], (e) => FeatureModel.fromJson(e), 'features'),
-      testimonials: _safeParseList(data['testimonials'], (e) => TestimonialModel.fromJson(e), 'testimonials'),
-      materials: _safeParseList(data['materials'], (e) => MaterialModel.fromJson(e), 'materials'),
+      banners: _safeParseList(
+        data['heroSlides'] ?? data['banners'] ?? data['hero_slides'] ?? data['sliders'] ?? data['slider'],
+        (e) => BannerModel.fromJson(e), 'banners'),
+      categories: _safeParseList(
+        data['categories'] ?? data['category'] ?? data['productCategories'] ?? data['product_categories'],
+        (e) => CategoryModel.fromJson(e), 'categories'),
+      bestSellers: _safeParseList(
+        data['bestSellers'] ?? data['best_sellers'] ?? data['bestSellerProducts'] ?? data['products'],
+        (e) => ProductModel.fromJson(e), 'bestSellers'),
+      newArrivals: _safeParseList(
+        data['newArrivals'] ?? data['new_arrivals'] ?? data['newArrivalProducts'],
+        (e) => ProductModel.fromJson(e), 'newArrivals'),
+      features: _safeParseList(
+        data['features'] ?? data['keyFeatures'] ?? data['key_features'] ?? data['usp'],
+        (e) => FeatureModel.fromJson(e), 'features'),
+      testimonials: _safeParseList(
+        data['testimonials'] ?? data['reviews'] ?? data['customerTestimonials'],
+        (e) => TestimonialModel.fromJson(e), 'testimonials'),
+      materials: _safeParseList(
+        data['materials'] ?? data['fabricMaterials'] ?? data['fabric_materials'],
+        (e) => MaterialModel.fromJson(e), 'materials'),
       portfolioItems: _safeParseList(
-        data['portfolioItems'] ?? data['portfolio_items'] ?? data['portfolio'],
-        (e) => PortfolioItemModel.fromJson(e),
-        'portfolioItems',
-      ),
-      partners: _safeParseList(data['partners'], (e) => PartnerModel.fromJson(e), 'partners'),
+        data['portfolioItems'] ?? data['portfolio_items'] ?? data['portfolio'] ?? data['portfolios'] ?? data['gallery'],
+        (e) => PortfolioItemModel.fromJson(e), 'portfolioItems'),
+      partners: _safeParseList(
+        data['partners'] ?? data['clients'] ?? data['partnerBrands'],
+        (e) => PartnerModel.fromJson(e), 'partners'),
       printingMethods: _safeParseList(
-        data['printingMethods'] ?? data['printing_methods'],
-        (e) => PrintingMethodModel.fromJson(e),
-        'printingMethods',
-      ),
-      facilities: _safeParseList(data['facilities'], (e) => FacilityModel.fromJson(e), 'facilities'),
+        data['printingMethods'] ?? data['printing_methods'] ?? data['printing_methods_list'],
+        (e) => PrintingMethodModel.fromJson(e), 'printingMethods'),
+      facilities: _safeParseList(
+        data['facilities'] ?? data['facility'] ?? data['productionFacilities'],
+        (e) => FacilityModel.fromJson(e), 'facilities'),
       teamMembers: _safeParseList(
-        data['teamMembers'] ?? data['team_members'],
-        (e) => TeamMemberModel.fromJson(e),
-        'teamMembers',
-      ),
+        data['teamMembers'] ?? data['team_members'] ?? data['team'] ?? data['ourTeam'],
+        (e) => TeamMemberModel.fromJson(e), 'teamMembers'),
       siteSettings: settings,
       productPricings: _safeParseList(
-        data['productPricings'] ?? data['product_pricings'],
-        (e) => ProductPricingModel.fromJson(e),
-        'productPricings',
-      ),
+        data['productPricings'] ?? data['product_pricings'] ?? data['pricing'] ?? data['priceList'],
+        (e) => ProductPricingModel.fromJson(e), 'productPricings'),
       orderSteps: _safeParseList(
-        data['orderSteps'] ?? data['order_steps'],
-        (e) => OrderStepModel.fromJson(e),
-        'orderSteps',
-      ),
+        data['orderSteps'] ?? data['order_steps'] ?? data['orderFlow'] ?? data['order_flow'] ?? data['steps'],
+        (e) => OrderStepModel.fromJson(e), 'orderSteps'),
     );
   }
 
@@ -125,6 +133,15 @@ class HomeDataModel {
     String name,
   ) {
     try {
+      // Handle nested { "data": [...] } structure
+      if (value is Map) {
+        final nestedList = value['data'] ?? value['items'] ?? value['records'];
+        if (nestedList != null) {
+          final result = ParserUtils.parseList(nestedList, mapper);
+          log('HomeDataModel: $name parsed ${result.length} items (nested)', name: 'HOME');
+          return result;
+        }
+      }
       final result = ParserUtils.parseList(value, mapper);
       log('HomeDataModel: $name parsed ${result.length} items', name: 'HOME');
       return result;

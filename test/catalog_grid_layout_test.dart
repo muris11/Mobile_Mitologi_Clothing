@@ -74,7 +74,7 @@ class _FakeCatalogViewModel extends CatalogViewModel {
   bool get hasMore => _hasMoreInternal;
 
   @override
-  Future<void> searchProducts({String? query, int? categoryId, String? sort, bool refresh = true}) async {}
+  Future<void> searchProducts({String? query, String? categoryHandle, String? sortKey, bool reverse = false, double? minPrice, double? maxPrice, bool refresh = true}) async {}
 }
 
 class _FakeHomeViewModel extends HomeViewModel {

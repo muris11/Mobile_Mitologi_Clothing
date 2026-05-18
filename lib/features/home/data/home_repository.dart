@@ -31,9 +31,18 @@ class HomeRepository {
         log('HomeRepository: parsed — banners=${model.banners.length} categories=${model.categories.length} bestSellers=${model.bestSellers.length} newArrivals=${model.newArrivals.length}',
             name: 'HOME');
 
+        // Return data if ANY section has content
         if (model.banners.isNotEmpty ||
             model.categories.isNotEmpty ||
-            model.bestSellers.isNotEmpty) {
+            model.bestSellers.isNotEmpty ||
+            model.newArrivals.isNotEmpty ||
+            model.features.isNotEmpty ||
+            model.testimonials.isNotEmpty ||
+            model.materials.isNotEmpty ||
+            model.portfolioItems.isNotEmpty ||
+            model.teamMembers.isNotEmpty ||
+            model.orderSteps.isNotEmpty ||
+            model.siteSettings != null) {
           log('HomeRepository: returning landing page data', name: 'HOME');
           return model;
         }
@@ -76,9 +85,7 @@ class HomeRepository {
         final data = siteSettingsData is Map
             ? ParserUtils.parseMap(siteSettingsData)
             : ParserUtils.parseMap(siteSettingsData['data']);
-        if (data != null) {
-          settings = SiteSettingsModel.fromJson(data);
-        }
+        settings = SiteSettingsModel.fromJson(data);
       } catch (e) {
         log('HomeRepository: failed to parse siteSettings: $e', name: 'HOME');
       }

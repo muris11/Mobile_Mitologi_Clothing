@@ -9,8 +9,9 @@ class CatalogService {
 
   Future<Response> getProducts({
     String? query,
-    int? categoryId,
-    String? sort,
+    String? categoryHandle,
+    String? sortKey,
+    bool reverse = false,
     double? minPrice,
     double? maxPrice,
     int page = 1,
@@ -18,11 +19,12 @@ class CatalogService {
     return await _apiClient.dio.get(
       ApiEndpoints.products,
       queryParameters: {
-        if (query != null) 'search': query,
-        if (categoryId != null) 'category_id': categoryId,
-        if (sort != null) 'sort': sort,
-        if (minPrice != null) 'min_price': minPrice,
-        if (maxPrice != null) 'max_price': maxPrice,
+        if (query != null) 'q': query,
+        if (categoryHandle != null) 'category': categoryHandle,
+        if (sortKey != null) 'sortKey': sortKey,
+        if (reverse) 'reverse': 'true',
+        if (minPrice != null) 'minPrice': minPrice,
+        if (maxPrice != null) 'maxPrice': maxPrice,
         'page': page,
       },
     );
@@ -36,7 +38,28 @@ class CatalogService {
     return await _apiClient.dio.get(ApiEndpoints.categories);
   }
 
-  Future<Response> getReviews(int productId) async {
-    return await _apiClient.dio.get('${ApiEndpoints.products}/$productId/reviews');
+  Future<Response> getReviews(String handle, {int page = 1}) async {
+    return await _apiClient.dio.get(
+      ApiEndpoints.productReviews(handle),
+      queryParameters: {'page': page},
+    );
+  }
+
+  Future<Response> getProductRecommendations(int productId) async {
+    return await _apiClient.dio.get(ApiEndpoints.relatedProducts(productId));
+  }
+
+  Future<Response> getHomeRecommendations({int limit = 10}) async {
+    return await _apiClient.dio.get(
+      ApiEndpoints.aiRecommendations,
+      queryParameters: {'limit': limit},
+    );
+  }
+
+  Future<Response> getBestSellers({int limit = 10}) async {
+    return await _apiClient.dio.get(
+      ApiEndpoints.bestSellers,
+      queryParameters: {'limit': limit},
+    );
   }
 }

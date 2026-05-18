@@ -7,12 +7,15 @@ import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
-import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
+import 'package:mitologi_clothing_mobile/features/cart/presentation/widgets/cart_icon_button.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/banner_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/order_step_model.dart';
+import 'package:mitologi_clothing_mobile/features/home/domain/models/portfolio_item_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/product_pricing_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
+
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
 import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -28,7 +31,6 @@ class HomeView extends StatefulWidget {
 class _HomeViewState extends State<HomeView> {
   final ScrollController _scrollController = ScrollController();
   final PageController _bannerController = PageController();
-  double _appBarOpacity = 0;
   int _currentBannerIndex = 0;
   Timer? _bannerTimer;
   HomeViewModel? _viewModel;
@@ -37,7 +39,6 @@ class _HomeViewState extends State<HomeView> {
   void initState() {
     super.initState();
     log('HomeView: initState called', name: 'HOME');
-    _scrollController.addListener(_onScroll);
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
       _viewModel = context.read<HomeViewModel>();
@@ -67,16 +68,6 @@ class _HomeViewState extends State<HomeView> {
     });
   }
 
-  void _onScroll() {
-    final offset = _scrollController.offset;
-    final newOpacity = (offset / 100).clamp(0.0, 1.0);
-    if (newOpacity != _appBarOpacity) {
-      setState(() {
-        _appBarOpacity = newOpacity;
-      });
-    }
-  }
-
   @override
   void dispose() {
     _bannerTimer?.cancel();
@@ -89,28 +80,24 @@ class _HomeViewState extends State<HomeView> {
   Widget build(BuildContext context) {
     final viewModel = context.watch<HomeViewModel>();
     final theme = Theme.of(context);
-    log('HomeView: build — isLoading=${viewModel.isLoading} banners=${viewModel.banners.length} categories=${viewModel.categories.length} bestSellers=${viewModel.bestSellers.length} error=${viewModel.error}',
+    log('HomeView: build — isLoading=${viewModel.isLoading} banners=${viewModel.banners.length} error=${viewModel.error}',
         name: 'HOME');
 
-    if (viewModel.error != null && viewModel.banners.isEmpty && viewModel.categories.isEmpty && viewModel.bestSellers.isEmpty) {
-      return Scaffold(
-        backgroundColor: AppColors.background,
-        body: _buildErrorState(context, viewModel),
-      );
-    }
-
-    return Scaffold(
-      backgroundColor: AppColors.background,
-      body: RefreshIndicator(
-        onRefresh: viewModel.fetchHomeData,
-        displacement: 100,
-        color: AppColors.primary,
-        child: Stack(
-          children: [
-            CustomScrollView(
+    return SizedBox.expand(
+      child: Stack(
+        fit: StackFit.expand,
+        children: [
+          RefreshIndicator(
+            onRefresh: viewModel.fetchHomeData,
+            displacement: 100,
+            color: AppColors.primary,
+            child: CustomScrollView(
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
+                SliverToBoxAdapter(
+                  child: SizedBox(height: MediaQuery.of(context).padding.top + 64),
+                ),
                 _buildHeroCarousel(viewModel),
                 if (viewModel.isLoading)
                   const SliverToBoxAdapter(
@@ -119,6 +106,7 @@ class _HomeViewState extends State<HomeView> {
                 _buildIntro(theme),
                 _buildFeaturesSection(viewModel),
                 _buildCategories(viewModel),
+                _buildPortfolioSection(viewModel),
                 if (viewModel.bestSellers.isNotEmpty) ...[
                   _buildSectionHeader(
                     context,
@@ -132,38 +120,25 @@ class _HomeViewState extends State<HomeView> {
                   _buildSectionHeader(
                     context,
                     title: 'New Arrivals',
-                    subtitle: 'Rilis terbaru untuk tampilan harian',
+                    subtitle: 'Koleksi terbaru minggu ini',
                     onSeeAll: () => context.push('/products'),
                   ),
                   _buildProductList(viewModel.newArrivals),
                 ],
-                _buildAboutSection(viewModel),
-                _buildPlastisolPricingSection(viewModel),
-                _buildMaterialsSection(viewModel),
-                _buildPrintingMethodsSection(viewModel),
                 _buildWhyChooseUsSection(viewModel),
+                _buildPlastisolPricingSection(viewModel),
                 _buildGuaranteeBonusSection(viewModel),
-                _buildCategoryPricelistSection(viewModel),
-                _buildOrderFlowSection(viewModel),
-                _buildPortfolioSection(viewModel),
-                _buildFacilitiesSection(viewModel),
-                _buildTestimonialsSection(viewModel),
-                _buildPartnersSection(viewModel),
-                _buildCTASection(context, viewModel),
-                const SliverToBoxAdapter(child: SizedBox(height: 100)),
+                _buildAboutSection(viewModel),
               ],
             ),
-            _buildDynamicAppBar(context),
-          ],
-        ),
+          ),
+          _buildDynamicAppBar(context),
+        ],
       ),
     );
   }
 
   Widget _buildDynamicAppBar(BuildContext context) {
-    final cartVM = context.watch<CartViewModel>();
-    final cartCount =
-        cartVM.cart?.items.fold<int>(0, (s, i) => s + i.quantity) ?? 0;
     return Positioned(
       top: 0,
       left: 0,
@@ -172,22 +147,51 @@ class _HomeViewState extends State<HomeView> {
         height: MediaQuery.of(context).padding.top + 64,
         padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
         decoration: BoxDecoration(
-          color: AppColors.background.withValues(alpha: _appBarOpacity),
-          boxShadow: _appBarOpacity > 0.5 ? [AppShadows.bottomNav] : null,
+          color: AppColors.background,
+          boxShadow: [AppShadows.bottomNav],
         ),
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 16),
           child: Row(
             children: [
-              Text(
-                'MITOLOGI',
-                style: TextStyle(
-                  color: Color.lerp(
-                      Colors.white, AppColors.primary, _appBarOpacity),
-                  fontWeight: FontWeight.w900,
-                  fontSize: 22,
-                  letterSpacing: 3,
-                ),
+              Row(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    'MITOLOGI',
+                    style: TextStyle(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w900,
+                      fontSize: 15,
+                      letterSpacing: 1.5,
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.only(left: 6),
+                    child: SizedBox(
+                      width: 3,
+                      height: 3,
+                      child: DecoratedBox(
+                        decoration: BoxDecoration(
+                          color: AppColors.secondary,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 6),
+                    child: Text(
+                      'ID',
+                      style: TextStyle(
+                        fontSize: 8,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 0.5,
+                        color: AppColors.secondary,
+                      ),
+                    ),
+                  ),
+                ],
               ),
               const Spacer(),
               _buildAppBarAction(
@@ -195,10 +199,10 @@ class _HomeViewState extends State<HomeView> {
                 onPressed: () => context.push('/products'),
               ),
               const Gap(8),
-              _buildAppBarAction(
-                icon: PhosphorIconsRegular.shoppingCart,
-                onPressed: () => context.push('/cart'),
-                badgeCount: cartCount,
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: CartIconButton(),
               ),
             ],
           ),
@@ -210,61 +214,25 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildAppBarAction({
     required IconData icon,
     required VoidCallback onPressed,
-    int badgeCount = 0,
   }) {
-    return Stack(
-      clipBehavior: Clip.none,
-      children: [
-        Container(
-          decoration: BoxDecoration(
-            color: Color.lerp(
-              Colors.white.withValues(alpha: 0.2),
-              AppColors.surfaceContainerLow,
-              _appBarOpacity,
-            ),
-            shape: BoxShape.circle,
-          ),
-          child: IconButton(
-            icon: Icon(
-              icon,
-              color:
-                  Color.lerp(Colors.white, AppColors.primary, _appBarOpacity),
-              size: 24,
-            ),
-            onPressed: onPressed,
-          ),
-        ),
-        if (badgeCount > 0)
-          Positioned(
-            right: 4,
-            top: 4,
-            child: Container(
-              width: 16,
-              height: 16,
-              decoration: BoxDecoration(
-                color: AppColors.secondaryContainer,
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 1.5),
-              ),
-              alignment: Alignment.center,
-              child: Text(
-                badgeCount > 99 ? '99' : '$badgeCount',
-                style: const TextStyle(
-                  fontSize: 8,
-                  fontWeight: FontWeight.w900,
-                  color: AppColors.onSecondaryContainer,
-                  height: 1,
-                ),
-              ),
-            ),
-          ),
-      ],
+    return Container(
+      width: 40,
+      height: 40,
+      decoration: BoxDecoration(
+        color: AppColors.surfaceContainerLow,
+        shape: BoxShape.circle,
+      ),
+      child: IconButton(
+        icon: Icon(icon, color: AppColors.primary, size: 22),
+        onPressed: onPressed,
+        padding: EdgeInsets.zero,
+      ),
     );
   }
 
   Widget _buildHeroCarousel(HomeViewModel viewModel) {
     if (viewModel.banners.isEmpty) {
-      return _buildFallbackHero();
+      return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
 
     return SliverToBoxAdapter(
@@ -776,17 +744,108 @@ class _HomeViewState extends State<HomeView> {
 
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 310,
+        height: 320,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 24),
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];
-            return Container(
-              width: 190,
-              margin: const EdgeInsets.only(right: 16),
-              child: ProductCard(product: product),
+            return GestureDetector(
+              onTap: () => context.push('/product/${product.slug}'),
+              child: Container(
+                width: 220,
+                margin: const EdgeInsets.only(right: 16),
+                clipBehavior: Clip.antiAlias,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(22),
+                  border: Border.all(color: AppColors.outlineVariant),
+                  boxShadow: [
+                    BoxShadow(
+                      color: AppColors.shadow.withValues(alpha: 0.06),
+                      blurRadius: 16,
+                      offset: const Offset(0, 6),
+                    ),
+                  ],
+                ),
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    ShimmerImage(
+                      imageUrl: ApiConfig.buildImageUrl(product.featuredImageUrl),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                    ),
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.85),
+                            ],
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              product.name,
+                              style: const TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.w800,
+                                height: 1.2,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 6),
+                            Text(
+                              _formatPrice(product.displayPrice),
+                              style: const TextStyle(
+                                color: Color(0xFFB9955B),
+                                fontSize: 17,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                    if (product.onSale)
+                      Positioned(
+                        top: 12,
+                        left: 12,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 10, vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: const Color(0xD6142033),
+                            borderRadius: BorderRadius.circular(999),
+                          ),
+                          child: const Text(
+                            'PROMO',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 10,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 1.1,
+                            ),
+                          ),
+                        ),
+                      ),
+                  ],
+                ),
+              ),
             );
           },
         ),
@@ -794,87 +853,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildMaterialsSection(HomeViewModel viewModel) {
-    final materials = viewModel.materials;
-    if (materials.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
-    }
 
-    return SliverToBoxAdapter(
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          _buildSectionHeaderInline(
-            context,
-            title: 'Our Materials',
-            subtitle: 'Premium fabrics for ultimate comfort',
-            onSeeAll: () {},
-          ),
-          SizedBox(
-            height: 200,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              itemCount: materials.length,
-              itemBuilder: (context, index) {
-                final material = materials[index];
-                return ClipRRect(
-                  borderRadius: BorderRadius.circular(24),
-                  child: Container(
-                    width: 280,
-                    margin: const EdgeInsets.only(right: 16),
-                    child: Stack(
-                      fit: StackFit.expand,
-                      children: [
-                        AppImage(
-                          imageUrl:
-                              ApiConfig.buildImageUrl(material.image ?? ''),
-                          fit: BoxFit.cover,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                            gradient: AppGradients.heroOverlay,
-                          ),
-                        ),
-                        Positioned(
-                          left: 20,
-                          right: 20,
-                          bottom: 20,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                material.name,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 18,
-                                  fontWeight: FontWeight.w900,
-                                ),
-                              ),
-                              const Gap(4),
-                              Text(
-                                material.description,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: TextStyle(
-                                  color: Colors.white.withValues(alpha: 0.8),
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                );
-              },
-            ),
-          ),
-        ],
-      ),
-    );
-  }
 
   Widget _buildPortfolioSection(HomeViewModel viewModel) {
     final portfolio = viewModel.portfolioItems;
@@ -886,59 +865,212 @@ class _HomeViewState extends State<HomeView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildSectionHeaderInline(
-            context,
-            title: 'Our Creations',
-            subtitle: 'Collaborations and custom projects',
-            onSeeAll: () => context.push('/portfolio'),
-          ),
-          GridView.builder(
-            shrinkWrap: true,
-            physics: const NeverScrollableScrollPhysics(),
-            padding: const EdgeInsets.symmetric(horizontal: 24),
-            gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 2,
-              mainAxisSpacing: 16,
-              crossAxisSpacing: 16,
-              childAspectRatio: 0.8,
-            ),
-            itemCount: portfolio.take(4).length,
-            itemBuilder: (context, index) {
-              final item = portfolio[index];
-              return ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: Stack(
-                  fit: StackFit.expand,
+          Padding(
+            padding: const EdgeInsets.fromLTRB(24, 48, 24, 20),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
                   children: [
-                    AppImage(
-                      imageUrl: ApiConfig.buildImageUrl(item.imageUrl),
-                      fit: BoxFit.cover,
-                    ),
-                    Positioned(
-                      bottom: 0,
-                      left: 0,
-                      right: 0,
-                      child: Container(
-                        padding: const EdgeInsets.all(12),
-                        decoration: BoxDecoration(
-                          gradient: AppGradients.heroOverlay,
-                        ),
-                        child: Text(
-                          item.title,
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 12,
-                            fontWeight: FontWeight.w800,
-                          ),
-                        ),
+                    Container(width: 28, height: 3, color: AppColors.secondary),
+                    const Gap(10),
+                    Text(
+                      'PORTFOLIO',
+                      style: TextStyle(
+                        color: AppColors.secondary,
+                        fontSize: 10,
+                        fontWeight: FontWeight.w800,
+                        letterSpacing: 2.5,
                       ),
                     ),
                   ],
                 ),
-              );
-            },
+                const Gap(10),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Hasil Karya\nTerbaik Kami',
+                        style: const TextStyle(
+                          fontSize: 22,
+                          fontWeight: FontWeight.w900,
+                          height: 1.15,
+                          letterSpacing: -0.5,
+                        ),
+                      ),
+                    ),
+                    GestureDetector(
+                      onTap: () => context.push('/portfolio'),
+                      child: Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: AppColors.surfaceContainerLow,
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(PhosphorIconsRegular.arrowRight, size: 20),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+          SizedBox(
+            height: 320,
+            child: ListView.separated(
+              scrollDirection: Axis.horizontal,
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              itemCount: portfolio.length + 1,
+              separatorBuilder: (_, __) => const Gap(16),
+              itemBuilder: (context, index) {
+                if (index == portfolio.length) {
+                  return _buildPortfolioSeeAllCard();
+                }
+                return _buildPortfolioCard(portfolio[index]);
+              },
+            ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget _buildPortfolioCard(PortfolioItemModel item) {
+    return GestureDetector(
+      onTap: () => context.push('/portfolio/${item.slug}'),
+      child: SizedBox(
+        width: 200,
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(20),
+          child: Stack(
+            fit: StackFit.expand,
+            children: [
+              AppImage(
+                imageUrl: ApiConfig.buildImageUrl(item.imageUrl),
+                fit: BoxFit.cover,
+                borderRadius: 0,
+              ),
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.65),
+                    ],
+                    stops: const [0.5, 1.0],
+                  ),
+                ),
+              ),
+              Positioned(
+                top: 12,
+                right: 12,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: const Color(0xFFB9955B),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    item.category.toUpperCase(),
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 8,
+                      fontWeight: FontWeight.w800,
+                      letterSpacing: 1,
+                    ),
+                  ),
+                ),
+              ),
+              Positioned(
+                bottom: 16,
+                left: 16,
+                right: 16,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      item.title,
+                      style: const TextStyle(
+                        color: Colors.white,
+                        fontSize: 13,
+                        fontWeight: FontWeight.w800,
+                        height: 1.2,
+                      ),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                    if (item.description.isNotEmpty) ...[
+                      const Gap(4),
+                      Text(
+                        item.description,
+                        style: TextStyle(
+                          color: Colors.white.withValues(alpha: 0.7),
+                          fontSize: 10,
+                          fontWeight: FontWeight.w500,
+                          height: 1.3,
+                        ),
+                        maxLines: 2,
+                        overflow: TextOverflow.ellipsis,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildPortfolioSeeAllCard() {
+    return GestureDetector(
+      onTap: () => context.push('/portfolio'),
+      child: Container(
+        width: 200,
+        decoration: BoxDecoration(
+          color: AppColors.surfaceContainerLow,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(color: AppColors.outlineVariant),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(12),
+              decoration: BoxDecoration(
+                color: AppColors.background,
+                shape: BoxShape.circle,
+              ),
+              child: const Icon(
+                PhosphorIconsRegular.arrowRight,
+                color: AppColors.primary,
+                size: 28,
+              ),
+            ),
+            const Gap(12),
+            Text(
+              'Lihat Semua',
+              style: TextStyle(
+                color: AppColors.primary,
+                fontSize: 13,
+                fontWeight: FontWeight.w700,
+              ),
+            ),
+            Text(
+              'Karya Kami',
+              style: TextStyle(
+                color: AppColors.onSurfaceVariant,
+                fontSize: 11,
+                fontWeight: FontWeight.w500,
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -1379,197 +1511,285 @@ class _HomeViewState extends State<HomeView> {
 
     return SliverToBoxAdapter(
       child: Container(
-        color: AppColors.surface,
-        padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
+        color: const Color(0xFFFAFAF9),
+        padding: const EdgeInsets.fromLTRB(24, 56, 24, 56),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Row(children: [
-              Container(width: 32, height: 2, color: AppColors.secondary),
-              const Gap(10),
-              Text('PRICELIST',
-                  style: TextStyle(
-                      color: AppColors.secondary,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w800,
-                      letterSpacing: 2)),
-            ]),
+            Text(
+              'PRICELIST',
+              style: TextStyle(
+                color: AppColors.secondary,
+                fontSize: 10,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 3,
+              ),
+            ),
             const Gap(12),
-            const Text('Pricelist Sablon Plastisol',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
-            const Gap(6),
+            const Text(
+              'Sablon Plastisol',
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w900,
+                color: Color(0xFF1E293B),
+                height: 1.1,
+              ),
+            ),
+            const Gap(12),
             Text(
               'Harga terbaik untuk kualitas premium. Garansi detailing & ketepatan waktu.',
-              style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 13),
+              textAlign: TextAlign.center,
+              style: TextStyle(
+                color: AppColors.onSurfaceVariant,
+                fontSize: 14,
+                height: 1.5,
+              ),
             ),
             if (features.isNotEmpty) ...[
-              const Gap(16),
+              const Gap(24),
               Wrap(
-                spacing: 8,
+                alignment: WrapAlignment.center,
+                spacing: 24,
                 runSpacing: 8,
                 children: features
-                    .map((f) => Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 12, vertical: 6),
-                          decoration: BoxDecoration(
-                            color: AppColors.surfaceContainerLow,
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(color: AppColors.outlineVariant),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 16,
-                                height: 16,
-                                decoration: BoxDecoration(
-                                  color: AppColors.secondary,
-                                  shape: BoxShape.circle,
-                                ),
-                                child: const Icon(
-                                  PhosphorIconsRegular.check,
-                                  size: 10,
-                                  color: Colors.white,
-                                ),
-                              ),
-                              const Gap(6),
-                              Text(f.text.toUpperCase(),
-                                  style: const TextStyle(
-                                      fontSize: 10,
-                                      fontWeight: FontWeight.w800,
-                                      letterSpacing: 1)),
-                            ],
+                    .map((f) => Text(
+                          f.text.toUpperCase(),
+                          style: const TextStyle(
+                            color: Color(0xFF475569),
+                            fontSize: 11,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 2,
                           ),
                         ))
                     .toList(),
               ),
             ],
-            const Gap(24),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                childAspectRatio: 0.65,
-                crossAxisSpacing: 12,
-                mainAxisSpacing: 12,
-              ),
-              itemCount: items.length,
-              itemBuilder: (ctx, i) {
-                final pkg = items[i];
-                return Container(
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceContainerLowest,
-                    borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: AppColors.outlineVariant),
-                  ),
-                  child: Column(
-                    children: [
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(12),
-                          child: pkg.image != null && pkg.image!.isNotEmpty
-                              ? AppImage(
-                                  imageUrl: ApiConfig.buildImageUrl(pkg.image!),
-                                  fit: BoxFit.contain,
-                                )
-                              : const Icon(
-                                  PhosphorIconsRegular.tShirt,
-                                  size: 48,
-                                  color: Color(0xFFCBD5E1),
+            const Gap(32),
+            SizedBox(
+              height: 340,
+              child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                itemCount: items.length,
+                itemBuilder: (ctx, i) {
+                  final pkg = items[i];
+                  return Container(
+                    width: 220,
+                    margin: EdgeInsets.only(
+                      left: i == 0 ? 0 : 0,
+                      right: i < items.length - 1 ? 16 : 0,
+                    ),
+                    clipBehavior: Clip.antiAlias,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(24),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.shadow.withValues(alpha: 0.08),
+                          blurRadius: 20,
+                          offset: const Offset(0, 8),
+                        ),
+                      ],
+                    ),
+                    child: Stack(
+                      fit: StackFit.expand,
+                      children: [
+                        pkg.image != null && pkg.image!.isNotEmpty
+                            ? ShimmerImage(
+                                imageUrl: ApiConfig.buildImageUrl(pkg.image!),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: double.infinity,
+                              )
+                            : Container(
+                                color: const Color(0xFFF1F5F9),
+                                child: const Center(
+                                  child: Icon(
+                                    PhosphorIconsRegular.tShirt,
+                                    size: 48,
+                                    color: Color(0xFFCBD5E1),
+                                  ),
                                 ),
-                        ),
-                      ),
-                      Container(
-                        width: double.infinity,
-                        margin: const EdgeInsets.symmetric(horizontal: 8),
-                        padding: const EdgeInsets.symmetric(
-                            vertical: 6, horizontal: 8),
-                        decoration: BoxDecoration(
-                          color: AppColors.secondary,
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          children: [
-                            Text(
-                              pkg.title.toUpperCase(),
-                              textAlign: TextAlign.center,
-                              style: TextStyle(
-                                color: AppColors.primary,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w900,
-                                letterSpacing: 0.5,
+                              ),
+                        if (pkg.popular)
+                          Positioned(
+                            top: 12,
+                            right: 12,
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 10, vertical: 5),
+                              decoration: BoxDecoration(
+                                color: AppColors.secondary,
+                                borderRadius: BorderRadius.circular(999),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: AppColors.shadow.withValues(alpha: 0.2),
+                                    blurRadius: 8,
+                                  ),
+                                ],
+                              ),
+                              child: const Text(
+                                'POPULER',
+                                style: TextStyle(
+                                  color: Color(0xFF1E293B),
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 1.5,
+                                ),
                               ),
                             ),
-                            if (pkg.minOrder != null &&
-                                pkg.minOrder!.isNotEmpty)
-                              Text(
-                                pkg.minOrder!,
-                                style: TextStyle(
-                                  color:
-                                      AppColors.primary.withValues(alpha: 0.7),
-                                  fontSize: 9,
-                                  fontWeight: FontWeight.w700,
-                                ),
+                          ),
+                        Positioned(
+                          left: 0,
+                          right: 0,
+                          bottom: 0,
+                          child: Container(
+                            padding: const EdgeInsets.fromLTRB(16, 48, 16, 20),
+                            decoration: BoxDecoration(
+                              gradient: LinearGradient(
+                                begin: Alignment.topCenter,
+                                end: Alignment.bottomCenter,
+                                colors: [
+                                  Colors.transparent,
+                                  const Color(0xFF1E293B).withValues(alpha: 0.92),
+                                ],
                               ),
-                          ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  pkg.title,
+                                  style: const TextStyle(
+                                    color: Colors.white,
+                                    fontSize: 16,
+                                    fontWeight: FontWeight.w900,
+                                    height: 1.2,
+                                  ),
+                                ),
+                                if (pkg.minOrder != null &&
+                                    pkg.minOrder!.isNotEmpty)
+                                  Padding(
+                                    padding: const EdgeInsets.only(top: 4),
+                                    child: Container(
+                                      padding: const EdgeInsets.symmetric(
+                                          horizontal: 8, vertical: 3),
+                                      decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: Colors.white.withValues(alpha: 0.3)),
+                                        borderRadius: BorderRadius.circular(999),
+                                      ),
+                                      child: Text(
+                                        pkg.minOrder!,
+                                        style: TextStyle(
+                                          color: Colors.white.withValues(alpha: 0.7),
+                                          fontSize: 9,
+                                          fontWeight: FontWeight.w700,
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                const SizedBox(height: 10),
+                                if (pkg.short != null) ...[
+                                  _pricelistRow('Pendek', pkg.short!),
+                                  const SizedBox(height: 4),
+                                ],
+                                if (pkg.long != null)
+                                  _pricelistRow('Panjang', pkg.long!),
+                              ],
+                            ),
+                          ),
                         ),
-                      ),
-                      const Gap(8),
-                      Padding(
-                        padding: const EdgeInsets.fromLTRB(8, 0, 8, 12),
-                        child: Column(
-                          children: [
-                            _priceRow('Pendek', pkg.short ?? '-'),
-                            const Gap(4),
-                            _priceRow('Panjang', pkg.long ?? '-'),
-                          ],
-                        ),
-                      ),
-                    ],
-                  ),
-                );
-              },
+                      ],
+                    ),
+                  );
+                },
+              ),
             ),
             if (addons.isNotEmpty) ...[
-              const Gap(24),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.all(20),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(20),
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const Text('Add-ons & Ketentuan',
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16,
-                            fontWeight: FontWeight.w900)),
-                    const Gap(16),
-                    ...addons.map((a) => Padding(
-                          padding: const EdgeInsets.only(bottom: 8),
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                              Text(a.name,
-                                  style: const TextStyle(
-                                      color: Colors.white70,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w600)),
-                              Text('+ Rp ${a.price}/pcs',
-                                  style: TextStyle(
-                                      color: AppColors.secondary,
-                                      fontSize: 13,
-                                      fontWeight: FontWeight.w900)),
-                            ],
-                          ),
-                        )),
-                  ],
+              const Gap(48),
+              Row(
+                children: [
+                  Container(width: 20, height: 3, color: AppColors.secondary),
+                  const Gap(10),
+                  Text(
+                    'LAYANAN TAMBAHAN',
+                    style: TextStyle(
+                      color: AppColors.secondary,
+                      fontSize: 10,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 2,
+                    ),
+                  ),
+                ],
+              ),
+              const Gap(16),
+              const Text(
+                'Add-ons & Ketentuan',
+                style: TextStyle(
+                  fontSize: 20,
+                  fontWeight: FontWeight.w900,
+                  color: Color(0xFF1E293B),
                 ),
               ),
+              const Gap(20),
+              ...addons.map((a) => Padding(
+                    padding: const EdgeInsets.only(bottom: 12),
+                    child: Row(
+                      children: [
+                        Container(
+                          width: 4,
+                          height: 16,
+                          decoration: BoxDecoration(
+                            color: AppColors.secondary.withValues(alpha: 0.4),
+                            borderRadius: BorderRadius.circular(4),
+                          ),
+                        ),
+                        const Gap(12),
+                        Expanded(
+                          child: Text(
+                            a.name,
+                            style: const TextStyle(
+                              color: Color(0xFF475569),
+                              fontSize: 14,
+                              fontWeight: FontWeight.w700,
+                            ),
+                          ),
+                        ),
+                        Row(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.baseline,
+                          textBaseline: TextBaseline.alphabetic,
+                          children: [
+                            Text(
+                              'Rp',
+                              style: TextStyle(
+                                color: AppColors.onSurfaceVariant,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                            const Gap(1),
+                            Text(
+                              a.price.replaceAll(RegExp(r'^\+?\s*|\/pcs$'), ''),
+                              style: const TextStyle(
+                                color: Color(0xFFB9955B),
+                                fontSize: 15,
+                                fontWeight: FontWeight.w900,
+                              ),
+                            ),
+                            Text(
+                              '/pcs',
+                              style: TextStyle(
+                                color: AppColors.onSurfaceVariant,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w700,
+                              ),
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
             ],
           ],
         ),
@@ -1577,28 +1797,52 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _priceRow(String label, String value) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceContainerLow,
-        borderRadius: BorderRadius.circular(8),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(label,
+  Widget _pricelistRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Text(
+          label.toUpperCase(),
+          style: TextStyle(
+            color: Colors.white.withValues(alpha: 0.5),
+            fontSize: 9,
+            fontWeight: FontWeight.w800,
+            letterSpacing: 1.5,
+          ),
+        ),
+        Row(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.baseline,
+          textBaseline: TextBaseline.alphabetic,
+          children: [
+            Text(
+              'Rp',
               style: TextStyle(
-                  color: AppColors.onSurfaceVariant,
-                  fontSize: 10,
-                  fontWeight: FontWeight.w700)),
-          Text(value,
+                color: AppColors.secondary,
+                fontSize: 10,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+            const Gap(1),
+            Text(
+              value,
+              style: const TextStyle(
+                color: Color(0xFFB9955B),
+                fontSize: 14,
+                fontWeight: FontWeight.w900,
+              ),
+            ),
+            Text(
+              'K',
               style: TextStyle(
-                  color: AppColors.primary,
-                  fontSize: 13,
-                  fontWeight: FontWeight.w900)),
-        ],
-      ),
+                color: AppColors.secondary.withValues(alpha: 0.7),
+                fontSize: 10,
+                fontWeight: FontWeight.w800,
+              ),
+            ),
+          ],
+        ),
+      ],
     );
   }
 
@@ -1989,9 +2233,22 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildGuaranteeBonusSection(HomeViewModel viewModel) {
     final settings = viewModel.siteSettings;
     final bonuses = settings?.garansiBonusData ?? [];
-    if (bonuses.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
-    }
+    final displayBonuses = bonuses.isNotEmpty
+        ? bonuses
+        : [
+            const GuaranteeBonusItem(
+              title: 'Garansi Hasil Sablon',
+              description: 'Hasil sablon dijamin rapi dan presisi. Jika tidak sesuai, kami revisi gratis.',
+            ),
+            const GuaranteeBonusItem(
+              title: 'Bebas Revisi Desain',
+              description: 'Revisi desain tanpa batas sampai kamu benar-benar puas dengan hasilnya.',
+            ),
+            const GuaranteeBonusItem(
+              title: 'Bonus Konsultasi Gratis',
+              description: 'Tim kami siap membantu konsultasi kebutuhan sablon dan produksi kaos kamu.',
+            ),
+          ];
 
     final icons = [
       PhosphorIconsRegular.clock,
@@ -2026,8 +2283,8 @@ class _HomeViewState extends State<HomeView> {
               style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
             ),
             const Gap(20),
-            ...List.generate(bonuses.length, (i) {
-              final b = bonuses[i];
+            ...List.generate(displayBonuses.length, (i) {
+              final b = displayBonuses[i];
               return Container(
                 margin: const EdgeInsets.only(bottom: 16),
                 padding: const EdgeInsets.all(20),
@@ -2094,17 +2351,10 @@ class _HomeViewState extends State<HomeView> {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
 
-    return _CategoryPricelistWidget(pricings: pricings);
+    return SliverToBoxAdapter(child: _CategoryPricelistWidget(pricings: pricings));
   }
 
-  Widget _buildOrderFlowSection(HomeViewModel viewModel) {
-    final steps = viewModel.orderSteps;
-    if (steps.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
-    }
 
-    return _OrderFlowWidget(orderSteps: steps);
-  }
 
   Widget _buildSectionHeader(
     BuildContext context, {
@@ -2211,7 +2461,7 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildErrorState(BuildContext context, HomeViewModel viewModel) {
-    return Padding(
+    return SingleChildScrollView(
       padding: const EdgeInsets.all(32),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
@@ -2232,6 +2482,22 @@ class _HomeViewState extends State<HomeView> {
             textAlign: TextAlign.center,
             style: TextStyle(color: AppColors.onSurfaceVariant),
           ),
+          const Gap(16),
+          Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLow,
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: Text(
+              'API: ${ApiConfig.baseUrl}/landing-page\n\nIf this persists, check:\n1. CORS headers on backend\n2. Network connectivity\n3. Open DevTools → Console for logs',
+              style: TextStyle(
+                color: AppColors.onSurfaceVariant,
+                fontSize: 11,
+                fontFamily: 'monospace',
+              ),
+            ),
+          ),
           const Gap(32),
           SizedBox(
             width: double.infinity,
@@ -2249,6 +2515,61 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
     );
+  }
+
+  Widget _buildEmptyState(BuildContext context) {
+    return SingleChildScrollView(
+      padding: const EdgeInsets.all(32),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const Icon(
+            PhosphorIconsRegular.database,
+            size: 64,
+            color: AppColors.outline,
+          ),
+          const Gap(24),
+          const Text(
+            'Belum Ada Data',
+            style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+          ),
+          const Gap(12),
+          Text(
+            'Halaman masih kosong. Pastikan backend aktif dan bisa dijangkau.\n\n'
+            'Base URL: ${ApiConfig.baseUrl}',
+            textAlign: TextAlign.center,
+            style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 13),
+          ),
+          const Gap(32),
+          SizedBox(
+            width: double.infinity,
+            child: FilledButton(
+              onPressed: () => context.read<HomeViewModel>().fetchHomeData(),
+              style: FilledButton.styleFrom(
+                padding: const EdgeInsets.all(20),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(16),
+                ),
+              ),
+              child: const Text('MUAT ULANG'),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _formatPrice(double price) {
+    final whole = price.toStringAsFixed(0);
+    final buffer = StringBuffer();
+    for (int i = 0; i < whole.length; i++) {
+      final reverseIndex = whole.length - i;
+      buffer.write(whole[i]);
+      if (reverseIndex > 1 && reverseIndex % 3 == 1) {
+        buffer.write('.');
+      }
+    }
+    return 'Rp $buffer';
   }
 }
 
@@ -2269,84 +2590,83 @@ class _CategoryPricelistWidgetState extends State<_CategoryPricelistWidget> {
     final active = widget.pricings.where((p) => p.isActive).toList()
       ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
     if (active.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
+      return const SizedBox.shrink();
     }
 
     final selected = active[_selectedTab.clamp(0, active.length - 1)];
 
-    return SliverToBoxAdapter(
-      child: Container(
-        color: AppColors.surfaceContainerLow,
-        padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(width: 32, height: 2, color: AppColors.secondary),
-                const Gap(10),
-                Text(
-                  'HARGA PRODUK',
-                  style: TextStyle(
-                    color: AppColors.secondary,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 2,
-                  ),
+    return Container(
+      color: AppColors.surfaceContainerLow,
+      padding: const EdgeInsets.fromLTRB(24, 48, 24, 48),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Row(
+            children: [
+              Container(width: 32, height: 2, color: AppColors.secondary),
+              const Gap(10),
+              Text(
+                'HARGA PRODUK',
+                style: TextStyle(
+                  color: AppColors.secondary,
+                  fontSize: 10,
+                  fontWeight: FontWeight.w800,
+                  letterSpacing: 2,
                 ),
-              ],
-            ),
-            const Gap(12),
-            const Text(
-              'Daftar Harga per Kategori',
-              style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
-            ),
-            const Gap(8),
-            Text(
-              'Harga sudah termasuk jasa sablon dan bahan baku',
-              style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 13),
-            ),
-            const Gap(24),
-            SizedBox(
-              height: 40,
-              child: ListView.builder(
-                scrollDirection: Axis.horizontal,
-                itemCount: active.length,
-                itemBuilder: (ctx, i) {
-                  final isSelected = i == _selectedTab;
-                  return GestureDetector(
-                    onTap: () => setState(() => _selectedTab = i),
-                    child: AnimatedContainer(
-                      duration: const Duration(milliseconds: 200),
-                      margin: const EdgeInsets.only(right: 10),
-                      padding: const EdgeInsets.symmetric(
-                          horizontal: 18, vertical: 8),
-                      decoration: BoxDecoration(
+              ),
+            ],
+          ),
+          const Gap(12),
+          const Text(
+            'Daftar Harga per Kategori',
+            style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900),
+          ),
+          const Gap(8),
+          Text(
+            'Harga sudah termasuk jasa sablon dan bahan baku',
+            style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 13),
+          ),
+          const Gap(24),
+          SizedBox(
+            height: 40,
+            child: ListView.builder(
+              scrollDirection: Axis.horizontal,
+              itemCount: active.length,
+              itemBuilder: (ctx, i) {
+                final isSelected = i == _selectedTab;
+                return GestureDetector(
+                  onTap: () => setState(() => _selectedTab = i),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    margin: const EdgeInsets.only(right: 10),
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 18, vertical: 8),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.surfaceContainerLowest,
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
                         color: isSelected
                             ? AppColors.primary
-                            : AppColors.surfaceContainerLowest,
-                        borderRadius: BorderRadius.circular(20),
-                        border: Border.all(
-                          color: isSelected
-                              ? AppColors.primary
-                              : AppColors.outlineVariant,
-                        ),
-                      ),
-                      child: Text(
-                        active[i].categoryName,
-                        style: TextStyle(
-                          color:
-                              isSelected ? Colors.white : AppColors.onSurface,
-                          fontWeight: FontWeight.w700,
-                          fontSize: 13,
-                        ),
+                            : AppColors.outlineVariant,
                       ),
                     ),
-                  );
-                },
-              ),
+                    child: Text(
+                      active[i].categoryName,
+                      style: TextStyle(
+                        color:
+                            isSelected ? Colors.white : AppColors.onSurface,
+                        fontWeight: FontWeight.w700,
+                        fontSize: 13,
+                      ),
+                    ),
+                  ),
+                );
+              },
             ),
-            const Gap(20),
+          ),
+          const Gap(20),
             ...selected.items.map((item) => Container(
                   margin: const EdgeInsets.only(bottom: 12),
                   padding:
@@ -2397,8 +2717,7 @@ class _CategoryPricelistWidgetState extends State<_CategoryPricelistWidget> {
             ],
           ],
         ),
-      ),
-    );
+      );
   }
 }
 
@@ -2422,7 +2741,7 @@ class _OrderFlowWidgetState extends State<_OrderFlowWidget> {
       ..sort((a, b) => a.sortOrder.compareTo(b.sortOrder));
 
     if (types.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
+      return const SizedBox.shrink();
     }
 
     if (!types.contains(_activeType)) {
@@ -2434,10 +2753,9 @@ class _OrderFlowWidgetState extends State<_OrderFlowWidget> {
       'ecommerce': 'Via E-Commerce',
     };
 
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 48, 24, 0),
-        child: Column(
+    return Padding(
+      padding: const EdgeInsets.fromLTRB(24, 48, 24, 0),
+      child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
@@ -2571,7 +2889,6 @@ class _OrderFlowWidgetState extends State<_OrderFlowWidget> {
             }),
           ],
         ),
-      ),
-    );
+      );
   }
 }

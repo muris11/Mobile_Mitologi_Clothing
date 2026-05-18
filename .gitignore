@@ -78,7 +78,6 @@ app/src/main/obj/
 **/windows/flutter/ephemeral/
 
 # Web related
-lib/generated_plugin_registrant.dart
 
 # Executable distributions
 *.apk

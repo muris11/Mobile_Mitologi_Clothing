@@ -87,8 +87,8 @@ class AppRouter {
           GoRoute(
             path: '/products',
             builder: (context, state) => CatalogView(
-              initialQuery: state.uri.queryParameters['q'] ??
-                  state.uri.queryParameters['category'],
+              initialQuery: state.uri.queryParameters['q'],
+              initialCategoryHandle: state.uri.queryParameters['category'],
             ),
           ),
           GoRoute(

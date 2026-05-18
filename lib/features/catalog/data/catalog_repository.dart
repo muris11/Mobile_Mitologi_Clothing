@@ -10,19 +10,44 @@ class CatalogRepository {
 
   Future<List<ProductModel>> searchProducts({
     String? query,
-    int? categoryId,
-    String? sort,
+    String? categoryHandle,
+    String? sortKey,
+    bool reverse = false,
+    double? minPrice,
+    double? maxPrice,
     int page = 1,
   }) async {
     try {
       final response = await _catalogService.getProducts(
         query: query,
-        categoryId: categoryId,
-        sort: sort,
+        categoryHandle: categoryHandle,
+        sortKey: sortKey,
+        reverse: reverse,
+        minPrice: minPrice,
+        maxPrice: maxPrice,
         page: page,
       );
-      final data = response.data['data'];
-      final productsList = data is Map ? data['products'] : null;
+      final responseData = response.data;
+
+      // Try multiple possible response structures
+      dynamic productsList;
+
+      if (responseData is Map) {
+        final dataField = responseData['data'];
+        if (dataField is List) {
+          productsList = dataField; // Structure: { "data": [...] }
+        } else if (dataField is Map) {
+          // Structure: { "data": { "data": [...] } } (Laravel pagination)
+          // Or { "data": { "products": [...] } }
+          productsList = dataField['data'] ?? dataField['products'];
+        } else {
+          // Structure: { "products": [...] }
+          productsList = responseData['products'];
+        }
+      } else if (responseData is List) {
+        productsList = responseData; // Direct list
+      }
+
       return ParserUtils.parseList(productsList, ProductModel.fromJson);
     } catch (e) {
       rethrow;
@@ -32,5 +57,65 @@ class CatalogRepository {
   Future<ProductDetailModel> getProductDetail(String slug) async {
     final response = await _catalogService.getProductDetail(slug);
     return ProductDetailModel.fromJson(response.data['data']);
+  }
+
+  Future<Map<String, dynamic>> getProductReviews(
+    String slug, {
+    int page = 1,
+  }) async {
+    final response = await _catalogService.getReviews(slug, page: page);
+    final data = response.data['data'] as Map? ?? {};
+    final reviews =
+        ParserUtils.parseList(data['reviews'], ProductReview.fromJson);
+    final summary =
+        data['summary'] is Map ? ReviewSummary.fromJson(data['summary']) : null;
+    return {'reviews': reviews, 'summary': summary};
+  }
+
+  Future<List<ProductModel>> getProductRecommendations(int productId) async {
+    try {
+      final response =
+          await _catalogService.getProductRecommendations(productId);
+      return _parseProductList(response.data);
+    } catch (_) {
+      return [];
+    }
+  }
+
+  Future<List<ProductModel>> getRecommendations({int limit = 10}) async {
+    List<ProductModel>? products;
+
+    try {
+      final response = await _catalogService.getHomeRecommendations(limit: limit);
+      products = _parseProductList(response.data);
+    } catch (_) {}
+
+    if (products != null && products.isNotEmpty) return products;
+
+    try {
+      final response = await _catalogService.getBestSellers(limit: limit);
+      products = _parseProductList(response.data);
+    } catch (_) {}
+
+    return products ?? [];
+  }
+
+  List<ProductModel> _parseProductList(dynamic responseData) {
+    dynamic productsList;
+
+    if (responseData is Map) {
+      final dataField = responseData['data'];
+      if (dataField is List) {
+        productsList = dataField;
+      } else if (dataField is Map) {
+        productsList = dataField['data'] ?? dataField['products'];
+      } else {
+        productsList = responseData['products'];
+      }
+    } else if (responseData is List) {
+      productsList = responseData;
+    }
+
+    return ParserUtils.parseList(productsList, ProductModel.fromJson);
   }
 }

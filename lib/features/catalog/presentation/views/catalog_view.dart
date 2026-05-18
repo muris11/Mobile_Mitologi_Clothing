@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
+import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
-import 'package:mitologi_clothing_mobile/widgets/common/cart_icon_button.dart';
 import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CatalogView extends StatefulWidget {
-  final int? categoryId;
   final String? initialQuery;
+  final String? initialCategoryHandle;
 
-  const CatalogView({super.key, this.categoryId, this.initialQuery});
+  const CatalogView({super.key, this.initialQuery, this.initialCategoryHandle});
 
   @override
   State<CatalogView> createState() => _CatalogViewState();
@@ -23,21 +26,33 @@ class CatalogView extends StatefulWidget {
 class _CatalogViewState extends State<CatalogView> {
   final ScrollController _scrollController = ScrollController();
   final TextEditingController _searchController = TextEditingController();
-  int? _selectedCategoryId;
+  String? _selectedCategoryHandle;
   String? _activeQuery;
+  final TextEditingController _minPriceController = TextEditingController();
+  final TextEditingController _maxPriceController = TextEditingController();
 
   @override
   void initState() {
     super.initState();
     _scrollController.addListener(_onScroll);
-    _selectedCategoryId = widget.categoryId;
+    _selectedCategoryHandle = widget.initialCategoryHandle;
     _activeQuery = widget.initialQuery;
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<CatalogViewModel>().searchProducts(
             query: _activeQuery,
-            categoryId: _selectedCategoryId,
+            categoryHandle: _selectedCategoryHandle,
           );
+      context.read<CatalogViewModel>().getRecommendations();
     });
+  }
+
+  @override
+  void dispose() {
+    _scrollController.dispose();
+    _searchController.dispose();
+    _minPriceController.dispose();
+    _maxPriceController.dispose();
+    super.dispose();
   }
 
   void _onScroll() {
@@ -45,7 +60,7 @@ class _CatalogViewState extends State<CatalogView> {
         _scrollController.position.maxScrollExtent * 0.85) {
       context.read<CatalogViewModel>().searchProducts(
             query: _activeQuery,
-            categoryId: _selectedCategoryId,
+            categoryHandle: _selectedCategoryHandle,
             refresh: false,
           );
     }
@@ -55,23 +70,214 @@ class _CatalogViewState extends State<CatalogView> {
     setState(() => _activeQuery = query.trim().isEmpty ? null : query.trim());
     context.read<CatalogViewModel>().searchProducts(
           query: _activeQuery,
-          categoryId: _selectedCategoryId,
+          categoryHandle: _selectedCategoryHandle,
         );
   }
 
-  void _selectCategory(int? categoryId) {
-    setState(() => _selectedCategoryId = categoryId);
+  void _selectCategory(String? handle) {
+    setState(() => _selectedCategoryHandle = handle);
     context.read<CatalogViewModel>().searchProducts(
           query: _activeQuery,
-          categoryId: _selectedCategoryId,
+          categoryHandle: _selectedCategoryHandle,
         );
   }
 
-  @override
-  void dispose() {
-    _scrollController.dispose();
-    _searchController.dispose();
-    super.dispose();
+  void _openFilterSheet() {
+    final vm = context.read<CatalogViewModel>();
+    _minPriceController.text = vm.minPrice?.toStringAsFixed(0) ?? '';
+    _maxPriceController.text = vm.maxPrice?.toStringAsFixed(0) ?? '';
+
+    showModalBottomSheet(
+      context: context,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+      ),
+      builder: (sheetContext) {
+        return StatefulBuilder(
+          builder: (context, setSheetState) {
+            String? localSortKey = vm.sortKey;
+            bool localSortReverse = vm.sortReverse;
+
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 40,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: AppColors.outlineVariant,
+                        borderRadius: BorderRadius.circular(2),
+                      ),
+                    ),
+                  ),
+                  const Gap(20),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        'Filter',
+                        style: GoogleFonts.notoSerif(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                        ),
+                      ),
+                      TextButton(
+                        onPressed: () {
+                          vm.clearFilters();
+                          _minPriceController.clear();
+                          _maxPriceController.clear();
+                          Navigator.pop(sheetContext);
+                        },
+                        child: Text(
+                          'Hapus Semua',
+                          style: GoogleFonts.manrope(
+                            color: const Color(0xFFB9955B),
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Gap(20),
+                  Text(
+                    'Urutkan',
+                    style: GoogleFonts.manrope(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Gap(8),
+                  _SortOption(
+                    label: 'Terbaru',
+                    isSelected: localSortKey == null,
+                    onTap: () {
+                      localSortKey = null;
+                      vm.setSort(null);
+                      Navigator.pop(sheetContext);
+                    },
+                  ),
+                  _SortOption(
+                    label: 'Harga: Rendah ke Tinggi',
+                    isSelected: localSortKey == 'PRICE' && !localSortReverse,
+                    onTap: () {
+                      localSortKey = 'PRICE';
+                      localSortReverse = false;
+                      vm.setSort('PRICE', reverse: false);
+                      Navigator.pop(sheetContext);
+                    },
+                  ),
+                  _SortOption(
+                    label: 'Harga: Tinggi ke Rendah',
+                    isSelected: localSortKey == 'PRICE' && localSortReverse,
+                    onTap: () {
+                      localSortKey = 'PRICE';
+                      localSortReverse = true;
+                      vm.setSort('PRICE', reverse: true);
+                      Navigator.pop(sheetContext);
+                    },
+                  ),
+                  _SortOption(
+                    label: 'Terlaris',
+                    isSelected: localSortKey == 'BEST_SELLING',
+                    onTap: () {
+                      localSortKey = 'BEST_SELLING';
+                      vm.setSort('BEST_SELLING');
+                      Navigator.pop(sheetContext);
+                    },
+                  ),
+                  const Gap(20),
+                  Text(
+                    'Rentang Harga',
+                    style: GoogleFonts.manrope(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w700,
+                    ),
+                  ),
+                  const Gap(12),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: TextField(
+                          controller: _minPriceController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: 'Min',
+                            hintStyle: GoogleFonts.manrope(fontSize: 13),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.outlineVariant),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 12,
+                            ),
+                          ),
+                          style: GoogleFonts.manrope(fontSize: 14),
+                        ),
+                      ),
+                      Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 12),
+                        child: Text('—',
+                            style: GoogleFonts.manrope(
+                                color: AppColors.onSurfaceVariant)),
+                      ),
+                      Expanded(
+                        child: TextField(
+                          controller: _maxPriceController,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: 'Max',
+                            hintStyle: GoogleFonts.manrope(fontSize: 13),
+                            border: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(12),
+                              borderSide: BorderSide(color: AppColors.outlineVariant),
+                            ),
+                            contentPadding: const EdgeInsets.symmetric(
+                              horizontal: 14, vertical: 12,
+                            ),
+                          ),
+                          style: GoogleFonts.manrope(fontSize: 14),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Gap(16),
+                  SizedBox(
+                    width: double.infinity,
+                    child: FilledButton(
+                      onPressed: () {
+                        final min = double.tryParse(_minPriceController.text);
+                        final max = double.tryParse(_maxPriceController.text);
+                        vm.setPriceRange(min, max);
+                        Navigator.pop(sheetContext);
+                      },
+                      style: FilledButton.styleFrom(
+                        backgroundColor: const Color(0xFFB9955B),
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(14),
+                        ),
+                      ),
+                      child: const Text('Terapkan', style: TextStyle(fontWeight: FontWeight.w700)),
+                    ),
+                  ),
+                ],
+              ),
+            );
+          },
+        );
+      },
+    );
+  }
+
+  String _sortLabel(CatalogViewModel vm) {
+    if (vm.sortKey == 'PRICE' && !vm.sortReverse) return 'Harga ↑';
+    if (vm.sortKey == 'PRICE' && vm.sortReverse) return 'Harga ↓';
+    if (vm.sortKey == 'BEST_SELLING') return 'Terlaris';
+    return 'Terbaru';
   }
 
   @override
@@ -79,66 +285,17 @@ class _CatalogViewState extends State<CatalogView> {
     final viewModel = context.watch<CatalogViewModel>();
     final homeVM = context.watch<HomeViewModel>();
     final categories = homeVM.categories;
+    final showRecommendations = viewModel.recommendations.isNotEmpty &&
+        _selectedCategoryHandle == null &&
+        (_activeQuery == null || _activeQuery!.isEmpty) &&
+        !viewModel.hasActiveFilters;
 
     return Scaffold(
       backgroundColor: AppColors.background,
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
-          SliverAppBar(
-            floating: true,
-            pinned: true,
-            snap: true,
-            elevation: 0,
-            backgroundColor: Colors.white,
-            surfaceTintColor: Colors.transparent,
-            expandedHeight: 140,
-            flexibleSpace: FlexibleSpaceBar(
-              background: Container(
-                color: Colors.white,
-                padding: const EdgeInsets.fromLTRB(24, 0, 24, 12),
-                alignment: Alignment.bottomLeft,
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'Katalog Produk',
-                      style: GoogleFonts.notoSerif(
-                        fontSize: 28,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.primary,
-                        height: 1.1,
-                      ),
-                    ),
-                    const Gap(4),
-                    Text(
-                      '${viewModel.products.length} produk tersedia',
-                      style: GoogleFonts.manrope(
-                        fontSize: 13,
-                        color: AppColors.onSurfaceVariant,
-                        fontWeight: FontWeight.w500,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ),
-            actions: const [
-              CartIconButton(),
-              SizedBox(width: 8),
-            ],
-            bottom: PreferredSize(
-              preferredSize: const Size.fromHeight(0),
-              child: Container(
-                height: 0.8,
-                color: AppColors.outlineVariant,
-              ),
-            ),
-            systemOverlayStyle: SystemUiOverlayStyle.dark.copyWith(
-              statusBarColor: Colors.transparent,
-            ),
-          ),
+          const MitologiSliverAppBar(),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -196,17 +353,62 @@ class _CatalogViewState extends State<CatalogView> {
                   children: [
                     _CategoryChip(
                       label: 'Semua',
-                      isSelected: _selectedCategoryId == null,
+                      isSelected: _selectedCategoryHandle == null,
                       onTap: () => _selectCategory(null),
                     ),
                     ...categories.map((cat) => _CategoryChip(
                           label: cat.name,
-                          isSelected: _selectedCategoryId == cat.id,
+                          isSelected: _selectedCategoryHandle == cat.slug,
                           onTap: () => _selectCategory(
-                            _selectedCategoryId == cat.id ? null : cat.id,
+                            _selectedCategoryHandle == cat.slug ? null : cat.slug,
                           ),
                         )),
                   ],
+                ),
+              ),
+            ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+              child: Row(
+                children: [
+                  _FilterChipButton(
+                    label: 'Filter',
+                    icon: PhosphorIconsRegular.faders,
+                    onTap: _openFilterSheet,
+                    isActive: viewModel.hasActiveFilters,
+                  ),
+                  const Gap(8),
+                  _FilterChipButton(
+                    label: _sortLabel(viewModel),
+                    icon: PhosphorIconsRegular.arrowsDownUp,
+                    onTap: () => _openFilterSheet(),
+                    isActive: viewModel.sortKey != null,
+                  ),
+                  const Spacer(),
+                  Text(
+                    '${viewModel.products.length} produk',
+                    style: GoogleFonts.manrope(
+                      fontSize: 12,
+                      color: AppColors.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+          if (showRecommendations)
+            SliverToBoxAdapter(
+              child: _buildRecommendationsSection(viewModel.recommendations),
+            ),
+          if (showRecommendations && viewModel.products.isNotEmpty)
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 24),
+                child: Container(
+                  height: 1,
+                  color: AppColors.outlineVariant.withValues(alpha: 0.5),
                 ),
               ),
             ),
@@ -308,6 +510,180 @@ class _CatalogViewState extends State<CatalogView> {
       ),
     );
   }
+
+  Widget _buildRecommendationsSection(List<ProductModel> products) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(24, 20, 24, 12),
+          child: Row(
+            children: [
+              Container(
+                width: 4,
+                height: 20,
+                decoration: BoxDecoration(
+                  color: const Color(0xFFB9955B),
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+              const Gap(10),
+              Text(
+                'Rekomendasi Untukmu',
+                style: GoogleFonts.notoSerif(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primary,
+                ),
+              ),
+            ],
+          ),
+        ),
+        SizedBox(
+          height: 280,
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            itemCount: products.length,
+            itemBuilder: (context, index) {
+              final product = products[index];
+              return GestureDetector(
+                onTap: () => context.push('/product/${product.slug}'),
+                child: Container(
+                  width: 200,
+                  margin: const EdgeInsets.only(right: 16),
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(22),
+                    border: Border.all(color: AppColors.outlineVariant),
+                    boxShadow: [
+                      BoxShadow(
+                        color: AppColors.shadow.withValues(alpha: 0.06),
+                        blurRadius: 16,
+                        offset: const Offset(0, 6),
+                      ),
+                    ],
+                  ),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      ShimmerImage(
+                        imageUrl: ApiConfig.buildImageUrl(product.featuredImageUrl),
+                        fit: BoxFit.cover,
+                        width: double.infinity,
+                        height: double.infinity,
+                      ),
+                      Positioned(
+                        left: 0,
+                        right: 0,
+                        bottom: 0,
+                        child: Container(
+                          padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
+                          decoration: BoxDecoration(
+                            gradient: LinearGradient(
+                              begin: Alignment.topCenter,
+                              end: Alignment.bottomCenter,
+                              colors: [
+                                Colors.transparent,
+                                Colors.black.withValues(alpha: 0.85),
+                              ],
+                            ),
+                          ),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                product.name,
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w800,
+                                  height: 1.2,
+                                ),
+                                maxLines: 2,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 6),
+                              Row(
+                                children: [
+                                  Text(
+                                    _formatPrice(product.displayPrice),
+                                    style: const TextStyle(
+                                      color: Color(0xFFB9955B),
+                                      fontSize: 17,
+                                      fontWeight: FontWeight.w900,
+                                    ),
+                                  ),
+                                  const Spacer(),
+                                  if ((product.rating ?? 0) > 0) ...[
+                                    const Icon(
+                                      Icons.star_rounded,
+                                      size: 16,
+                                      color: Color(0xFFB9955B),
+                                    ),
+                                    const SizedBox(width: 2),
+                                    Text(
+                                      product.rating!.toStringAsFixed(1),
+                                      style: const TextStyle(
+                                        color: Colors.white70,
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w600,
+                                      ),
+                                    ),
+                                  ],
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      if (product.onSale)
+                        Positioned(
+                          top: 12,
+                          left: 12,
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 10, vertical: 6,
+                            ),
+                            decoration: BoxDecoration(
+                              color: const Color(0xD6142033),
+                              borderRadius: BorderRadius.circular(999),
+                            ),
+                            child: const Text(
+                              'PROMO',
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 10,
+                                fontWeight: FontWeight.w800,
+                                letterSpacing: 1.1,
+                              ),
+                            ),
+                          ),
+                        ),
+                    ],
+                  ),
+                ),
+              );
+            },
+          ),
+        ),
+        const Gap(8),
+      ],
+    );
+  }
+
+  String _formatPrice(double price) {
+    final whole = price.toStringAsFixed(0);
+    final buffer = StringBuffer();
+    for (int i = 0; i < whole.length; i++) {
+      final reverseIndex = whole.length - i;
+      buffer.write(whole[i]);
+      if (reverseIndex > 1 && reverseIndex % 3 == 1) {
+        buffer.write('.');
+      }
+    }
+    return 'Rp $buffer';
+  }
 }
 
 class _CategoryChip extends StatelessWidget {
@@ -342,6 +718,99 @@ class _CategoryChip extends StatelessWidget {
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
             color: isSelected ? Colors.white : AppColors.onSurface,
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _FilterChipButton extends StatelessWidget {
+  final String label;
+  final IconData icon;
+  final VoidCallback onTap;
+  final bool isActive;
+
+  const _FilterChipButton({
+    required this.label,
+    required this.icon,
+    required this.onTap,
+    this.isActive = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+        decoration: BoxDecoration(
+          color: isActive ? const Color(0xFFB9955B).withValues(alpha: 0.1) : Colors.white,
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: isActive ? const Color(0xFFB9955B) : AppColors.outlineVariant,
+          ),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            Icon(icon, size: 14,
+                color: isActive ? const Color(0xFFB9955B) : AppColors.onSurfaceVariant),
+            const SizedBox(width: 6),
+            Text(
+              label,
+              style: GoogleFonts.manrope(
+                fontSize: 13,
+                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                color: isActive ? const Color(0xFFB9955B) : AppColors.onSurface,
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class _SortOption extends StatelessWidget {
+  final String label;
+  final bool isSelected;
+  final VoidCallback onTap;
+
+  const _SortOption({
+    required this.label,
+    required this.isSelected,
+    required this.onTap,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 4),
+      child: InkWell(
+        onTap: onTap,
+        borderRadius: BorderRadius.circular(10),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 10),
+          child: Row(
+            children: [
+              Icon(
+                isSelected
+                    ? PhosphorIconsFill.radioButton
+                    : PhosphorIconsRegular.radioButton,
+                size: 18,
+                color: isSelected ? const Color(0xFFB9955B) : AppColors.outline,
+              ),
+              const SizedBox(width: 12),
+              Text(
+                label,
+                style: GoogleFonts.manrope(
+                  fontSize: 14,
+                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  color: isSelected ? const Color(0xFFB9955B) : AppColors.onSurface,
+                ),
+              ),
+            ],
           ),
         ),
       ),
