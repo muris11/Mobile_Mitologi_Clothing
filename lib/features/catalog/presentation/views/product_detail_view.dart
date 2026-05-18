@@ -83,9 +83,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     final variant = _matchedVariant;
 
     await cartVM.addToCart(
-      productId: product.id,
       quantity: _quantity,
-      variantId: variant?.id,
+      variantId: variant?.id ?? 0,
     );
 
     if (!mounted) return;

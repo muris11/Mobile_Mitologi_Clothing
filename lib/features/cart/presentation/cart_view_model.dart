@@ -32,9 +32,8 @@ class CartViewModel extends ChangeNotifier {
   }
 
   Future<void> addToCart({
-    required int productId,
     required int quantity,
-    int? variantId,
+    required int variantId,
   }) async {
     _isLoading = true;
     _error = null;
@@ -42,7 +41,6 @@ class CartViewModel extends ChangeNotifier {
 
     try {
       _cart = await _cartRepository.addToCart(
-        productId: productId,
         quantity: quantity,
         variantId: variantId,
       );

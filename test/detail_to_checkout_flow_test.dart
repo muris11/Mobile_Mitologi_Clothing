@@ -131,7 +131,7 @@ class _FakeCartViewModel extends CartViewModel {
   bool get isLoading => false;
 
   @override
-  Future<void> addToCart({required int productId, required int quantity, int? variantId}) async {
+  Future<void> addToCart({required int quantity, required int variantId}) async {
     _cartInternal = _cart;
     notifyListeners();
   }

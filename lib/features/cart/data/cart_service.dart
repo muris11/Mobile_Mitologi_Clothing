@@ -12,32 +12,30 @@ class CartService {
   }
 
   Future<Response> addToCart({
-    required int productId,
     required int quantity,
-    int? variantId,
+    required int variantId,
   }) async {
     return await _apiClient.dio.post(
-      ApiEndpoints.cart,
+      ApiEndpoints.cartItems,
       data: {
-        'product_id': productId,
+        'merchandiseId': variantId,
         'quantity': quantity,
-        if (variantId != null) 'variant_id': variantId,
       },
     );
   }
 
   Future<Response> updateQuantity(int itemId, int quantity) async {
     return await _apiClient.dio.put(
-      '${ApiEndpoints.cart}/$itemId',
+      ApiEndpoints.cartItem(itemId),
       data: {'quantity': quantity},
     );
   }
 
   Future<Response> removeFromCart(int itemId) async {
-    return await _apiClient.dio.delete('${ApiEndpoints.cart}/$itemId');
+    return await _apiClient.dio.delete(ApiEndpoints.cartItem(itemId));
   }
 
   Future<Response> clearCart() async {
-    return await _apiClient.dio.delete(ApiEndpoints.cart);
+    return await _apiClient.dio.delete(ApiEndpoints.clearCart);
   }
 }

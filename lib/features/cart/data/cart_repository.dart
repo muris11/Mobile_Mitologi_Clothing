@@ -14,12 +14,10 @@ class CartRepository {
   }
 
   Future<CartModel> addToCart({
-    required int productId,
     required int quantity,
-    int? variantId,
+    required int variantId,
   }) async {
     final response = await _cartService.addToCart(
-      productId: productId,
       quantity: quantity,
       variantId: variantId,
     );
