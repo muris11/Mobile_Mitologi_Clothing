@@ -53,6 +53,7 @@ class OrderModel extends Equatable {
   final double totalAmount;
   final double subtotal;
   final double shippingCost;
+  final int itemsCount;
   final String? paymentUrl;
   final String? trackingNumber;
   final DateTime? refundRequestedAt;
@@ -68,6 +69,7 @@ class OrderModel extends Equatable {
     required this.totalAmount,
     this.subtotal = 0,
     this.shippingCost = 0,
+    this.itemsCount = 0,
     this.paymentUrl,
     this.trackingNumber,
     this.refundRequestedAt,
@@ -92,6 +94,9 @@ class OrderModel extends Equatable {
       ),
       shippingCost: ParserUtils.parseDouble(
         json['shippingCost'] ?? json['shipping_cost'] ?? json['shipping_amount'],
+      ),
+      itemsCount: ParserUtils.parseInt(
+        json['itemsCount'] ?? json['items_count'],
       ),
       paymentUrl: json['paymentUrl'] as String? ??
           json['payment_url'] as String?,

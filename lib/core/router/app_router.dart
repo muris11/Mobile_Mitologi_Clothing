@@ -28,6 +28,7 @@ import 'package:mitologi_clothing_mobile/features/home/presentation/views/home_v
 import 'package:mitologi_clothing_mobile/features/profile/presentation/views/order_detail_screen.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/views/orders_list_screen.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/views/profile_view.dart';
+import 'package:mitologi_clothing_mobile/features/profile/presentation/views/edit_profile_screen.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -171,6 +172,10 @@ class AppRouter {
       GoRoute(
         path: '/profile/addresses',
         builder: (context, state) => const AddressesScreen(),
+      ),
+      GoRoute(
+        path: '/profile/edit',
+        builder: (context, state) => const EditProfileScreen(),
       ),
       GoRoute(
         path: '/kategori',

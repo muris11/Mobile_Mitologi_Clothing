@@ -40,40 +40,13 @@ class _AboutScreenState extends State<AboutScreen> {
           SliverAppBar(
             floating: false,
             pinned: true,
-            expandedHeight: 160,
-            backgroundColor: AppColors.primary,
+            expandedHeight: 0,
+            backgroundColor: AppColors.background,
             surfaceTintColor: Colors.transparent,
             leading: IconButton(
-              icon: const Icon(PhosphorIconsRegular.arrowLeft,
-                  color: Colors.white),
+              icon: Icon(PhosphorIconsRegular.arrowLeft,
+                  color: AppColors.primary),
               onPressed: () => context.pop(),
-            ),
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding:
-                  const EdgeInsets.only(left: 56, bottom: 16, right: 16),
-              title: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'Tentang Kami',
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontSize: 18,
-                      fontWeight: FontWeight.w900,
-                    ),
-                  ),
-                  Text(
-                    settings?.siteName ?? 'Mitologi Clothing',
-                    style: TextStyle(
-                      color: AppColors.secondary,
-                      fontSize: 10,
-                      fontWeight: FontWeight.w700,
-                      letterSpacing: 1,
-                    ),
-                  ),
-                ],
-              ),
             ),
           ),
           if (vm.isLoading)
@@ -94,10 +67,9 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
             )
           else ...[
-            _buildBrandIntro(settings),
-            _buildHistorySection(settings),
+            _buildHeroSection(settings),
+            _buildMainContent(settings),
             _buildVisionMission(settings),
-            _buildFacilitiesSection(vm),
             _buildTeamSection(vm),
           ],
           const SliverToBoxAdapter(child: Gap(80)),
@@ -106,118 +78,309 @@ class _AboutScreenState extends State<AboutScreen> {
     );
   }
 
-  Widget _buildBrandIntro(SiteSettingsModel settings) {
-    final headline = settings.aboutHeadline ?? settings.siteTagline ?? '';
-    final desc1 = settings.aboutDescription1 ?? '';
-    final desc2 = settings.aboutDescription2 ?? '';
-    final year = settings.companyFoundedYear ?? '';
-    final image = settings.aboutImage;
+  Widget _buildHeroSection(SiteSettingsModel settings) {
+    final siteName = settings.siteName ?? 'Mitologi Clothing';
+    final tagline = settings.aboutHeadline ?? settings.siteTagline ?? '';
 
     return SliverToBoxAdapter(
       child: Container(
-        color: AppColors.primary,
-        padding: const EdgeInsets.fromLTRB(24, 0, 24, 40),
+        color: Colors.white,
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 48),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            if (image != null && image.isNotEmpty)
-              Container(
-                height: 220,
-                margin: const EdgeInsets.only(bottom: 24),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: AppColors.secondary.withValues(alpha: 0.3)),
-                ),
-                clipBehavior: Clip.antiAlias,
-                child: AppImage(
-                  imageUrl: ApiConfig.buildImageUrl(image),
-                  fit: BoxFit.cover,
-                  width: double.infinity,
-                ),
+            Text(
+              'Tentang Kami',
+              style: TextStyle(
+                fontSize: 11,
+                fontWeight: FontWeight.w600,
+                color: AppColors.secondary,
+                letterSpacing: 0.2,
               ),
-            if (year.isNotEmpty)
-              Container(
-                margin: const EdgeInsets.only(bottom: 12),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
-                decoration: BoxDecoration(
-                  color: AppColors.secondary.withValues(alpha: 0.15),
-                  borderRadius: BorderRadius.circular(20),
-                  border: Border.all(
-                      color: AppColors.secondary.withValues(alpha: 0.3)),
-                ),
-                child: Text(
-                  'Berdiri sejak $year',
-                  style: TextStyle(
-                    color: AppColors.secondary,
-                    fontSize: 11,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 1,
-                  ),
-                ),
+            ),
+            const Gap(12),
+            Text(
+              siteName,
+              style: TextStyle(
+                fontSize: 32,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+                height: 1.1,
               ),
-            if (headline.isNotEmpty)
+              textAlign: TextAlign.center,
+            ),
+            const Gap(12),
+            if (tagline.isNotEmpty)
               Text(
-                headline,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontSize: 22,
-                  fontWeight: FontWeight.w900,
-                  height: 1.3,
+                tagline,
+                style: TextStyle(
+                  fontSize: 15,
+                  color: AppColors.onSurfaceVariant,
+                  height: 1.5,
                 ),
+                textAlign: TextAlign.center,
               ),
-            if (desc1.isNotEmpty) ...[
-              const Gap(16),
-              Text(desc1,
-                  style: const TextStyle(
-                      color: Colors.white70, fontSize: 14, height: 1.6)),
-            ],
-            if (desc2.isNotEmpty) ...[
-              const Gap(12),
-              Text(desc2,
-                  style: const TextStyle(
-                      color: Colors.white70, fontSize: 14, height: 1.6)),
-            ],
           ],
         ),
       ),
     );
   }
 
-  Widget _buildHistorySection(SiteSettingsModel settings) {
-    final history = settings.aboutShortHistory;
-    if (history == null || history.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
-    }
-
-    final paragraphs =
-        history.split('\n').where((p) => p.trim().isNotEmpty).toList();
+  Widget _buildMainContent(SiteSettingsModel settings) {
+    final siteName = settings.siteName ?? 'Mitologi Clothing';
+    final desc1 = settings.aboutDescription1 ?? '';
+    final desc2 = settings.aboutDescription2 ?? '';
+    final year = settings.companyFoundedYear ?? '2022';
+    final image = settings.aboutImage;
 
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.fromLTRB(20, 0, 20, 48),
         child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _sectionLabel('SEJARAH KAMI'),
-            const Gap(8),
-            const Text('Perjalanan Mitologi',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
-            const Gap(20),
-            ...paragraphs.map((p) => Padding(
-                  padding: const EdgeInsets.only(bottom: 12),
-                  child: Text(
-                    p,
-                    style: TextStyle(
-                        color: AppColors.onSurfaceVariant,
-                        fontSize: 14,
-                        height: 1.6),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                if (image != null && image.isNotEmpty) ...[
+                  Expanded(
+                    child: Stack(
+                      children: [
+                        Container(
+                          height: 280,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(24),
+                            boxShadow: [
+                              BoxShadow(
+                                color: AppColors.shadow.withValues(alpha: 0.08),
+                                blurRadius: 20,
+                                offset: const Offset(0, 10),
+                              ),
+                            ],
+                          ),
+                          clipBehavior: Clip.antiAlias,
+                          child: AppImage(
+                            imageUrl: ApiConfig.buildImageUrl(image),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                          ),
+                        ),
+                        Positioned(
+                          bottom: -12,
+                          right: 12,
+                          child: Container(
+                            padding: const EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(16),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.shadow.withValues(alpha: 0.12),
+                                  blurRadius: 24,
+                                  offset: const Offset(0, 8),
+                                ),
+                              ],
+                            ),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  'Berdiri',
+                                  style: TextStyle(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.onSurfaceVariant,
+                                    letterSpacing: 0.2,
+                                  ),
+                                ),
+                                Text(
+                                  year,
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.w900,
+                                    color: AppColors.primary,
+                                  ),
+                                ),
+                                Text(
+                                  'Indramayu',
+                                  style: TextStyle(
+                                    fontSize: 12,
+                                    fontWeight: FontWeight.w600,
+                                    color: AppColors.onSurfaceVariant,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                )),
+                ],
+              ],
+            ),
+            const Gap(32),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 28,
+                      height: 2,
+                      color: AppColors.secondary,
+                    ),
+                    const Gap(8),
+                    Text(
+                      'Tentang Kami',
+                      style: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w700,
+                        color: AppColors.secondary,
+                        letterSpacing: 0.25,
+                      ),
+                    ),
+                  ],
+                ),
+                const Gap(12),
+                Text(
+                  siteName,
+                  style: TextStyle(
+                    fontSize: 28,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.primary,
+                    height: 1.15,
+                  ),
+                ),
+                const Gap(16),
+                if (desc1.isNotEmpty)
+                  Text(
+                    desc1,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: AppColors.onSurfaceVariant,
+                      height: 1.6,
+                    ),
+                  ),
+                if (desc2.isNotEmpty) ...[
+                  const Gap(12),
+                  Text(
+                    desc2,
+                    style: TextStyle(
+                      fontSize: 15,
+                      color: AppColors.onSurfaceVariant,
+                      height: 1.6,
+                    ),
+                  ),
+                ],
+              ],
+            ),
+            const Gap(24),
+            _buildValuesGrid(),
+            const Gap(24),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                GestureDetector(
+                  onTap: () {},
+                  child: Row(
+                    children: [
+                      Text(
+                        'Pelajari lebih lanjut',
+                        style: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const Gap(6),
+                      Icon(
+                        PhosphorIconsRegular.arrowRight,
+                        size: 16,
+                        color: AppColors.primary,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildValuesGrid() {
+    final values = [
+      {'icon': PhosphorIconsRegular.shieldCheck, 'title': 'Kejujuran', 'desc': 'Integritas dalam setiap transaksi'},
+      {'icon': PhosphorIconsRegular.star, 'title': 'Kualitas', 'desc': 'Standar kualitas tinggi'},
+      {'icon': PhosphorIconsRegular.clock, 'title': 'Tepat Waktu', 'desc': 'Menghormati deadline'},
+      {'icon': PhosphorIconsRegular.globeHemisphereEast, 'title': 'Budaya', 'desc': 'Mengangkat budaya lokal'},
+    ];
+
+    return GridView.builder(
+      shrinkWrap: true,
+      physics: const NeverScrollableScrollPhysics(),
+      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: 2,
+        childAspectRatio: 1.3,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 12,
+      ),
+      itemCount: values.length,
+      itemBuilder: (context, index) {
+        final item = values[index];
+        return Container(
+          padding: const EdgeInsets.all(16),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.5)),
+            boxShadow: [
+              BoxShadow(
+                color: AppColors.shadow.withValues(alpha: 0.04),
+                blurRadius: 12,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: AppColors.primary.withValues(alpha: 0.05),
+                  borderRadius: BorderRadius.circular(10),
+                ),
+                child: Icon(
+                  item['icon'] as IconData,
+                  size: 20,
+                  color: AppColors.primary,
+                ),
+              ),
+              const Gap(12),
+              Text(
+                item['title'] as String,
+                style: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.primary,
+                ),
+              ),
+              const Gap(4),
+              Text(
+                item['desc'] as String,
+                style: TextStyle(
+                  fontSize: 12,
+                  color: AppColors.onSurfaceVariant,
+                ),
+              ),
+            ],
+          ),
+        );
+      },
     );
   }
 
@@ -230,162 +393,146 @@ class _AboutScreenState extends State<AboutScreen> {
     }
 
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.fromLTRB(20, 24, 20, 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _sectionLabel('VISI & MISI'),
-            const Gap(8),
-            const Text('Arah & Tujuan Kami',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
-            const Gap(20),
+            Row(
+              children: [
+                Container(
+                  width: 28,
+                  height: 2,
+                  color: AppColors.secondary,
+                ),
+                const Gap(8),
+                Text(
+                  'VISI & MISI',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.secondary,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+              ],
+            ),
+            const Gap(12),
+            Text(
+              'Arah & Tujuan Kami',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+                height: 1.15,
+              ),
+            ),
+            const Gap(24),
             if (vision != null && vision.isNotEmpty)
-              _vmCard(
-                icon: PhosphorIconsRegular.eye,
-                label: 'VISI',
-                text: vision,
-                bgColor: AppColors.primary,
-                textColor: Colors.white,
+              Container(
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.3)),
+                ),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: AppColors.secondary,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            PhosphorIconsRegular.eye,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Gap(12),
+                        Text(
+                          'VISI',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.secondary,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Gap(14),
+                    Text(
+                      vision,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppColors.onSurfaceVariant,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             if (mission != null && mission.isNotEmpty) ...[
               const Gap(16),
-              _vmCard(
-                icon: PhosphorIconsRegular.target,
-                label: 'MISI',
-                text: mission,
-                bgColor: AppColors.surfaceContainerLowest,
-                textColor: AppColors.onSurface,
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget _vmCard({
-    required IconData icon,
-    required String label,
-    required String text,
-    required Color bgColor,
-    required Color textColor,
-  }) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(20),
-      decoration: BoxDecoration(
-        color: bgColor,
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.outlineVariant),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Row(
-            children: [
               Container(
-                width: 36,
-                height: 36,
+                width: double.infinity,
+                padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: AppColors.secondary,
-                  borderRadius: BorderRadius.circular(10),
+                  color: AppColors.surfaceContainerLow,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.3)),
                 ),
-                child: Icon(icon, size: 18, color: AppColors.primary),
-              ),
-              const Gap(12),
-              Text(
-                label,
-                style: TextStyle(
-                  color: bgColor == AppColors.primary
-                      ? AppColors.secondary
-                      : AppColors.secondary,
-                  fontSize: 12,
-                  fontWeight: FontWeight.w900,
-                  letterSpacing: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Row(
+                      children: [
+                        Container(
+                          width: 36,
+                          height: 36,
+                          decoration: BoxDecoration(
+                            color: AppColors.primary,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: Icon(
+                            PhosphorIconsRegular.target,
+                            size: 18,
+                            color: Colors.white,
+                          ),
+                        ),
+                        const Gap(12),
+                        Text(
+                          'MISI',
+                          style: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w900,
+                            color: AppColors.primary,
+                            letterSpacing: 2,
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Gap(14),
+                    Text(
+                      mission,
+                      style: TextStyle(
+                        fontSize: 14,
+                        color: AppColors.onSurfaceVariant,
+                        height: 1.6,
+                      ),
+                    ),
+                  ],
                 ),
               ),
             ],
-          ),
-          const Gap(14),
-          Text(
-            text,
-            style: TextStyle(
-              color: bgColor == AppColors.primary
-                  ? Colors.white.withValues(alpha: 0.9)
-                  : AppColors.onSurfaceVariant,
-              fontSize: 14,
-              height: 1.6,
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget _buildFacilitiesSection(HomeViewModel vm) {
-    final facilities = vm.facilities;
-    if (facilities.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
-    }
-
-    return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            _sectionLabel('FASILITAS PRODUKSI'),
-            const Gap(8),
-            const Text('Dilengkapi Infrastruktur Modern',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
-            const Gap(20),
-            ...facilities.map((f) => Container(
-                  margin: const EdgeInsets.only(bottom: 12),
-                  decoration: BoxDecoration(
-                    color: AppColors.surfaceContainerLowest,
-                    borderRadius: BorderRadius.circular(16),
-                    border: Border.all(color: AppColors.outlineVariant),
-                  ),
-                  clipBehavior: Clip.antiAlias,
-                  child: Row(
-                    children: [
-                      if (f.image.isNotEmpty)
-                        SizedBox(
-                          width: 90,
-                          height: 90,
-                          child: AppImage(
-                            imageUrl: ApiConfig.buildImageUrl(f.image),
-                            fit: BoxFit.cover,
-                          ),
-                        ),
-                      Expanded(
-                        child: Padding(
-                          padding: const EdgeInsets.all(14),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(f.name,
-                                  style: const TextStyle(
-                                      fontSize: 14,
-                                      fontWeight: FontWeight.w900)),
-                              if (f.description.isNotEmpty) ...[
-                                const Gap(4),
-                                Text(f.description,
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                    style: TextStyle(
-                                        color: AppColors.onSurfaceVariant,
-                                        fontSize: 12,
-                                        height: 1.4)),
-                              ],
-                            ],
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                )),
           ],
         ),
       ),
@@ -397,16 +544,42 @@ class _AboutScreenState extends State<AboutScreen> {
     if (team.isEmpty) return const SliverToBoxAdapter(child: SizedBox.shrink());
 
     return SliverToBoxAdapter(
-      child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
+      child: Container(
+        color: Colors.white,
+        padding: const EdgeInsets.fromLTRB(20, 24, 20, 48),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            _sectionLabel('TIM KAMI'),
-            const Gap(8),
-            const Text('Orang-Orang di Balik Mitologi',
-                style: TextStyle(fontSize: 22, fontWeight: FontWeight.w900)),
-            const Gap(20),
+            Row(
+              children: [
+                Container(
+                  width: 28,
+                  height: 2,
+                  color: AppColors.secondary,
+                ),
+                const Gap(8),
+                Text(
+                  'TIM KAMI',
+                  style: TextStyle(
+                    fontSize: 11,
+                    fontWeight: FontWeight.w700,
+                    color: AppColors.secondary,
+                    letterSpacing: 0.25,
+                  ),
+                ),
+              ],
+            ),
+            const Gap(12),
+            Text(
+              'Orang-Orang di Balik Mitologi',
+              style: TextStyle(
+                fontSize: 28,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+                height: 1.15,
+              ),
+            ),
+            const Gap(24),
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -421,9 +594,9 @@ class _AboutScreenState extends State<AboutScreen> {
                 final member = team[i];
                 return Container(
                   decoration: BoxDecoration(
-                    color: AppColors.surfaceContainerLowest,
+                    color: AppColors.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(20),
-                    border: Border.all(color: AppColors.outlineVariant),
+                    border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.3)),
                   ),
                   clipBehavior: Clip.antiAlias,
                   child: Column(
@@ -432,12 +605,11 @@ class _AboutScreenState extends State<AboutScreen> {
                       Expanded(
                         child: member.photoUrl.isNotEmpty
                             ? AppImage(
-                                imageUrl:
-                                    ApiConfig.buildImageUrl(member.photoUrl),
+                                imageUrl: ApiConfig.buildImageUrl(member.photoUrl),
                                 fit: BoxFit.cover,
                               )
                             : Container(
-                                color: AppColors.surfaceContainerLow,
+                                color: AppColors.surfaceContainer,
                                 child: Icon(
                                   PhosphorIconsRegular.user,
                                   size: 48,
@@ -453,8 +625,8 @@ class _AboutScreenState extends State<AboutScreen> {
                             Text(member.name,
                                 maxLines: 1,
                                 overflow: TextOverflow.ellipsis,
-                                style: const TextStyle(
-                                    fontSize: 13, fontWeight: FontWeight.w900)),
+                                style: TextStyle(
+                                    fontSize: 13, fontWeight: FontWeight.w900, color: AppColors.primary)),
                             if (member.position.isNotEmpty)
                               Text(member.position,
                                   maxLines: 1,
@@ -474,24 +646,6 @@ class _AboutScreenState extends State<AboutScreen> {
           ],
         ),
       ),
-    );
-  }
-
-  Widget _sectionLabel(String text) {
-    return Row(
-      children: [
-        Container(width: 28, height: 2, color: AppColors.secondary),
-        const Gap(8),
-        Text(
-          text,
-          style: TextStyle(
-            color: AppColors.secondary,
-            fontSize: 10,
-            fontWeight: FontWeight.w800,
-            letterSpacing: 2,
-          ),
-        ),
-      ],
     );
   }
 }

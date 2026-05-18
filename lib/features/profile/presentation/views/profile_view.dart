@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/cart_icon_button.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/loading_indicator.dart';
@@ -66,7 +67,7 @@ class _ProfileViewState extends State<ProfileView> {
                             const Gap(8),
                           ],
                         ),
-                        _buildHeader(authVM),
+                        _buildHeader(profileVM.user ?? authVM.user),
                         _buildMenuSection(context),
                         if (profileVM.orders.isNotEmpty)
                           _buildRecentOrders(profileVM),
@@ -81,72 +82,119 @@ class _ProfileViewState extends State<ProfileView> {
   }
 
 
-  Widget _buildHeader(AuthViewModel authVM) {
-    final user = authVM.user;
+  Widget _buildHeader(dynamic user) {
     final initial = user?.name.isNotEmpty == true
         ? user!.name.substring(0, 1).toUpperCase()
         : 'U';
+    final avatarUrl = user?.avatarUrl;
 
     return SliverToBoxAdapter(
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-        padding: const EdgeInsets.all(20),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
-          border: Border.all(color: AppColors.outlineVariant),
-          boxShadow: [AppShadows.cardSoft],
+      child: GestureDetector(
+        onTap: () => context.push('/profile/edit'),
+        child: Container(
+          margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+          padding: const EdgeInsets.all(20),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(color: AppColors.outlineVariant),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Row(
+            children: [
+              Container(
+                width: 64,
+                height: 64,
+                decoration: BoxDecoration(
+                  gradient: avatarUrl == null
+                      ? LinearGradient(
+                          colors: [AppColors.primary, AppColors.primaryContainer],
+                          begin: Alignment.topLeft,
+                          end: Alignment.bottomRight,
+                        )
+                      : null,
+                  borderRadius: BorderRadius.circular(20),
+                ),
+                child: avatarUrl != null
+                    ? ClipRRect(
+                        borderRadius: BorderRadius.circular(20),
+                        child: Image.network(
+                          avatarUrl,
+                          width: 64,
+                          height: 64,
+                          fit: BoxFit.cover,
+                          errorBuilder: (_, __, ___) => _buildAvatarFallback(initial),
+                        ),
+                      )
+                    : Center(
+                        child: Text(
+                          initial,
+                          style: GoogleFonts.notoSerif(
+                            fontSize: 28,
+                            fontWeight: FontWeight.w800,
+                            color: Colors.white,
+                          ),
+                        ),
+                      ),
+              ),
+              const Gap(16),
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      user?.name ?? 'Pengguna',
+                      style: GoogleFonts.notoSerif(
+                        fontSize: 18,
+                        fontWeight: FontWeight.w800,
+                        color: AppColors.primary,
+                      ),
+                    ),
+                    const Gap(2),
+                    Text(
+                      user?.email ?? '',
+                      style: GoogleFonts.manrope(
+                        fontSize: 13,
+                        color: AppColors.onSurfaceVariant,
+                        fontWeight: FontWeight.w500,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
         ),
-        child: Row(
-          children: [
-            Container(
-              width: 64,
-              height: 64,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  colors: [AppColors.primary, AppColors.primaryContainer],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
-                ),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: Center(
-                child: Text(
-                  initial,
-                  style: GoogleFonts.notoSerif(
-                    fontSize: 28,
-                    fontWeight: FontWeight.w800,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-            const Gap(16),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    user?.name ?? 'Pengguna',
-                    style: GoogleFonts.notoSerif(
-                      fontSize: 18,
-                      fontWeight: FontWeight.w800,
-                      color: AppColors.primary,
-                    ),
-                  ),
-                  const Gap(2),
-                  Text(
-                    user?.email ?? '',
-                    style: GoogleFonts.manrope(
-                      fontSize: 13,
-                      color: AppColors.onSurfaceVariant,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ],
+      ),
+    );
+  }
+
+  Widget _buildAvatarFallback(String initial) {
+    return Container(
+      width: 64,
+      height: 64,
+      decoration: BoxDecoration(
+        gradient: LinearGradient(
+          colors: [AppColors.primary, AppColors.primaryContainer],
+          begin: Alignment.topLeft,
+          end: Alignment.bottomRight,
+        ),
+        borderRadius: BorderRadius.circular(20),
+      ),
+      child: Center(
+        child: Text(
+          initial,
+          style: GoogleFonts.notoSerif(
+            fontSize: 28,
+            fontWeight: FontWeight.w800,
+            color: Colors.white,
+          ),
         ),
       ),
     );
@@ -173,7 +221,7 @@ class _ProfileViewState extends State<ProfileView> {
         onTap: () => context.push('/profile/addresses'),
       ),
       _MenuItem(
-        icon: PhosphorIconsRegular.sparkle,
+        icon: PhosphorIconsRegular.headset,
         label: 'Mitologi AI Assistant',
         subtitle: 'Rekomendasi outfit personal',
         onTap: () => context.push('/chatbot'),
@@ -363,7 +411,7 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildOrderCard(dynamic order, bool isLast) {
+  Widget _buildOrderCard(OrderModel order, bool isLast) {
     final statusColors = <String, Color>{
       'pending': const Color(0xFFB45309),
       'paid': const Color(0xFF047857),
@@ -429,7 +477,7 @@ class _ProfileViewState extends State<ProfileView> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
-                  '${order.items.length} item',
+                  '${order.itemsCount > 0 ? order.itemsCount : order.items.length} item',
                   style: GoogleFonts.manrope(
                     fontSize: 12,
                     color: AppColors.onSurfaceVariant,

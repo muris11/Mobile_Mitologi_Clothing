@@ -38,11 +38,24 @@ class CheckoutRepository {
     return OrderModel.fromJson(ParserUtils.parseMap(data));
   }
 
+  Future<OrderModel?> confirmPayment(String orderNumber) async {
+    final response = await _checkoutService.confirmPayment(orderNumber);
+    final data = response.data['data'];
+    if (data is Map && data['order'] != null) {
+      return OrderModel.fromJson(ParserUtils.parseMap(data['order']));
+    }
+    return null;
+  }
+
   Future<void> addAddress(AddressModel address) async {
     await _checkoutService.addAddress(address.toJson());
   }
 
   Future<void> updateAddress(AddressModel address) async {
     await _checkoutService.updateAddress(address.id, address.toJson());
+  }
+
+  Future<void> deleteAddress(int id) async {
+    await _checkoutService.deleteAddress(id);
   }
 }

@@ -99,15 +99,40 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: _pickImage,
-                          child: CircleAvatar(
-                            radius: 48,
-                            backgroundColor: AppColors.surfaceContainerHigh,
-                            child: Icon(
-                              Icons.camera_alt_outlined,
-                              size: 32,
-                              color: AppColors.onSurfaceVariant,
-                            ),
+                          onTap: viewModel.isLoading ? null : _pickImage,
+                          child: Stack(
+                            children: [
+                              CircleAvatar(
+                                radius: 48,
+                                backgroundColor: AppColors.surfaceContainerHigh,
+                                backgroundImage: viewModel.user?.avatarUrl != null
+                                    ? NetworkImage(viewModel.user!.avatarUrl!)
+                                    : null,
+                                child: viewModel.user?.avatarUrl == null
+                                    ? Icon(
+                                        Icons.person_outline,
+                                        size: 48,
+                                        color: AppColors.onSurfaceVariant,
+                                      )
+                                    : null,
+                              ),
+                              Positioned(
+                                right: 0,
+                                bottom: 0,
+                                child: Container(
+                                  padding: const EdgeInsets.all(4),
+                                  decoration: const BoxDecoration(
+                                    color: AppColors.primary,
+                                    shape: BoxShape.circle,
+                                  ),
+                                  child: const Icon(
+                                    Icons.camera_alt,
+                                    size: 16,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
                         const SizedBox(height: 32),

@@ -206,14 +206,18 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    '#${order.orderNumber}',
-                    style: GoogleFonts.manrope(
-                      fontWeight: FontWeight.w800,
-                      fontSize: 15,
-                      color: AppColors.primary,
+                  Expanded(
+                    child: Text(
+                      '#${order.orderNumber}',
+                      style: GoogleFonts.manrope(
+                        fontWeight: FontWeight.w800,
+                        fontSize: 15,
+                        color: AppColors.primary,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  const Gap(8),
                   Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
                     decoration: BoxDecoration(
@@ -232,28 +236,40 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                 ],
               ),
               const Gap(10),
-              Row(
+              Wrap(
+                crossAxisAlignment: WrapCrossAlignment.center,
+                spacing: 16,
+                runSpacing: 4,
                 children: [
-                  Icon(PhosphorIconsRegular.calendarBlank,
-                      size: 13, color: AppColors.onSurfaceVariant),
-                  const Gap(4),
-                  Text(
-                    formattedDate,
-                    style: GoogleFonts.manrope(
-                      fontSize: 12,
-                      color: AppColors.onSurfaceVariant,
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(PhosphorIconsRegular.calendarBlank,
+                          size: 13, color: AppColors.onSurfaceVariant),
+                      const Gap(4),
+                      Text(
+                        formattedDate,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12,
+                          color: AppColors.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
                   ),
-                  const Gap(16),
-                  Icon(PhosphorIconsRegular.package,
-                      size: 13, color: AppColors.onSurfaceVariant),
-                  const Gap(4),
-                  Text(
-                    '${order.items.length} item',
-                    style: GoogleFonts.manrope(
-                      fontSize: 12,
-                      color: AppColors.onSurfaceVariant,
-                    ),
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Icon(PhosphorIconsRegular.package,
+                          size: 13, color: AppColors.onSurfaceVariant),
+                      const Gap(4),
+                      Text(
+                        '${order.itemsCount > 0 ? order.itemsCount : order.items.length} item',
+                        style: GoogleFonts.manrope(
+                          fontSize: 12,
+                          color: AppColors.onSurfaceVariant,
+                        ),
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -263,13 +279,17 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text(
-                    'Total Pembayaran',
-                    style: GoogleFonts.manrope(
-                      fontSize: 12,
-                      color: AppColors.onSurfaceVariant,
+                  Expanded(
+                    child: Text(
+                      'Total Pembayaran',
+                      style: GoogleFonts.manrope(
+                        fontSize: 12,
+                        color: AppColors.onSurfaceVariant,
+                      ),
+                      overflow: TextOverflow.ellipsis,
                     ),
                   ),
+                  const Gap(8),
                   Text(
                     formattedTotal,
                     style: GoogleFonts.manrope(

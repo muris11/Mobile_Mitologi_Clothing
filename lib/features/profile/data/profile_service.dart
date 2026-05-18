@@ -19,7 +19,7 @@ class ProfileService {
     final formData = FormData.fromMap({
       'avatar': await MultipartFile.fromFile(imagePath),
     });
-    return await _apiClient.dio.post(ApiEndpoints.profile, data: formData);
+    return await _apiClient.dio.post(ApiEndpoints.updateAvatar, data: formData);
   }
 
   Future<Response> getOrders() async {

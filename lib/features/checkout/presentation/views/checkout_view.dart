@@ -18,6 +18,8 @@ class CheckoutView extends StatefulWidget {
 }
 
 class _CheckoutViewState extends State<CheckoutView> {
+  bool _verificationCancelled = false;
+
   @override
   void initState() {
     super.initState();
@@ -396,21 +398,85 @@ class _CheckoutViewState extends State<CheckoutView> {
 
   Future<void> _verifyPaymentAndNavigate(
       BuildContext context, String orderNum) async {
-    try {
-      final repo = context.read<CheckoutRepository>();
-      final order = await repo.getOrderDetail(orderNum);
-      if (!context.mounted) return;
+    _verificationCancelled = false;
 
-      final paidStatuses = ['paid', 'completed', 'settlement', 'capture', 'success'];
-      if (paidStatuses.contains(order.status)) {
-        context.go('/checkout/success?order=$orderNum');
-      } else {
-        context.go('/orders/$orderNum');
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (_) => PopScope(
+        canPop: true,
+        onPopInvokedWithResult: (didPop, _) {
+          if (didPop) _verificationCancelled = true;
+        },
+        child: AlertDialog(
+          contentPadding:
+              const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+          content: const Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(
+                width: 40,
+                height: 40,
+                child: CircularProgressIndicator(strokeWidth: 3),
+              ),
+              SizedBox(height: 20),
+              Text(
+                'Memverifikasi\nPembayaran',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 16,
+                ),
+              ),
+              SizedBox(height: 8),
+              Text(
+                'Mohon tunggu sebentar\nyaa',
+                textAlign: TextAlign.center,
+                style: TextStyle(
+                  color: AppColors.onSurfaceVariant,
+                  fontSize: 14,
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    );
+
+    final repo = context.read<CheckoutRepository>();
+    const paidStatuses = ['processing', 'paid', 'completed'];
+
+    try {
+      final paid = await repo.confirmPayment(orderNum);
+      if (!context.mounted || _verificationCancelled) return;
+      if (paid != null && paidStatuses.contains(paid.status)) {
+        if (context.mounted) {
+          Navigator.of(context).pop();
+          context.go('/checkout/success?order=$orderNum');
+        }
+        return;
       }
-    } catch (_) {
-      if (!context.mounted) return;
-      context.go('/orders/$orderNum');
-    }
+    } catch (_) {}
+
+    try {
+      for (var i = 0; i < 5; i++) {
+        if (_verificationCancelled) return;
+        await Future.delayed(const Duration(seconds: 2));
+        if (!context.mounted || _verificationCancelled) return;
+        final order = await repo.getOrderDetail(orderNum);
+        if (paidStatuses.contains(order.status)) {
+          if (context.mounted) {
+            Navigator.of(context).pop();
+            context.go('/checkout/success?order=$orderNum');
+          }
+          return;
+        }
+      }
+    } catch (_) {}
+
+    if (!context.mounted || _verificationCancelled) return;
+    Navigator.of(context).pop();
+    context.go('/orders/$orderNum');
   }
 
   Widget _buildBottomBar(BuildContext context, CheckoutViewModel viewModel) {

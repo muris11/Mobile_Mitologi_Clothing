@@ -3,6 +3,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/utils/haptic_feedback.dart';
+import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'chatbot_provider.dart';
 import 'package:mitologi_clothing_mobile/features/ai/domain/models/ai_models.dart';
 
@@ -51,16 +52,21 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       backgroundColor: AppColors.background,
       appBar: AppBar(
         elevation: 0,
-        backgroundColor: AppColors.surface.withValues(alpha: 0.95),
+        backgroundColor: Colors.white,
         surfaceTintColor: Colors.transparent,
+        leading: IconButton(
+          icon: const Icon(PhosphorIconsRegular.arrowLeft),
+          onPressed: () => Navigator.of(context).pop(),
+        ),
         title: Column(
           children: [
             Text(
-              'MITOLOGI AI',
-              style: GoogleFonts.notoSerif(
+              'MITOLOGI CS & STYLIST',
+              style: GoogleFonts.manrope(
                 fontSize: 16,
-                fontWeight: FontWeight.w800,
-                letterSpacing: 1.5,
+                fontWeight: FontWeight.w900,
+                letterSpacing: 0.5,
+                color: AppColors.primary,
               ),
             ),
             Row(
@@ -70,17 +76,17 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   width: 6,
                   height: 6,
                   decoration: const BoxDecoration(
-                    color: Colors.green,
+                    color: Color(0xFF10B981),
                     shape: BoxShape.circle,
                   ),
                 ),
                 const SizedBox(width: 4),
                 Text(
-                  'Online',
+                  'Aktif',
                   style: GoogleFonts.manrope(
                     fontSize: 10,
-                    fontWeight: FontWeight.w600,
-                    color: AppColors.outline,
+                    fontWeight: FontWeight.w700,
+                    color: const Color(0xFF10B981),
                   ),
                 ),
               ],
@@ -88,84 +94,127 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           ],
         ),
         centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.8),
+          child: Container(height: 0.8, color: AppColors.outlineVariant),
+        ),
         actions: [
           IconButton(
-            icon: const Icon(Icons.delete_outline_rounded, size: 22),
+            icon: const Icon(PhosphorIconsRegular.trash, size: 20),
             onPressed: () => context.read<ChatbotProvider>().clearChat(),
           ),
+          const SizedBox(width: 8),
         ],
       ),
-      body: Column(
-        children: [
-          Expanded(
-            child: Consumer<ChatbotProvider>(
-              builder: (context, provider, child) {
-                if (provider.messages.isEmpty) {
-                  return _buildEmptyState();
-                }
+      body: Consumer<ChatbotProvider>(
+        builder: (context, provider, child) {
+          if (provider.messages.isEmpty) {
+            return _buildEmptyState();
+          }
 
-                return ListView.builder(
-                  controller: _scrollController,
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-                  itemCount: provider.messages.length + (provider.isTyping ? 1 : 0),
-                  itemBuilder: (context, index) {
-                    if (index == provider.messages.length) {
-                      return _buildTypingIndicator();
-                    }
-                    final message = provider.messages[index];
-                    return _buildMessageBubble(message);
-                  },
-                );
-              },
-            ),
-          ),
-          _buildInputArea(),
-        ],
+          return ListView.builder(
+            controller: _scrollController,
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+            itemCount: provider.messages.length + (provider.isTyping ? 1 : 0),
+            itemBuilder: (context, index) {
+              if (index == provider.messages.length) {
+                return _buildTypingIndicator();
+              }
+              final message = provider.messages[index];
+              return _buildMessageBubble(message);
+            },
+          );
+        },
       ),
+      bottomNavigationBar: _buildInputArea(),
     );
   }
 
   Widget _buildEmptyState() {
     return Center(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Container(
-            padding: const EdgeInsets.all(20),
-            decoration: BoxDecoration(
-              color: AppColors.primary.withValues(alpha: 0.05),
-              shape: BoxShape.circle,
+      child: SingleChildScrollView(
+        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Container(
+              padding: const EdgeInsets.all(24),
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.05),
+                shape: BoxShape.circle,
+              ),
+              child: Icon(
+                PhosphorIconsRegular.headset,
+                size: 48,
+                color: AppColors.primary,
+              ),
             ),
-            child: Icon(
-              Icons.auto_awesome_rounded,
-              size: 48,
-              color: AppColors.primary.withValues(alpha: 0.5),
+            const SizedBox(height: 24),
+            Text(
+              'Halo! Saya Stylist & CS Anda',
+              style: GoogleFonts.notoSerif(
+                fontSize: 20,
+                fontWeight: FontWeight.w800,
+                color: AppColors.primary,
+              ),
+              textAlign: TextAlign.center,
             ),
-          ),
-          const SizedBox(height: 24),
-          Text(
-            'Halo! Ada yang bisa saya bantu?',
-            style: GoogleFonts.notoSerif(
-              fontSize: 20,
-              fontWeight: FontWeight.w700,
-              color: AppColors.primary,
-            ),
-          ),
-          const SizedBox(height: 12),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 48),
-            child: Text(
-              'Tanyakan apa saja tentang produk kami, ukuran, atau rekomendasi gaya.',
+            const SizedBox(height: 12),
+            Text(
+              'Tanyakan apa saja seputar panduan ukuran, status pengiriman, voucher promo, atau minta rekomendasi gaya terbaik Anda!',
               textAlign: TextAlign.center,
               style: GoogleFonts.manrope(
                 fontSize: 14,
-                color: AppColors.outline,
+                color: AppColors.onSurfaceVariant,
                 height: 1.5,
               ),
             ),
-          ),
-        ],
+            const SizedBox(height: 32),
+            _buildQuickTopicButtons(),
+          ],
+        ),
       ),
+    );
+  }
+
+  Widget _buildQuickTopicButtons() {
+    final topics = [
+      {'label': 'Panduan Ukuran', 'query': 'Berapa panduan ukuran size chart kaos?'},
+      {'label': 'Ongkos Kirim', 'query': 'Berapa hari estimasi pengiriman dan ekspedisinya?'},
+      {'label': 'Metode Pembayaran', 'query': 'Apa saja metode pembayaran yang didukung?'},
+      {'label': 'Kebijakan Retur', 'query': 'Bagaimana cara dan syarat mengajukan retur?'},
+    ];
+
+    return Wrap(
+      spacing: 8,
+      runSpacing: 8,
+      alignment: WrapAlignment.center,
+      children: topics.map((t) {
+        return InkWell(
+          onTap: () {
+            AppHaptics.tap();
+            _controller.text = t['query']!;
+            _handleSend();
+          },
+          borderRadius: BorderRadius.circular(30),
+          child: Container(
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: AppColors.outlineVariant),
+            ),
+            child: Text(
+              t['label']!,
+              style: GoogleFonts.manrope(
+                fontSize: 12,
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+              ),
+            ),
+          ),
+        );
+      }).toList(),
     );
   }
 
@@ -182,7 +231,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             CircleAvatar(
               radius: 14,
               backgroundColor: AppColors.primary,
-              child: const Icon(Icons.auto_awesome, size: 14, color: Colors.white),
+              child: const Icon(PhosphorIconsFill.headset, size: 14, color: Colors.white),
             ),
             const SizedBox(width: 8),
           ],
@@ -231,7 +280,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           CircleAvatar(
             radius: 14,
             backgroundColor: AppColors.primary,
-            child: const Icon(Icons.auto_awesome, size: 14, color: Colors.white),
+            child: const Icon(PhosphorIconsFill.headset, size: 14, color: Colors.white),
           ),
           const SizedBox(width: 8),
           Container(
@@ -242,7 +291,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
-              children: List.generate(3, (index) => _buildDot(index)),
+              children: List.generate(3, (index) => _TypingDot(index: index)),
             ),
           ),
         ],
@@ -250,28 +299,12 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     );
   }
 
-  Widget _buildDot(int index) {
-    return TweenAnimationBuilder<double>(
-      tween: Tween(begin: 0.0, end: 1.0),
-      duration: Duration(milliseconds: 400 + (index * 200)),
-      curve: Curves.easeInOut,
-      builder: (context, value, child) {
-        return Container(
-          width: 4,
-          height: 4,
-          margin: const EdgeInsets.symmetric(horizontal: 2),
-          decoration: BoxDecoration(
-            color: AppColors.primary.withValues(alpha: 0.3 + (value * 0.7)),
-            shape: BoxShape.circle,
-          ),
-        );
-      },
-    );
-  }
-
   Widget _buildInputArea() {
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    final bottomPadding = bottomInset > 0 ? 12.0 : 32.0;
+
     return Container(
-      padding: const EdgeInsets.fromLTRB(16, 8, 16, 32),
+      padding: EdgeInsets.fromLTRB(16, 8, 16, bottomPadding),
       decoration: BoxDecoration(
         color: AppColors.surface,
         boxShadow: [
@@ -326,6 +359,65 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           ),
         ],
       ),
+    );
+  }
+}
+
+class _TypingDot extends StatefulWidget {
+  final int index;
+  const _TypingDot({required this.index});
+
+  @override
+  State<_TypingDot> createState() => _TypingDotState();
+}
+
+class _TypingDotState extends State<_TypingDot> with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<double> _animation;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 600),
+    );
+    
+    _animation = Tween<double>(begin: 0.0, end: 1.0).animate(
+      CurvedAnimation(
+        parent: _controller,
+        curve: Interval(
+          (widget.index * 0.2).clamp(0.0, 1.0),
+          (widget.index * 0.2 + 0.6).clamp(0.0, 1.0),
+          curve: Curves.easeInOut,
+        ),
+      ),
+    );
+
+    _controller.repeat(reverse: true);
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return AnimatedBuilder(
+      animation: _animation,
+      builder: (context, child) {
+        return Container(
+          width: 5,
+          height: 5,
+          margin: const EdgeInsets.symmetric(horizontal: 2.5),
+          decoration: BoxDecoration(
+            color: AppColors.primary.withValues(alpha: 0.3 + (_animation.value * 0.7)),
+            shape: BoxShape.circle,
+          ),
+        );
+      },
     );
   }
 }

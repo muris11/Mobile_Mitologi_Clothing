@@ -26,6 +26,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   OrderModel? _order;
   bool _isLoading = true;
   String? _error;
+  bool _verificationCancelled = false;
 
   @override
   void initState() {
@@ -627,8 +628,8 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       final paymentUrl = ShopConfig.buildMidtransSnapUrl(snapToken);
 
       if (!mounted) return;
-      final paymentResult =
-          await Navigator.of(context).push<MidtransPaymentResult>(
+
+      await Navigator.of(context).push<MidtransPaymentResult>(
         MaterialPageRoute(
           builder: (_) => MidtransPaymentScreen(
             paymentUrl: paymentUrl,
@@ -636,21 +637,93 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           ),
         ),
       );
-
       if (!mounted) return;
-      await _fetchOrder();
+      _verificationCancelled = false;
 
-      if (paymentResult == MidtransPaymentResult.success) {
-        context.go('/checkout/success?order=$orderNum');
-      } else if (paymentResult == MidtransPaymentResult.pending) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-                'Pembayaran menunggu konfirmasi. Pesanan Anda sedang diproses.'),
-            backgroundColor: Color(0xFF92400E),
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (_) => PopScope(
+          canPop: true,
+          onPopInvokedWithResult: (didPop, _) {
+            if (didPop) _verificationCancelled = true;
+          },
+          child: AlertDialog(
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
+            content: const Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SizedBox(
+                  width: 40,
+                  height: 40,
+                  child: CircularProgressIndicator(strokeWidth: 3),
+                ),
+                SizedBox(height: 20),
+                Text(
+                  'Memverifikasi\nPembayaran',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 16,
+                  ),
+                ),
+                SizedBox(height: 8),
+                Text(
+                  'Mohon tunggu sebentar\nyaa',
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: AppColors.onSurfaceVariant,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
           ),
-        );
-      }
+        ),
+      );
+
+      final repo = context.read<CheckoutRepository>();
+      const paidStatuses = ['processing', 'paid', 'completed'];
+
+      try {
+        final paid = await repo.confirmPayment(orderNum);
+        if (_verificationCancelled) return;
+        if (paid != null && paidStatuses.contains(paid.status)) {
+          if (mounted) {
+            Navigator.of(context).pop();
+            context.go('/checkout/success?order=$orderNum');
+          }
+          return;
+        }
+      } catch (_) {}
+
+      try {
+        for (var i = 0; i < 5; i++) {
+          if (_verificationCancelled) return;
+          await Future.delayed(const Duration(seconds: 2));
+          if (_verificationCancelled) return;
+          final order = await repo.getOrderDetail(orderNum);
+          if (paidStatuses.contains(order.status)) {
+            if (mounted) {
+              Navigator.of(context).pop();
+              context.go('/checkout/success?order=$orderNum');
+            }
+            return;
+          }
+        }
+      } catch (_) {}
+
+      if (_verificationCancelled) return;
+      if (!mounted) return;
+      Navigator.of(context).pop();
+      await _fetchOrder();
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Status pembayaran belum diperbarui. Cek pesanan kamu.'),
+          backgroundColor: Color(0xFF92400E),
+        ),
+      );
     } catch (e) {
       if (!mounted) return;
       ScaffoldMessenger.of(context).showSnackBar(

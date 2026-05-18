@@ -16,8 +16,16 @@ class ProfileRepository {
 
   Future<List<OrderModel>> getOrders() async {
     final response = await _profileService.getOrders();
-    final List data = response.data['data'] ?? [];
-    return data.map((e) => OrderModel.fromJson(ParserUtils.parseMap(e))).toList();
+    final raw = response.data['data'];
+    final List orders;
+    if (raw is List) {
+      orders = raw;
+    } else if (raw is Map) {
+      orders = (raw['orders'] as List?) ?? [];
+    } else {
+      orders = [];
+    }
+    return orders.map((e) => OrderModel.fromJson(ParserUtils.parseMap(e))).toList();
   }
 
   Future<OrderModel> getOrderDetail(String orderNumber) async {

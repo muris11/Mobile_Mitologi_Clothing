@@ -18,7 +18,12 @@ class AiRepository {
       
       final data = response.data;
       if (data is Map) {
-        return ChatResponse.fromJson(ParserUtils.parseMap(data));
+        final parsed = ParserUtils.parseMap(data);
+        final innerData = parsed['data'];
+        if (innerData is Map) {
+          return ChatResponse.fromJson(Map<String, dynamic>.from(innerData));
+        }
+        return ChatResponse.fromJson(parsed);
       }
       return null;
     } catch (e) {

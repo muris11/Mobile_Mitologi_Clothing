@@ -16,7 +16,11 @@ class CheckoutService {
   }
 
   Future<Response> updateAddress(int id, Map<String, dynamic> data) async {
-    return await _apiClient.dio.put('${ApiEndpoints.addresses}/$id', data: data);
+    return await _apiClient.dio.put(ApiEndpoints.address(id), data: data);
+  }
+
+  Future<Response> deleteAddress(int id) async {
+    return await _apiClient.dio.delete(ApiEndpoints.address(id));
   }
 
   Future<Response> placeOrder(Map<String, dynamic> shippingAddress) async {
@@ -39,5 +43,9 @@ class CheckoutService {
 
   Future<Response> getOrderDetail(String orderNumber) async {
     return await _apiClient.dio.get(ApiEndpoints.orderDetail(orderNumber));
+  }
+
+  Future<Response> confirmPayment(String orderNumber) async {
+    return await _apiClient.dio.post(ApiEndpoints.confirmPayment(orderNumber));
   }
 }

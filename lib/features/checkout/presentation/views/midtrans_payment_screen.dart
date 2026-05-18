@@ -87,7 +87,8 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
     if (_finished) return;
     final lower = url.toLowerCase();
 
-    if (lower.contains('transaction_status=settlement') ||
+    if (lower.contains('/callback/success') ||
+        lower.contains('transaction_status=settlement') ||
         lower.contains('transaction_status=capture') ||
         lower.contains('status_code=200') ||
         lower.contains('/finish/success') ||
@@ -95,18 +96,20 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
       _handleResult(MidtransPaymentResult.success);
       return;
     }
-    if (lower.contains('transaction_status=pending') ||
-        lower.contains('status_code=201') ||
-        lower.contains('/finish/pending')) {
-      _handleResult(MidtransPaymentResult.pending);
-      return;
-    }
-    if (lower.contains('transaction_status=deny') ||
+    if (lower.contains('/callback/failed') ||
+        lower.contains('transaction_status=deny') ||
         lower.contains('transaction_status=cancel') ||
         lower.contains('transaction_status=expire') ||
         lower.contains('status_code=202') ||
         lower.contains('/error')) {
       _handleResult(MidtransPaymentResult.failed);
+      return;
+    }
+    if (lower.contains('/callback/pending') ||
+        lower.contains('transaction_status=pending') ||
+        lower.contains('status_code=201') ||
+        lower.contains('/finish/pending')) {
+      _handleResult(MidtransPaymentResult.pending);
       return;
     }
 
@@ -116,58 +119,39 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
   void _injectPaymentDetector(String url) {
     _controller.runJavaScript('''
 (function() {
-  if (window._midtransMonitored) return;
-  window._midtransMonitored = true;
+  if (window.__mtMonitored) return;
+  window.__mtMonitored = true;
 
-  function checkStatus() {
+  setInterval(function() {
     var u = (window.location.href || '').toLowerCase();
+    var status = '';
 
     if (u.indexOf('status_code=200') > -1 ||
         u.indexOf('transaction_status=settlement') > -1 ||
         u.indexOf('transaction_status=capture') > -1) {
-      window.location.href = 'about:blank?transaction_status=settlement';
-      return;
-    }
-    if (u.indexOf('status_code=201') > -1 ||
-        u.indexOf('transaction_status=pending') > -1) {
-      window.location.href = 'about:blank?status_code=201';
-      return;
-    }
-    if (u.indexOf('status_code=202') > -1 ||
+      status = 'success';
+    } else if (u.indexOf('status_code=202') > -1 ||
         u.indexOf('transaction_status=deny') > -1 ||
-        u.indexOf('transaction_status=expire') > -1) {
-      window.location.href = 'about:blank?status_code=202';
-      return;
+        u.indexOf('transaction_status=expire') > -1 ||
+        u.indexOf('transaction_status=cancel') > -1) {
+      status = 'failed';
     }
 
-    var body = document.body ? document.body.innerText.toLowerCase() : '';
-    if (body.indexOf('selamat') > -1 ||
-        body.indexOf('berhasil') > -1 ||
-        body.indexOf('success') > -1) {
-      var hasPending = body.indexOf('pending') === -1;
-      var hasFailed = body.indexOf('gagal') > -1 || body.indexOf('denied') > -1;
-      if (!hasFailed) window.location.href = 'about:blank?transaction_status=settlement';
+    if (!status) {
+      var body = document.body ? document.body.innerText.toLowerCase() : '';
+      if (body.indexOf('berhasil') > -1 || body.indexOf('selamat') > -1) {
+        status = 'success';
+      } else if (body.indexOf('gagal') > -1 ||
+          body.indexOf('ditolak') > -1 ||
+          body.indexOf('denied') > -1) {
+        status = 'failed';
+      }
     }
-  }
 
-  setTimeout(checkStatus, 1500);
-
-  var _pushState = history.pushState;
-  history.pushState = function() {
-    _pushState.apply(history, arguments);
-    setTimeout(checkStatus, 500);
-  };
-  window.addEventListener('popstate', function() {
-    setTimeout(checkStatus, 500);
-  });
-
-  new MutationObserver(function() {
-    setTimeout(checkStatus, 300);
-  }).observe(document.body || document.documentElement, {
-    childList: true,
-    subtree: true,
-    attributes: false
-  });
+    if (status) {
+      window.location.href = 'https://payment-done.app/callback/' + status;
+    }
+  }, 500);
 })();
 ''');
   }
