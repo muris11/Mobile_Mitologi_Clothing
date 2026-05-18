@@ -19,18 +19,21 @@ class CheckoutService {
     return await _apiClient.dio.put('${ApiEndpoints.addresses}/$id', data: data);
   }
 
-  Future<Response> placeOrder({
-    required int addressId,
-    required String shippingMethod,
-    String? note,
-  }) async {
+  Future<Response> placeOrder(Map<String, dynamic> shippingAddress) async {
     return await _apiClient.dio.post(
       ApiEndpoints.checkout,
-      data: {
-        'address_id': addressId,
-        'shipping_method': shippingMethod,
-        if (note != null) 'note': note,
-      },
+      data: shippingAddress,
+    );
+  }
+
+  Future<Response> payOrder(String orderNumber) async {
+    return await _apiClient.dio.post(ApiEndpoints.orderPay(orderNumber));
+  }
+
+  Future<Response> requestRefund(String orderNumber, String reason) async {
+    return await _apiClient.dio.post(
+      ApiEndpoints.requestRefund(orderNumber),
+      data: {'reason': reason},
     );
   }
 

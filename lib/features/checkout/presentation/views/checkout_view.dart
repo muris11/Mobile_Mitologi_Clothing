@@ -3,7 +3,9 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/presentation/views/midtrans_payment_screen.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -342,6 +344,75 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
   }
 
+  Future<void> _handlePlaceOrder(
+      BuildContext context, CheckoutViewModel viewModel) async {
+    final result = await viewModel.placeOrder();
+    if (!context.mounted) return;
+
+    switch (result) {
+      case PlaceOrderResult.mockSuccess:
+        context.read<ProfileViewModel>().fetchProfileData();
+        final orderNum = viewModel.lastOrderNumber;
+        context.go('/checkout/success${orderNum != null ? '?order=$orderNum&mock=true' : ''}');
+      case PlaceOrderResult.success:
+        final orderNum = viewModel.lastOrderNumber;
+        context.go('/checkout/success${orderNum != null ? '?order=$orderNum' : ''}');
+      case PlaceOrderResult.paymentRequired:
+        final paymentUrl = viewModel.paymentUrl;
+        final orderNum = viewModel.lastOrderNumber ?? '';
+
+        if (paymentUrl.isEmpty) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            const SnackBar(
+              content: Text('Gagal mendapatkan token pembayaran'),
+              backgroundColor: AppColors.error,
+            ),
+          );
+          return;
+        }
+
+        await Navigator.of(context).push<MidtransPaymentResult>(
+          MaterialPageRoute(
+            builder: (_) => MidtransPaymentScreen(
+              paymentUrl: paymentUrl,
+              orderNumber: orderNum,
+            ),
+          ),
+        );
+
+        if (!context.mounted) return;
+        await _verifyPaymentAndNavigate(context, orderNum);
+      case PlaceOrderResult.error:
+        if (viewModel.error != null) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              content: Text(viewModel.error!),
+              backgroundColor: AppColors.error,
+            ),
+          );
+        }
+    }
+  }
+
+  Future<void> _verifyPaymentAndNavigate(
+      BuildContext context, String orderNum) async {
+    try {
+      final repo = context.read<CheckoutRepository>();
+      final order = await repo.getOrderDetail(orderNum);
+      if (!context.mounted) return;
+
+      final paidStatuses = ['paid', 'completed', 'settlement', 'capture', 'success'];
+      if (paidStatuses.contains(order.status)) {
+        context.go('/checkout/success?order=$orderNum');
+      } else {
+        context.go('/orders/$orderNum');
+      }
+    } catch (_) {
+      if (!context.mounted) return;
+      context.go('/orders/$orderNum');
+    }
+  }
+
   Widget _buildBottomBar(BuildContext context, CheckoutViewModel viewModel) {
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
@@ -359,39 +430,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               child: FilledButton(
                 onPressed: viewModel.isLoading
                     ? null
-                    : () async {
-                        final success = await viewModel.placeOrder();
-                        if (!context.mounted) return;
-
-                        if (success) {
-                          if (context.mounted) {
-                            context.read<ProfileViewModel>().fetchProfileData();
-                          }
-                          final order = viewModel.lastOrder;
-                          final orderNum = order?.orderNumber;
-                          final paymentUrl = order?.paymentUrl;
-
-                          if (paymentUrl != null && paymentUrl.isNotEmpty) {
-                            final encodedUrl = Uri.encodeComponent(paymentUrl);
-                            final encodedOrder =
-                                Uri.encodeComponent(orderNum ?? '');
-                            context.push(
-                              '/payment/midtrans?url=$encodedUrl&order=$encodedOrder',
-                            );
-                          } else if (orderNum != null) {
-                            context.go('/checkout/success?order=$orderNum');
-                          } else {
-                            context.go('/checkout/success');
-                          }
-                        } else if (viewModel.error != null) {
-                          ScaffoldMessenger.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text(viewModel.error!),
-                              backgroundColor: AppColors.error,
-                            ),
-                          );
-                        }
-                      },
+                    : () => _handlePlaceOrder(context, viewModel),
                 style: FilledButton.styleFrom(
                   backgroundColor: AppColors.primary,
                   padding: const EdgeInsets.all(18),

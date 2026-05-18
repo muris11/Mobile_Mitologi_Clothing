@@ -115,7 +115,7 @@ class _FakeCheckoutViewModel extends CheckoutViewModel {
   Future<void> fetchAddresses() async {}
 
   @override
-  Future<bool> placeOrder() async => true;
+  Future<PlaceOrderResult> placeOrder() async => PlaceOrderResult.success;
 
   @override
   void selectAddress(AddressModel address) {

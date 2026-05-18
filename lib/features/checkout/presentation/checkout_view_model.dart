@@ -1,7 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/config/shop_config.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
+
+enum PlaceOrderResult {
+  success,
+  mockSuccess,
+  paymentRequired,
+  error,
+}
 
 class CheckoutViewModel extends ChangeNotifier {
   final CheckoutRepository _checkoutRepository;
@@ -20,9 +28,11 @@ class CheckoutViewModel extends ChangeNotifier {
   String? _selectedShippingMethod;
   String? get selectedShippingMethod => _selectedShippingMethod;
 
-  OrderModel? _lastOrder;
-  OrderModel? get lastOrder => _lastOrder;
-  String? get lastOrderNumber => _lastOrder?.orderNumber;
+  String? _lastOrderNumber;
+  String? get lastOrderNumber => _lastOrderNumber;
+
+  String? _snapToken;
+  String? get snapToken => _snapToken;
 
   String? _error;
   String? get error => _error;
@@ -56,29 +66,97 @@ class CheckoutViewModel extends ChangeNotifier {
     }
   }
 
-  Future<bool> placeOrder() async {
-    if (_selectedAddress == null || _selectedShippingMethod == null) {
-      _error = 'Please select address and shipping method';
+  Future<PlaceOrderResult> placeOrder() async {
+    if (_selectedAddress == null) {
+      _error = 'Pilih alamat pengiriman terlebih dahulu';
       notifyListeners();
-      return false;
+      return PlaceOrderResult.error;
     }
 
     _isLoading = true;
     _error = null;
+    _snapToken = null;
     notifyListeners();
 
     try {
-      _lastOrder = await _checkoutRepository.placeOrder(
-        addressId: _selectedAddress!.id,
-        shippingMethod: _selectedShippingMethod!,
+      final shippingData = _selectedAddress!.toCheckoutJson();
+      final result = await _checkoutRepository.placeOrder(
+        shippingAddress: shippingData,
       );
+
+      _snapToken = result['snapToken'] as String?;
+      _lastOrderNumber = result['orderNumber'] as String? ?? '';
+      final isMock = result['mock'] == true || _snapToken == 'MOCK_SNAP_TOKEN';
+
+      if (isMock) {
+        return PlaceOrderResult.mockSuccess;
+      }
+
+      if (_snapToken != null && _snapToken!.isNotEmpty) {
+        return PlaceOrderResult.paymentRequired;
+      }
+
+      return PlaceOrderResult.success;
+    } catch (e) {
+      _error = e.toString();
+      return PlaceOrderResult.error;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  Future<PlaceOrderResult> payOrder(String orderNumber) async {
+    _isLoading = true;
+    _error = null;
+    _snapToken = null;
+    notifyListeners();
+
+    try {
+      final result = await _checkoutRepository.payOrder(orderNumber);
+
+      _snapToken = result['snapToken'] as String?;
+      _lastOrderNumber = result['orderNumber'] as String? ?? '';
+      final isMock = result['mock'] == true || _snapToken == 'MOCK_SNAP_TOKEN';
+
+      if (isMock) {
+        return PlaceOrderResult.mockSuccess;
+      }
+
+      if (_snapToken != null && _snapToken!.isNotEmpty) {
+        return PlaceOrderResult.paymentRequired;
+      }
+
+      return PlaceOrderResult.success;
+    } catch (e) {
+      _error = e.toString();
+      return PlaceOrderResult.error;
+    } finally {
+      _isLoading = false;
+      notifyListeners();
+    }
+  }
+
+  String get paymentUrl {
+    if (_snapToken == null || _snapToken!.isEmpty) return '';
+    return ShopConfig.buildMidtransSnapUrl(_snapToken!);
+  }
+
+  Future<OrderModel?> getOrderDetail(String orderNumber) async {
+    try {
+      return await _checkoutRepository.getOrderDetail(orderNumber);
+    } catch (e) {
+      return null;
+    }
+  }
+
+  Future<bool> requestRefund(String orderNumber, String reason) async {
+    try {
+      await _checkoutRepository.requestRefund(orderNumber, reason);
       return true;
     } catch (e) {
       _error = e.toString();
       return false;
-    } finally {
-      _isLoading = false;
-      notifyListeners();
     }
   }
 

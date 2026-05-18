@@ -4,9 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
-import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:provider/provider.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
 enum MidtransPaymentResult { success, pending, failed, cancelled }
@@ -29,38 +27,18 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
   late WebViewController _controller;
   bool _isLoading = true;
   bool _hasError = false;
+  bool _finished = false;
   int _loadingProgress = 0;
 
-  static const _successPatterns = [
-    'transaction_status=settlement',
-    'transaction_status=capture',
-    '/finish',
-    'status_code=200',
-  ];
-  static const _pendingPatterns = [
-    'transaction_status=pending',
-    '/pending',
-    'status_code=201',
-  ];
-  static const _failedPatterns = [
-    'transaction_status=deny',
-    'transaction_status=cancel',
-    'transaction_status=expire',
-    '/error',
-    'status_code=202',
+  static const _midtransHosts = [
+    'midtrans.com',
+    'veritrans.co.id',
   ];
 
   @override
   void initState() {
     super.initState();
-    final uri = Uri.tryParse(widget.paymentUrl);
-    final host = uri?.host.toLowerCase() ?? '';
-    if (!host.contains('midtrans.com')) {
-      _hasError = true;
-      _isLoading = false;
-    } else {
-      _initWebView();
-    }
+    _initWebView();
   }
 
   void _initWebView() {
@@ -72,18 +50,25 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
           onProgress: (progress) {
             if (mounted) setState(() => _loadingProgress = progress);
           },
-          onPageStarted: (_) {
+          onPageStarted: (url) {
             if (mounted) setState(() => _isLoading = true);
           },
           onPageFinished: (url) {
             if (mounted) setState(() => _isLoading = false);
-            _checkPaymentStatus(url);
+            _injectPaymentDetector(url);
           },
-          onWebResourceError: (_) {
+          onWebResourceError: (error) {
             if (mounted) setState(() => _hasError = true);
+            final errUrl = error.url;
+            if (errUrl != null && _isMidtransUrl(errUrl)) {
+              _detectFromUrl(errUrl);
+            }
           },
           onNavigationRequest: (request) {
-            _checkPaymentStatus(request.url);
+            if (!_isMidtransUrl(request.url)) {
+              _detectFromUrl(request.url);
+              return NavigationDecision.prevent;
+            }
             return NavigationDecision.navigate;
           },
         ),
@@ -91,25 +76,105 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
       ..loadRequest(Uri.parse(widget.paymentUrl));
   }
 
-  void _checkPaymentStatus(String url) {
-    final lowerUrl = url.toLowerCase();
+  bool _isMidtransUrl(String url) {
+    final uri = Uri.tryParse(url);
+    if (uri == null) return false;
+    final host = uri.host.toLowerCase();
+    return _midtransHosts.any((h) => host.contains(h));
+  }
 
-    if (_successPatterns.any((p) => lowerUrl.contains(p))) {
+  void _detectFromUrl(String url) {
+    if (_finished) return;
+    final lower = url.toLowerCase();
+
+    if (lower.contains('transaction_status=settlement') ||
+        lower.contains('transaction_status=capture') ||
+        lower.contains('status_code=200') ||
+        lower.contains('/finish/success') ||
+        lower.contains('?success')) {
       _handleResult(MidtransPaymentResult.success);
-    } else if (_pendingPatterns.any((p) => lowerUrl.contains(p))) {
+      return;
+    }
+    if (lower.contains('transaction_status=pending') ||
+        lower.contains('status_code=201') ||
+        lower.contains('/finish/pending')) {
       _handleResult(MidtransPaymentResult.pending);
-    } else if (_failedPatterns.any((p) => lowerUrl.contains(p))) {
+      return;
+    }
+    if (lower.contains('transaction_status=deny') ||
+        lower.contains('transaction_status=cancel') ||
+        lower.contains('transaction_status=expire') ||
+        lower.contains('status_code=202') ||
+        lower.contains('/error')) {
       _handleResult(MidtransPaymentResult.failed);
+      return;
+    }
+
+    _handleResult(MidtransPaymentResult.pending);
+  }
+
+  void _injectPaymentDetector(String url) {
+    _controller.runJavaScript('''
+(function() {
+  if (window._midtransMonitored) return;
+  window._midtransMonitored = true;
+
+  function checkStatus() {
+    var u = (window.location.href || '').toLowerCase();
+
+    if (u.indexOf('status_code=200') > -1 ||
+        u.indexOf('transaction_status=settlement') > -1 ||
+        u.indexOf('transaction_status=capture') > -1) {
+      window.location.href = 'about:blank?transaction_status=settlement';
+      return;
+    }
+    if (u.indexOf('status_code=201') > -1 ||
+        u.indexOf('transaction_status=pending') > -1) {
+      window.location.href = 'about:blank?status_code=201';
+      return;
+    }
+    if (u.indexOf('status_code=202') > -1 ||
+        u.indexOf('transaction_status=deny') > -1 ||
+        u.indexOf('transaction_status=expire') > -1) {
+      window.location.href = 'about:blank?status_code=202';
+      return;
+    }
+
+    var body = document.body ? document.body.innerText.toLowerCase() : '';
+    if (body.indexOf('selamat') > -1 ||
+        body.indexOf('berhasil') > -1 ||
+        body.indexOf('success') > -1) {
+      var hasPending = body.indexOf('pending') === -1;
+      var hasFailed = body.indexOf('gagal') > -1 || body.indexOf('denied') > -1;
+      if (!hasFailed) window.location.href = 'about:blank?transaction_status=settlement';
     }
   }
 
+  setTimeout(checkStatus, 1500);
+
+  var _pushState = history.pushState;
+  history.pushState = function() {
+    _pushState.apply(history, arguments);
+    setTimeout(checkStatus, 500);
+  };
+  window.addEventListener('popstate', function() {
+    setTimeout(checkStatus, 500);
+  });
+
+  new MutationObserver(function() {
+    setTimeout(checkStatus, 300);
+  }).observe(document.body || document.documentElement, {
+    childList: true,
+    subtree: true,
+    attributes: false
+  });
+})();
+''');
+  }
+
   void _handleResult(MidtransPaymentResult result) {
-    if (!mounted) return;
-    
-    // Refresh profile data if payment was successful or pending
-    if (result == MidtransPaymentResult.success || result == MidtransPaymentResult.pending) {
-      context.read<ProfileViewModel>().fetchProfileData();
-    }
+    if (_finished) return;
+    _finished = true;
 
     Timer(const Duration(milliseconds: 600), () {
       if (!mounted) return;
@@ -117,8 +182,8 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
     });
   }
 
-  void _confirmCancel() {
-    showDialog<bool>(
+  Future<bool> _onWillPop() async {
+    final confirm = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
@@ -145,11 +210,12 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
           ),
         ],
       ),
-    ).then((confirmed) {
-      if (confirmed == true && mounted) {
-        Navigator.of(context).pop(MidtransPaymentResult.cancelled);
-      }
-    });
+    );
+    if (confirm == true) {
+      Navigator.of(context).pop(MidtransPaymentResult.cancelled);
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -161,7 +227,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
       child: PopScope(
         canPop: false,
         onPopInvokedWithResult: (didPop, _) {
-          if (!didPop) _confirmCancel();
+          if (!didPop) _onWillPop();
         },
         child: Scaffold(
           backgroundColor: AppColors.background,
@@ -171,7 +237,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
             surfaceTintColor: Colors.transparent,
             leading: IconButton(
               icon: const Icon(PhosphorIconsRegular.x, size: 20),
-              onPressed: _confirmCancel,
+              onPressed: () => _onWillPop(),
               tooltip: 'Tutup',
             ),
             title: Column(
@@ -238,6 +304,41 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
             ),
           ),
           body: _hasError ? _buildErrorState() : _buildWebView(),
+          bottomNavigationBar: _buildBottomBar(),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildBottomBar() {
+    if (_hasError) return const SizedBox.shrink();
+    return SafeArea(
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border(
+            top: BorderSide(
+              color: AppColors.outlineVariant.withValues(alpha: 0.5),
+            ),
+          ),
+        ),
+        child: SizedBox(
+          width: double.infinity,
+          child: OutlinedButton.icon(
+            onPressed: () => _handleResult(MidtransPaymentResult.pending),
+            icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 18),
+            label: Text(
+              'Kembali ke Aplikasi',
+              style: GoogleFonts.manrope(fontWeight: FontWeight.w700),
+            ),
+            style: OutlinedButton.styleFrom(
+              padding: const EdgeInsets.symmetric(vertical: 14),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(14),
+              ),
+            ),
+          ),
         ),
       ),
     );
@@ -301,7 +402,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
               ),
             ),
             const SizedBox(height: 8),
-            Text(
+            const Text(
               'Periksa koneksi internet kamu dan coba lagi.',
               textAlign: TextAlign.center,
               style: TextStyle(
@@ -317,6 +418,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
                   _hasError = false;
                   _isLoading = true;
                   _loadingProgress = 0;
+                  _finished = false;
                 });
                 _initWebView();
               },

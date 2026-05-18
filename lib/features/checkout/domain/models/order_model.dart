@@ -26,11 +26,16 @@ class OrderItemModel extends Equatable {
   factory OrderItemModel.fromJson(Map<String, dynamic> json) {
     return OrderItemModel(
       id: ParserUtils.parseInt(json['id']),
-      productTitle:
-          json['product_title'] as String? ?? json['name'] as String? ?? '',
-      productHandle: json['product_handle'] as String?,
-      productImage: json['product_image'] as String?,
-      variantTitle: json['variant_title'] as String?,
+      productTitle: json['productTitle'] as String? ??
+          json['product_title'] as String? ??
+          json['name'] as String? ??
+          '',
+      productHandle: json['productHandle'] as String? ??
+          json['product_handle'] as String?,
+      productImage: json['productImage'] as String? ??
+          json['product_image'] as String?,
+      variantTitle: json['variantTitle'] as String? ??
+          json['variant_title'] as String?,
       quantity: ParserUtils.parseInt(json['quantity']),
       price: ParserUtils.parseDouble(json['price']),
       total: ParserUtils.parseDouble(json['total'] ?? json['subtotal']),
@@ -51,6 +56,7 @@ class OrderModel extends Equatable {
   final String? paymentUrl;
   final String? trackingNumber;
   final DateTime? refundRequestedAt;
+  final String? refundReason;
   final List<OrderItemModel> items;
   final AddressModel? shippingAddress;
   final DateTime createdAt;
@@ -65,6 +71,7 @@ class OrderModel extends Equatable {
     this.paymentUrl,
     this.trackingNumber,
     this.refundRequestedAt,
+    this.refundReason,
     required this.items,
     this.shippingAddress,
     required this.createdAt,
@@ -73,31 +80,52 @@ class OrderModel extends Equatable {
   factory OrderModel.fromJson(Map<String, dynamic> json) {
     return OrderModel(
       id: ParserUtils.parseInt(json['id']),
-      orderNumber: json['order_number'] as String? ?? '',
+      orderNumber: json['orderNumber'] as String? ??
+          json['order_number'] as String? ??
+          '',
       status: json['status'] as String? ?? '',
-      totalAmount:
-          ParserUtils.parseDouble(json['total_amount'] ?? json['total']),
-      subtotal:
-          ParserUtils.parseDouble(json['subtotal'] ?? json['subtotal_amount']),
+      totalAmount: ParserUtils.parseDouble(
+        json['total'] ?? json['total_amount'],
+      ),
+      subtotal: ParserUtils.parseDouble(
+        json['subtotal'] ?? json['subtotal_amount'],
+      ),
       shippingCost: ParserUtils.parseDouble(
-          json['shipping_cost'] ?? json['shipping_amount']),
-      paymentUrl: json['payment_url'] as String?,
-      trackingNumber: json['tracking_number'] as String?,
-      refundRequestedAt: json['refund_requested_at'] != null
-          ? DateTime.tryParse(json['refund_requested_at'].toString())
-          : null,
+        json['shippingCost'] ?? json['shipping_cost'] ?? json['shipping_amount'],
+      ),
+      paymentUrl: json['paymentUrl'] as String? ??
+          json['payment_url'] as String?,
+      trackingNumber: json['trackingNumber'] as String? ??
+          json['tracking_number'] as String?,
+      refundRequestedAt: json['refundRequestedAt'] != null
+          ? DateTime.tryParse(json['refundRequestedAt'].toString())
+          : json['refund_requested_at'] != null
+              ? DateTime.tryParse(json['refund_requested_at'].toString())
+              : null,
+      refundReason: json['refundReason'] as String? ??
+          json['refund_reason'] as String?,
       items: ParserUtils.parseList(
         json['items'] ?? json['order_items'],
         OrderItemModel.fromJson,
       ),
-      shippingAddress: json['shipping_address'] != null
+      shippingAddress: json['shippingAddress'] != null
           ? AddressModel.fromJson(
-              ParserUtils.parseMap(json['shipping_address']))
-          : null,
-      createdAt: DateTime.tryParse(json['created_at']?.toString() ?? '') ??
+              ParserUtils.parseMap(json['shippingAddress']))
+          : json['shipping_address'] != null
+              ? AddressModel.fromJson(
+                  ParserUtils.parseMap(json['shipping_address']))
+              : null,
+      createdAt: DateTime.tryParse(
+            (json['createdAt'] ?? json['created_at'])?.toString() ?? '',
+          ) ??
           DateTime.now(),
     );
   }
+
+  bool get isPending => status == 'pending';
+  bool get isProcessing => status == 'processing';
+  bool get isCancelled => status == 'cancelled';
+  bool get isRefunded => status == 'refunded';
 
   @override
   List<Object?> get props => [

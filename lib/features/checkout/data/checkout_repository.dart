@@ -1,3 +1,4 @@
+import 'package:mitologi_clothing_mobile/core/utils/parser_utils.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'checkout_service.dart';
@@ -13,17 +14,28 @@ class CheckoutRepository {
     return data.map((e) => AddressModel.fromJson(e)).toList();
   }
 
-  Future<OrderModel> placeOrder({
-    required int addressId,
-    required String shippingMethod,
-    String? note,
+  Future<Map<String, dynamic>> placeOrder({
+    required Map<String, dynamic> shippingAddress,
   }) async {
-    final response = await _checkoutService.placeOrder(
-      addressId: addressId,
-      shippingMethod: shippingMethod,
-      note: note,
-    );
-    return OrderModel.fromJson(response.data['data']);
+    final response = await _checkoutService.placeOrder(shippingAddress);
+    final data = ParserUtils.parseMap(response.data['data']);
+    return data;
+  }
+
+  Future<Map<String, dynamic>> payOrder(String orderNumber) async {
+    final response = await _checkoutService.payOrder(orderNumber);
+    final data = ParserUtils.parseMap(response.data['data']);
+    return data;
+  }
+
+  Future<void> requestRefund(String orderNumber, String reason) async {
+    await _checkoutService.requestRefund(orderNumber, reason);
+  }
+
+  Future<OrderModel> getOrderDetail(String orderNumber) async {
+    final response = await _checkoutService.getOrderDetail(orderNumber);
+    final data = response.data['data'] ?? response.data;
+    return OrderModel.fromJson(ParserUtils.parseMap(data));
   }
 
   Future<void> addAddress(AddressModel address) async {

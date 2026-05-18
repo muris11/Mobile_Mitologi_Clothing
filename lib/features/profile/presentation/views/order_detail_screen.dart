@@ -3,8 +3,10 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
+import 'package:mitologi_clothing_mobile/core/config/shop_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/views/midtrans_payment_screen.dart';
 import 'package:mitologi_clothing_mobile/features/profile/data/profile_repository.dart';
@@ -475,11 +477,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
   Widget _buildActions(OrderModel order) {
     final buttons = <Widget>[];
 
-    if (order.status == 'pending' && order.paymentUrl != null) {
+    if (order.isPending) {
       buttons.add(SizedBox(
         width: double.infinity,
         child: FilledButton.icon(
-          onPressed: () => _openPayment(order.paymentUrl!),
+          onPressed: () => _openPayment(),
           icon: const Icon(PhosphorIconsRegular.creditCard),
           label: const Text('Bayar Sekarang',
               style: TextStyle(fontWeight: FontWeight.w700)),
@@ -493,7 +495,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       ));
     }
 
-    if (order.status == 'processing' && order.refundRequestedAt == null) {
+    if (order.isProcessing && order.refundRequestedAt == null) {
       buttons.add(const Gap(8));
       buttons.add(SizedBox(
         width: double.infinity,
@@ -596,36 +598,73 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     );
   }
 
-  Future<void> _openPayment(String url) async {
+  Future<void> _openPayment() async {
     final orderNum = widget.orderNumber;
-    final result = await Navigator.of(context).push<MidtransPaymentResult>(
-      MaterialPageRoute(
-        builder: (_) => MidtransPaymentScreen(
-          paymentUrl: url,
-          orderNumber: orderNum,
-        ),
-      ),
-    );
 
-    if (!mounted) return;
+    try {
+      final checkoutRepo = context.read<CheckoutRepository>();
+      final result = await checkoutRepo.payOrder(orderNum);
+      final snapToken = result['snapToken'] as String? ?? '';
+      final isMock = result['mock'] == true || snapToken == 'MOCK_SNAP_TOKEN';
 
-    if (result == MidtransPaymentResult.success) {
-      context.go('/checkout/success?order=$orderNum');
-    } else if (result == MidtransPaymentResult.pending) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-              'Pembayaran menunggu konfirmasi. Pesanan Anda sedang diproses.'),
-          backgroundColor: Color(0xFF92400E),
+      if (isMock) {
+        if (!mounted) return;
+        await _fetchOrder();
+        return;
+      }
+
+      if (snapToken.isEmpty) {
+        if (!mounted) return;
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text('Gagal mendapatkan token pembayaran'),
+            backgroundColor: AppColors.error,
+          ),
+        );
+        return;
+      }
+
+      final paymentUrl = ShopConfig.buildMidtransSnapUrl(snapToken);
+
+      if (!mounted) return;
+      final paymentResult =
+          await Navigator.of(context).push<MidtransPaymentResult>(
+        MaterialPageRoute(
+          builder: (_) => MidtransPaymentScreen(
+            paymentUrl: paymentUrl,
+            orderNumber: orderNum,
+          ),
         ),
       );
-      setState(() {});
+
+      if (!mounted) return;
+      await _fetchOrder();
+
+      if (paymentResult == MidtransPaymentResult.success) {
+        context.go('/checkout/success?order=$orderNum');
+      } else if (paymentResult == MidtransPaymentResult.pending) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          const SnackBar(
+            content: Text(
+                'Pembayaran menunggu konfirmasi. Pesanan Anda sedang diproses.'),
+            backgroundColor: Color(0xFF92400E),
+          ),
+        );
+      }
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal memproses pembayaran: $e'),
+          backgroundColor: AppColors.error,
+        ),
+      );
     }
   }
 
-  void _showRefundDialog(OrderModel order) {
+  Future<void> _showRefundDialog(OrderModel order) async {
     final controller = TextEditingController();
-    showDialog(
+    final confirmed = await showDialog<bool>(
       context: context,
       builder: (ctx) => AlertDialog(
         title: const Text('Ajukan Pengembalian Dana',
@@ -640,24 +679,38 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
         ),
         actions: [
           TextButton(
-            onPressed: () => Navigator.pop(ctx),
+            onPressed: () => Navigator.pop(ctx, false),
             child: const Text('Batal'),
           ),
           FilledButton(
-            onPressed: () {
-              Navigator.pop(ctx);
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(
-                  content: Text(
-                      'Pengajuan refund dikirim. Menunggu konfirmasi admin.'),
-                ),
-              );
-            },
+            onPressed: () => Navigator.pop(ctx, true),
             child: const Text('Kirim'),
           ),
         ],
       ),
     );
+
+    if (confirmed != true || controller.text.trim().isEmpty) return;
+
+    try {
+      final checkoutRepo = context.read<CheckoutRepository>();
+      await checkoutRepo.requestRefund(widget.orderNumber, controller.text.trim());
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text('Pengajuan refund dikirim. Menunggu konfirmasi admin.'),
+        ),
+      );
+      await _fetchOrder();
+    } catch (e) {
+      if (!mounted) return;
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Gagal: $e'),
+          backgroundColor: AppColors.error,
+        ),
+      );
+    }
   }
 
   Widget _card({required Widget child}) {

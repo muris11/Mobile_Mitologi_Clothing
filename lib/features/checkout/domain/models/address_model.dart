@@ -28,13 +28,22 @@ class AddressModel extends Equatable {
     return AddressModel(
       id: ParserUtils.parseInt(json['id']),
       label: json['label'] as String? ?? '',
-      recipientName: json['recipient_name'] as String? ?? '',
+      recipientName: json['recipientName'] as String? ??
+          json['recipient_name'] as String? ??
+          '',
       phone: json['phone'] as String? ?? '',
-      address: json['address'] as String? ?? '',
+      address: json['addressLine1'] as String? ??
+          json['address_line_1'] as String? ??
+          json['address'] as String? ??
+          '',
       city: json['city'] as String? ?? '',
       province: json['province'] as String? ?? '',
-      postalCode: json['postal_code'] as String? ?? '',
-      isDefault: ParserUtils.parseBool(json['is_default']),
+      postalCode: json['postalCode'] as String? ??
+          json['postal_code'] as String? ??
+          '',
+      isDefault: ParserUtils.parseBool(
+        json['isPrimary'] ?? json['is_default'] ?? false,
+      ),
     );
   }
 
@@ -49,8 +58,29 @@ class AddressModel extends Equatable {
         'is_default': isDefault,
       };
 
+  Map<String, dynamic> toCheckoutJson() => {
+        'label': label,
+        'recipientName': recipientName,
+        'phone': phone,
+        'addressLine1': address,
+        'city': city,
+        'province': province,
+        'postalCode': postalCode,
+        'isPrimary': isDefault,
+      };
+
   String get fullAddress => '$address, $city, $province $postalCode';
 
   @override
-  List<Object?> get props => [id, label, recipientName, phone, address, city, province, postalCode, isDefault];
+  List<Object?> get props => [
+        id,
+        label,
+        recipientName,
+        phone,
+        address,
+        city,
+        province,
+        postalCode,
+        isDefault,
+      ];
 }

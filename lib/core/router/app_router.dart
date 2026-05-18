@@ -12,7 +12,6 @@ import 'package:mitologi_clothing_mobile/features/catalog/presentation/views/pro
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/views/addresses_screen.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/views/checkout_success_screen.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/views/checkout_view.dart';
-import 'package:mitologi_clothing_mobile/features/checkout/presentation/views/midtrans_payment_screen.dart';
 import 'package:mitologi_clothing_mobile/features/content/presentation/about_screen.dart';
 import 'package:mitologi_clothing_mobile/features/content/presentation/cms_page_screen.dart';
 import 'package:mitologi_clothing_mobile/features/content/presentation/collection_screen.dart';
@@ -157,13 +156,6 @@ class AppRouter {
         path: '/checkout/success',
         builder: (context, state) => CheckoutSuccessScreen(
           orderNumber: state.uri.queryParameters['order'],
-        ),
-      ),
-      GoRoute(
-        path: '/payment/midtrans',
-        builder: (context, state) => MidtransPaymentScreen(
-          paymentUrl: state.uri.queryParameters['url'] ?? '',
-          orderNumber: state.uri.queryParameters['order'] ?? '',
         ),
       ),
       GoRoute(
