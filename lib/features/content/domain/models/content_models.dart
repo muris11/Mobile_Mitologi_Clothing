@@ -61,7 +61,7 @@ class PortfolioItem extends Equatable {
       title: json['title'] as String? ?? '',
       description: json['description'] as String?,
       category: json['category'] as String?,
-      imageUrl: json['image_url'] as String?,
+      imageUrl: (json['imageUrl'] as String?) ?? (json['image_url'] as String?),
       gallery: json['gallery'] != null ? List<String>.from(json['gallery']) : null,
       client: json['client'] as String?,
       year: json['year']?.toString(),

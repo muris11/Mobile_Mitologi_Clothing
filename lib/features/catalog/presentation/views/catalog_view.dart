@@ -7,6 +7,7 @@ import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
@@ -43,6 +44,7 @@ class _CatalogViewState extends State<CatalogView> {
             categoryHandle: _selectedCategoryHandle,
           );
       context.read<CatalogViewModel>().getRecommendations();
+      context.read<WishlistProvider>().loadWishlist();
     });
   }
 
@@ -499,7 +501,14 @@ class _CatalogViewState extends State<CatalogView> {
                         child: CircularProgressIndicator(),
                       ));
                     }
-                    return ProductCard(product: viewModel.products[index]);
+                    final product = viewModel.products[index];
+                    return Consumer<WishlistProvider>(
+                      builder: (context, wishlist, _) => ProductCard(
+                        product: product,
+                        isInWishlist: wishlist.isInWishlist(product.id),
+                        onWishlistToggle: () => wishlist.toggleWishlist(product.id),
+                      ),
+                    );
                   },
                   childCount:
                       viewModel.products.length + (viewModel.hasMore ? 1 : 0),
@@ -564,50 +573,77 @@ class _CatalogViewState extends State<CatalogView> {
                       ),
                     ],
                   ),
-                  child: Stack(
-                    fit: StackFit.expand,
-                    children: [
-                      ShimmerImage(
-                        imageUrl: ApiConfig.buildImageUrl(product.featuredImageUrl),
-                        fit: BoxFit.cover,
-                        width: double.infinity,
-                        height: double.infinity,
-                      ),
-                      Positioned(
-                        left: 0,
-                        right: 0,
-                        bottom: 0,
-                        child: Container(
-                          padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
-                          decoration: BoxDecoration(
-                            gradient: LinearGradient(
-                              begin: Alignment.topCenter,
-                              end: Alignment.bottomCenter,
-                              colors: [
-                                Colors.transparent,
-                                Colors.black.withValues(alpha: 0.85),
-                              ],
+                  child: Consumer<WishlistProvider>(
+                    builder: (context, wishlist, _) {
+                      final inWishlist = wishlist.isInWishlist(product.id);
+                      return Stack(
+                        fit: StackFit.expand,
+                        children: [
+                          ShimmerImage(
+                            imageUrl: ApiConfig.buildImageUrl(product.featuredImageUrl),
+                            fit: BoxFit.cover,
+                            width: double.infinity,
+                            height: double.infinity,
+                          ),
+                          Positioned(
+                            top: 8,
+                            right: 8,
+                            child: GestureDetector(
+                              onTap: () => wishlist.toggleWishlist(product.id),
+                              child: Container(
+                                width: 30,
+                                height: 30,
+                                decoration: BoxDecoration(
+                                  color: Colors.white.withValues(alpha: 0.9),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: Icon(
+                                  inWishlist
+                                      ? Icons.favorite_rounded
+                                      : Icons.favorite_outline_rounded,
+                                  size: 16,
+                                  color: inWishlist
+                                      ? const Color(0xFFE53935)
+                                      : Colors.white,
+                                ),
+                              ),
                             ),
                           ),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                product.name,
-                                style: const TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.w800,
-                                  height: 1.2,
+                          Positioned(
+                            left: 0,
+                            right: 0,
+                            bottom: 0,
+                            child: Container(
+                              padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
+                              decoration: BoxDecoration(
+                                gradient: LinearGradient(
+                                  begin: Alignment.topCenter,
+                                  end: Alignment.bottomCenter,
+                                  colors: [
+                                    Colors.transparent,
+                                    Colors.black.withValues(alpha: 0.85),
+                                  ],
                                 ),
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
                               ),
-                              const SizedBox(height: 6),
-                              Row(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   Text(
-                                    _formatPrice(product.displayPrice),
+                                    product.name,
+                                    style: const TextStyle(
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.w800,
+                                      height: 1.2,
+                                    ),
+                                    maxLines: 2,
+                                    overflow: TextOverflow.ellipsis,
+                                  ),
+                                  const SizedBox(height: 6),
+                                  Row(
+                                    children: [
+                                      Text(
+                                        _formatPrice(product.displayPrice),
                                     style: const TextStyle(
                                       color: Color(0xFFB9955B),
                                       fontSize: 17,
@@ -661,10 +697,12 @@ class _CatalogViewState extends State<CatalogView> {
                           ),
                         ),
                     ],
-                  ),
-                ),
-              );
-            },
+                  );
+                },
+              ),
+            ),
+            );
+          },
           ),
         ),
         const Gap(8),

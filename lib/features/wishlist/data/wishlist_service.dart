@@ -11,8 +11,12 @@ class WishlistService {
     return await _apiClient.dio.get(ApiEndpoints.wishlist);
   }
 
-  Future<Response> toggleWishlist(int productId) async {
+  Future<Response> addToWishlist(int productId) async {
     return await _apiClient.dio.post(ApiEndpoints.toggleWishlist(productId));
+  }
+
+  Future<Response> removeFromWishlist(int productId) async {
+    return await _apiClient.dio.delete(ApiEndpoints.toggleWishlist(productId));
   }
 
   Future<Response> checkWishlist(int productId) async {

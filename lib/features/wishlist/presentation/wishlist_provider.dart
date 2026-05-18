@@ -44,22 +44,20 @@ class WishlistProvider extends ChangeNotifier {
     notifyListeners();
 
     try {
-      final isNowInWishlist = await _repository.toggleWishlist(productId);
-      
-      if (isNowInWishlist != !wasInWishlist) {
-        if (isNowInWishlist) {
+      final success = wasInWishlist
+          ? await _repository.removeFromWishlist(productId)
+          : await _repository.addToWishlist(productId);
+
+      if (!success) {
+        if (wasInWishlist) {
           _wishlistedIds.add(productId);
         } else {
           _wishlistedIds.remove(productId);
-          _items.removeWhere((item) => item.productId == productId);
         }
         notifyListeners();
       }
-      
-      if (!wasInWishlist && isNowInWishlist) {
-      }
-      
-      return isNowInWishlist;
+
+      return success;
     } catch (e) {
       if (wasInWishlist) {
         _wishlistedIds.add(productId);

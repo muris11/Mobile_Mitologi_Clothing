@@ -11,6 +11,7 @@ import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/widgets/cart_icon_button.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/banner_model.dart';
+import 'package:mitologi_clothing_mobile/features/home/domain/models/category_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/order_step_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/portfolio_item_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/product_pricing_model.dart';
@@ -681,58 +682,114 @@ class _HomeViewState extends State<HomeView> {
             subtitle: 'Browse by category',
             onSeeAll: () => context.push('/products'),
           ),
-          SizedBox(
-            height: 120,
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 24),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 24),
+            child: GridView.builder(
+              shrinkWrap: true,
+              physics: const NeverScrollableScrollPhysics(),
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                crossAxisSpacing: 12,
+                mainAxisSpacing: 12,
+                childAspectRatio: 0.75,
+              ),
               itemCount: viewModel.categories.length,
               itemBuilder: (context, index) {
                 final category = viewModel.categories[index];
-                return Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () =>
-                            context.push('/products?category=${category.slug}'),
-                        child: Container(
-                          width: 70,
-                          height: 70,
-                          decoration: BoxDecoration(
-                            color: AppColors.surfaceContainerLowest,
-                            shape: BoxShape.circle,
-                            border: Border.all(
-                                color: AppColors.outlineVariant, width: 1.5),
-                            boxShadow: [AppShadows.cardSoft],
-                          ),
-                          child: Center(
-                            child: category.iconUrl != null
-                                ? AppImage(
-                                    imageUrl: ApiConfig.buildImageUrl(
-                                        category.iconUrl!),
-                                    width: 40,
-                                    height: 40)
-                                : const Icon(PhosphorIconsRegular.tShirt,
-                                    size: 30),
-                          ),
-                        ),
-                      ),
-                      const Gap(10),
-                      Text(
-                        category.name,
-                        style: const TextStyle(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                        ),
-                      ),
-                    ],
-                  ),
-                );
+                return _buildCollectionCard(category);
               },
             ),
           ),
+          const Gap(24),
         ],
+      ),
+    );
+  }
+
+  Widget _buildCollectionCard(CategoryModel category) {
+    final hasImage = category.iconUrl != null && category.iconUrl!.isNotEmpty;
+
+    return GestureDetector(
+      onTap: () => context.push('/products?category=${category.slug}'),
+      child: Container(
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(16),
+          boxShadow: [AppShadows.cardSoft],
+        ),
+        clipBehavior: Clip.antiAlias,
+        child: Stack(
+          fit: StackFit.expand,
+          children: [
+            if (hasImage)
+              AppImage(
+                imageUrl: ApiConfig.buildImageUrl(category.iconUrl!),
+                fit: BoxFit.cover,
+                borderRadius: 0,
+              )
+            else
+              Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    colors: [
+                      AppColors.surfaceContainerLow,
+                      AppColors.surfaceContainerHigh,
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                ),
+                child: Center(
+                  child: Icon(
+                    PhosphorIconsRegular.image,
+                    size: 28,
+                    color: AppColors.outline,
+                  ),
+                ),
+              ),
+            Positioned.fill(
+              child: Container(
+                decoration: const BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [Colors.transparent, Colors.black54],
+                    stops: [0.5, 1.0],
+                  ),
+                ),
+              ),
+            ),
+            Positioned(
+              left: 12,
+              right: 12,
+              bottom: 12,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(
+                    category.name,
+                    style: const TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                      fontWeight: FontWeight.w700,
+                    ),
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                  const Gap(4),
+                  Text(
+                    'Lihat Produk →',
+                    style: TextStyle(
+                      color: Colors.white.withValues(alpha: 0.7),
+                      fontSize: 11,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

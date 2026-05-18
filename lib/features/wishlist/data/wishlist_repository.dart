@@ -29,18 +29,22 @@ class WishlistRepository {
     }
   }
 
-  Future<bool> toggleWishlist(int productId) async {
+  Future<bool> addToWishlist(int productId) async {
     try {
-      final response = await _wishlistService.toggleWishlist(productId);
-      final data = response.data;
-      if (data is Map) {
-        final map = ParserUtils.parseMap(data);
-        return ParserUtils.parseBool(
-            map['in_wishlist'] ?? map['is_wishlisted'] ?? map['success']);
-      }
+      final response = await _wishlistService.addToWishlist(productId);
       return response.statusCode == 200 || response.statusCode == 201;
     } catch (e) {
-      log('Error toggling wishlist: $e');
+      log('Error adding to wishlist: $e');
+      return false;
+    }
+  }
+
+  Future<bool> removeFromWishlist(int productId) async {
+    try {
+      final response = await _wishlistService.removeFromWishlist(productId);
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (e) {
+      log('Error removing from wishlist: $e');
       return false;
     }
   }
@@ -51,8 +55,11 @@ class WishlistRepository {
       final data = response.data;
       if (data is Map) {
         final map = ParserUtils.parseMap(data);
-        return ParserUtils.parseBool(
-            map['in_wishlist'] ?? map['is_wishlisted']);
+        final innerData = ParserUtils.parseMap(map['data']);
+        final raw = innerData['isWishlisted'] ?? innerData['is_wishlisted'] ?? innerData['in_wishlist'];
+        if (raw != null) {
+          return ParserUtils.parseBool(raw);
+        }
       }
       return false;
     } catch (_) {
