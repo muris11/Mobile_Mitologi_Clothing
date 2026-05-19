@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/utils/error_mapper.dart';
 import 'package:mitologi_clothing_mobile/features/auth/domain/models/user.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/profile/data/profile_repository.dart';
@@ -34,7 +35,7 @@ class ProfileViewModel extends ChangeNotifier {
       _user = results[0] as User;
       _orders = results[1] as List<OrderModel>;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapAuthError(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -51,7 +52,7 @@ class ProfileViewModel extends ChangeNotifier {
       await fetchProfileData();
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapAuthError(e);
       _isLoading = false;
       notifyListeners();
       return false;
@@ -68,7 +69,7 @@ class ProfileViewModel extends ChangeNotifier {
       await fetchProfileData();
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapAuthError(e);
       _isLoading = false;
       notifyListeners();
       return false;
@@ -93,7 +94,7 @@ class ProfileViewModel extends ChangeNotifier {
       );
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapAuthError(e);
       return false;
     } finally {
       _isSaving = false;

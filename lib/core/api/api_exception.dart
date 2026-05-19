@@ -10,15 +10,15 @@ class ApiException implements Exception {
   factory ApiException.fromDioException(DioException dioException) {
     switch (dioException.type) {
       case DioExceptionType.cancel:
-        return ApiException(message: "Request to API server was cancelled");
+        return ApiException(message: "Permintaan ke server API dibatalkan");
       case DioExceptionType.connectionTimeout:
-        return ApiException(message: "Connection timeout with API server");
+        return ApiException(message: "Koneksi ke server API habis waktu");
       case DioExceptionType.receiveTimeout:
-        return ApiException(message: "Receive timeout in connection with API server");
+        return ApiException(message: "Waktu tunggu menerima data dari server API habis");
       case DioExceptionType.sendTimeout:
-        return ApiException(message: "Send timeout in connection with API server");
+        return ApiException(message: "Waktu tunggu mengirim data ke server API habis");
       case DioExceptionType.connectionError:
-        return ApiException(message: "Connection error with API server");
+        return ApiException(message: "Kesalahan koneksi dengan server API");
       case DioExceptionType.badResponse:
         return _handleError(
           dioException.response?.statusCode,
@@ -26,16 +26,16 @@ class ApiException implements Exception {
         );
       case DioExceptionType.unknown:
         if (dioException.message?.contains("SocketException") ?? false) {
-          return ApiException(message: 'No Internet connection');
+          return ApiException(message: 'Tidak ada koneksi internet');
         }
-        return ApiException(message: "Unexpected error occurred");
+        return ApiException(message: "Terjadi kesalahan yang tidak terduga");
       default:
-        return ApiException(message: "Something went wrong");
+        return ApiException(message: "Terjadi kesalahan, silakan coba lagi");
     }
   }
 
   static ApiException _handleError(int? statusCode, dynamic error) {
-    String message = "Something went wrong";
+    String message = "Terjadi kesalahan, silakan coba lagi";
     dynamic errors;
 
     if (error is Map) {
@@ -47,22 +47,43 @@ class ApiException implements Exception {
       case 400:
         return ApiException(message: message, statusCode: 400);
       case 401:
-        return ApiException(message: "Unauthorized access", statusCode: 401);
+        return ApiException(message: "Sesi telah berakhir, silakan masuk kembali", statusCode: 401);
       case 403:
-        return ApiException(message: "Forbidden access", statusCode: 403);
+        return ApiException(message: "Akses ditolak", statusCode: 403);
       case 404:
         return ApiException(message: message, statusCode: 404);
       case 422:
         return ApiException(message: message, statusCode: 422, errors: errors);
       case 429:
-        return ApiException(message: "Too many requests. Please try again later.", statusCode: 429);
+        return ApiException(message: "Terlalu banyak permintaan. Silakan coba lagi nanti.", statusCode: 429);
       case 500:
-        return ApiException(message: "Internal server error", statusCode: 500);
+        return ApiException(message: "Terjadi kesalahan pada server", statusCode: 500);
       default:
         return ApiException(message: message, statusCode: statusCode);
     }
   }
 
   @override
-  String toString() => message;
+  String toString() {
+    if (errors != null) {
+      if (errors is Map) {
+        final map = errors as Map;
+        if (map.isNotEmpty) {
+          final firstVal = map.values.first;
+          if (firstVal is List && firstVal.isNotEmpty) {
+            return firstVal.first.toString();
+          }
+          return firstVal.toString();
+        }
+      } else if (errors is List && (errors as List).isNotEmpty) {
+        return (errors as List).first.toString();
+      }
+    }
+    return message;
+  }
+  
+  // Custom display helper for clean message display
+  String get displayMessage {
+    return toString();
+  }
 }

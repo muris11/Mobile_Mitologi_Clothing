@@ -53,7 +53,7 @@ class ApiClient {
           response: e.response,
           type: e.type,
           error: exception,
-          message: exception.message,
+          message: exception.toString(),
         ));
       },
     ));

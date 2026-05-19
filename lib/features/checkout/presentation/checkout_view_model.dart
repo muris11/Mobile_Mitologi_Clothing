@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mitologi_clothing_mobile/core/config/shop_config.dart';
+import 'package:mitologi_clothing_mobile/core/utils/error_mapper.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
@@ -59,7 +60,7 @@ class CheckoutViewModel extends ChangeNotifier {
             orElse: () => _addresses.first);
       }
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCheckoutError(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -98,7 +99,7 @@ class CheckoutViewModel extends ChangeNotifier {
 
       return PlaceOrderResult.success;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCheckoutError(e);
       return PlaceOrderResult.error;
     } finally {
       _isLoading = false;
@@ -129,7 +130,7 @@ class CheckoutViewModel extends ChangeNotifier {
 
       return PlaceOrderResult.success;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCheckoutError(e);
       return PlaceOrderResult.error;
     } finally {
       _isLoading = false;
@@ -155,7 +156,7 @@ class CheckoutViewModel extends ChangeNotifier {
       await _checkoutRepository.requestRefund(orderNumber, reason);
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCheckoutError(e);
       return false;
     }
   }
@@ -170,7 +171,7 @@ class CheckoutViewModel extends ChangeNotifier {
       await fetchAddresses();
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCheckoutError(e);
       return false;
     } finally {
       _isLoading = false;
@@ -188,7 +189,7 @@ class CheckoutViewModel extends ChangeNotifier {
       await fetchAddresses();
       return true;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCheckoutError(e);
       return false;
     } finally {
       _isLoading = false;

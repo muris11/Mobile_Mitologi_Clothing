@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/utils/error_mapper.dart';
 import 'package:mitologi_clothing_mobile/features/cart/data/cart_repository.dart';
 import 'package:mitologi_clothing_mobile/features/cart/domain/models/cart_model.dart';
 
@@ -24,7 +25,7 @@ class CartViewModel extends ChangeNotifier {
     try {
       _cart = await _cartRepository.getCart();
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCartError(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -45,7 +46,7 @@ class CartViewModel extends ChangeNotifier {
         variantId: variantId,
       );
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCartError(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -56,7 +57,7 @@ class CartViewModel extends ChangeNotifier {
     try {
       _cart = await _cartRepository.updateQuantity(itemId, quantity);
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCartError(e);
     } finally {
       notifyListeners();
     }
@@ -66,7 +67,7 @@ class CartViewModel extends ChangeNotifier {
     try {
       _cart = await _cartRepository.removeFromCart(itemId);
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCartError(e);
     } finally {
       notifyListeners();
     }
@@ -78,7 +79,7 @@ class CartViewModel extends ChangeNotifier {
       await _cartRepository.clearCart();
       _cart = null;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapCartError(e);
     } finally {
       _isLoading = false;
       notifyListeners();

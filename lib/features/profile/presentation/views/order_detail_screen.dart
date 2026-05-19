@@ -45,7 +45,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       final order = await repo.getOrderDetail(widget.orderNumber);
       if (mounted) setState(() => _order = order);
     } catch (e) {
-      if (mounted) setState(() => _error = e.toString());
+      String msg = e.toString();
+      if (msg.startsWith('Exception: ')) {
+        msg = msg.substring('Exception: '.length);
+      }
+      if (mounted) setState(() => _error = msg);
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }

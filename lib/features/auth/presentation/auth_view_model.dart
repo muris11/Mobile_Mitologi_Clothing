@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/utils/error_mapper.dart';
 import 'package:mitologi_clothing_mobile/features/auth/data/auth_repository.dart';
 import 'package:mitologi_clothing_mobile/features/auth/domain/models/user.dart';
 
@@ -33,7 +34,7 @@ class AuthViewModel extends ChangeNotifier {
       await _authRepository.login(email, password);
       return true;
     } catch (e) {
-      _setError(e.toString());
+      _setError(ErrorMapper.mapAuthError(e));
       return false;
     } finally {
       _setLoading(false);
@@ -57,7 +58,7 @@ class AuthViewModel extends ChangeNotifier {
       );
       return true;
     } catch (e) {
-      _setError(e.toString());
+      _setError(ErrorMapper.mapAuthError(e));
       return false;
     } finally {
       _setLoading(false);
@@ -69,7 +70,7 @@ class AuthViewModel extends ChangeNotifier {
     try {
       await _authRepository.logout();
     } catch (e) {
-      _setError(e.toString());
+      _setError(ErrorMapper.mapAuthError(e));
     } finally {
       _setLoading(false);
     }
@@ -92,7 +93,7 @@ class AuthViewModel extends ChangeNotifier {
       await _authRepository.forgotPassword(email);
       return true;
     } catch (e) {
-      _setError(e.toString());
+      _setError(ErrorMapper.mapAuthError(e));
       return false;
     } finally {
       _setLoading(false);
@@ -114,7 +115,7 @@ class AuthViewModel extends ChangeNotifier {
       );
       return true;
     } catch (e) {
-      _setError(e.toString());
+      _setError(ErrorMapper.mapAuthError(e));
       return false;
     } finally {
       _setLoading(false);

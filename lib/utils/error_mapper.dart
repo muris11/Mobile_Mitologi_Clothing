@@ -1,7 +1,23 @@
+import 'package:dio/dio.dart';
+import 'package:mitologi_clothing_mobile/core/api/api_exception.dart';
 import 'package:mitologi_clothing_mobile/core/network/api_error.dart';
 
 class ErrorMapper {
   static String mapAuthError(dynamic error) {
+    if (error is DioException) {
+      if (error.error is ApiException) {
+        return _mapBackendMessage((error.error as ApiException).toString());
+      }
+      if (error.error is ApiError) {
+        return mapAuthError(error.error);
+      }
+      return _mapBackendMessage(error.message ?? error.toString());
+    }
+
+    if (error is ApiException) {
+      return _mapBackendMessage(error.toString());
+    }
+
     if (error is ApiError) {
       if (error.isValidationError && error.fieldErrors != null) {
         final firstError = error.fieldErrors!.values

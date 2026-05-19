@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/utils/error_mapper.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/data/catalog_repository.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_detail_model.dart';
@@ -101,7 +102,7 @@ class CatalogViewModel extends ChangeNotifier {
         _currentPage++;
       }
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapAuthError(e);
     } finally {
       _isLoading = false;
       notifyListeners();
@@ -139,7 +140,7 @@ class CatalogViewModel extends ChangeNotifier {
         _fetchRelated(_selectedProduct!.id);
       }
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapAuthError(e);
       _isLoading = false;
       notifyListeners();
     } finally {
