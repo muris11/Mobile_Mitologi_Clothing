@@ -99,7 +99,7 @@ class ProductCard extends StatelessWidget {
                           style: GoogleFonts.manrope(
                             fontSize: 16,
                             fontWeight: FontWeight.w900,
-                            color: const Color(0xFFB9955B),
+                            color: AppColors.secondary,
                             height: 1.0,
                           ),
                         ),
@@ -110,7 +110,7 @@ class ProductCard extends StatelessWidget {
                               const Icon(
                                 Icons.star_rounded,
                                 size: 14,
-                                color: Color(0xFFB9955B),
+                                color: AppColors.secondary,
                               ),
                               const SizedBox(width: 3),
                               Text(
@@ -156,7 +156,7 @@ class ProductCard extends StatelessWidget {
                         vertical: 4,
                       ),
                       decoration: BoxDecoration(
-                        color: const Color(0xFFB9955B),
+                        color: AppColors.secondary,
                         borderRadius: BorderRadius.circular(999),
                       ),
                       child: const Text(

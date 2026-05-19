@@ -9,7 +9,7 @@ import 'package:mitologi_clothing_mobile/utils/responsive_utils.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/custom_pull_to_refresh.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/loading_indicator.dart';
-import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:provider/provider.dart';
 
 import 'content_provider.dart';
@@ -129,7 +129,7 @@ class CollectionScreen extends StatelessWidget {
                       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                         crossAxisCount:
                             ResponsiveConfig.getGridColumnCount(context),
-                        childAspectRatio: 0.64,
+                        childAspectRatio: 0.58,
                         crossAxisSpacing: 16,
                         mainAxisSpacing: 24,
                       ),

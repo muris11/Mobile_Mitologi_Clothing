@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
+import 'package:mitologi_clothing_mobile/core/utils/currency_formatter.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
@@ -27,10 +29,6 @@ class _CheckoutViewState extends State<CheckoutView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<CheckoutViewModel>().fetchAddresses();
     });
-  }
-
-  String _formatIDR(double amount) {
-    return 'Rp ${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'), (m) => '${m[1]}.')}';
   }
 
   @override
@@ -73,7 +71,7 @@ class _CheckoutViewState extends State<CheckoutView> {
               padding: const EdgeInsets.all(20),
               decoration: BoxDecoration(
                 color: AppColors.surfaceContainerLowest,
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: AppBorderRadius.lgRadius,
                 border: Border.all(color: AppColors.outlineVariant),
               ),
               child: Row(
@@ -83,7 +81,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                   const Gap(12),
                   Text(
                     'Belum ada alamat. Silakan tambahkan.',
-                    style: TextStyle(color: AppColors.onSurfaceVariant),
+                    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
                   ),
                 ],
               ),
@@ -101,7 +99,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                     color: isSelected
                         ? AppColors.primary
                         : AppColors.surfaceContainerLowest,
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: AppBorderRadius.lgRadius,
                     border: Border.all(
                       color: isSelected
                           ? AppColors.primary
@@ -128,9 +126,8 @@ class _CheckoutViewState extends State<CheckoutView> {
                           children: [
                             Text(
                               address.label,
-                              style: TextStyle(
+                              style: AppTextStyles.bodyMedium.copyWith(
                                 fontWeight: FontWeight.w800,
-                                fontSize: 14,
                                 color: isSelected
                                     ? Colors.white
                                     : AppColors.onSurface,
@@ -139,8 +136,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                             const Gap(4),
                             Text(
                               address.fullAddress,
-                              style: TextStyle(
-                                fontSize: 12,
+                              style: AppTextStyles.bodySmall.copyWith(
                                 height: 1.4,
                                 color: isSelected
                                     ? Colors.white70
@@ -180,7 +176,7 @@ class _CheckoutViewState extends State<CheckoutView> {
             padding: const EdgeInsets.all(20),
             decoration: BoxDecoration(
               color: AppColors.surfaceContainerLowest,
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: AppBorderRadius.lgRadius,
               border: Border.all(color: AppColors.outlineVariant),
             ),
             child: Column(
@@ -188,7 +184,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                 _buildSummaryRow(
                   'Subtotal',
                   cartVM.cart != null
-                      ? _formatIDR(cartVM.cart!.totalPrice)
+                      ? CurrencyFormatter.formatIDR(cartVM.cart!.totalPrice)
                       : 'Memuat...',
                 ),
                 const Gap(8),
@@ -208,20 +204,18 @@ class _CheckoutViewState extends State<CheckoutView> {
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const Text(
+                      Text(
                         'Total',
-                        style: TextStyle(
+                        style: AppTextStyles.bodyLarge.copyWith(
                           fontWeight: FontWeight.w900,
-                          fontSize: 16,
                         ),
                       ),
                       Text(
                         cartVM.cart != null
-                            ? _formatIDR(total)
+                            ? CurrencyFormatter.formatIDR(total)
                             : 'Menghitung...',
-                        style: const TextStyle(
+                        style: AppTextStyles.bodyLarge.copyWith(
                           fontWeight: FontWeight.w800,
-                          fontSize: 16,
                           color: AppColors.primary,
                         ),
                       ),
@@ -244,15 +238,14 @@ class _CheckoutViewState extends State<CheckoutView> {
           padding: const EdgeInsets.all(8),
           decoration: BoxDecoration(
             color: AppColors.primary,
-            borderRadius: BorderRadius.circular(10),
+            borderRadius: AppBorderRadius.smRadius,
           ),
           child: Icon(icon, color: AppColors.secondaryContainer, size: 18),
         ),
         const Gap(10),
         Text(
           title,
-          style: const TextStyle(
-            fontSize: 16,
+          style: AppTextStyles.headingSmall.copyWith(
             fontWeight: FontWeight.w900,
           ),
         ),
@@ -276,7 +269,7 @@ class _CheckoutViewState extends State<CheckoutView> {
         decoration: BoxDecoration(
           color:
               isSelected ? AppColors.primary : AppColors.surfaceContainerLowest,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: AppBorderRadius.lgRadius,
           border: Border.all(
             color: isSelected ? AppColors.primary : AppColors.outlineVariant,
             width: isSelected ? 2 : 1,
@@ -300,16 +293,14 @@ class _CheckoutViewState extends State<CheckoutView> {
                 children: [
                   Text(
                     title,
-                    style: TextStyle(
+                    style: AppTextStyles.bodyMedium.copyWith(
                       fontWeight: FontWeight.w800,
-                      fontSize: 14,
                       color: isSelected ? Colors.white : AppColors.onSurface,
                     ),
                   ),
                   Text(
                     subtitle,
-                    style: TextStyle(
-                      fontSize: 12,
+                    style: AppTextStyles.bodySmall.copyWith(
                       color: isSelected
                           ? Colors.white70
                           : AppColors.onSurfaceVariant,
@@ -320,9 +311,8 @@ class _CheckoutViewState extends State<CheckoutView> {
             ),
             Text(
               price,
-              style: TextStyle(
+              style: AppTextStyles.bodyMedium.copyWith(
                 fontWeight: FontWeight.w800,
-                fontSize: 13,
                 color: isSelected
                     ? AppColors.secondaryContainer
                     : AppColors.primary,
@@ -339,10 +329,10 @@ class _CheckoutViewState extends State<CheckoutView> {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         Text(label,
-            style: const TextStyle(
-                color: AppColors.onSurfaceVariant, fontSize: 13)),
+            style: AppTextStyles.bodySmall.copyWith(
+                color: AppColors.onSurfaceVariant)),
         Text(value,
-            style: const TextStyle(fontWeight: FontWeight.w600, fontSize: 13)),
+            style: AppTextStyles.bodySmall.copyWith(fontWeight: FontWeight.w600)),
       ],
     );
   }
@@ -500,7 +490,7 @@ class _CheckoutViewState extends State<CheckoutView> {
                   backgroundColor: AppColors.primary,
                   padding: const EdgeInsets.all(18),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: AppBorderRadius.lgRadius,
                   ),
                 ),
                 child: viewModel.isLoading
@@ -512,12 +502,13 @@ class _CheckoutViewState extends State<CheckoutView> {
                           color: Colors.white,
                         ),
                       )
-                    : const Text(
+                    : Text(
                         'BUAT PESANAN',
-                        style: TextStyle(
+                        style: AppTextStyles.labelLarge.copyWith(
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1,
                           fontSize: 15,
+                          color: Colors.white,
                         ),
                       ),
               ),

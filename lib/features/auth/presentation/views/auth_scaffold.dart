@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 
 class AuthScaffold extends StatelessWidget {
   final String eyebrow;
@@ -20,8 +21,6 @@ class AuthScaffold extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final theme = Theme.of(context);
-
     return Scaffold(
       backgroundColor: AppColors.background,
       body: Container(
@@ -45,7 +44,7 @@ class AuthScaffold extends StatelessWidget {
                 height: 240,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: const Color(0xFFB9955B).withValues(alpha: 0.12),
+                  color: AppColors.secondary.withValues(alpha: 0.12),
                 ),
               ),
             ),
@@ -55,63 +54,63 @@ class AuthScaffold extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
                   child: Container(
                     width: 560,
-                    padding: const EdgeInsets.all(28),
-                    decoration: BoxDecoration(
-                      color: Colors.white,
-                      borderRadius: BorderRadius.circular(30),
-                      border: Border.all(color: AppColors.outlineVariant),
-                      boxShadow: [AppShadows.cardElevated],
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.only(bottom: 28),
-                          child: Column(
-                            children: [
-                              Text(
-                                eyebrow.toUpperCase(),
-                                style: theme.textTheme.bodySmall?.copyWith(
-                                  color: const Color(0xFF8C6A22),
-                                  fontWeight: FontWeight.w700,
-                                  letterSpacing: 2.8,
+                      padding: const EdgeInsets.all(28),
+                      decoration: BoxDecoration(
+                        color: AppColors.surfaceContainerLowest,
+                        borderRadius: AppBorderRadius.xxlRadius,
+                        border: Border.all(color: AppColors.outlineVariant),
+                        boxShadow: [AppShadows.cardElevated],
+                      ),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.stretch,
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.only(bottom: 28),
+                            child: Column(
+                              children: [
+                                Text(
+                                  eyebrow.toUpperCase(),
+                                  style: AppTextStyles.bodySmall.copyWith(
+                                    color: AppColors.secondary,
+                                    fontWeight: FontWeight.w700,
+                                    letterSpacing: 2.8,
+                                  ),
                                 ),
-                              ),
-                              const Gap(16),
-                              Text(
-                                title,
-                                textAlign: TextAlign.center,
-                                style: theme.textTheme.headlineLarge?.copyWith(
-                                  color: AppColors.primary,
-                                  fontWeight: FontWeight.w600,
+                                const Gap(16),
+                                Text(
+                                  title,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.headingLarge.copyWith(
+                                    color: AppColors.primary,
+                                    fontWeight: FontWeight.w600,
+                                  ),
                                 ),
-                              ),
-                              const Gap(12),
-                              Text(
-                                description,
-                                textAlign: TextAlign.center,
-                                style: theme.textTheme.bodyMedium?.copyWith(
-                                  color: AppColors.onSurfaceVariant,
-                                  height: 1.6,
+                                const Gap(12),
+                                Text(
+                                  description,
+                                  textAlign: TextAlign.center,
+                                  style: AppTextStyles.bodyMedium.copyWith(
+                                    color: AppColors.onSurfaceVariant,
+                                    height: 1.6,
+                                  ),
                                 ),
-                              ),
-                              const Gap(28),
-                              const Divider(color: AppColors.outlineVariant),
-                            ],
+                                const Gap(28),
+                                const Divider(color: AppColors.outlineVariant),
+                              ],
+                            ),
                           ),
-                        ),
-                        child,
-                        const Gap(28),
-                        const Divider(color: Color(0xFFECEBE7)),
-                        const Gap(20),
-                        Text(
-                          '© Mitologi Clothing. Hak cipta dilindungi.',
-                          textAlign: TextAlign.center,
-                          style: theme.textTheme.bodySmall?.copyWith(
-                            color: AppColors.outline,
-                            fontWeight: FontWeight.w500,
+                          child,
+                          const Gap(28),
+                          const Divider(color: AppColors.surfaceContainer),
+                          const Gap(20),
+                          Text(
+                            '© Mitologi Clothing. Hak cipta dilindungi.',
+                            textAlign: TextAlign.center,
+                            style: AppTextStyles.bodySmall.copyWith(
+                              color: AppColors.outline,
+                              fontWeight: FontWeight.w500,
+                            ),
                           ),
-                        ),
                       ],
                     ),
                   ),
@@ -135,26 +134,26 @@ class AuthAlert extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: const Color(0xFFFFF1F2),
-        borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: const Color(0xFFFECACA)),
+        color: AppColors.error.withValues(alpha: 0.08),
+        borderRadius: AppBorderRadius.lgRadius,
+        border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
       ),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           const Icon(
             PhosphorIconsRegular.warningCircle,
-            color: Color(0xFFEF4444),
+            color: AppColors.error,
             size: 20,
           ),
           const Gap(12),
           Expanded(
             child: Text(
               message,
-              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                    color: const Color(0xFFB91C1C),
-                    fontWeight: FontWeight.w500,
-                  ),
+              style: AppTextStyles.bodyMedium.copyWith(
+                color: AppColors.error,
+                fontWeight: FontWeight.w500,
+              ),
             ),
           ),
         ],
@@ -174,11 +173,11 @@ class AuthLabel extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 8),
       child: Text(
         text.toUpperCase(),
-        style: Theme.of(context).textTheme.bodySmall?.copyWith(
-              color: const Color(0xFF475569),
-              fontWeight: FontWeight.w700,
-              letterSpacing: 1.8,
-            ),
+        style: AppTextStyles.bodySmall.copyWith(
+          color: AppColors.onSurfaceVariant,
+          fontWeight: FontWeight.w700,
+          letterSpacing: 1.8,
+        ),
       ),
     );
   }

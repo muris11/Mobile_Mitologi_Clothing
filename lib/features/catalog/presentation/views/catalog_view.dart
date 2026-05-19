@@ -8,7 +8,7 @@ import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
-import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -137,7 +137,7 @@ class _CatalogViewState extends State<CatalogView> {
                         child: Text(
                           'Hapus Semua',
                           style: GoogleFonts.manrope(
-                            color: const Color(0xFFB9955B),
+                            color: AppColors.secondary,
                             fontWeight: FontWeight.w600,
                           ),
                         ),
@@ -257,7 +257,7 @@ class _CatalogViewState extends State<CatalogView> {
                         Navigator.pop(sheetContext);
                       },
                       style: FilledButton.styleFrom(
-                        backgroundColor: const Color(0xFFB9955B),
+                        backgroundColor: AppColors.secondary,
                         padding: const EdgeInsets.symmetric(vertical: 14),
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(14),
@@ -488,7 +488,7 @@ class _CatalogViewState extends State<CatalogView> {
               sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.62,
+                  childAspectRatio: 0.58, // Adjusted from 0.62 for premium 3:4 aspect ratio with metadata underneath without overflow
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
@@ -532,7 +532,7 @@ class _CatalogViewState extends State<CatalogView> {
                 width: 4,
                 height: 20,
                 decoration: BoxDecoration(
-                  color: const Color(0xFFB9955B),
+                  color: AppColors.secondary,
                   borderRadius: BorderRadius.circular(2),
                 ),
               ),
@@ -549,160 +549,27 @@ class _CatalogViewState extends State<CatalogView> {
           ),
         ),
         SizedBox(
-          height: 280,
+          height: 310, // Adjusted from 280 to allow 3:4 product card carousel representation without overflow
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 24),
             itemCount: products.length,
             itemBuilder: (context, index) {
               final product = products[index];
-              return GestureDetector(
-                onTap: () => context.push('/product/${product.slug}'),
-                child: Container(
-                  width: 200,
-                  margin: const EdgeInsets.only(right: 16),
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(22),
-                    border: Border.all(color: AppColors.outlineVariant),
-                    boxShadow: [
-                      BoxShadow(
-                        color: AppColors.shadow.withValues(alpha: 0.06),
-                        blurRadius: 16,
-                        offset: const Offset(0, 6),
-                      ),
-                    ],
-                  ),
-                  child: Consumer<WishlistProvider>(
-                    builder: (context, wishlist, _) {
-                      final inWishlist = wishlist.isInWishlist(product.id);
-                      return Stack(
-                        fit: StackFit.expand,
-                        children: [
-                          ShimmerImage(
-                            imageUrl: ApiConfig.buildImageUrl(product.featuredImageUrl),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                            height: double.infinity,
-                          ),
-                          Positioned(
-                            top: 8,
-                            right: 8,
-                            child: GestureDetector(
-                              onTap: () => wishlist.toggleWishlist(product.id),
-                              child: Container(
-                                width: 30,
-                                height: 30,
-                                decoration: BoxDecoration(
-                                  color: Colors.white.withValues(alpha: 0.9),
-                                  shape: BoxShape.circle,
-                                ),
-                                child: Icon(
-                                  inWishlist
-                                      ? Icons.favorite_rounded
-                                      : Icons.favorite_outline_rounded,
-                                  size: 16,
-                                  color: inWishlist
-                                      ? const Color(0xFFE53935)
-                                      : Colors.white,
-                                ),
-                              ),
-                            ),
-                          ),
-                          Positioned(
-                            left: 0,
-                            right: 0,
-                            bottom: 0,
-                            child: Container(
-                              padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
-                              decoration: BoxDecoration(
-                                gradient: LinearGradient(
-                                  begin: Alignment.topCenter,
-                                  end: Alignment.bottomCenter,
-                                  colors: [
-                                    Colors.transparent,
-                                    Colors.black.withValues(alpha: 0.85),
-                                  ],
-                                ),
-                              ),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    product.name,
-                                    style: const TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.w800,
-                                      height: 1.2,
-                                    ),
-                                    maxLines: 2,
-                                    overflow: TextOverflow.ellipsis,
-                                  ),
-                                  const SizedBox(height: 6),
-                                  Row(
-                                    children: [
-                                      Text(
-                                        _formatPrice(product.displayPrice),
-                                    style: const TextStyle(
-                                      color: Color(0xFFB9955B),
-                                      fontSize: 17,
-                                      fontWeight: FontWeight.w900,
-                                    ),
-                                  ),
-                                  const Spacer(),
-                                  if ((product.rating ?? 0) > 0) ...[
-                                    const Icon(
-                                      Icons.star_rounded,
-                                      size: 16,
-                                      color: Color(0xFFB9955B),
-                                    ),
-                                    const SizedBox(width: 2),
-                                    Text(
-                                      product.rating!.toStringAsFixed(1),
-                                      style: const TextStyle(
-                                        color: Colors.white70,
-                                        fontSize: 12,
-                                        fontWeight: FontWeight.w600,
-                                      ),
-                                    ),
-                                  ],
-                                ],
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      if (product.onSale)
-                        Positioned(
-                          top: 12,
-                          left: 12,
-                          child: Container(
-                            padding: const EdgeInsets.symmetric(
-                              horizontal: 10, vertical: 6,
-                            ),
-                            decoration: BoxDecoration(
-                              color: const Color(0xD6142033),
-                              borderRadius: BorderRadius.circular(999),
-                            ),
-                            child: const Text(
-                              'PROMO',
-                              style: TextStyle(
-                                color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: 1.1,
-                              ),
-                            ),
-                          ),
-                        ),
-                    ],
+              return Consumer<WishlistProvider>(
+                builder: (context, wishlist, _) {
+                  return Container(
+                    width: 180,
+                    margin: const EdgeInsets.only(right: 16),
+                    child: ProductCard(
+                      product: product,
+                      isInWishlist: wishlist.isInWishlist(product.id),
+                      onWishlistToggle: () => wishlist.toggleWishlist(product.id),
+                    ),
                   );
                 },
-              ),
-            ),
-            );
-          },
+              );
+            },
           ),
         ),
         const Gap(8),
@@ -783,24 +650,24 @@ class _FilterChipButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive ? const Color(0xFFB9955B).withValues(alpha: 0.1) : Colors.white,
+          color: isActive ? AppColors.secondary.withValues(alpha: 0.1) : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isActive ? const Color(0xFFB9955B) : AppColors.outlineVariant,
+            color: isActive ? AppColors.secondary : AppColors.outlineVariant,
           ),
         ),
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
             Icon(icon, size: 14,
-                color: isActive ? const Color(0xFFB9955B) : AppColors.onSurfaceVariant),
+                color: isActive ? AppColors.secondary : AppColors.onSurfaceVariant),
             const SizedBox(width: 6),
             Text(
               label,
               style: GoogleFonts.manrope(
                 fontSize: 13,
                 fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
-                color: isActive ? const Color(0xFFB9955B) : AppColors.onSurface,
+                color: isActive ? AppColors.secondary : AppColors.onSurface,
               ),
             ),
           ],
@@ -837,7 +704,7 @@ class _SortOption extends StatelessWidget {
                     ? PhosphorIconsFill.radioButton
                     : PhosphorIconsRegular.radioButton,
                 size: 18,
-                color: isSelected ? const Color(0xFFB9955B) : AppColors.outline,
+                color: isSelected ? AppColors.secondary : AppColors.outline,
               ),
               const SizedBox(width: 12),
               Text(
@@ -845,7 +712,7 @@ class _SortOption extends StatelessWidget {
                 style: GoogleFonts.manrope(
                   fontSize: 14,
                   fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-                  color: isSelected ? const Color(0xFFB9955B) : AppColors.onSurface,
+                  color: isSelected ? AppColors.secondary : AppColors.onSurface,
                 ),
               ),
             ],

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 
 class SplashScreen extends StatefulWidget {
   final Future<void> Function() onInitComplete;
@@ -32,7 +33,7 @@ class _SplashScreenState extends State<SplashScreen>
     SystemChrome.setSystemUIOverlayStyle(const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
-      systemNavigationBarColor: Colors.white,
+      systemNavigationBarColor: AppColors.background,
     ));
 
     _logoController = AnimationController(
@@ -114,10 +115,10 @@ class _SplashScreenState extends State<SplashScreen>
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.transparent,
         statusBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: Colors.white,
+        systemNavigationBarColor: AppColors.background,
       ),
       child: Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         body: SafeArea(
           child: Column(
             children: [
@@ -137,10 +138,10 @@ class _SplashScreenState extends State<SplashScreen>
                                 width: 120,
                                 height: 120,
                                 decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(28),
+                                  borderRadius: AppBorderRadius.xxlRadius,
                                   boxShadow: [
                                     BoxShadow(
-                                      color: const Color(0xFFFFD700)
+                                      color: AppColors.secondaryContainer
                                           .withValues(alpha: 0.18),
                                       blurRadius: 40,
                                       spreadRadius: 8,
@@ -148,7 +149,7 @@ class _SplashScreenState extends State<SplashScreen>
                                   ],
                                 ),
                                 child: ClipRRect(
-                                  borderRadius: BorderRadius.circular(28),
+                                  borderRadius: AppBorderRadius.xxlRadius,
                                   child: Image.asset(
                                     'assets/images/logo.png',
                                     fit: BoxFit.cover,
@@ -171,10 +172,10 @@ class _SplashScreenState extends State<SplashScreen>
                                   position: _titleSlide,
                                   child: Text(
                                     'MITOLOGI',
-                                    style: GoogleFonts.notoSerif(
+                                    style: AppTextStyles.notoSerif(
                                       fontSize: 32,
                                       fontWeight: FontWeight.w900,
-                                      color: const Color(0xFF000613),
+                                      color: AppColors.primary,
                                       letterSpacing: 6,
                                     ),
                                   ),
@@ -187,10 +188,10 @@ class _SplashScreenState extends State<SplashScreen>
                                   position: _subtitleSlide,
                                   child: Text(
                                     'CLOTHING',
-                                    style: GoogleFonts.manrope(
+                                    style: AppTextStyles.manrope(
                                       fontSize: 13,
                                       fontWeight: FontWeight.w600,
-                                      color: const Color(0xFFFFD700),
+                                      color: AppColors.secondaryContainer,
                                       letterSpacing: 8,
                                     ),
                                   ),
@@ -217,18 +218,18 @@ class _SplashScreenState extends State<SplashScreen>
                             height: 2,
                             child: LinearProgressIndicator(
                               backgroundColor:
-                                  const Color(0xFF000613).withValues(alpha: 0.1),
+                                  AppColors.primary.withValues(alpha: 0.1),
                               valueColor: const AlwaysStoppedAnimation<Color>(
-                                Color(0xFFFFD700),
+                                AppColors.secondaryContainer,
                               ),
                             ),
                           ),
                           const SizedBox(height: 16),
                           Text(
                             'Memuat aplikasi...',
-                            style: GoogleFonts.manrope(
+                            style: AppTextStyles.manrope(
                               fontSize: 12,
-                              color: const Color(0xFF000613).withValues(alpha: 0.4),
+                              color: AppColors.primary.withValues(alpha: 0.4),
                               letterSpacing: 0.5,
                             ),
                           ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_test/flutter_test.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
-import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 
 void main() {
   testWidgets('ProductCard does not overflow in compact grid constraints',

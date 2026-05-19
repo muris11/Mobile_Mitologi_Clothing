@@ -13,7 +13,7 @@ import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
-const Color _gold = Color(0xFFB9955B);
+const Color _gold = AppColors.secondary;
 
 class ProductDetailView extends StatefulWidget {
   final String slug;
@@ -466,13 +466,41 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text(
-            _sortLabel(option.name),
-            style: GoogleFonts.manrope(
-              fontSize: 13,
-              fontWeight: FontWeight.w700,
-              color: AppColors.onSurface,
-            ),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                _sortLabel(option.name),
+                style: GoogleFonts.manrope(
+                  fontSize: 13,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.onSurface,
+                ),
+              ),
+              if (optionKey == 'size')
+                GestureDetector(
+                  onTap: _showSizeCalculator,
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      const Icon(
+                        PhosphorIconsRegular.ruler,
+                        size: 14,
+                        color: _gold,
+                      ),
+                      const SizedBox(width: 4),
+                      Text(
+                        'Panduan Ukuran',
+                        style: GoogleFonts.manrope(
+                          fontSize: 12,
+                          fontWeight: FontWeight.w600,
+                          color: _gold,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+            ],
           ),
           const Gap(8),
           Wrap(
@@ -532,6 +560,15 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           ),
         ],
       ),
+    );
+  }
+
+  void _showSizeCalculator() {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const _PremiumSizeCalculatorSheet(),
     );
   }
 
@@ -1162,6 +1199,444 @@ class _QtyButton extends StatelessWidget {
             color: onTap != null
                 ? AppColors.onSurface
                 : AppColors.outlineVariant),
+      ),
+    );
+  }
+}
+
+class _PremiumSizeCalculatorSheet extends StatefulWidget {
+  const _PremiumSizeCalculatorSheet();
+
+  @override
+  State<_PremiumSizeCalculatorSheet> createState() => _PremiumSizeCalculatorSheetState();
+}
+
+class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet> {
+  double _height = 170; // cm
+  double _weight = 65;  // kg
+  String? _calculatedSize;
+  double _matchPercentage = 0;
+  String _fitFeedback = '';
+
+  @override
+  void initState() {
+    super.initState();
+    _calculateSize();
+  }
+
+  void _calculateSize() {
+    // Elegant heuristic size calculator matching premium fashion design
+    // Height & Weight based sizing logic
+    String size = 'M';
+    double pct = 95.0;
+    String feedback = '';
+
+    if (_height < 160) {
+      if (_weight < 50) {
+        size = 'S';
+        pct = 98.0;
+        feedback = 'Sangat pas di bahu & dada.';
+      } else if (_weight < 65) {
+        size = 'M';
+        pct = 92.0;
+        feedback = 'Pas di bahu, sedikit longgar di dada.';
+      } else if (_weight < 75) {
+        size = 'L';
+        pct = 88.0;
+        feedback = 'Panjang lengan pas, cukup longgar.';
+      } else {
+        size = 'XL';
+        pct = 85.0;
+        feedback = 'Ukuran XL disarankan untuk kenyamanan extra.';
+      }
+    } else if (_height < 175) {
+      if (_weight < 55) {
+        size = 'S';
+        pct = 90.0;
+        feedback = 'Panjang baju pas, agak ramping di badan.';
+      } else if (_weight < 70) {
+        size = 'M';
+        pct = 96.0;
+        feedback = 'Ukuran ideal untuk postur Anda. Sangat pas!';
+      } else if (_weight < 82) {
+        size = 'L';
+        pct = 93.0;
+        feedback = 'Lebar dada pas, nyaman untuk bergerak.';
+      } else if (_weight < 95) {
+        size = 'XL';
+        pct = 89.0;
+        feedback = 'Sedikit longgar di lengan, pas di pinggang.';
+      } else {
+        size = 'XXL';
+        pct = 91.0;
+        feedback = 'XXL disarankan untuk fitting kasual yang nyaman.';
+      }
+    } else {
+      if (_weight < 65) {
+        size = 'M';
+        pct = 87.0;
+        feedback = 'Panjang baju ideal, siluet lebih loose.';
+      } else if (_weight < 78) {
+        size = 'L';
+        pct = 95.0;
+        feedback = 'Sangat pas di bahu & panjang kaos/kemeja ideal.';
+      } else if (_weight < 90) {
+        size = 'XL';
+        pct = 94.0;
+        feedback = 'Pas di bahu & dada. Ruang gerak sangat nyaman.';
+      } else {
+        size = 'XXL';
+        pct = 92.0;
+        feedback = 'Ukuran XXL paling ideal untuk kenyamanan maksimal.';
+      }
+    }
+
+    setState(() {
+      _calculatedSize = size;
+      _matchPercentage = pct;
+      _fitFeedback = feedback;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+    
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppBorderRadius.xxl),
+        ),
+      ),
+      padding: EdgeInsets.fromLTRB(24, 20, 24, MediaQuery.of(context).padding.bottom + 24 + bottomInset),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          // Drag handle
+          Center(
+            child: Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.outlineVariant.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          const Gap(16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Kalkulator Ukuran Premium',
+                style: GoogleFonts.notoSerif(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primary,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceContainerHigh,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    PhosphorIconsRegular.x,
+                    size: 16,
+                    color: AppColors.onSurface,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Gap(8),
+          Text(
+            'Masukkan tinggi dan berat badan Anda untuk mendapatkan rekomendasi ukuran terbaik dari koleksi premium kami.',
+            style: GoogleFonts.manrope(
+              fontSize: 13,
+              color: AppColors.onSurfaceVariant,
+              height: 1.5,
+            ),
+          ),
+          const Gap(24),
+          
+          // Height Slider
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Tinggi Badan',
+                style: GoogleFonts.manrope(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.onSurface,
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: _height.toStringAsFixed(0),
+                      style: GoogleFonts.manrope(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: _gold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' cm',
+                      style: GoogleFonts.manrope(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const Gap(4),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              activeTrackColor: AppColors.primary,
+              inactiveTrackColor: AppColors.outlineVariant.withValues(alpha: 0.3),
+              thumbColor: _gold,
+              overlayColor: _gold.withValues(alpha: 0.15),
+              valueIndicatorTextStyle: GoogleFonts.manrope(color: Colors.white),
+            ),
+            child: Slider(
+              value: _height,
+              min: 140,
+              max: 210,
+              divisions: 70,
+              onChanged: (val) {
+                setState(() {
+                  _height = val;
+                });
+                _calculateSize();
+              },
+            ),
+          ),
+          const Gap(16),
+
+          // Weight Slider
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Berat Badan',
+                style: GoogleFonts.manrope(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w700,
+                  color: AppColors.onSurface,
+                ),
+              ),
+              RichText(
+                text: TextSpan(
+                  children: [
+                    TextSpan(
+                      text: _weight.toStringAsFixed(0),
+                      style: GoogleFonts.manrope(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w800,
+                        color: _gold,
+                      ),
+                    ),
+                    TextSpan(
+                      text: ' kg',
+                      style: GoogleFonts.manrope(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: AppColors.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ],
+          ),
+          const Gap(4),
+          SliderTheme(
+            data: SliderTheme.of(context).copyWith(
+              activeTrackColor: AppColors.primary,
+              inactiveTrackColor: AppColors.outlineVariant.withValues(alpha: 0.3),
+              thumbColor: _gold,
+              overlayColor: _gold.withValues(alpha: 0.15),
+              valueIndicatorTextStyle: GoogleFonts.manrope(color: Colors.white),
+            ),
+            child: Slider(
+              value: _weight,
+              min: 35,
+              max: 130,
+              divisions: 95,
+              onChanged: (val) {
+                setState(() {
+                  _weight = val;
+                });
+                _calculateSize();
+              },
+            ),
+          ),
+          const Gap(24),
+
+          // Calculation Result Box
+          AnimatedContainer(
+            duration: const Duration(milliseconds: 300),
+            padding: const EdgeInsets.all(20),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLowest,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(
+                color: _gold.withValues(alpha: 0.2),
+                width: 1.5,
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: _gold.withValues(alpha: 0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Row(
+              children: [
+                // Premium Medal/Circle with Recommended Size
+                Container(
+                  width: 70,
+                  height: 70,
+                  decoration: BoxDecoration(
+                    gradient: AppGradients.premiumGold,
+                    shape: BoxShape.circle,
+                    boxShadow: [
+                      BoxShadow(
+                        color: _gold.withValues(alpha: 0.3),
+                        blurRadius: 12,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  alignment: Alignment.center,
+                  child: Text(
+                    _calculatedSize ?? 'M',
+                    style: GoogleFonts.manrope(
+                      fontSize: 26,
+                      fontWeight: FontWeight.w900,
+                      color: Colors.white,
+                    ),
+                  ),
+                ),
+                const Gap(20),
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Row(
+                        children: [
+                          Text(
+                            'Rekomendasi Anda',
+                            style: GoogleFonts.manrope(
+                              fontSize: 12,
+                              fontWeight: FontWeight.w500,
+                              color: AppColors.onSurfaceVariant,
+                            ),
+                          ),
+                          const Spacer(),
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            decoration: BoxDecoration(
+                              color: AppColors.success.withValues(alpha: 0.1),
+                              borderRadius: BorderRadius.circular(99),
+                            ),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                const Icon(
+                                  PhosphorIconsFill.checkCircle,
+                                  size: 12,
+                                  color: AppColors.success,
+                                ),
+                                const SizedBox(width: 4),
+                                Text(
+                                  'Cocok ${_matchPercentage.toStringAsFixed(0)}%',
+                                  style: GoogleFonts.manrope(
+                                    fontSize: 10,
+                                    fontWeight: FontWeight.w700,
+                                    color: AppColors.success,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                      const Gap(4),
+                      Text(
+                        'Ukuran ${_calculatedSize ?? "M"}',
+                        style: GoogleFonts.notoSerif(
+                          fontSize: 18,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const Gap(6),
+                      Text(
+                        _fitFeedback,
+                        style: GoogleFonts.manrope(
+                          fontSize: 12,
+                          color: AppColors.onSurface,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          const Gap(24),
+          
+          // Apply Button
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: FilledButton(
+              onPressed: () {
+                // Apply the calculated size back to the main detail view
+                final detailState = context.findAncestorStateOfType<_ProductDetailViewState>();
+                if (detailState != null) {
+                  detailState.setState(() {
+                    detailState._selectedOptions['size'] = _calculatedSize ?? 'M';
+                  });
+                  AnimatedSnackbar.success(
+                    context,
+                    'Ukuran ${_calculatedSize ?? "M"} telah diterapkan.',
+                    title: 'Berhasil',
+                  );
+                }
+                Navigator.pop(context);
+              },
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: Text(
+                'Terapkan Ukuran',
+                style: GoogleFonts.manrope(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 14,
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

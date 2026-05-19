@@ -3,6 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
+import 'package:mitologi_clothing_mobile/core/utils/currency_formatter.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/features/cart/domain/models/cart_model.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
@@ -23,14 +25,6 @@ class _CartViewState extends State<CartView> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<CartViewModel>().fetchCart();
     });
-  }
-
-  String _formatIDR(double amount) {
-    final formatted = amount.toStringAsFixed(0).replaceAllMapped(
-          RegExp(r'(\d{1,3})(?=(\d{3})+(?!\d))'),
-          (m) => '${m[1]}.',
-        );
-    return 'Rp $formatted';
   }
 
   @override
@@ -58,10 +52,9 @@ class _CartViewState extends State<CartView> {
               child: Center(
                 child: Text(
                   '${cart.items.length} item',
-                  style: const TextStyle(
+                  style: AppTextStyles.bodyMedium.copyWith(
                     color: AppColors.primary,
                     fontWeight: FontWeight.w600,
-                    fontSize: 14,
                   ),
                 ),
               ),
@@ -100,17 +93,18 @@ class _CartViewState extends State<CartView> {
               ),
             ),
             const Gap(24),
-            const Text(
+            Text(
               'Keranjang Kosong',
-              style: TextStyle(fontSize: 20, fontWeight: FontWeight.w900),
+              style: AppTextStyles.headingMedium.copyWith(
+                fontWeight: FontWeight.w900,
+              ),
             ),
             const Gap(8),
             Text(
               'Belum ada produk. Yuk mulai belanja!',
               textAlign: TextAlign.center,
-              style: TextStyle(
+              style: AppTextStyles.bodyMedium.copyWith(
                 color: AppColors.onSurfaceVariant,
-                fontSize: 14,
                 height: 1.5,
               ),
             ),
@@ -123,13 +117,16 @@ class _CartViewState extends State<CartView> {
                   backgroundColor: AppColors.primary,
                   padding: const EdgeInsets.all(18),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: AppBorderRadius.lgRadius,
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'MULAI BELANJA',
-                  style:
-                      TextStyle(fontWeight: FontWeight.w900, letterSpacing: 1),
+                  style: AppTextStyles.labelLarge.copyWith(
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 1,
+                    color: Colors.white,
+                  ),
                 ),
               ),
             ),
@@ -149,7 +146,7 @@ class _CartViewState extends State<CartView> {
           margin: const EdgeInsets.only(bottom: 16),
           decoration: BoxDecoration(
             color: AppColors.surfaceContainerLowest,
-            borderRadius: BorderRadius.circular(20),
+            borderRadius: AppBorderRadius.xxlRadius,
             border: Border.all(color: AppColors.outlineVariant),
             boxShadow: [AppShadows.cardSoft],
           ),
@@ -159,7 +156,7 @@ class _CartViewState extends State<CartView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 ClipRRect(
-                  borderRadius: BorderRadius.circular(14),
+                  borderRadius: AppBorderRadius.lgRadius,
                   child: SizedBox(
                     width: 90,
                     height: 90,
@@ -179,18 +176,16 @@ class _CartViewState extends State<CartView> {
                         item.name,
                         maxLines: 2,
                         overflow: TextOverflow.ellipsis,
-                        style: const TextStyle(
+                        style: AppTextStyles.bodyMedium.copyWith(
                           fontWeight: FontWeight.w800,
-                          fontSize: 14,
                           height: 1.3,
                         ),
                       ),
                       const Gap(6),
                       Text(
-                        _formatIDR(item.price),
-                        style: const TextStyle(
+                        CurrencyFormatter.formatIDR(item.price),
+                        style: AppTextStyles.bodyLarge.copyWith(
                           fontWeight: FontWeight.w900,
-                          fontSize: 15,
                           color: AppColors.primary,
                         ),
                       ),
@@ -201,7 +196,7 @@ class _CartViewState extends State<CartView> {
                           Container(
                             decoration: BoxDecoration(
                               color: AppColors.surfaceContainerLow,
-                              borderRadius: BorderRadius.circular(10),
+                              borderRadius: AppBorderRadius.smRadius,
                             ),
                             child: Row(
                               children: [
@@ -216,9 +211,8 @@ class _CartViewState extends State<CartView> {
                                       horizontal: 12),
                                   child: Text(
                                     '${item.quantity}',
-                                    style: const TextStyle(
+                                    style: AppTextStyles.bodyMedium.copyWith(
                                       fontWeight: FontWeight.w900,
-                                      fontSize: 15,
                                     ),
                                   ),
                                 ),
@@ -267,15 +261,13 @@ class _CartViewState extends State<CartView> {
               children: [
                 Text(
                   'Subtotal (${cart.items.length} item)',
-                  style: const TextStyle(
+                  style: AppTextStyles.bodySmall.copyWith(
                     color: AppColors.onSurfaceVariant,
-                    fontSize: 13,
                   ),
                 ),
                 Text(
-                  _formatIDR(cart.totalPrice),
-                  style: const TextStyle(
-                    fontSize: 18,
+                  CurrencyFormatter.formatIDR(cart.totalPrice),
+                  style: AppTextStyles.headingMedium.copyWith(
                     fontWeight: FontWeight.w900,
                   ),
                 ),
@@ -290,15 +282,15 @@ class _CartViewState extends State<CartView> {
                   backgroundColor: AppColors.primary,
                   padding: const EdgeInsets.all(18),
                   shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(16),
+                    borderRadius: AppBorderRadius.lgRadius,
                   ),
                 ),
-                child: const Text(
+                child: Text(
                   'CHECKOUT',
-                  style: TextStyle(
+                  style: AppTextStyles.labelLarge.copyWith(
                     fontWeight: FontWeight.w900,
                     letterSpacing: 1,
-                    fontSize: 15,
+                    color: Colors.white,
                   ),
                 ),
               ),
@@ -327,12 +319,12 @@ class _QtyButton extends StatelessWidget {
     return GestureDetector(
       onTap: enabled ? onTap : null,
       child: Container(
-        width: 34,
-        height: 34,
+        width: 44,
+        height: 44,
         alignment: Alignment.center,
         decoration: BoxDecoration(
           color: enabled ? AppColors.primary : AppColors.surfaceContainerHigh,
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: AppBorderRadius.smRadius,
         ),
         child: Icon(
           icon,

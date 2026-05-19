@@ -18,7 +18,7 @@ import 'package:mitologi_clothing_mobile/features/home/domain/models/product_pri
 import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
 
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
-import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -868,7 +868,7 @@ class _HomeViewState extends State<HomeView> {
                             Text(
                               _formatPrice(product.displayPrice),
                               style: const TextStyle(
-                                color: Color(0xFFB9955B),
+                                color: AppColors.secondary,
                                 fontSize: 17,
                                 fontWeight: FontWeight.w900,
                               ),
@@ -1028,7 +1028,7 @@ class _HomeViewState extends State<HomeView> {
                 child: Container(
                   padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                   decoration: BoxDecoration(
-                    color: const Color(0xFFB9955B),
+                    color: AppColors.secondary,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Text(
@@ -1829,7 +1829,7 @@ class _HomeViewState extends State<HomeView> {
                             Text(
                               a.price.replaceAll(RegExp(r'^\+?\s*|\/pcs$'), ''),
                               style: const TextStyle(
-                                color: Color(0xFFB9955B),
+                                color: AppColors.secondary,
                                 fontSize: 15,
                                 fontWeight: FontWeight.w900,
                               ),
@@ -1884,7 +1884,7 @@ class _HomeViewState extends State<HomeView> {
             Text(
               value,
               style: const TextStyle(
-                color: Color(0xFFB9955B),
+                color: AppColors.secondary,
                 fontSize: 14,
                 fontWeight: FontWeight.w900,
               ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
-import 'package:mitologi_clothing_mobile/widgets/product/product_card.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:provider/provider.dart';
 
 class HomeProductGrid extends StatelessWidget {
@@ -17,7 +17,7 @@ class HomeProductGrid extends StatelessWidget {
 
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 278,
+        height: 310, // Adjusted from 278 to support 3:4 premium AspectRatio + metadata vertically below
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 24),
