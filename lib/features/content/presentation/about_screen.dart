@@ -607,76 +607,110 @@ class _AboutScreenState extends State<AboutScreen> {
 
   Widget _buildValuesGrid() {
     final values = [
-      {'icon': PhosphorIconsRegular.shieldCheck, 'title': 'Kejujuran', 'desc': 'Integritas dalam setiap transaksi'},
-      {'icon': PhosphorIconsRegular.star, 'title': 'Kualitas', 'desc': 'Standar kualitas tinggi'},
-      {'icon': PhosphorIconsRegular.clock, 'title': 'Tepat Waktu', 'desc': 'Menghormati deadline'},
-      {'icon': PhosphorIconsRegular.globeHemisphereEast, 'title': 'Budaya', 'desc': 'Mengangkat budaya lokal'},
+      {
+        'icon': PhosphorIconsRegular.shieldCheck,
+        'title': 'Kejujuran',
+        'desc': 'Integritas dalam setiap transaksi',
+      },
+      {
+        'icon': PhosphorIconsRegular.star,
+        'title': 'Kualitas',
+        'desc': 'Standar kualitas tinggi',
+      },
+      {
+        'icon': PhosphorIconsRegular.clock,
+        'title': 'Tepat Waktu',
+        'desc': 'Menghormati deadline',
+      },
+      {
+        'icon': PhosphorIconsRegular.globeHemisphereEast,
+        'title': 'Budaya',
+        'desc': 'Mengangkat budaya lokal',
+      },
     ];
 
-    return GridView.builder(
-      shrinkWrap: true,
-      physics: const NeverScrollableScrollPhysics(),
-      gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-        crossAxisCount: 2,
-        childAspectRatio: 1.3,
-        crossAxisSpacing: 12,
-        mainAxisSpacing: 12,
-      ),
-      itemCount: values.length,
-      itemBuilder: (context, index) {
-        final item = values[index];
-        return Container(
-          padding: const EdgeInsets.all(16),
-          decoration: BoxDecoration(
-            color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
-            border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.5)),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.shadow.withValues(alpha: 0.04),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
+    return LayoutBuilder(
+      builder: (context, constraints) {
+        const spacing = 12.0;
+        final itemWidth = (constraints.maxWidth - spacing) / 2;
+
+        return Wrap(
+          spacing: spacing,
+          runSpacing: spacing,
+          children: values.map((item) {
+            return SizedBox(
+              width: itemWidth,
+              child: _buildValueCard(
+                icon: item['icon'] as IconData,
+                title: item['title'] as String,
+                description: item['desc'] as String,
               ),
-            ],
-          ),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Container(
-                width: 40,
-                height: 40,
-                decoration: BoxDecoration(
-                  color: AppColors.primary.withValues(alpha: 0.05),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: Icon(
-                  item['icon'] as IconData,
-                  size: 20,
-                  color: AppColors.primary,
-                ),
-              ),
-              const Gap(12),
-              Text(
-                item['title'] as String,
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
-                ),
-              ),
-              const Gap(4),
-              Text(
-                item['desc'] as String,
-                style: TextStyle(
-                  fontSize: 12,
-                  color: AppColors.onSurfaceVariant,
-                ),
-              ),
-            ],
-          ),
+            );
+          }).toList(),
         );
       },
+    );
+  }
+
+  Widget _buildValueCard({
+    required IconData icon,
+    required String title,
+    required String description,
+  }) {
+    return Container(
+      constraints: const BoxConstraints(minHeight: 144),
+      padding: const EdgeInsets.all(16),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(
+          color: AppColors.outlineVariant.withValues(alpha: 0.5),
+        ),
+        boxShadow: [
+          BoxShadow(
+            color: AppColors.shadow.withValues(alpha: 0.04),
+            blurRadius: 12,
+            offset: const Offset(0, 4),
+          ),
+        ],
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: AppColors.primary.withValues(alpha: 0.05),
+              borderRadius: BorderRadius.circular(10),
+            ),
+            child: Icon(
+              icon,
+              size: 20,
+              color: AppColors.primary,
+            ),
+          ),
+          const Gap(12),
+          Text(
+            title,
+            style: TextStyle(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: AppColors.primary,
+            ),
+          ),
+          const Gap(4),
+          Text(
+            description,
+            style: TextStyle(
+              fontSize: 12,
+              color: AppColors.onSurfaceVariant,
+              height: 1.3,
+            ),
+          ),
+        ],
+      ),
     );
   }
 
@@ -747,9 +781,9 @@ class _AboutScreenState extends State<AboutScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      if (facility.imageUrl.isNotEmpty)
+                      if (facility.image.isNotEmpty)
                         AppImage(
-                          imageUrl: ApiConfig.buildImageUrl(facility.imageUrl),
+                          imageUrl: ApiConfig.buildImageUrl(facility.image),
                           height: 160,
                           width: double.infinity,
                           fit: BoxFit.cover,
@@ -760,7 +794,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             Text(
-                              facility.title,
+                              facility.name,
                               style: TextStyle(
                                 fontSize: 16,
                                 fontWeight: FontWeight.w700,
@@ -952,7 +986,7 @@ class _AboutScreenState extends State<AboutScreen> {
               physics: const NeverScrollableScrollPhysics(),
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                childAspectRatio: 0.75,
+                childAspectRatio: 0.65,
                 crossAxisSpacing: 12,
                 mainAxisSpacing: 12,
               ),

@@ -36,10 +36,14 @@ class _AddressesScreenState extends State<AddressesScreen> {
       final addresses = await repo.getAddresses();
       if (mounted) setState(() => _addresses = addresses);
     } catch (e) {
-      if (mounted) setState(() => _error = e.toString());
+      if (mounted) setState(() => _error = _formatError(e));
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  String _formatError(Object error) {
+    return error.toString().replaceFirst(RegExp(r'^Exception: '), '');
   }
 
   Future<void> _deleteAddress(AddressModel address) async {

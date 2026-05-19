@@ -51,11 +51,13 @@ class AddressModel extends Equatable {
         'label': label,
         'recipient_name': recipientName,
         'phone': phone,
-        'address': address,
+        'address_line_1': address,
+        'address_line_2': null,
         'city': city,
         'province': province,
         'postal_code': postalCode,
         'is_default': isDefault,
+        'country': 'Indonesia',
       };
 
   Map<String, dynamic> toCheckoutJson() => {

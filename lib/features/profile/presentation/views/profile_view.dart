@@ -254,7 +254,7 @@ class _ProfileViewState extends State<ProfileView> {
         icon: PhosphorIconsRegular.fileText,
         label: 'Kebijakan & Syarat',
         subtitle: 'Privasi, pengembalian, ketentuan',
-        onTap: () => context.push('/kebijakan-privasi'),
+        onTap: () => _showLegalBottomSheet(context),
       ),
     ];
 
@@ -501,6 +501,162 @@ class _ProfileViewState extends State<ProfileView> {
 
   String _formatCurrency(double amount) {
     return 'Rp ${amount.toStringAsFixed(0).replaceAllMapped(RegExp(r"(\d{1,3})(?=(\d{3})+(?!\d))"), (m) => "${m[1]}.")}';
+  }
+
+  void _showLegalBottomSheet(BuildContext context) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.white,
+      elevation: 0,
+      isScrollControlled: true,
+      shape: const RoundedRectangleBorder(
+        borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+      ),
+      builder: (context) {
+        return SafeArea(
+          child: Padding(
+            padding: EdgeInsets.only(
+              bottom: MediaQuery.of(context).viewInsets.bottom,
+            ),
+            child: SingleChildScrollView(
+              padding: const EdgeInsets.fromLTRB(24, 12, 24, 24),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Center(
+                    child: Container(
+                      width: 38,
+                      height: 4,
+                      decoration: BoxDecoration(
+                        color: AppColors.outlineVariant.withValues(alpha: 0.8),
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                    ),
+                  ),
+                  const Gap(20),
+                  Text(
+                    'Kebijakan & Syarat',
+                    style: GoogleFonts.notoSerif(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const Gap(6),
+                  Text(
+                    'Pilih dokumen hukum yang ingin Anda tinjau',
+                    style: GoogleFonts.manrope(
+                      fontSize: 13,
+                      color: AppColors.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                  const Gap(20),
+                  _buildLegalOption(
+                    context,
+                    icon: PhosphorIconsRegular.shieldCheck,
+                    title: 'Kebijakan Privasi',
+                    desc: 'Bagaimana kami mengelola & melindungi data Anda',
+                    route: '/kebijakan-privasi',
+                  ),
+                  const Gap(10),
+                  _buildLegalOption(
+                    context,
+                    icon: PhosphorIconsRegular.fileText,
+                    title: 'Syarat & Ketentuan',
+                    desc: 'Ketentuan penggunaan layanan Mitologi',
+                    route: '/syarat-ketentuan',
+                  ),
+                  const Gap(10),
+                  _buildLegalOption(
+                    context,
+                    icon: PhosphorIconsRegular.arrowsClockwise,
+                    title: 'Kebijakan Pengembalian',
+                    desc: 'Ketentuan pengembalian produk & refund',
+                    route: '/kebijakan-pengembalian',
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _buildLegalOption(
+    BuildContext context, {
+    required IconData icon,
+    required String title,
+    required String desc,
+    required String route,
+  }) {
+    return InkWell(
+      onTap: () {
+        Navigator.pop(context);
+        context.push(route);
+      },
+      borderRadius: BorderRadius.circular(20),
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(
+          border: Border.all(
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
+          borderRadius: BorderRadius.circular(20),
+        ),
+        child: Row(
+          children: [
+            Container(
+              width: 42,
+              height: 42,
+              decoration: BoxDecoration(
+                color: AppColors.primary.withValues(alpha: 0.05),
+                borderRadius: BorderRadius.circular(12),
+              ),
+              child: Center(
+                child: Icon(
+                  icon,
+                  size: 20,
+                  color: AppColors.primary,
+                ),
+              ),
+            ),
+            const Gap(16),
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    title,
+                    style: GoogleFonts.manrope(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: AppColors.primary,
+                    ),
+                  ),
+                  const Gap(4),
+                  Text(
+                    desc,
+                    style: GoogleFonts.manrope(
+                      fontSize: 11.5,
+                      color: AppColors.onSurfaceVariant,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            Icon(
+              PhosphorIconsRegular.caretRight,
+              size: 16,
+              color: AppColors.primary,
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   void _handleLogout(BuildContext context, AuthViewModel authVM) {

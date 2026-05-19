@@ -17,6 +17,9 @@ import 'package:mitologi_clothing_mobile/features/content/presentation/cms_page_
 import 'package:mitologi_clothing_mobile/features/content/presentation/collection_screen.dart';
 import 'package:mitologi_clothing_mobile/features/content/presentation/faq_screen.dart';
 import 'package:mitologi_clothing_mobile/features/content/presentation/kategori_screen.dart';
+import 'package:mitologi_clothing_mobile/features/content/presentation/kebijakan_pengembalian_screen.dart';
+import 'package:mitologi_clothing_mobile/features/content/presentation/kebijakan_privasi_screen.dart';
+import 'package:mitologi_clothing_mobile/features/content/presentation/syarat_ketentuan_screen.dart';
 import 'package:mitologi_clothing_mobile/features/content/presentation/kontak_screen.dart';
 import 'package:mitologi_clothing_mobile/features/content/presentation/layanan_screen.dart';
 import 'package:mitologi_clothing_mobile/features/content/presentation/panduan_ukuran_screen.dart';
@@ -199,28 +202,27 @@ class AppRouter {
       ),
       GoRoute(
         path: '/kebijakan-pengembalian',
-        builder: (context, state) =>
-            const CmsPageScreen(handle: 'kebijakan-pengembalian'),
+        builder: (context, state) => const KebijakanPengembalianScreen(),
       ),
       GoRoute(
         path: '/kebijakan-privasi',
-        builder: (context, state) =>
-            const CmsPageScreen(handle: 'kebijakan-privasi'),
+        builder: (context, state) => const KebijakanPrivasiScreen(),
       ),
       GoRoute(
         path: '/syarat-ketentuan',
-        builder: (context, state) =>
-            const CmsPageScreen(handle: 'syarat-ketentuan'),
+        builder: (context, state) => const SyaratKetentuanScreen(),
       ),
       GoRoute(
         path: '/privacy-policy',
-        builder: (context, state) =>
-            const CmsPageScreen(handle: 'privacy-policy'),
+        builder: (context, state) => const KebijakanPrivasiScreen(),
       ),
       GoRoute(
         path: '/terms-of-service',
-        builder: (context, state) =>
-            const CmsPageScreen(handle: 'terms-of-service'),
+        builder: (context, state) => const SyaratKetentuanScreen(),
+      ),
+      GoRoute(
+        path: '/terms-conditions',
+        builder: (context, state) => const SyaratKetentuanScreen(),
       ),
       GoRoute(
         path: '/search',

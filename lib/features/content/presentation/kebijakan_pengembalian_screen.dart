@@ -566,7 +566,7 @@ class KebijakanPengembalianScreen extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         GestureDetector(
-          onTap: () => context.push('/pages/terms-conditions'),
+          onTap: () => context.push('/syarat-ketentuan'),
           child: Text(
             '← Syarat & Ketentuan',
             style: AppTextStyles.manrope(
@@ -577,7 +577,7 @@ class KebijakanPengembalianScreen extends StatelessWidget {
           ),
         ),
         GestureDetector(
-          onTap: () => context.push('/pages/privacy-policy'),
+          onTap: () => context.push('/kebijakan-privasi'),
           child: Text(
             'Kebijakan Privasi →',
             style: AppTextStyles.manrope(
