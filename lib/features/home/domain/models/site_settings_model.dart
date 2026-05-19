@@ -3,6 +3,7 @@ import 'package:mitologi_clothing_mobile/core/utils/parser_utils.dart';
 class SiteSettingsModel {
   final String? siteName;
   final String? siteTagline;
+  final String? siteDescription;
   final String? siteLogo;
   final String? companyFoundedYear;
   final String? aboutHeadline;
@@ -35,10 +36,23 @@ class SiteSettingsModel {
   final String? aboutShortHistory;
   final String? visionStatement;
   final String? missionStatement;
+  final String? valuesText;
+  final List<LogoMeaningItem> aboutLogoMeaningDetailed;
+  final String? founderName;
+  final String? founderRole;
+  final String? founderStory;
+  final String? founderPhoto;
+  final String? legalCompanyName;
+  final String? legalAddress;
+  final String? legalBusinessField;
+  final String? legalNpwp;
+  final String? legalNib;
+  final String? legalNmid;
 
   SiteSettingsModel({
     this.siteName,
     this.siteTagline,
+    this.siteDescription,
     this.siteLogo,
     this.companyFoundedYear,
     this.aboutHeadline,
@@ -71,6 +85,18 @@ class SiteSettingsModel {
     this.aboutShortHistory,
     this.visionStatement,
     this.missionStatement,
+    this.valuesText,
+    this.aboutLogoMeaningDetailed = const [],
+    this.founderName,
+    this.founderRole,
+    this.founderStory,
+    this.founderPhoto,
+    this.legalCompanyName,
+    this.legalAddress,
+    this.legalBusinessField,
+    this.legalNpwp,
+    this.legalNib,
+    this.legalNmid,
   });
 
   factory SiteSettingsModel.fromJson(Map<String, dynamic> json) {
@@ -94,9 +120,16 @@ class SiteSettingsModel {
       (e) => PricingFeatureItem.fromJson(e),
     );
 
+    final visionMission = ParserUtils.parseMap(json['visionMission']);
+    final legality = ParserUtils.parseMap(json['legality']);
+
+    final logoMeaningRaw = about['aboutLogoMeaningDetailed'];
+    final logoMeanings = _parseLogoMeanings(logoMeaningRaw);
+
     return SiteSettingsModel(
       siteName: general['siteName'] as String?,
       siteTagline: general['siteTagline'] as String?,
+      siteDescription: general['siteDescription'] as String?,
       siteLogo: general['siteLogo'] as String?,
       companyFoundedYear: general['companyFoundedYear'] as String? ??
           about['companyFoundedYear'] as String?,
@@ -132,9 +165,35 @@ class SiteSettingsModel {
       pricingExtraData: beranda['pricingExtraData'],
       pricingFeaturesData: pricingFeatures,
       aboutShortHistory: about['aboutShortHistory'] as String?,
-      visionStatement: about['visionStatement'] as String?,
-      missionStatement: about['missionStatement'] as String?,
+      visionStatement: visionMission['visionText'] as String? ??
+          about['visionText'] as String?,
+      missionStatement: visionMission['missionText'] as String? ??
+          about['missionText'] as String?,
+      valuesText: visionMission['valuesText'] as String? ??
+          about['valuesText'] as String?,
+      aboutLogoMeaningDetailed: logoMeanings,
+      founderName: about['founderName'] as String?,
+      founderRole: about['founderRole'] as String?,
+      founderStory: about['founderStory'] as String?,
+      founderPhoto: about['founderPhoto'] as String?,
+      legalCompanyName: legality['legalCompanyName'] as String? ??
+          about['legalCompanyName'] as String?,
+      legalAddress: legality['legalAddress'] as String? ??
+          about['legalAddress'] as String?,
+      legalBusinessField: legality['legalBusinessField'] as String? ??
+          about['legalBusinessField'] as String?,
+      legalNpwp: legality['legalNpwp'] as String? ?? about['legalNpwp'] as String?,
+      legalNib: legality['legalNib'] as String? ?? about['legalNib'] as String?,
+      legalNmid: legality['legalNmid'] as String? ?? about['legalNmid'] as String?,
     );
+  }
+
+  static List<LogoMeaningItem> _parseLogoMeanings(dynamic raw) {
+    if (raw == null) return [];
+    if (raw is List) {
+      return raw.map((e) => LogoMeaningItem.fromJson(e as Map<String, dynamic>)).toList();
+    }
+    return [];
   }
 
   factory SiteSettingsModel.empty() => SiteSettingsModel();
@@ -235,6 +294,34 @@ class PricingAddonItem {
     return PricingAddonItem(
       name: json['name'] as String? ?? '',
       price: json['price'] as String? ?? '',
+    );
+  }
+}
+
+class LogoMeaningItem {
+  final String letter;
+  final String description;
+
+  const LogoMeaningItem({required this.letter, required this.description});
+
+  factory LogoMeaningItem.fromJson(Map<String, dynamic> json) {
+    return LogoMeaningItem(
+      letter: json['letter'] as String? ?? '',
+      description: json['description'] as String? ?? '',
+    );
+  }
+}
+
+class CompanyValueItem {
+  final String title;
+  final String description;
+
+  const CompanyValueItem({required this.title, required this.description});
+
+  factory CompanyValueItem.fromJson(Map<String, dynamic> json) {
+    return CompanyValueItem(
+      title: json['title'] as String? ?? '',
+      description: (json['description'] as String?) ?? (json['desc'] as String?) ?? '',
     );
   }
 }
