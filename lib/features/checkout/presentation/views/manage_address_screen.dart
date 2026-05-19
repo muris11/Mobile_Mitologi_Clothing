@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -79,12 +80,18 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
 
       if (success && mounted) {
         Navigator.of(context).pop();
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(_isEditing ? 'Alamat diperbarui' : 'Alamat ditambahkan')),
+        AnimatedSnackbar.success(
+          context,
+          _isEditing
+              ? 'Alamat "${address.label}" berhasil diperbarui.'
+              : 'Alamat "${address.label}" berhasil ditambahkan.',
+          title: 'Berhasil',
         );
       } else if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text(viewModel.error ?? 'Gagal menyimpan alamat'), backgroundColor: AppColors.error),
+        AnimatedSnackbar.error(
+          context,
+          viewModel.error ?? 'Gagal menyimpan alamat',
+          title: 'Gagal',
         );
       }
     }

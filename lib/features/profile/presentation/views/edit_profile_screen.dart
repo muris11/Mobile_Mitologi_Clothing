@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/mitologi_sliver_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -47,12 +48,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
       final success = await viewModel.updateAvatar(image.path);
       
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
-            content: Text(success ? 'Foto profil berhasil diperbarui' : (viewModel.error ?? 'Gagal memperbarui foto profil')),
-            backgroundColor: success ? AppColors.primary : AppColors.error,
-          ),
-        );
+        if (success) {
+          AnimatedSnackbar.success(
+            context,
+            'Foto profil berhasil diperbarui',
+            title: 'Berhasil',
+          );
+        } else {
+          AnimatedSnackbar.error(
+            context,
+            viewModel.error ?? 'Gagal memperbarui foto profil',
+            title: 'Gagal',
+          );
+        }
       }
     }
   }
@@ -67,14 +75,19 @@ class _EditProfileScreenState extends State<EditProfileScreen> {
     );
 
     if (mounted) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text(success ? 'Profil berhasil diperbarui' : (viewModel.error ?? 'Gagal memperbarui profil')),
-          backgroundColor: success ? AppColors.primary : AppColors.error,
-        ),
-      );
       if (success) {
+        AnimatedSnackbar.success(
+          context,
+          'Profil berhasil diperbarui',
+          title: 'Berhasil',
+        );
         Navigator.of(context).pop();
+      } else {
+        AnimatedSnackbar.error(
+          context,
+          viewModel.error ?? 'Gagal memperbarui profil',
+          title: 'Gagal',
+        );
       }
     }
   }

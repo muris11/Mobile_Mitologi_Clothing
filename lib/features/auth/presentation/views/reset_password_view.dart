@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_button.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
 
 import 'auth_scaffold.dart';
@@ -55,6 +56,14 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
       isValid = false;
     }
 
+    if (!isValid && mounted) {
+      AnimatedSnackbar.error(
+        context,
+        _confirmPasswordError ?? _passwordError ?? 'Validasi gagal',
+        title: 'Validasi Gagal',
+      );
+    }
+
     setState(() {});
     return isValid;
   }
@@ -80,14 +89,18 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
     }
 
     if (success) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text(
-            'Password Anda berhasil direset. Silakan login dengan password baru.',
-          ),
-        ),
+      AnimatedSnackbar.success(
+        context,
+        'Password Anda berhasil direset. Silakan login dengan password baru.',
+        title: 'Reset Berhasil',
       );
       context.go('/login');
+    } else if (viewModel.error != null) {
+      AnimatedSnackbar.error(
+        context,
+        viewModel.error!,
+        title: 'Reset Gagal',
+      );
     }
   }
 
@@ -113,10 +126,6 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                 tooltip: 'Kembali ke login',
               ),
             ),
-            if (viewModel.error != null) ...[
-              AuthAlert(message: viewModel.error!),
-              const Gap(16),
-            ],
             const AuthLabel(text: 'Alamat Email'),
             TextFormField(
               initialValue: widget.email,

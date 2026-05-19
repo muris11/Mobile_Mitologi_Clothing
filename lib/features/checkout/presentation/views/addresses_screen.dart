@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -67,10 +68,19 @@ class _AddressesScreenState extends State<AddressesScreen> {
       try {
         await context.read<CheckoutRepository>().deleteAddress(address.id);
         _fetchAddresses();
+        if (mounted) {
+          AnimatedSnackbar.success(
+            context,
+            'Alamat "${address.label}" berhasil dihapus.',
+            title: 'Berhasil',
+          );
+        }
       } catch (e) {
         if (mounted) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Gagal menghapus alamat: $e')),
+          AnimatedSnackbar.error(
+            context,
+            'Gagal menghapus alamat: $e',
+            title: 'Gagal',
           );
         }
       }
@@ -397,8 +407,10 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
       widget.onSave();
     } catch (e) {
       if (mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(content: Text('Gagal menyimpan alamat: $e')),
+        AnimatedSnackbar.error(
+          context,
+          'Gagal menyimpan alamat: $e',
+          title: 'Gagal',
         );
       }
     } finally {

@@ -3,6 +3,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_button.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -37,7 +38,10 @@ class _LoginViewState extends State<LoginView> {
         _passwordController.text,
       );
       if (success && mounted) {
+        AnimatedSnackbar.success(context, 'Selamat datang kembali di Mitologi Clothing.', title: 'Login Berhasil');
         context.go('/');
+      } else if (mounted && viewModel.error != null) {
+        AnimatedSnackbar.error(context, viewModel.error!, title: 'Login Gagal');
       }
     }
   }
@@ -56,10 +60,6 @@ class _LoginViewState extends State<LoginView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (viewModel.error != null) ...[
-              AuthAlert(message: viewModel.error!),
-              const Gap(16),
-            ],
             const AuthLabel(text: 'Email'),
             AuthTextField(
               controller: _emailController,

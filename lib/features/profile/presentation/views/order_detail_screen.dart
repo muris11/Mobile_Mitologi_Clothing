@@ -5,6 +5,7 @@ import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/config/shop_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
@@ -415,8 +416,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
                 size: 18, color: Color(0xFF92400E)),
             onPressed: () {
               Clipboard.setData(ClipboardData(text: trackingNumber));
-              ScaffoldMessenger.of(context).showSnackBar(
-                const SnackBar(content: Text('Nomor resi disalin')),
+              AnimatedSnackbar.success(
+                context,
+                'Nomor resi disalin',
+                title: 'Disalin',
               );
             },
           ),
@@ -616,11 +619,10 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
       if (snapToken.isEmpty) {
         if (!mounted) return;
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text('Gagal mendapatkan token pembayaran'),
-            backgroundColor: AppColors.error,
-          ),
+        AnimatedSnackbar.error(
+          context,
+          'Gagal mendapatkan token pembayaran',
+          title: 'Gagal',
         );
         return;
       }
@@ -718,19 +720,17 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       if (!mounted) return;
       Navigator.of(context).pop();
       await _fetchOrder();
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Status pembayaran belum diperbarui. Cek pesanan kamu.'),
-          backgroundColor: Color(0xFF92400E),
-        ),
+      AnimatedSnackbar.info(
+        context,
+        'Status pembayaran belum diperbarui. Cek pesanan kamu.',
+        title: 'Pembayaran Tertunda',
       );
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Gagal memproses pembayaran: $e'),
-          backgroundColor: AppColors.error,
-        ),
+      AnimatedSnackbar.error(
+        context,
+        'Gagal memproses pembayaran: $e',
+        title: 'Gagal',
       );
     }
   }
@@ -769,19 +769,18 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       final checkoutRepo = context.read<CheckoutRepository>();
       await checkoutRepo.requestRefund(widget.orderNumber, controller.text.trim());
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text('Pengajuan refund dikirim. Menunggu konfirmasi admin.'),
-        ),
+      AnimatedSnackbar.success(
+        context,
+        'Pengajuan refund dikirim. Menunggu konfirmasi admin.',
+        title: 'Refund Diajukan',
       );
       await _fetchOrder();
     } catch (e) {
       if (!mounted) return;
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: Text('Gagal: $e'),
-          backgroundColor: AppColors.error,
-        ),
+      AnimatedSnackbar.error(
+        context,
+        'Gagal mengajukan refund: $e',
+        title: 'Gagal',
       );
     }
   }

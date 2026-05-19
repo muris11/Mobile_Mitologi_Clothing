@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:provider/provider.dart';
@@ -39,16 +40,20 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
     );
 
     if (!mounted) return;
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text(success
-            ? 'Password berhasil diperbarui'
-            : (viewModel.error ?? 'Gagal mengganti password')),
-        backgroundColor: success ? AppColors.primary : AppColors.error,
-      ),
-    );
+    
     if (success) {
+      AnimatedSnackbar.success(
+        context,
+        'Password Anda berhasil diperbarui.',
+        title: 'Berhasil',
+      );
       Navigator.of(context).pop();
+    } else {
+      AnimatedSnackbar.error(
+        context,
+        viewModel.error ?? 'Gagal mengganti password',
+        title: 'Gagal',
+      );
     }
   }
 

@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -37,12 +38,10 @@ class _KontakScreenState extends State<KontakScreen> {
 
   void _copyToClipboard(BuildContext ctx, String text) {
     Clipboard.setData(ClipboardData(text: text));
-    ScaffoldMessenger.of(ctx).showSnackBar(
-      SnackBar(
-        content: Text('Disalin: $text'),
-        duration: const Duration(seconds: 2),
-        behavior: SnackBarBehavior.floating,
-      ),
+    AnimatedSnackbar.success(
+      ctx,
+      'Disalin: $text',
+      title: 'Disalin',
     );
   }
 

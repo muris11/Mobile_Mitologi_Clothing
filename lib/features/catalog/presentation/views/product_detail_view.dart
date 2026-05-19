@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_detail_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
@@ -90,8 +91,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     if (!mounted) return;
 
     if (cartVM.error != null) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text(cartVM.error!)),
+      AnimatedSnackbar.error(
+        context,
+        cartVM.error!,
+        title: 'Gagal',
       );
       return;
     }
@@ -99,15 +102,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     if (goToCheckout) {
       context.push('/checkout');
     } else {
-      ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(
-          content: const Text('Ditambahkan ke keranjang'),
-          behavior: SnackBarBehavior.floating,
-          action: SnackBarAction(
-            label: 'Lihat',
-            onPressed: () => context.push('/cart'),
-          ),
-        ),
+      AnimatedSnackbar.success(
+        context,
+        '${product.name} berhasil ditambahkan ke keranjang belanja Anda.',
+        title: 'Berhasil',
       );
     }
   }

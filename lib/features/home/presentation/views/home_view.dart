@@ -663,7 +663,7 @@ class _HomeViewState extends State<HomeView> {
       case 'clock':
         return PhosphorIconsRegular.clock;
       default:
-        return PhosphorIconsRegular.sparkle;
+        return PhosphorIconsRegular.crown;
     }
   }
 

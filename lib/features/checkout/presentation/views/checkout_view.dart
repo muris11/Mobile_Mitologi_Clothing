@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
@@ -364,11 +365,10 @@ class _CheckoutViewState extends State<CheckoutView> {
         final orderNum = viewModel.lastOrderNumber ?? '';
 
         if (paymentUrl.isEmpty) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            const SnackBar(
-              content: Text('Gagal mendapatkan token pembayaran'),
-              backgroundColor: AppColors.error,
-            ),
+          AnimatedSnackbar.error(
+            context,
+            'Gagal mendapatkan token pembayaran dari gerbang Midtrans.',
+            title: 'Pembayaran Gagal',
           );
           return;
         }
@@ -386,11 +386,10 @@ class _CheckoutViewState extends State<CheckoutView> {
         await _verifyPaymentAndNavigate(context, orderNum);
       case PlaceOrderResult.error:
         if (viewModel.error != null) {
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(
-              content: Text(viewModel.error!),
-              backgroundColor: AppColors.error,
-            ),
+          AnimatedSnackbar.error(
+            context,
+            viewModel.error!,
+            title: 'Pesanan Gagal',
           );
         }
     }

@@ -27,7 +27,7 @@ class HomeFeaturesSection extends StatelessWidget {
       case 'clock':
         return PhosphorIconsRegular.clock;
       default:
-        return PhosphorIconsRegular.sparkle;
+        return PhosphorIconsRegular.crown;
     }
   }
 

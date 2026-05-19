@@ -6,6 +6,7 @@ import 'package:provider/provider.dart';
 
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_button.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
 import 'auth_scaffold.dart';
 
@@ -39,8 +40,10 @@ class _RegisterViewState extends State<RegisterView> {
   void _handleRegister() async {
     if (_formKey.currentState?.validate() ?? false) {
       if (_passwordController.text != _passwordConfirmationController.text) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Konfirmasi password tidak cocok.')),
+        AnimatedSnackbar.error(
+          context,
+          'Konfirmasi password tidak cocok.',
+          title: 'Validasi Gagal',
         );
         return;
       }
@@ -53,14 +56,18 @@ class _RegisterViewState extends State<RegisterView> {
         phone: _phoneController.text.trim(),
       );
       if (success && mounted) {
-        ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(
-            content: Text(
-              'Akun berhasil dibuat. Silakan login dengan akun baru Anda.',
-            ),
-          ),
+        AnimatedSnackbar.success(
+          context,
+          'Akun berhasil dibuat. Silakan login dengan akun baru Anda.',
+          title: 'Registrasi Berhasil',
         );
         context.go('/login');
+      } else if (mounted && viewModel.error != null) {
+        AnimatedSnackbar.error(
+          context,
+          viewModel.error!,
+          title: 'Registrasi Gagal',
+        );
       }
     }
   }
@@ -79,10 +86,6 @@ class _RegisterViewState extends State<RegisterView> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
-            if (viewModel.error != null) ...[
-              AuthAlert(message: viewModel.error!),
-              const Gap(16),
-            ],
             const AuthLabel(text: 'Nama Lengkap'),
             AuthTextField(
               controller: _nameController,
