@@ -487,7 +487,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
         AnimatedSnackbar.show(
           context,
           message: 'Gagal memuat kota/kabupaten: $e',
-          success: false,
+          type: SnackbarType.error,
         );
       }
     }
@@ -514,7 +514,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
         AnimatedSnackbar.show(
           context,
           message: 'Gagal memuat kecamatan: $e',
-          success: false,
+          type: SnackbarType.error,
         );
       }
     }
