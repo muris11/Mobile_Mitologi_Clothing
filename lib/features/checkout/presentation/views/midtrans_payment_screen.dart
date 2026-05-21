@@ -196,6 +196,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
       ),
     );
     if (confirm == true) {
+      if (!mounted) return false;
       Navigator.of(context).pop(MidtransPaymentResult.cancelled);
       return true;
     }

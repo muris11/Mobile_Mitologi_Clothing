@@ -46,6 +46,95 @@ class OrderItemModel extends Equatable {
   List<Object?> get props => [id, productTitle, quantity, price, total];
 }
 
+class TrackingEventModel extends Equatable {
+  final int id;
+  final String status;
+  final String title;
+  final String? description;
+  final String? location;
+  final bool isSystemEvent;
+  final DateTime occurredAt;
+
+  const TrackingEventModel({
+    required this.id,
+    required this.status,
+    required this.title,
+    this.description,
+    this.location,
+    required this.isSystemEvent,
+    required this.occurredAt,
+  });
+
+  factory TrackingEventModel.fromJson(Map<String, dynamic> json) {
+    return TrackingEventModel(
+      id: ParserUtils.parseInt(json['id']),
+      status: json['status'] as String? ?? '',
+      title: json['title'] as String? ?? '',
+      description: json['description'] as String?,
+      location: json['location'] as String?,
+      isSystemEvent: json['isSystemEvent'] as bool? ??
+          json['is_system_event'] as bool? ??
+          true,
+      occurredAt: DateTime.tryParse(json['occurredAt'] as String? ??
+              json['occurred_at'] as String? ??
+              '') ??
+          DateTime.now(),
+    );
+  }
+
+  @override
+  List<Object?> get props => [id, status, title, occurredAt];
+}
+
+class OrderTrackingModel extends Equatable {
+  final String orderNumber;
+  final String status;
+  final String statusLabel;
+  final String? shippingCourier;
+  final String? trackingNumber;
+  final Map<String, dynamic>? currentStatus;
+  final Map<String, dynamic>? shippingAddress;
+  final List<TrackingEventModel> events;
+
+  const OrderTrackingModel({
+    required this.orderNumber,
+    required this.status,
+    required this.statusLabel,
+    this.shippingCourier,
+    this.trackingNumber,
+    this.currentStatus,
+    this.shippingAddress,
+    required this.events,
+  });
+
+  factory OrderTrackingModel.fromJson(Map<String, dynamic> json) {
+    return OrderTrackingModel(
+      orderNumber: json['orderNumber'] as String? ??
+          json['order_number'] as String? ??
+          '',
+      status: json['status'] as String? ?? '',
+      statusLabel: json['statusLabel'] as String? ??
+          json['status_label'] as String? ??
+          '',
+      shippingCourier: json['shippingCourier'] as String? ??
+          json['shipping_courier'] as String?,
+      trackingNumber: json['trackingNumber'] as String? ??
+          json['tracking_number'] as String?,
+      currentStatus: json['currentStatus'] as Map<String, dynamic>? ??
+          json['current_status'] as Map<String, dynamic>?,
+      shippingAddress: json['shippingAddress'] as Map<String, dynamic>? ??
+          json['shipping_address'] as Map<String, dynamic>?,
+      events: ParserUtils.parseList(
+        json['events'],
+        TrackingEventModel.fromJson,
+      ),
+    );
+  }
+
+  @override
+  List<Object?> get props => [orderNumber, status, events];
+}
+
 class OrderModel extends Equatable {
   final int id;
   final String orderNumber;
@@ -56,6 +145,7 @@ class OrderModel extends Equatable {
   final int itemsCount;
   final String? paymentUrl;
   final String? trackingNumber;
+  final String? shippingCourier;
   final DateTime? refundRequestedAt;
   final String? refundReason;
   final List<OrderItemModel> items;
@@ -72,6 +162,7 @@ class OrderModel extends Equatable {
     this.itemsCount = 0,
     this.paymentUrl,
     this.trackingNumber,
+    this.shippingCourier,
     this.refundRequestedAt,
     this.refundReason,
     required this.items,
@@ -102,6 +193,8 @@ class OrderModel extends Equatable {
           json['payment_url'] as String?,
       trackingNumber: json['trackingNumber'] as String? ??
           json['tracking_number'] as String?,
+      shippingCourier: json['shippingCourier'] as String? ??
+          json['shipping_courier'] as String?,
       refundRequestedAt: json['refundRequestedAt'] != null
           ? DateTime.tryParse(json['refundRequestedAt'].toString())
           : json['refund_requested_at'] != null
@@ -142,6 +235,7 @@ class OrderModel extends Equatable {
         shippingCost,
         paymentUrl,
         trackingNumber,
+        shippingCourier,
         items,
         shippingAddress,
         createdAt,

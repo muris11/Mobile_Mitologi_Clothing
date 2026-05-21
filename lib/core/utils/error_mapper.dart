@@ -66,6 +66,36 @@ class ErrorMapper {
     return 'Terjadi kesalahan, silakan coba lagi';
   }
 
+  static String mapApiError(dynamic error) {
+    if (error is DioException) {
+      final response = error.response;
+      if (response != null && response.data is Map) {
+        final data = response.data as Map;
+        if (data.containsKey('error')) {
+          final errorObj = data['error'];
+          if (errorObj is Map) {
+            final message = errorObj['message']?.toString() ?? '';
+            final details = errorObj['details'];
+            if (details is Map && details.isNotEmpty) {
+              final firstField = details.values.first;
+              if (firstField is List && firstField.isNotEmpty) {
+                return _mapBackendMessage(firstField.first.toString());
+              }
+            }
+            if (message.isNotEmpty) {
+              return _mapBackendMessage(message);
+            }
+          }
+        }
+        if (data.containsKey('message')) {
+          return _mapBackendMessage(data['message'].toString());
+        }
+      }
+      return _mapBackendMessage(error.message ?? error.toString());
+    }
+    return mapAuthError(error);
+  }
+
   static String _mapBackendMessage(String message) {
     final lower = message.toLowerCase();
 

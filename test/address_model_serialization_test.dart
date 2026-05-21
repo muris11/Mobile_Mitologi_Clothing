@@ -8,7 +8,7 @@ void main() {
       label: 'Rumah',
       recipientName: 'Budi Santoso',
       phone: '08123456789',
-      address: 'Jl. Mitologi No. 1',
+      addressLine1: 'Jl. Mitologi No. 1',
       city: 'Indramayu',
       province: 'Jawa Barat',
       postalCode: '45271',

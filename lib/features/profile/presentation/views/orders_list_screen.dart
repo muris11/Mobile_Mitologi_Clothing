@@ -17,8 +17,17 @@ class OrdersListScreen extends StatefulWidget {
 
 class _OrdersListScreenState extends State<OrdersListScreen> {
   List<OrderModel> _orders = [];
+  List<OrderModel> _allOrders = [];
   bool _isLoading = true;
   String? _error;
+  String _selectedFilter = 'all';
+
+  final List<Map<String, dynamic>> _filters = [
+    {'value': 'all', 'label': 'Semua'},
+    {'value': 'ongoing', 'label': 'Berjalan'},
+    {'value': 'completed', 'label': 'Selesai'},
+    {'value': 'cancelled', 'label': 'Dibatalkan'},
+  ];
 
   @override
   void initState() {
@@ -34,7 +43,12 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
     try {
       final repo = context.read<ProfileRepository>();
       final orders = await repo.getOrders();
-      if (mounted) setState(() => _orders = orders);
+      if (mounted) {
+        setState(() {
+          _allOrders = orders;
+          _applyFilter();
+        });
+      }
     } catch (e) {
       String msg = e.toString();
       if (msg.startsWith('Exception: ')) {
@@ -44,6 +58,30 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
     } finally {
       if (mounted) setState(() => _isLoading = false);
     }
+  }
+
+  void _applyFilter() {
+    switch (_selectedFilter) {
+      case 'ongoing':
+        _orders = _allOrders.where((o) =>
+            ['pending', 'paid', 'processing', 'shipped', 'delivered'].contains(o.status)).toList();
+        break;
+      case 'completed':
+        _orders = _allOrders.where((o) => o.status == 'completed').toList();
+        break;
+      case 'cancelled':
+        _orders = _allOrders.where((o) => o.status == 'cancelled' || o.status == 'refunded').toList();
+        break;
+      default:
+        _orders = List.from(_allOrders);
+    }
+  }
+
+  void _setFilter(String value) {
+    setState(() {
+      _selectedFilter = value;
+      _applyFilter();
+    });
   }
 
   @override
@@ -70,18 +108,59 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
           ? const Center(child: CircularProgressIndicator())
           : _error != null
               ? _buildError()
-              : _orders.isEmpty
-                  ? _buildEmpty()
-                  : RefreshIndicator(
-                      onRefresh: _fetchOrders,
-                      child: ListView.builder(
-                        padding: const EdgeInsets.all(16),
-                        itemCount: _orders.length,
-                        itemBuilder: (context, index) {
-                          return _buildOrderCard(_orders[index]);
-                        },
-                      ),
+              : Column(
+                  children: [
+                    _buildFilterBar(),
+                    Expanded(
+                      child: _orders.isEmpty
+                          ? _buildEmpty()
+                          : RefreshIndicator(
+                              onRefresh: _fetchOrders,
+                              child: ListView.builder(
+                                padding: const EdgeInsets.all(16),
+                                itemCount: _orders.length,
+                                itemBuilder: (context, index) {
+                                  return _buildOrderCard(_orders[index]);
+                                },
+                              ),
+                            ),
                     ),
+                  ],
+                ),
+    );
+  }
+
+  Widget _buildFilterBar() {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      color: Colors.white,
+      child: Row(
+        children: _filters.map((filter) {
+          final isSelected = _selectedFilter == filter['value'];
+          return Expanded(
+            child: GestureDetector(
+              onTap: () => _setFilter(filter['value'] as String),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.symmetric(vertical: 8),
+                decoration: BoxDecoration(
+                  color: isSelected ? AppColors.primary : Colors.transparent,
+                  borderRadius: BorderRadius.circular(8),
+                ),
+                child: Text(
+                  filter['label'] as String,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 12,
+                    fontWeight: FontWeight.w700,
+                    color: isSelected ? Colors.white : AppColors.onSurfaceVariant,
+                  ),
+                ),
+              ),
+            ),
+          );
+        }).toList(),
+      ),
     );
   }
 

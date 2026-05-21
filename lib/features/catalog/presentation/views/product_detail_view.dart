@@ -638,6 +638,23 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     );
   }
 
+  void _openReviewFormBottomSheet(ProductDetailModel product) {
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (sheetCtx) {
+        return _ReviewFormSheet(
+          productSlug: product.slug,
+          onSubmitted: () {
+            // Reload product detail and reviews on success
+            context.read<CatalogViewModel>().getProductDetail(product.slug);
+          },
+        );
+      },
+    );
+  }
+
   Widget _buildReviewsSection(ProductDetailModel product) {
     final viewModel = context.watch<CatalogViewModel>();
     final summary = viewModel.reviewSummary;
@@ -652,24 +669,41 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                'Ulasan',
-                style: GoogleFonts.notoSerif(
-                  fontSize: 18,
-                  fontWeight: FontWeight.w800,
-                ),
+              Row(
+                children: [
+                  Text(
+                    'Ulasan',
+                    style: GoogleFonts.notoSerif(
+                      fontSize: 18,
+                      fontWeight: FontWeight.w800,
+                    ),
+                  ),
+                  if (totalRev > 0) ...[
+                    const SizedBox(width: 8),
+                    Text(
+                      '($totalRev)',
+                      style: GoogleFonts.manrope(
+                        fontSize: 14,
+                        color: AppColors.onSurfaceVariant,
+                      ),
+                    ),
+                  ],
+                ],
               ),
-              if (totalRev > 0) ...[
-                const SizedBox(width: 8),
-                Text(
-                  '($totalRev)',
+              TextButton.icon(
+                onPressed: () => _openReviewFormBottomSheet(product),
+                icon: const Icon(PhosphorIconsRegular.pencilSimpleLine, size: 16, color: _gold),
+                label: Text(
+                  'Tulis Ulasan',
                   style: GoogleFonts.manrope(
-                    fontSize: 14,
-                    color: AppColors.onSurfaceVariant,
+                    color: _gold,
+                    fontSize: 13,
+                    fontWeight: FontWeight.w700,
                   ),
                 ),
-              ],
+              ),
             ],
           ),
           if (avgRating > 0) ...[
@@ -1199,6 +1233,242 @@ class _QtyButton extends StatelessWidget {
             color: onTap != null
                 ? AppColors.onSurface
                 : AppColors.outlineVariant),
+      ),
+    );
+  }
+}
+
+class _ReviewFormSheet extends StatefulWidget {
+  final String productSlug;
+  final VoidCallback onSubmitted;
+
+  const _ReviewFormSheet({
+    required this.productSlug,
+    required this.onSubmitted,
+  });
+
+  @override
+  State<_ReviewFormSheet> createState() => _ReviewFormSheetState();
+}
+
+class _ReviewFormSheetState extends State<_ReviewFormSheet> {
+  int _rating = 5;
+  final TextEditingController _commentController = TextEditingController();
+  bool _submitting = false;
+  String? _errorMessage;
+
+  @override
+  void dispose() {
+    _commentController.dispose();
+    super.dispose();
+  }
+
+  void _submitReview() async {
+    final comment = _commentController.text.trim();
+    if (comment.length < 10) {
+      setState(() {
+        _errorMessage = 'Ulasan wajib diisi minimal 10 karakter.';
+      });
+      return;
+    }
+
+    setState(() {
+      _submitting = true;
+      _errorMessage = null;
+    });
+
+    final success = await context.read<CatalogViewModel>().submitReview(
+          widget.productSlug,
+          rating: _rating,
+          comment: comment,
+        );
+
+    if (mounted) {
+      setState(() {
+        _submitting = false;
+      });
+
+      if (success) {
+        widget.onSubmitted();
+        Navigator.pop(sheetContext);
+        AnimatedSnackbar.success(
+          context,
+          'Ulasan Anda berhasil dikirim!',
+          title: 'Terima Kasih',
+        );
+      } else {
+        setState(() {
+          _errorMessage = 'Gagal mengirim ulasan. Silakan coba lagi.';
+        });
+      }
+    }
+  }
+
+  BuildContext get sheetContext => context;
+
+  @override
+  Widget build(BuildContext context) {
+    final bottomInset = MediaQuery.of(context).viewInsets.bottom;
+
+    return Container(
+      decoration: const BoxDecoration(
+        color: AppColors.background,
+        borderRadius: BorderRadius.vertical(
+          top: Radius.circular(AppBorderRadius.xxl),
+        ),
+      ),
+      padding: EdgeInsets.fromLTRB(24, 20, 24, MediaQuery.of(context).padding.bottom + 24 + bottomInset),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Center(
+            child: Container(
+              width: 40,
+              height: 4,
+              decoration: BoxDecoration(
+                color: AppColors.outlineVariant.withValues(alpha: 0.5),
+                borderRadius: BorderRadius.circular(2),
+              ),
+            ),
+          ),
+          const Gap(16),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Text(
+                'Tulis Ulasan Produk',
+                style: GoogleFonts.notoSerif(
+                  fontSize: 18,
+                  fontWeight: FontWeight.w800,
+                  color: AppColors.primary,
+                ),
+              ),
+              GestureDetector(
+                onTap: () => Navigator.pop(context),
+                child: Container(
+                  padding: const EdgeInsets.all(4),
+                  decoration: const BoxDecoration(
+                    color: AppColors.surfaceContainerLow,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    PhosphorIconsRegular.x,
+                    size: 16,
+                    color: AppColors.onSurface,
+                  ),
+                ),
+              ),
+            ],
+          ),
+          const Gap(20),
+          if (_errorMessage != null) ...[
+            Container(
+              padding: const EdgeInsets.all(12),
+              width: double.infinity,
+              decoration: BoxDecoration(
+                color: AppColors.error.withValues(alpha: 0.08),
+                borderRadius: BorderRadius.circular(10),
+                border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
+              ),
+              child: Text(
+                _errorMessage!,
+                style: GoogleFonts.manrope(
+                  color: AppColors.error,
+                  fontSize: 13,
+                  fontWeight: FontWeight.w600,
+                ),
+              ),
+            ),
+            const Gap(16),
+          ],
+          Text(
+            'Rating Bintang',
+            style: GoogleFonts.manrope(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: AppColors.onSurface,
+            ),
+          ),
+          const Gap(8),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.start,
+            children: List.generate(5, (index) {
+              final starValue = index + 1;
+              final isFilled = starValue <= _rating;
+              return GestureDetector(
+                onTap: () => setState(() => _rating = starValue),
+                child: Padding(
+                  padding: const EdgeInsets.only(right: 8.0),
+                  child: Icon(
+                    isFilled ? PhosphorIconsFill.star : PhosphorIconsRegular.star,
+                    color: _gold,
+                    size: 32,
+                  ),
+                ),
+              );
+            }),
+          ),
+          const Gap(20),
+          Text(
+            'Komentar Ulasan',
+            style: GoogleFonts.manrope(
+              fontSize: 14,
+              fontWeight: FontWeight.w700,
+              color: AppColors.onSurface,
+            ),
+          ),
+          const Gap(8),
+          TextField(
+            controller: _commentController,
+            maxLines: 4,
+            textCapitalization: TextCapitalization.sentences,
+            style: GoogleFonts.manrope(fontSize: 14),
+            decoration: InputDecoration(
+              hintText: 'Tuliskan ulasan pengalaman Anda terhadap produk ini...',
+              hintStyle: GoogleFonts.manrope(fontSize: 13, color: AppColors.outline),
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: AppColors.outlineVariant),
+              ),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: const BorderSide(color: _gold, width: 1.5),
+              ),
+              contentPadding: const EdgeInsets.all(16),
+            ),
+          ),
+          const Gap(24),
+          SizedBox(
+            width: double.infinity,
+            height: 48,
+            child: FilledButton(
+              onPressed: _submitting ? null : _submitReview,
+              style: FilledButton.styleFrom(
+                backgroundColor: AppColors.primary,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+              ),
+              child: _submitting
+                  ? const SizedBox(
+                      width: 20,
+                      height: 20,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        valueColor: AlwaysStoppedAnimation(Colors.white),
+                      ),
+                    )
+                  : Text(
+                      'Kirim Ulasan',
+                      style: GoogleFonts.manrope(
+                        fontWeight: FontWeight.w700,
+                        fontSize: 14,
+                      ),
+                    ),
+            ),
+          ),
+        ],
       ),
     );
   }

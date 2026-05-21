@@ -48,4 +48,8 @@ class CheckoutService {
   Future<Response> confirmPayment(String orderNumber) async {
     return await _apiClient.dio.post(ApiEndpoints.confirmPayment(orderNumber));
   }
+
+  Future<Response> getOrderTracking(String orderNumber) async {
+    return await _apiClient.dio.get(ApiEndpoints.orderTracking(orderNumber));
+  }
 }

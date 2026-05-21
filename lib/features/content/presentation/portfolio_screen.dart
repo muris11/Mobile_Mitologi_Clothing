@@ -145,6 +145,18 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
 
   Widget _buildPortfolioCard(
       BuildContext context, PortfolioItem item, int index) {
+    final cleanDescription = item.description != null
+        ? item.description!
+            .replaceAll(RegExp(r'<[^>]*>'), '')
+            .replaceAll('&nbsp;', ' ')
+            .replaceAll('&amp;', '&')
+            .replaceAll('&lt;', '<')
+            .replaceAll('&gt;', '>')
+            .replaceAll('&quot;', '"')
+            .replaceAll('&#39;', "'")
+            .trim()
+        : '';
+
     return Padding(
       padding: const EdgeInsets.only(bottom: 24),
       child: GestureDetector(
@@ -197,10 +209,10 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                           color: AppColors.primary,
                         ),
                       ),
-                      if (item.description != null) ...[
+                      if (cleanDescription.isNotEmpty) ...[
                         const SizedBox(height: 8),
                         Text(
-                          item.description!,
+                          cleanDescription,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
                           style: GoogleFonts.manrope(

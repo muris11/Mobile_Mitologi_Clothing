@@ -5,7 +5,7 @@ import 'app_colors.dart';
 
 abstract final class AppTextStyles {
   static const String fontFamily = 'PlusJakartaSans';
-  static const String notoSerifFamily = 'NotoSerif';
+  static const String notoSerifFamily = 'Merriweather';
   static const String manropeFamily = 'Manrope';
   static const String plusJakartaSansFamily = 'PlusJakartaSans';
 
@@ -16,7 +16,7 @@ abstract final class AppTextStyles {
     double? height,
     double? letterSpacing,
   }) {
-    return GoogleFonts.notoSerif(
+    return GoogleFonts.merriweather(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color ?? AppColors.onSurface,
@@ -150,7 +150,7 @@ abstract final class AppTextStyles {
 
   static Future<void> preload() => GoogleFonts.pendingFonts([
         GoogleFonts.plusJakartaSans(),
-        GoogleFonts.notoSerif(),
+        GoogleFonts.merriweather(),
         GoogleFonts.manrope(),
       ]);
 }

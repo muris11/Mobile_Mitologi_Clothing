@@ -79,9 +79,11 @@ class _CheckoutViewState extends State<CheckoutView> {
                   const Icon(PhosphorIconsRegular.warningCircle,
                       color: AppColors.onSurfaceVariant),
                   const Gap(12),
-                  Text(
-                    'Belum ada alamat. Silakan tambahkan.',
-                    style: AppTextStyles.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
+                  Expanded(
+                    child: Text(
+                      'Belum ada alamat. Silakan tambahkan.',
+                      style: AppTextStyles.bodyMedium.copyWith(color: AppColors.onSurfaceVariant),
+                    ),
                   ),
                 ],
               ),
@@ -154,21 +156,123 @@ class _CheckoutViewState extends State<CheckoutView> {
           const Gap(28),
           _buildSectionTitle('Metode Pengiriman', PhosphorIconsRegular.truck),
           const Gap(12),
-          _buildShippingOption(
-            viewModel,
-            value: 'standard',
-            title: 'Reguler',
-            subtitle: '3-5 hari kerja',
-            price: 'Gratis',
-          ),
-          const Gap(10),
-          _buildShippingOption(
-            viewModel,
-            value: 'express',
-            title: 'Express',
-            subtitle: '1-2 hari kerja',
-            price: 'Rp 25.000',
-          ),
+          _buildShippingToggle(viewModel),
+          const Gap(12),
+          if (viewModel.shippingMethod == ShippingMethod.delivery) ...[
+            if (viewModel.isLoading)
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLowest,
+                  borderRadius: AppBorderRadius.lgRadius,
+                ),
+                child: const Center(child: CircularProgressIndicator()),
+              )
+            else if (viewModel.error != null && viewModel.error!.contains('Gagal menghitung'))
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.error.withValues(alpha: 0.1),
+                  borderRadius: AppBorderRadius.lgRadius,
+                ),
+                child: Text(
+                  viewModel.error!,
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.error,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            else if (viewModel.shippingOptions.isEmpty)
+              Container(
+                padding: const EdgeInsets.all(20),
+                decoration: BoxDecoration(
+                  color: AppColors.surfaceContainerLowest,
+                  borderRadius: AppBorderRadius.lgRadius,
+                ),
+                child: Text(
+                  viewModel.selectedAddress != null
+                      ? 'Opsi pengiriman tidak tersedia'
+                      : 'Pilih alamat terlebih dahulu untuk melihat opsi pengiriman',
+                  style: AppTextStyles.bodySmall.copyWith(
+                    color: AppColors.onSurfaceVariant,
+                  ),
+                  textAlign: TextAlign.center,
+                ),
+              )
+            else
+              ...viewModel.shippingOptions.map((option) {
+                final isSelected = viewModel.selectedShippingOption == option;
+                return GestureDetector(
+                  onTap: () => viewModel.selectShippingOption(option),
+                  child: AnimatedContainer(
+                    duration: const Duration(milliseconds: 200),
+                    margin: const EdgeInsets.only(bottom: 10),
+                    padding: const EdgeInsets.all(16),
+                    decoration: BoxDecoration(
+                      color: isSelected
+                          ? AppColors.primary
+                          : AppColors.surfaceContainerLowest,
+                      borderRadius: AppBorderRadius.lgRadius,
+                      border: Border.all(
+                        color: isSelected
+                            ? AppColors.primary
+                            : AppColors.outlineVariant,
+                        width: isSelected ? 2 : 1,
+                      ),
+                    ),
+                    child: Row(
+                      children: [
+                        Icon(
+                          isSelected
+                              ? PhosphorIconsFill.checkCircle
+                              : PhosphorIconsRegular.circle,
+                          color: isSelected
+                              ? AppColors.secondaryContainer
+                              : AppColors.outlineVariant,
+                          size: 22,
+                        ),
+                        const Gap(14),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                '${option.courier.toUpperCase()} - ${option.service}',
+                                style: AppTextStyles.bodyMedium.copyWith(
+                                  fontWeight: FontWeight.w800,
+                                  color: isSelected
+                                      ? Colors.white
+                                      : AppColors.onSurface,
+                                ),
+                              ),
+                              const Gap(2),
+                              Text(
+                                '${option.description}${option.etd.isNotEmpty ? ' (${option.etd} hari)' : ''}',
+                                style: AppTextStyles.bodySmall.copyWith(
+                                  color: isSelected
+                                      ? Colors.white70
+                                      : AppColors.onSurfaceVariant,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Text(
+                          option.formattedCost,
+                          style: AppTextStyles.bodyMedium.copyWith(
+                            fontWeight: FontWeight.w800,
+                            color: isSelected
+                                ? AppColors.secondaryContainer
+                                : AppColors.primary,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                );
+              }),
+          ],
           const Gap(28),
           _buildSectionTitle('Ringkasan Pesanan', PhosphorIconsRegular.receipt),
           const Gap(12),
@@ -190,16 +294,18 @@ class _CheckoutViewState extends State<CheckoutView> {
                 const Gap(8),
                 _buildSummaryRow(
                   'Ongkos Kirim',
-                  viewModel.selectedShippingMethod == 'express'
-                      ? 'Rp 25.000'
-                      : 'Gratis',
+                  viewModel.shippingMethod == ShippingMethod.pickup
+                      ? 'Gratis'
+                      : (viewModel.selectedShippingOption != null
+                          ? viewModel.selectedShippingOption!.formattedCost
+                          : '-'),
                 ),
                 const Divider(height: 24),
                 Builder(builder: (context) {
                   final subtotal = cartVM.cart?.totalPrice ?? 0;
-                  final shipping = viewModel.selectedShippingMethod == 'express'
-                      ? 25000.0
-                      : 0.0;
+                  final shipping = viewModel.shippingMethod == ShippingMethod.pickup
+                      ? 0.0
+                      : viewModel.shippingCost.toDouble();
                   final total = subtotal + shipping;
                   return Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -253,73 +359,103 @@ class _CheckoutViewState extends State<CheckoutView> {
     );
   }
 
-  Widget _buildShippingOption(
-    CheckoutViewModel viewModel, {
-    required String value,
-    required String title,
-    required String subtitle,
-    required String price,
-  }) {
-    final isSelected = viewModel.selectedShippingMethod == value;
-    return GestureDetector(
-      onTap: () => viewModel.selectShippingMethod(value),
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 200),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          color:
-              isSelected ? AppColors.primary : AppColors.surfaceContainerLowest,
-          borderRadius: AppBorderRadius.lgRadius,
-          border: Border.all(
-            color: isSelected ? AppColors.primary : AppColors.outlineVariant,
-            width: isSelected ? 2 : 1,
-          ),
-        ),
-        child: Row(
-          children: [
-            Icon(
-              isSelected
-                  ? PhosphorIconsFill.checkCircle
-                  : PhosphorIconsRegular.circle,
-              color: isSelected
-                  ? AppColors.secondaryContainer
-                  : AppColors.outlineVariant,
-              size: 22,
-            ),
-            const Gap(14),
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    title,
-                    style: AppTextStyles.bodyMedium.copyWith(
-                      fontWeight: FontWeight.w800,
-                      color: isSelected ? Colors.white : AppColors.onSurface,
-                    ),
+  Widget _buildShippingToggle(CheckoutViewModel viewModel) {
+    return Container(
+      decoration: BoxDecoration(
+        color: AppColors.surfaceContainerLowest,
+        borderRadius: AppBorderRadius.lgRadius,
+        border: Border.all(color: AppColors.outlineVariant),
+      ),
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () => viewModel.setShippingMethod(ShippingMethod.pickup),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: viewModel.shippingMethod == ShippingMethod.pickup
+                      ? AppColors.primary
+                      : Colors.transparent,
+                  borderRadius: const BorderRadius.horizontal(
+                    left: Radius.circular(16),
                   ),
-                  Text(
-                    subtitle,
-                    style: AppTextStyles.bodySmall.copyWith(
-                      color: isSelected
-                          ? Colors.white70
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      PhosphorIconsRegular.storefront,
+                      color: viewModel.shippingMethod == ShippingMethod.pickup
+                          ? Colors.white
                           : AppColors.onSurfaceVariant,
+                      size: 20,
                     ),
+                    const Gap(8),
+                    Flexible(
+                      child: Text(
+                        'Ambil di Toko',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: viewModel.shippingMethod == ShippingMethod.pickup
+                              ? Colors.white
+                              : AppColors.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+          Container(
+            width: 1,
+            height: 48,
+            color: AppColors.outlineVariant,
+          ),
+          Expanded(
+            child: GestureDetector(
+              onTap: () => viewModel.setShippingMethod(ShippingMethod.delivery),
+              child: AnimatedContainer(
+                duration: const Duration(milliseconds: 200),
+                padding: const EdgeInsets.all(16),
+                decoration: BoxDecoration(
+                  color: viewModel.shippingMethod == ShippingMethod.delivery
+                      ? AppColors.primary
+                      : Colors.transparent,
+                  borderRadius: const BorderRadius.horizontal(
+                    right: Radius.circular(16),
                   ),
-                ],
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    Icon(
+                      PhosphorIconsRegular.truck,
+                      color: viewModel.shippingMethod == ShippingMethod.delivery
+                          ? Colors.white
+                          : AppColors.onSurfaceVariant,
+                      size: 20,
+                    ),
+                    const Gap(8),
+                    Flexible(
+                      child: Text(
+                        'Kirim ke Alamat',
+                        style: AppTextStyles.bodyMedium.copyWith(
+                          fontWeight: FontWeight.w700,
+                          color: viewModel.shippingMethod == ShippingMethod.delivery
+                              ? Colors.white
+                              : AppColors.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
-            Text(
-              price,
-              style: AppTextStyles.bodyMedium.copyWith(
-                fontWeight: FontWeight.w800,
-                color: isSelected
-                    ? AppColors.secondaryContainer
-                    : AppColors.primary,
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

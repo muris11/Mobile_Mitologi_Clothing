@@ -116,7 +116,7 @@ void main() async {
             create: (_) => CatalogViewModel(catalogRepository)),
         ChangeNotifierProvider(create: (_) => CartViewModel(cartRepository)),
         ChangeNotifierProvider(
-            create: (_) => CheckoutViewModel(checkoutRepository)),
+            create: (_) => CheckoutViewModel(checkoutRepository, apiClient)),
       ],
       child: const MitologiApp(),
     ),

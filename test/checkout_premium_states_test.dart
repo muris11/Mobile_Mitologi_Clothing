@@ -89,6 +89,7 @@ class _FakeCheckoutViewModel extends CheckoutViewModel {
           CheckoutRepository(
             CheckoutService(ApiClient(TokenStorage(), CartStorage())),
           ),
+          ApiClient(TokenStorage(), CartStorage()),
         );
 
   @override

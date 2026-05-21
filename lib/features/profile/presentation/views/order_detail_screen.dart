@@ -724,6 +724,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       if (!mounted) return;
       Navigator.of(context).pop();
       await _fetchOrder();
+      if (!mounted) return;
       AnimatedSnackbar.info(
         context,
         'Status pembayaran belum diperbarui. Cek pesanan kamu.',
@@ -769,6 +770,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
 
     if (confirmed != true || controller.text.trim().isEmpty) return;
 
+    if (!mounted) return;
     try {
       final checkoutRepo = context.read<CheckoutRepository>();
       await checkoutRepo.requestRefund(widget.orderNumber, controller.text.trim());

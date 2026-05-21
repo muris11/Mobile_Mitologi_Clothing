@@ -5,7 +5,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/data/shipping_service.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -83,6 +85,44 @@ class _AddressesScreenState extends State<AddressesScreen> {
             title: 'Gagal',
           );
         }
+      }
+    }
+  }
+
+  Future<void> _setPrimaryAddress(AddressModel address) async {
+    try {
+      final updated = AddressModel(
+        id: address.id,
+        label: address.label,
+        recipientName: address.recipientName,
+        phone: address.phone,
+        addressLine1: address.addressLine1,
+        addressLine2: address.addressLine2,
+        city: address.city,
+        cityId: address.cityId,
+        province: address.province,
+        provinceId: address.provinceId,
+        subdistrict: address.subdistrict,
+        subdistrictId: address.subdistrictId,
+        postalCode: address.postalCode,
+        isDefault: true,
+      );
+      await context.read<CheckoutRepository>().updateAddress(updated);
+      _fetchAddresses();
+      if (mounted) {
+        AnimatedSnackbar.success(
+          context,
+          'Alamat "${address.label}" sekarang menjadi alamat utama.',
+          title: 'Berhasil',
+        );
+      }
+    } catch (e) {
+      if (mounted) {
+        AnimatedSnackbar.error(
+          context,
+          'Gagal mengatur alamat utama: $e',
+          title: 'Gagal',
+        );
       }
     }
   }
@@ -281,10 +321,13 @@ class _AddressesScreenState extends State<AddressesScreen> {
                   onSelected: (val) {
                     if (val == 'edit') _showAddressForm(address);
                     if (val == 'delete') _deleteAddress(address);
+                    if (val == 'primary') _setPrimaryAddress(address);
                   },
                   itemBuilder: (ctx) => [
                     const PopupMenuItem(value: 'edit', child: Text('Edit')),
                     const PopupMenuItem(value: 'delete', child: Text('Hapus')),
+                    if (!address.isDefault)
+                      const PopupMenuItem(value: 'primary', child: Text('Jadikan Utama')),
                   ],
                 ),
               ],
@@ -326,6 +369,20 @@ class _AddressesScreenState extends State<AddressesScreen> {
                 ),
               ],
             ),
+            if (!address.isDefault)
+              Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: OutlinedButton.icon(
+                  onPressed: () => _setPrimaryAddress(address),
+                  icon: const Icon(PhosphorIconsRegular.star, size: 16),
+                  label: const Text('Jadikan Alamat Utama'),
+                  style: OutlinedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    foregroundColor: AppColors.primary,
+                    side: BorderSide(color: AppColors.primary.withValues(alpha: 0.3)),
+                  ),
+                ),
+              ),
           ],
         ),
       ),
@@ -348,10 +405,19 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
   late TextEditingController _labelController;
   late TextEditingController _recipientNameController;
   late TextEditingController _phoneController;
-  late TextEditingController _addressController;
-  late TextEditingController _cityController;
-  late TextEditingController _provinceController;
+  late TextEditingController _addressLine1Controller;
+  late TextEditingController _addressLine2Controller;
   late TextEditingController _postalCodeController;
+
+  ProvinceData? _selectedProvince;
+  CityData? _selectedCity;
+  SubdistrictData? _selectedSubdistrict;
+
+  List<ProvinceData> _provinces = [];
+  List<CityData> _cities = [];
+  List<SubdistrictData> _subdistricts = [];
+
+  bool _isLoadingLocations = false;
   bool _isDefault = false;
   bool _isLoading = false;
 
@@ -359,14 +425,14 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
   void initState() {
     super.initState();
     final a = widget.address;
-    _labelController = TextEditingController(text: a?.label);
-    _recipientNameController = TextEditingController(text: a?.recipientName);
-    _phoneController = TextEditingController(text: a?.phone);
-    _addressController = TextEditingController(text: a?.address);
-    _cityController = TextEditingController(text: a?.city);
-    _provinceController = TextEditingController(text: a?.province);
-    _postalCodeController = TextEditingController(text: a?.postalCode);
+    _labelController = TextEditingController(text: a?.label ?? '');
+    _recipientNameController = TextEditingController(text: a?.recipientName ?? '');
+    _phoneController = TextEditingController(text: a?.phone ?? '');
+    _addressLine1Controller = TextEditingController(text: a?.addressLine1 ?? '');
+    _addressLine2Controller = TextEditingController(text: a?.addressLine2 ?? '');
+    _postalCodeController = TextEditingController(text: a?.postalCode ?? '');
     _isDefault = a?.isDefault ?? false;
+    _loadProvinces();
   }
 
   @override
@@ -374,11 +440,84 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
     _labelController.dispose();
     _recipientNameController.dispose();
     _phoneController.dispose();
-    _addressController.dispose();
-    _cityController.dispose();
-    _provinceController.dispose();
+    _addressLine1Controller.dispose();
+    _addressLine2Controller.dispose();
     _postalCodeController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadProvinces() async {
+    try {
+      final viewModel = context.read<CheckoutViewModel>();
+      final provinces = await viewModel.shippingService.getProvinces();
+      if (mounted) {
+        setState(() => _provinces = provinces);
+      }
+    } catch (e) {
+      if (mounted) {
+        AnimatedSnackbar.show(
+          context,
+          message: 'Gagal memuat daftar provinsi: $e',
+          type: SnackbarType.error,
+        );
+      }
+    }
+  }
+
+  Future<void> _loadCities(int provinceId) async {
+    setState(() {
+      _isLoadingLocations = true;
+      _cities = [];
+      _selectedCity = null;
+      _subdistricts = [];
+      _selectedSubdistrict = null;
+    });
+    try {
+      final viewModel = context.read<CheckoutViewModel>();
+      final cities = await viewModel.shippingService.getCities(provinceId);
+      if (mounted) {
+        setState(() {
+          _cities = cities;
+          _isLoadingLocations = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoadingLocations = false);
+        AnimatedSnackbar.show(
+          context,
+          message: 'Gagal memuat kota/kabupaten: $e',
+          success: false,
+        );
+      }
+    }
+  }
+
+  Future<void> _loadSubdistricts(int cityId) async {
+    setState(() {
+      _isLoadingLocations = true;
+      _subdistricts = [];
+      _selectedSubdistrict = null;
+    });
+    try {
+      final viewModel = context.read<CheckoutViewModel>();
+      final subdistricts = await viewModel.shippingService.getSubdistricts(cityId);
+      if (mounted) {
+        setState(() {
+          _subdistricts = subdistricts;
+          _isLoadingLocations = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) {
+        setState(() => _isLoadingLocations = false);
+        AnimatedSnackbar.show(
+          context,
+          message: 'Gagal memuat kecamatan: $e',
+          success: false,
+        );
+      }
+    }
   }
 
   Future<void> _submit() async {
@@ -392,9 +531,14 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
         label: _labelController.text.trim(),
         recipientName: _recipientNameController.text.trim(),
         phone: _phoneController.text.trim(),
-        address: _addressController.text.trim(),
-        city: _cityController.text.trim(),
-        province: _provinceController.text.trim(),
+        addressLine1: _addressLine1Controller.text.trim(),
+        addressLine2: _addressLine2Controller.text.trim().isEmpty ? null : _addressLine2Controller.text.trim(),
+        city: _selectedCity?.displayName ?? _selectedCity?.cityName ?? '',
+        cityId: _selectedCity?.cityId ?? '',
+        province: _selectedProvince?.province ?? '',
+        provinceId: _selectedProvince?.provinceId ?? '',
+        subdistrict: _selectedSubdistrict?.subdistrictName,
+        subdistrictId: _selectedSubdistrict?.subdistrictId,
         postalCode: _postalCodeController.text.trim(),
         isDefault: _isDefault,
       );
@@ -477,30 +621,69 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
               ),
               const Gap(16),
               TextFormField(
-                controller: _addressController,
+                controller: _addressLine1Controller,
                 decoration: const InputDecoration(labelText: 'Alamat Lengkap', border: OutlineInputBorder()),
                 maxLines: 2,
                 validator: (v) => v?.isEmpty == true ? 'Wajib diisi' : null,
               ),
               const Gap(16),
-              Row(
-                children: [
-                  Expanded(
-                    child: TextFormField(
-                      controller: _cityController,
-                      decoration: const InputDecoration(labelText: 'Kota', border: OutlineInputBorder()),
-                      validator: (v) => v?.isEmpty == true ? 'Wajib diisi' : null,
-                    ),
-                  ),
-                  const Gap(16),
-                  Expanded(
-                    child: TextFormField(
-                      controller: _provinceController,
-                      decoration: const InputDecoration(labelText: 'Provinsi', border: OutlineInputBorder()),
-                      validator: (v) => v?.isEmpty == true ? 'Wajib diisi' : null,
-                    ),
-                  ),
-                ],
+              TextFormField(
+                controller: _addressLine2Controller,
+                decoration: const InputDecoration(labelText: 'Alamat Tambahan (Opsional)', border: OutlineInputBorder()),
+                maxLines: 2,
+              ),
+              const Gap(16),
+              _buildDropdown<ProvinceData>(
+                label: 'Provinsi',
+                hint: 'Pilih Provinsi',
+                value: _selectedProvince,
+                items: _provinces,
+                itemLabel: (p) => p.province,
+                onChanged: (province) {
+                  setState(() {
+                    _selectedProvince = province;
+                    _selectedCity = null;
+                    _selectedSubdistrict = null;
+                    _cities = [];
+                    _subdistricts = [];
+                  });
+                  if (province != null) {
+                    _loadCities(int.parse(province.provinceId));
+                  }
+                },
+                validator: (v) => v == null ? 'Wajib dipilih' : null,
+              ),
+              const Gap(16),
+              _buildDropdown<CityData>(
+                label: 'Kota / Kabupaten',
+                hint: _selectedProvince == null ? 'Pilih provinsi terlebih dahulu' : 'Pilih Kota',
+                value: _selectedCity,
+                items: _cities,
+                itemLabel: (c) => c.displayName,
+                onChanged: _selectedProvince == null ? null : (city) {
+                  setState(() {
+                    _selectedCity = city;
+                    _selectedSubdistrict = null;
+                    _subdistricts = [];
+                  });
+                  if (city != null) {
+                    _loadSubdistricts(int.parse(city.cityId));
+                  }
+                },
+                validator: (v) => v == null ? 'Wajib dipilih' : null,
+                enabled: _selectedProvince != null,
+              ),
+              const Gap(16),
+              _buildDropdown<SubdistrictData>(
+                label: 'Kecamatan (Opsional)',
+                hint: _selectedCity == null ? 'Pilih kota terlebih dahulu' : 'Pilih Kecamatan',
+                value: _selectedSubdistrict,
+                items: _subdistricts,
+                itemLabel: (s) => s.subdistrictName,
+                onChanged: _selectedCity == null ? null : (subdistrict) {
+                  setState(() => _selectedSubdistrict = subdistrict);
+                },
+                enabled: _selectedCity != null,
               ),
               const Gap(16),
               TextFormField(
@@ -529,6 +712,49 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
           ),
         ),
       ),
+    );
+  }
+
+  Widget _buildDropdown<T>({
+    required String label,
+    required String hint,
+    required T? value,
+    required List<T> items,
+    required String Function(T) itemLabel,
+    required void Function(T?)? onChanged,
+    String? Function(T?)? validator,
+    bool enabled = true,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(bottom: 8),
+          child: Text(label, style: const TextStyle(fontSize: 14, fontWeight: FontWeight.w500)),
+        ),
+        DropdownButtonFormField<T>(
+          isExpanded: true,
+          value: value,
+          hint: Text(hint, style: const TextStyle(fontSize: 14), overflow: TextOverflow.ellipsis),
+          items: items.map((item) {
+            return DropdownMenuItem<T>(
+              value: item,
+              child: Text(itemLabel(item), overflow: TextOverflow.ellipsis),
+            );
+          }).toList(),
+          onChanged: enabled ? onChanged : null,
+          validator: validator,
+          decoration: InputDecoration(
+            border: const OutlineInputBorder(),
+            suffixIcon: _isLoadingLocations && (onChanged != null)
+                ? const Padding(
+                    padding: EdgeInsets.only(right: 12),
+                    child: SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2)),
+                  )
+                : null,
+          ),
+        ),
+      ],
     );
   }
 }

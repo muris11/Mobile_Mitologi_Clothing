@@ -78,7 +78,7 @@ const _addresses = [
     label: 'Rumah',
     recipientName: 'Rifqy',
     phone: '081234567890',
-    address: 'Jl. Mitologi No. 1',
+    addressLine1: 'Jl. Mitologi No. 1',
     city: 'Cirebon',
     province: 'Jawa Barat',
     postalCode: '45111',

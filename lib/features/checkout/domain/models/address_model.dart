@@ -6,9 +6,14 @@ class AddressModel extends Equatable {
   final String label;
   final String recipientName;
   final String phone;
-  final String address;
+  final String addressLine1;
+  final String? addressLine2;
   final String city;
+  final String cityId;
   final String province;
+  final String provinceId;
+  final String? subdistrict;
+  final String? subdistrictId;
   final String postalCode;
   final bool isDefault;
 
@@ -17,9 +22,14 @@ class AddressModel extends Equatable {
     required this.label,
     required this.recipientName,
     required this.phone,
-    required this.address,
+    required this.addressLine1,
+    this.addressLine2,
     required this.city,
+    this.cityId = '',
     required this.province,
+    this.provinceId = '',
+    this.subdistrict,
+    this.subdistrictId,
     required this.postalCode,
     this.isDefault = false,
   });
@@ -32,12 +42,24 @@ class AddressModel extends Equatable {
           json['recipient_name'] as String? ??
           '',
       phone: json['phone'] as String? ?? '',
-      address: json['addressLine1'] as String? ??
+      addressLine1: json['addressLine1'] as String? ??
           json['address_line_1'] as String? ??
           json['address'] as String? ??
           '',
+      addressLine2: json['addressLine2'] as String? ??
+          json['address_line_2'] as String?,
       city: json['city'] as String? ?? '',
+      cityId: json['cityId'] as String? ??
+          json['city_id'] as String? ??
+          '',
       province: json['province'] as String? ?? '',
+      provinceId: json['provinceId'] as String? ??
+          json['province_id'] as String? ??
+          '',
+      subdistrict: json['subdistrict'] as String? ??
+          json['subdistrict_name'] as String?,
+      subdistrictId: json['subdistrictId'] as String? ??
+          json['subdistrict_id'] as String?,
       postalCode: json['postalCode'] as String? ??
           json['postal_code'] as String? ??
           '',
@@ -49,14 +71,18 @@ class AddressModel extends Equatable {
 
   Map<String, dynamic> toJson() => {
         'label': label,
-        'recipient_name': recipientName,
+        'recipientName': recipientName,
         'phone': phone,
-        'address_line_1': address,
-        'address_line_2': null,
+        'addressLine1': addressLine1,
+        if (addressLine2 != null && addressLine2!.isNotEmpty) 'addressLine2': addressLine2,
+        'cityId': cityId,
+        'provinceId': provinceId,
+        if (subdistrictId != null && subdistrictId!.isNotEmpty) 'subdistrictId': subdistrictId,
         'city': city,
         'province': province,
-        'postal_code': postalCode,
-        'is_default': isDefault,
+        if (subdistrict != null && subdistrict!.isNotEmpty) 'subdistrict': subdistrict,
+        'postalCode': postalCode,
+        'isPrimary': isDefault,
         'country': 'Indonesia',
       };
 
@@ -64,14 +90,32 @@ class AddressModel extends Equatable {
         'label': label,
         'recipientName': recipientName,
         'phone': phone,
-        'addressLine1': address,
+        'addressLine1': addressLine1,
+        if (addressLine2 != null && addressLine2!.isNotEmpty) 'addressLine2': addressLine2,
         'city': city,
+        'cityId': cityId,
         'province': province,
+        'provinceId': provinceId,
+        if (subdistrict != null && subdistrict!.isNotEmpty) 'subdistrict': subdistrict,
+        if (subdistrictId != null && subdistrictId!.isNotEmpty) 'subdistrictId': subdistrictId,
         'postalCode': postalCode,
         'isPrimary': isDefault,
+        'country': 'Indonesia',
       };
 
-  String get fullAddress => '$address, $city, $province $postalCode';
+  String get fullAddress {
+    final parts = [addressLine1];
+    if (addressLine2 != null && addressLine2!.isNotEmpty) {
+      parts.add(addressLine2!);
+    }
+    if (subdistrict != null && subdistrict!.isNotEmpty) {
+      parts.add(subdistrict!);
+    }
+    parts.add(city);
+    parts.add(province);
+    parts.add(postalCode);
+    return parts.where((p) => p.isNotEmpty).join(', ');
+  }
 
   @override
   List<Object?> get props => [
@@ -79,9 +123,14 @@ class AddressModel extends Equatable {
         label,
         recipientName,
         phone,
-        address,
+        addressLine1,
+        addressLine2,
         city,
+        cityId,
         province,
+        provinceId,
+        subdistrict,
+        subdistrictId,
         postalCode,
         isDefault,
       ];

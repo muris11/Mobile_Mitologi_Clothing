@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
-import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -488,7 +485,7 @@ class _CatalogViewState extends State<CatalogView> {
               sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.58, // Adjusted from 0.62 for premium 3:4 aspect ratio with metadata underneath without overflow
+                  childAspectRatio: 0.70, // Reverted and aligned to 0.70 to perfectly display the gorgeous full-image poster card style (beranda style) in a 2-column grid without overflows
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
@@ -549,7 +546,7 @@ class _CatalogViewState extends State<CatalogView> {
           ),
         ),
         SizedBox(
-          height: 310, // Adjusted from 280 to allow 3:4 product card carousel representation without overflow
+          height: 260, // Adjusted back to 260 since Beranda-style card has overlay text and takes significantly less vertical space
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -575,19 +572,6 @@ class _CatalogViewState extends State<CatalogView> {
         const Gap(8),
       ],
     );
-  }
-
-  String _formatPrice(double price) {
-    final whole = price.toStringAsFixed(0);
-    final buffer = StringBuffer();
-    for (int i = 0; i < whole.length; i++) {
-      final reverseIndex = whole.length - i;
-      buffer.write(whole[i]);
-      if (reverseIndex > 1 && reverseIndex % 3 == 1) {
-        buffer.write('.');
-      }
-    }
-    return 'Rp $buffer';
   }
 }
 

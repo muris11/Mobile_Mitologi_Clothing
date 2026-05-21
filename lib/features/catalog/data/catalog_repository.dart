@@ -72,6 +72,19 @@ class CatalogRepository {
     return {'reviews': reviews, 'summary': summary};
   }
 
+  Future<bool> submitProductReview(
+    String slug, {
+    required int rating,
+    required String comment,
+  }) async {
+    try {
+      final response = await _catalogService.submitReview(slug, rating: rating, comment: comment);
+      return response.statusCode == 200 || response.statusCode == 201;
+    } catch (_) {
+      return false;
+    }
+  }
+
   Future<List<ProductModel>> getProductRecommendations(int productId) async {
     try {
       final response =

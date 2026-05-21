@@ -79,7 +79,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
                     gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
                       crossAxisCount:
                           ResponsiveConfig.getGridColumnCount(context),
-                      childAspectRatio: 0.58,
+                      childAspectRatio: 0.70, // Aligned to 0.70 to perfectly render Beranda-style full image card without overflows
                       crossAxisSpacing: 16,
                       mainAxisSpacing: 20,
                     ),

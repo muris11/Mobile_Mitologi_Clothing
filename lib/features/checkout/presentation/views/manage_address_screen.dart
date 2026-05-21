@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/data/shipping_service.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
@@ -25,10 +26,19 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
   late TextEditingController _labelController;
   late TextEditingController _recipientNameController;
   late TextEditingController _phoneController;
-  late TextEditingController _addressController;
-  late TextEditingController _cityController;
-  late TextEditingController _provinceController;
+  late TextEditingController _addressLine1Controller;
+  late TextEditingController _addressLine2Controller;
   late TextEditingController _postalCodeController;
+
+  ProvinceData? _selectedProvince;
+  CityData? _selectedCity;
+  SubdistrictData? _selectedSubdistrict;
+
+  List<ProvinceData> _provinces = [];
+  List<CityData> _cities = [];
+  List<SubdistrictData> _subdistricts = [];
+
+  bool _isLoadingLocations = false;
   bool _isDefault = false;
 
   bool get _isEditing => widget.address != null;
@@ -39,11 +49,11 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
     _labelController = TextEditingController(text: widget.address?.label ?? '');
     _recipientNameController = TextEditingController(text: widget.address?.recipientName ?? '');
     _phoneController = TextEditingController(text: widget.address?.phone ?? '');
-    _addressController = TextEditingController(text: widget.address?.address ?? '');
-    _cityController = TextEditingController(text: widget.address?.city ?? '');
-    _provinceController = TextEditingController(text: widget.address?.province ?? '');
+    _addressLine1Controller = TextEditingController(text: widget.address?.addressLine1 ?? '');
+    _addressLine2Controller = TextEditingController(text: widget.address?.addressLine2 ?? '');
     _postalCodeController = TextEditingController(text: widget.address?.postalCode ?? '');
     _isDefault = widget.address?.isDefault ?? false;
+    _loadProvinces();
   }
 
   @override
@@ -51,11 +61,64 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
     _labelController.dispose();
     _recipientNameController.dispose();
     _phoneController.dispose();
-    _addressController.dispose();
-    _cityController.dispose();
-    _provinceController.dispose();
+    _addressLine1Controller.dispose();
+    _addressLine2Controller.dispose();
     _postalCodeController.dispose();
     super.dispose();
+  }
+
+  Future<void> _loadProvinces() async {
+    try {
+      final viewModel = context.read<CheckoutViewModel>();
+      final provinces = await viewModel.shippingService.getProvinces();
+      if (mounted) {
+        setState(() => _provinces = provinces);
+      }
+    } catch (e) {
+      // Silently fail, user can still type manually
+    }
+  }
+
+  Future<void> _loadCities(int provinceId) async {
+    setState(() {
+      _isLoadingLocations = true;
+      _cities = [];
+      _selectedCity = null;
+      _subdistricts = [];
+      _selectedSubdistrict = null;
+    });
+    try {
+      final viewModel = context.read<CheckoutViewModel>();
+      final cities = await viewModel.shippingService.getCities(provinceId);
+      if (mounted) {
+        setState(() {
+          _cities = cities;
+          _isLoadingLocations = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) setState(() => _isLoadingLocations = false);
+    }
+  }
+
+  Future<void> _loadSubdistricts(int cityId) async {
+    setState(() {
+      _isLoadingLocations = true;
+      _subdistricts = [];
+      _selectedSubdistrict = null;
+    });
+    try {
+      final viewModel = context.read<CheckoutViewModel>();
+      final subdistricts = await viewModel.shippingService.getSubdistricts(cityId);
+      if (mounted) {
+        setState(() {
+          _subdistricts = subdistricts;
+          _isLoadingLocations = false;
+        });
+      }
+    } catch (e) {
+      if (mounted) setState(() => _isLoadingLocations = false);
+    }
   }
 
   void _handleSave() async {
@@ -67,9 +130,14 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
         label: _labelController.text.trim(),
         recipientName: _recipientNameController.text.trim(),
         phone: _phoneController.text.trim(),
-        address: _addressController.text.trim(),
-        city: _cityController.text.trim(),
-        province: _provinceController.text.trim(),
+        addressLine1: _addressLine1Controller.text.trim(),
+        addressLine2: _addressLine2Controller.text.trim().isEmpty ? null : _addressLine2Controller.text.trim(),
+        city: _selectedCity?.displayName ?? '',
+        cityId: _selectedCity?.cityId ?? '',
+        province: _selectedProvince?.province ?? '',
+        provinceId: _selectedProvince?.provinceId ?? '',
+        subdistrict: _selectedSubdistrict?.subdistrictName,
+        subdistrictId: _selectedSubdistrict?.subdistrictId,
         postalCode: _postalCodeController.text.trim(),
         isDefault: _isDefault,
       );
@@ -171,33 +239,71 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
                     ),
                     const Gap(20),
                     _buildTextField(
-                      controller: _addressController,
+                      controller: _addressLine1Controller,
                       label: 'ALAMAT LENGKAP',
                       hint: 'Nama jalan, No. Rumah, Blok, dll.',
                       maxLines: 3,
                       validator: (v) => v?.isEmpty ?? true ? 'Alamat wajib diisi' : null,
                     ),
                     const Gap(20),
-                    Row(
-                      children: [
-                        Expanded(
-                          child: _buildTextField(
-                            controller: _cityController,
-                            label: 'KOTA',
-                            hint: 'Indramayu',
-                            validator: (v) => v?.isEmpty ?? true ? 'Kota wajib diisi' : null,
-                          ),
-                        ),
-                        const Gap(16),
-                        Expanded(
-                          child: _buildTextField(
-                            controller: _provinceController,
-                            label: 'PROVINSI',
-                            hint: 'Jawa Barat',
-                            validator: (v) => v?.isEmpty ?? true ? 'Provinsi wajib diisi' : null,
-                          ),
-                        ),
-                      ],
+                    _buildTextField(
+                      controller: _addressLine2Controller,
+                      label: 'ALAMAT TAMBAHAN (Opsional)',
+                      hint: 'Gedung, Lantai, Patokan, dll.',
+                      maxLines: 2,
+                    ),
+                    const Gap(20),
+                    _buildDropdown<ProvinceData>(
+                      label: 'PROVINSI',
+                      hint: 'Pilih Provinsi',
+                      value: _selectedProvince,
+                      items: _provinces,
+                      itemLabel: (ProvinceData p) => p.province,
+                      onChanged: (ProvinceData? province) {
+                        setState(() {
+                          _selectedProvince = province;
+                          _selectedCity = null;
+                          _selectedSubdistrict = null;
+                          _cities = [];
+                          _subdistricts = [];
+                        });
+                        if (province != null) {
+                          _loadCities(int.parse(province.provinceId));
+                        }
+                      },
+                      validator: (ProvinceData? v) => v == null ? 'Provinsi wajib dipilih' : null,
+                    ),
+                    const Gap(20),
+                    _buildDropdown<CityData>(
+                      label: 'KOTA / KABUPATEN',
+                      hint: _selectedProvince == null ? 'Pilih provinsi terlebih dahulu' : 'Pilih Kota',
+                      value: _selectedCity,
+                      items: _cities,
+                      itemLabel: (CityData c) => c.displayName,
+                      onChanged: _selectedProvince == null ? null : (CityData? city) {
+                        setState(() {
+                          _selectedCity = city;
+                          _selectedSubdistrict = null;
+                          _subdistricts = [];
+                        });
+                        if (city != null) {
+                          _loadSubdistricts(int.parse(city.cityId));
+                        }
+                      },
+                      validator: (CityData? v) => v == null ? 'Kota wajib dipilih' : null,
+                      enabled: _selectedProvince != null,
+                    ),
+                    const Gap(20),
+                    _buildDropdown<SubdistrictData>(
+                      label: 'KECAMATAN',
+                      hint: _selectedCity == null ? 'Pilih kota terlebih dahulu' : 'Pilih Kecamatan',
+                      value: _selectedSubdistrict,
+                      items: _subdistricts,
+                      itemLabel: (SubdistrictData s) => s.subdistrictName,
+                      onChanged: _selectedCity == null ? null : (SubdistrictData? subdistrict) {
+                        setState(() => _selectedSubdistrict = subdistrict);
+                      },
+                      enabled: _selectedCity != null,
                     ),
                     const Gap(20),
                     _buildTextField(
@@ -269,6 +375,53 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           decoration: InputDecoration(
             hintText: hint,
           ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildDropdown<T>({
+    required String label,
+    required String hint,
+    required T? value,
+    required List<T> items,
+    required String Function(T) itemLabel,
+    required void Function(T?)? onChanged,
+    String? Function(T?)? validator,
+    bool enabled = true,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.only(left: 4, bottom: 10),
+          child: Text(
+            label,
+            style: AppTextStyles.manrope(
+              fontSize: 11,
+              fontWeight: FontWeight.w900,
+              color: AppColors.secondary,
+              letterSpacing: 1.8,
+            ),
+          ),
+        ),
+        DropdownButtonFormField<T>(
+          initialValue: value,
+          hint: Text(hint, style: AppTextStyles.manrope(fontSize: 14, fontWeight: FontWeight.w500, color: AppColors.secondary)),
+          items: items.map((item) {
+            return DropdownMenuItem<T>(
+              value: item,
+              child: Text(itemLabel(item), style: AppTextStyles.manrope(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.primary)),
+            );
+          }).toList(),
+          onChanged: enabled ? onChanged : null,
+          validator: validator,
+          decoration: InputDecoration(
+            suffixIcon: _isLoadingLocations && (onChanged != null)
+                ? const SizedBox(width: 20, height: 20, child: CircularProgressIndicator(strokeWidth: 2))
+                : null,
+          ),
+          style: AppTextStyles.manrope(fontSize: 14, fontWeight: FontWeight.w600, color: AppColors.primary),
         ),
       ],
     );

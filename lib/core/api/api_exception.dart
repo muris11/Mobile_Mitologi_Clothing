@@ -39,17 +39,27 @@ class ApiException implements Exception {
     dynamic errors;
 
     if (error is Map) {
-      message = error['message']?.toString() ?? message;
-      errors = error['errors'];
+      if (error['message'] != null) {
+        message = error['message'].toString();
+      } else if (error['error'] != null) {
+        final errorObj = error['error'];
+        if (errorObj is Map) {
+          message = errorObj['message']?.toString() ?? message;
+          errors = errorObj['details'];
+        } else {
+          message = errorObj.toString();
+        }
+      }
+      errors ??= error['errors'];
     }
 
     switch (statusCode) {
       case 400:
         return ApiException(message: message, statusCode: 400);
       case 401:
-        return ApiException(message: "Sesi telah berakhir, silakan masuk kembali", statusCode: 401);
+        return ApiException(message: message, statusCode: 401);
       case 403:
-        return ApiException(message: "Akses ditolak", statusCode: 403);
+        return ApiException(message: message, statusCode: 403);
       case 404:
         return ApiException(message: message, statusCode: 404);
       case 422:

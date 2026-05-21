@@ -1,13 +1,97 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
+import 'package:provider/provider.dart';
 
-class CheckoutSuccessScreen extends StatelessWidget {
+class CheckoutSuccessScreen extends StatefulWidget {
   final String? orderNumber;
 
   const CheckoutSuccessScreen({super.key, this.orderNumber});
+
+  @override
+  State<CheckoutSuccessScreen> createState() => _CheckoutSuccessScreenState();
+}
+
+class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
+  bool _syncing = true;
+  String _syncStatus = 'checking'; // checking, paid, pending
+  bool _copied = false;
+  Timer? _pollTimer;
+
+  @override
+  void initState() {
+    super.initState();
+    if (widget.orderNumber != null) {
+      _startPolling();
+    } else {
+      setState(() => _syncing = false);
+    }
+  }
+
+  @override
+  void dispose() {
+    _pollTimer?.cancel();
+    super.dispose();
+  }
+
+  Future<void> _startPolling() async {
+    final orderNum = widget.orderNumber!;
+    const paidStatuses = ['processing', 'paid', 'completed'];
+
+    final repo = context.read<CheckoutRepository>();
+
+    // Check immediately
+    await _checkStatus(repo, orderNum, paidStatuses);
+
+    // Poll every 3 seconds, max 10 attempts (30 seconds)
+    int attempts = 0;
+    _pollTimer = Timer.periodic(const Duration(seconds: 3), (timer) async {
+      attempts++;
+      if (attempts >= 10 || !mounted) {
+        timer.cancel();
+        if (mounted && _syncing) {
+          setState(() {
+            _syncStatus = 'pending';
+            _syncing = false;
+          });
+        }
+        return;
+      }
+      await _checkStatus(repo, orderNum, paidStatuses);
+    });
+  }
+
+  Future<void> _checkStatus(
+      CheckoutRepository repo, String orderNum, List<String> paidStatuses) async {
+    try {
+      final order = await repo.confirmPayment(orderNum);
+      if (!mounted) return;
+      if (order != null && paidStatuses.contains(order.status)) {
+        setState(() {
+          _syncStatus = 'paid';
+          _syncing = false;
+        });
+        _pollTimer?.cancel();
+      }
+    } catch (_) {
+      // Keep polling on error
+    }
+  }
+
+  Future<void> _handleCopy() async {
+    if (widget.orderNumber == null) return;
+    await Clipboard.setData(ClipboardData(text: widget.orderNumber!));
+    setState(() => _copied = true);
+    Future.delayed(const Duration(seconds: 2), () {
+      if (mounted) setState(() => _copied = false);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +109,11 @@ class CheckoutSuccessScreen extends StatelessWidget {
               _buildTitle(context),
               const Gap(16),
               _buildSubtitle(context),
-              if (orderNumber != null) ...[
+              if (_syncing || _syncStatus == 'paid') ...[
+                const Gap(16),
+                _buildSyncStatus(),
+              ],
+              if (widget.orderNumber != null) ...[
                 const Gap(16),
                 _buildOrderNumber(context),
               ],
@@ -56,11 +144,26 @@ class CheckoutSuccessScreen extends StatelessWidget {
           ),
         ],
       ),
-      child: const Icon(
-        PhosphorIconsFill.checkCircle,
-        color: Color(0xFF10B981),
-        size: 48,
-      ),
+      child: _syncStatus == 'paid'
+          ? const Icon(
+              PhosphorIconsFill.checkCircle,
+              color: Color(0xFF10B981),
+              size: 48,
+            )
+          : _syncing
+              ? const SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    color: Color(0xFF10B981),
+                  ),
+                )
+              : const Icon(
+                  PhosphorIconsFill.checkCircle,
+                  color: Color(0xFF10B981),
+                  size: 48,
+                ),
     );
   }
 
@@ -87,20 +190,109 @@ class CheckoutSuccessScreen extends StatelessWidget {
     );
   }
 
+  Widget _buildSyncStatus() {
+    if (_syncing) {
+      return Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          const SizedBox(
+            width: 16,
+            height: 16,
+            child: CircularProgressIndicator(
+              strokeWidth: 2,
+              color: AppColors.onSurfaceVariant,
+            ),
+          ),
+          const Gap(8),
+          Text(
+            'Memeriksa status pembayaran...',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.onSurfaceVariant,
+                ),
+          ),
+        ],
+      );
+    }
+
+    if (_syncStatus == 'paid') {
+      return Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+        decoration: BoxDecoration(
+          color: const Color(0xFFECFDF5),
+          borderRadius: BorderRadius.circular(999),
+          border: Border.all(color: const Color(0xFF6EE7B7)),
+        ),
+        child: Row(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            const Icon(PhosphorIconsFill.checkCircle,
+                color: Color(0xFF059669), size: 18),
+            const Gap(8),
+            Text(
+              'Pembayaran terkonfirmasi!',
+              style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: const Color(0xFF047857),
+                  ),
+            ),
+          ],
+        ),
+      );
+    }
+
+    return const SizedBox.shrink();
+  }
+
   Widget _buildOrderNumber(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
       decoration: BoxDecoration(
         color: AppColors.primary.withValues(alpha: 0.06),
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(16),
         border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
       ),
-      child: Text(
-        'Order #$orderNumber',
-        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-              fontWeight: FontWeight.w700,
-              color: AppColors.primary,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Text(
+            'Order ID',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  color: AppColors.onSurfaceVariant,
+                  letterSpacing: 0.5,
+                ),
+          ),
+          const Gap(12),
+          Text(
+            '#${widget.orderNumber}',
+            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                  fontWeight: FontWeight.w700,
+                  fontFamily: 'monospace',
+                  color: AppColors.primary,
+                ),
+          ),
+          const Gap(8),
+          GestureDetector(
+            onTap: _handleCopy,
+            child: Container(
+              padding: const EdgeInsets.all(4),
+              decoration: BoxDecoration(
+                color: _copied
+                    ? const Color(0xFFECFDF5)
+                    : Colors.transparent,
+                borderRadius: BorderRadius.circular(6),
+              ),
+              child: Icon(
+                _copied
+                    ? PhosphorIconsFill.checkCircle
+                    : PhosphorIconsRegular.copy,
+                size: 16,
+                color: _copied
+                    ? const Color(0xFF059669)
+                    : AppColors.onSurfaceVariant,
+              ),
             ),
+          ),
+        ],
       ),
     );
   }
@@ -112,8 +304,8 @@ class CheckoutSuccessScreen extends StatelessWidget {
           width: double.infinity,
           child: FilledButton.icon(
             onPressed: () {
-              if (orderNumber != null) {
-                context.go('/orders/$orderNumber');
+              if (widget.orderNumber != null) {
+                context.go('/orders/${widget.orderNumber}');
               } else {
                 context.go('/profile');
               }

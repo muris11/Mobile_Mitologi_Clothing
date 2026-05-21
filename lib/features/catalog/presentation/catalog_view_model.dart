@@ -212,6 +212,27 @@ class CatalogViewModel extends ChangeNotifier {
     if (slug != null) _fetchReviews(slug, loadMore: true);
   }
 
+  Future<bool> submitReview(String slug, {required int rating, required String comment}) async {
+    _isLoadingReviews = true;
+    _error = null;
+    notifyListeners();
+
+    try {
+      final success = await _catalogRepository.submitProductReview(slug, rating: rating, comment: comment);
+      if (success) {
+        // Refresh reviews after successful submission
+        await _fetchReviews(slug);
+      }
+      return success;
+    } catch (e) {
+      _error = e.toString();
+      return false;
+    } finally {
+      _isLoadingReviews = false;
+      notifyListeners();
+    }
+  }
+
   List<ProductModel> _relatedProducts = [];
   List<ProductModel> get relatedProducts => _relatedProducts;
 

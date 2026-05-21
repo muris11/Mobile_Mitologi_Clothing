@@ -45,6 +45,16 @@ class CatalogService {
     );
   }
 
+  Future<Response> submitReview(String handle, {required int rating, required String comment}) async {
+    return await _apiClient.dio.post(
+      ApiEndpoints.productReviews(handle),
+      data: {
+        'rating': rating,
+        'comment': comment,
+      },
+    );
+  }
+
   Future<Response> getProductRecommendations(int productId) async {
     return await _apiClient.dio.get(ApiEndpoints.relatedProducts(productId));
   }

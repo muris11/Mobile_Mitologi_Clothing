@@ -47,6 +47,12 @@ class CheckoutRepository {
     return null;
   }
 
+  Future<OrderTrackingModel> getOrderTracking(String orderNumber) async {
+    final response = await _checkoutService.getOrderTracking(orderNumber);
+    final data = response.data['data'] ?? response.data;
+    return OrderTrackingModel.fromJson(ParserUtils.parseMap(data));
+  }
+
   Future<void> addAddress(AddressModel address) async {
     await _checkoutService.addAddress(address.toJson());
   }

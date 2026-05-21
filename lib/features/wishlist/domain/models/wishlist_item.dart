@@ -28,13 +28,27 @@ class WishlistItem extends Equatable {
   factory WishlistItem.fromJson(Map<String, dynamic> json) {
     final productJson = ParserUtils.parseMap(json['product'] ?? json);
     
+    // In Shopify/E-Commerce APIs, the product object stores price inside a nested priceRange or directly.
+    // If the top-level price is 0.0 or null, we check the nested productJson structure.
+    double rawPrice = ParserUtils.parseDouble(json['price'] ?? productJson['price']);
+    if (rawPrice == 0.0) {
+      final priceRange = ParserUtils.parseMap(productJson['priceRange']);
+      final minVariantPrice = ParserUtils.parseMap(priceRange['minVariantPrice']);
+      rawPrice = ParserUtils.parseDouble(minVariantPrice['amount']);
+    }
+
+    double? rawSalePrice = ParserUtils.parseDouble(json['sale_price'] ?? productJson['sale_price'] ?? productJson['compare_at_price']);
+    if (rawSalePrice == 0.0) {
+      rawSalePrice = null;
+    }
+    
     return WishlistItem(
       id: ParserUtils.parseInt(json['id'] ?? productJson['id']),
       productId: ParserUtils.parseInt(json['product_id'] ?? productJson['id']),
       name: productJson['title'] as String? ?? productJson['name'] as String? ?? '',
       slug: productJson['handle'] as String? ?? productJson['slug'] as String? ?? '',
-      price: ParserUtils.parseDouble(productJson['price']),
-      salePrice: ParserUtils.parseDouble(productJson['sale_price'] ?? productJson['compare_at_price']),
+      price: rawPrice,
+      salePrice: rawSalePrice,
       featuredImageUrl: _parseImageUrl(productJson),
       vendor: productJson['vendor'] as String?,
     );

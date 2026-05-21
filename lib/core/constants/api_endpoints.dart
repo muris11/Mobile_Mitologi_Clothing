@@ -29,6 +29,7 @@ class ApiEndpoints {
   static const String checkout = '/checkout';
   static const String orders = '/orders';
   static String orderDetail(String orderNumber) => '/orders/$orderNumber';
+  static String orderTracking(String orderNumber) => '/orders/$orderNumber/tracking';
   static String orderPay(String orderNumber) => '/orders/$orderNumber/pay';
   static String confirmPayment(String orderNumber) => '/orders/$orderNumber/confirm-payment';
   static String requestRefund(String orderNumber) => '/orders/$orderNumber/request-refund';
@@ -61,7 +62,12 @@ class ApiEndpoints {
   static const String searchProducts = '/products';
   static const String teamMembers = '/team-members';
   static String teamMemberPhoto(int id) => '/team-members/$id/photo';
-  static const String shippingRates = '/shipping/rates';
-  static const String shippingCalculate = '/shipping/calculate';
+
+  // Shipping (RajaOngkir)
+  static const String shippingProvinces = '/shipping/provinces';
+  static const String shippingCities = '/shipping/cities';
+  static const String shippingSubdistricts = '/shipping/subdistricts';
+  static const String shippingCost = '/shipping/cost';
+
   static const String mlExportData = '/ml/export-data';
 }
