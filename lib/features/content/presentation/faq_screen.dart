@@ -197,76 +197,7 @@ class _FaqScreenState extends State<FaqScreen> {
       padding: const EdgeInsets.fromLTRB(16, 0, 16, 32),
       children: [
         ...items.map((faq) => _FaqItem(question: faq['q']!, answer: faq['a']!)),
-        const Gap(24),
-        _buildCta(),
       ],
-    );
-  }
-
-  Widget _buildCta() {
-    return Container(
-      padding: const EdgeInsets.all(24),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(20),
-        border:
-            Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.4)),
-      ),
-      child: Column(
-        children: [
-          const Text(
-            'Masih punya pertanyaan?',
-            style: TextStyle(fontWeight: FontWeight.w800, fontSize: 16),
-            textAlign: TextAlign.center,
-          ),
-          const Gap(8),
-          const Text(
-            'Jangan ragu untuk menghubungi tim kami.',
-            style: TextStyle(color: AppColors.onSurfaceVariant, fontSize: 13),
-            textAlign: TextAlign.center,
-          ),
-          const Gap(16),
-          Row(
-            children: [
-              Expanded(
-                child: OutlinedButton.icon(
-                  onPressed: () => context.push('/kontak'),
-                  icon: const Icon(PhosphorIconsRegular.envelope, size: 16),
-                  label: const Text('Hubungi Kami',
-                      style: TextStyle(fontWeight: FontWeight.w700)),
-                  style: OutlinedButton.styleFrom(
-                    foregroundColor: AppColors.primary,
-                    side: const BorderSide(color: AppColors.outline),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
-                ),
-              ),
-              const Gap(10),
-              Expanded(
-                child: FilledButton.icon(
-                  onPressed: () async {
-                    final uri = Uri.parse('https://wa.me/6281322170902');
-                    if (await canLaunchUrl(uri)) {
-                      launchUrl(uri, mode: LaunchMode.externalApplication);
-                    }
-                  },
-                  icon: const Icon(PhosphorIconsRegular.whatsappLogo, size: 16),
-                  label: const Text('WhatsApp',
-                      style: TextStyle(fontWeight: FontWeight.w700)),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: const Color(0xFF25D366),
-                    padding: const EdgeInsets.symmetric(vertical: 12),
-                    shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12)),
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
     );
   }
 }

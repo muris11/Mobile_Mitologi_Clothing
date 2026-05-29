@@ -20,6 +20,7 @@ import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settin
 
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
@@ -100,6 +101,12 @@ class _HomeViewState extends State<HomeView> {
     log('HomeView: build — isLoading=${viewModel.isLoading} banners=${viewModel.banners.length} error=${viewModel.error}',
         name: 'HOME');
 
+    if (viewModel.isLoading && viewModel.banners.isEmpty) {
+      return const Scaffold(
+        body: HomeSkeleton(),
+      );
+    }
+
     return RefreshIndicator(
       onRefresh: viewModel.fetchHomeData,
       displacement: 100,
@@ -109,19 +116,25 @@ class _HomeViewState extends State<HomeView> {
         physics: const AlwaysScrollableScrollPhysics(),
         slivers: [
           MitologiSliverAppBar(
+            expandedHeight: 550,
+            scrolledOpacity: _scrollOpacity,
+            contentColor: Color.lerp(Colors.white, AppColors.primary, _scrollOpacity),
+            flexibleSpace: FlexibleSpaceBar(
+              background: _buildHeroCarouselContent(viewModel),
+              collapseMode: CollapseMode.pin,
+            ),
             actions: [
               IconButton(
                 icon: const Icon(PhosphorIconsRegular.magnifyingGlass),
-                color: AppColors.primary,
+                color: Color.lerp(Colors.white, AppColors.primary, _scrollOpacity),
                 onPressed: () => context.push('/products'),
               ),
               const Padding(
                 padding: EdgeInsets.only(right: 16),
-                child: CartIconButton(),
+                child: CartIconButton(), // Note: CartIconButton now receives contentColor from MitologiSliverAppBar
               ),
             ],
           ),
-          _buildHeroCarousel(viewModel),
           if (viewModel.isLoading)
             const SliverToBoxAdapter(
               child: LinearProgressIndicator(minHeight: 2),
@@ -157,17 +170,13 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildHeroCarousel(HomeViewModel viewModel) {
+  Widget _buildHeroCarouselContent(HomeViewModel viewModel) {
     if (viewModel.banners.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
+      return const SizedBox.shrink();
     }
 
-    return SliverToBoxAdapter(
-      child: SizedBox(
-        // Design.md §12.4: 188–224px pada mobile normal
-        height: 230,
-        child: Stack(
-          children: [
+    return Stack(
+      children: [
             PageView.builder(
               controller: _bannerController,
               itemCount: viewModel.banners.length,
@@ -310,9 +319,7 @@ class _HomeViewState extends State<HomeView> {
               ),
             ),
           ],
-        ),
-      ),
-    );
+        );
   }
 
   Widget _buildHeroBackdrop() {

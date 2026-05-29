@@ -29,7 +29,6 @@ class _KebijakanPrivasiScreenState extends State<KebijakanPrivasiScreen> {
     'hak-pengguna': GlobalKey(),
     'cookie': GlobalKey(),
     'perubahan': GlobalKey(),
-    'kontak': GlobalKey(),
   };
 
   final List<Map<String, String>> _sections = [
@@ -41,7 +40,6 @@ class _KebijakanPrivasiScreenState extends State<KebijakanPrivasiScreen> {
     {'id': 'hak-pengguna', 'label': 'Hak Pengguna'},
     {'id': 'cookie', 'label': 'Cookie'},
     {'id': 'perubahan', 'label': 'Perubahan'},
-    {'id': 'kontak', 'label': 'Kontak'},
   ];
 
   void _scrollToSection(String id) {
@@ -322,42 +320,6 @@ class _KebijakanPrivasiScreenState extends State<KebijakanPrivasiScreen> {
                             const Gap(12),
                             _buildBodyText(
                               'Penggunaan berkelanjutan atas layanan kami setelah perubahan diposting berarti Anda menerima kebijakan yang telah diperbarui.',
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // 9. Kontak
-                      _buildSectionContainer(
-                        id: 'kontak',
-                        title: '9. Hubungi Kami',
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildBodyText(
-                              'Jika Anda memiliki pertanyaan, keluhan, atau permintaan terkait Kebijakan Privasi ini atau pengelolaan data pribadi Anda, silakan hubungi kami:',
-                            ),
-                            const Gap(16),
-                            GlassContainer(
-                              padding: const EdgeInsets.all(20),
-                              borderRadius: BorderRadius.circular(24),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Mitologi Clothing',
-                                    style: AppTextStyles.plusJakartaSans(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w800,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                  const Gap(12),
-                                  _buildContactRow(PhosphorIconsRegular.envelope, 'mitologiclothing@gmail.com'),
-                                  _buildContactRow(PhosphorIconsRegular.phone, '+62 813-2217-0902'),
-                                  _buildContactRow(PhosphorIconsRegular.mapPin, 'Desa Leuwigede Kec. Widasari, Kab. Indramayu 45271'),
-                                ],
-                              ),
                             ),
                           ],
                         ),

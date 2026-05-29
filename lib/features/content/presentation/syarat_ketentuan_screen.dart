@@ -33,7 +33,6 @@ class _SyaratKetentuanScreenState extends State<SyaratKetentuanScreen> {
     'sengketa': GlobalKey(),
     'hukum': GlobalKey(),
     'perubahan': GlobalKey(),
-    'kontak': GlobalKey(),
   };
 
   final List<Map<String, String>> _sections = [
@@ -49,7 +48,6 @@ class _SyaratKetentuanScreenState extends State<SyaratKetentuanScreen> {
     {'id': 'sengketa', 'label': 'Sengketa'},
     {'id': 'hukum', 'label': 'Hukum'},
     {'id': 'perubahan', 'label': 'Perubahan'},
-    {'id': 'kontak', 'label': 'Kontak'},
   ];
 
   void _scrollToSection(String id) {
@@ -364,42 +362,6 @@ class _SyaratKetentuanScreenState extends State<SyaratKetentuanScreen> {
                           children: [
                             _buildBodyText(
                               'Kami berhak mengubah Syarat & Ketentuan ini kapan saja. Perubahan signifikan akan diumumkan melalui website dan akan berlaku efektif sejak tanggal publikasi. Penggunaan berkelanjutan atas layanan kami setelah perubahan diposting berarti Anda menerima syarat yang telah diperbarui.',
-                            ),
-                          ],
-                        ),
-                      ),
-
-                      // 13. Kontak
-                      _buildSectionContainer(
-                        id: 'kontak',
-                        title: '13. Hubungi Kami',
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            _buildBodyText(
-                              'Untuk pertanyaan mengenai Syarat & Ketentuan ini, silakan hubungi kami:',
-                            ),
-                            const Gap(16),
-                            GlassContainer(
-                              padding: const EdgeInsets.all(20),
-                              borderRadius: BorderRadius.circular(24),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.start,
-                                children: [
-                                  Text(
-                                    'Mitologi Clothing',
-                                    style: AppTextStyles.plusJakartaSans(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.w800,
-                                      color: AppColors.primary,
-                                    ),
-                                  ),
-                                  const Gap(12),
-                                  _buildContactRow(PhosphorIconsRegular.envelope, 'mitologiclothing@gmail.com'),
-                                  _buildContactRow(PhosphorIconsRegular.phone, '+62 813-2217-0902'),
-                                  _buildContactRow(PhosphorIconsRegular.mapPin, 'Desa Leuwigede Kec. Widasari, Kab. Indramayu 45271'),
-                                ],
-                              ),
                             ),
                           ],
                         ),

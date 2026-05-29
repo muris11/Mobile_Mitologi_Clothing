@@ -99,8 +99,6 @@ class KebijakanPengembalianScreen extends StatelessWidget {
                   const Gap(40),
                   _buildFaqSection(),
                   const Gap(40),
-                  _buildCtaSection(context),
-                  const Gap(32),
                   _buildRelatedLinks(context),
                   const Gap(100),
                 ],
@@ -504,60 +502,6 @@ class KebijakanPengembalianScreen extends StatelessWidget {
               ),
             )),
       ],
-    );
-  }
-
-  Widget _buildCtaSection(BuildContext context) {
-    return GlassContainer(
-      padding: const EdgeInsets.all(28),
-      borderRadius: BorderRadius.circular(28),
-      color: AppColors.primary,
-      child: Column(
-        children: [
-          Text(
-            'Butuh Bantuan dengan Pengembalian?',
-            style: AppTextStyles.notoSerif(
-              fontSize: 20,
-              fontWeight: FontWeight.w800,
-              color: Colors.white,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const Gap(10),
-          Text(
-            'Tim customer service kami siap membantu Anda. Hubungi kami untuk proses pengembalian yang cepat dan mudah.',
-            style: AppTextStyles.manrope(
-              fontSize: 13,
-              color: Colors.white70,
-              height: 1.6,
-              fontWeight: FontWeight.w500,
-            ),
-            textAlign: TextAlign.center,
-          ),
-          const Gap(24),
-          LuxuryButton(
-            onPressed: () async {
-              final uri = Uri.parse(
-                  'https://wa.me/6281322170902?text=Halo%2C%20saya%20ingin%20mengajukan%20pengembalian%20produk');
-              if (await canLaunchUrl(uri)) {
-                await launchUrl(uri, mode: LaunchMode.externalApplication);
-              }
-            },
-            label: 'Chat WhatsApp',
-            icon: PhosphorIconsRegular.whatsappLogo,
-            variant: LuxuryButtonVariant.secondary,
-            expand: true,
-          ),
-          const Gap(12),
-          LuxuryButton(
-            onPressed: () => context.push('/kontak'),
-            label: 'Hubungi Kami',
-            icon: PhosphorIconsRegular.phone,
-            variant: LuxuryButtonVariant.ghost,
-            expand: true,
-          ),
-        ],
-      ),
     );
   }
 

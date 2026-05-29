@@ -16,6 +16,7 @@ class MitologiSliverAppBar extends StatelessWidget {
   final double? expandedHeight;
   final Widget? flexibleSpace;
   final double? scrolledOpacity;
+  final Color? contentColor;
 
   const MitologiSliverAppBar({
     super.key,
@@ -28,6 +29,7 @@ class MitologiSliverAppBar extends StatelessWidget {
     this.expandedHeight,
     this.flexibleSpace,
     this.scrolledOpacity,
+    this.contentColor,
   });
 
   @override
@@ -43,7 +45,7 @@ class MitologiSliverAppBar extends StatelessWidget {
     );
 
     final bgColor = scrolledOpacity != null
-        ? AppColors.background.withValues(alpha: scrolledOpacity)
+        ? (scrolledOpacity == 0.0 ? Colors.transparent : AppColors.background.withValues(alpha: scrolledOpacity!))
         : AppColors.background.withValues(alpha: 0.98);
 
     return SliverAppBar(
@@ -62,17 +64,40 @@ class MitologiSliverAppBar extends StatelessWidget {
               desktop: 160.0,
             ),
       leading: showBackButton
-          ? Padding(
-              padding: EdgeInsets.only(left: horizontalPad * 0.5),
-              child: GlassContainer(
-                padding: EdgeInsets.zero,
-                blur: 12,
-                borderRadius: AppBorderRadius.circular,
-                boxShadow: const <BoxShadow>[],
-                child: IconButton(
-                  icon: Icon(PhosphorIconsRegular.caretLeft,
-                      color: AppColors.primary),
-                  onPressed: () => Navigator.of(context).pop(),
+          ? Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.only(left: horizontalPad * 0.75),
+                child: Container(
+                  width: 40,
+                  height: 40,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    shape: BoxShape.circle,
+                    border: Border.all(
+                      color: AppColors.outlineVariant.withValues(alpha: 0.5),
+                      width: 1,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 8,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      borderRadius: BorderRadius.circular(20),
+                      onTap: () => Navigator.of(context).pop(),
+                      child: Icon(
+                        PhosphorIconsRegular.caretLeft,
+                        color: contentColor ?? AppColors.primary,
+                        size: 20,
+                      ),
+                    ),
+                  ),
                 ),
               ),
             )
@@ -90,7 +115,7 @@ class MitologiSliverAppBar extends StatelessWidget {
                         'MITOLOGI',
                         style: TextStyle(
                           fontFamily: AppTextStyles.fontFamily,
-                          color: AppColors.primary,
+                          color: contentColor ?? AppColors.primary,
                           fontSize: brandFontSize,
                           fontWeight: FontWeight.w900,
                           letterSpacing: 1.5,
@@ -103,7 +128,7 @@ class MitologiSliverAppBar extends StatelessWidget {
                           width: 3,
                           height: 3,
                           decoration: BoxDecoration(
-                            color: AppColors.secondary,
+                            color: contentColor != null ? contentColor!.withOpacity(0.8) : AppColors.secondary,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -117,7 +142,7 @@ class MitologiSliverAppBar extends StatelessWidget {
                             fontSize: subBrandFontSize,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.5,
-                            color: AppColors.secondary,
+                            color: contentColor != null ? contentColor!.withOpacity(0.8) : AppColors.secondary,
                             height: 1.0,
                           ),
                         ),
@@ -132,7 +157,7 @@ class MitologiSliverAppBar extends StatelessWidget {
           ? Text(
               pageTitle!.toUpperCase(),
               style: AppTextStyles.plusJakartaSans(
-                color: AppColors.primary,
+                color: contentColor ?? AppColors.primary,
                 fontSize: titleFontSize,
                 fontWeight: FontWeight.w800,
                 letterSpacing: 1.0,
@@ -145,7 +170,7 @@ class MitologiSliverAppBar extends StatelessWidget {
               padding: EdgeInsets.only(right: horizontalPad * 0.5),
               child: showBackButton
                   ? const SizedBox(width: 36)
-                  : const CartIconButton(),
+                  : CartIconButton(iconColor: contentColor),
             ),
           ],
       bottom: bottom != null

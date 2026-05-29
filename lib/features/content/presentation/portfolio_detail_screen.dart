@@ -6,26 +6,42 @@ import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/content/domain/models/content_models.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
-import 'package:mitologi_clothing_mobile/widgets/common/loading_indicator.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:provider/provider.dart';
 
 import 'content_provider.dart';
 
-class PortfolioDetailScreen extends StatelessWidget {
+class PortfolioDetailScreen extends StatefulWidget {
   final String slug;
 
   const PortfolioDetailScreen({super.key, required this.slug});
+
+  @override
+  State<PortfolioDetailScreen> createState() => _PortfolioDetailScreenState();
+}
+
+class _PortfolioDetailScreenState extends State<PortfolioDetailScreen> {
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      final provider = context.read<ContentProvider>();
+      if (provider.portfolios.isEmpty) {
+        provider.loadPortfolios();
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: FutureBuilder<PortfolioItem?>(
-        future: context.read<ContentProvider>().getPortfolioDetail(slug),
+        future: context.read<ContentProvider>().getPortfolioDetail(widget.slug),
         builder: (context, snapshot) {
           if (snapshot.connectionState == ConnectionState.waiting) {
-            return const Center(child: LoadingIndicator());
+            return const PortfolioDetailSkeleton();
           }
 
           if (snapshot.hasError || snapshot.data == null) {
@@ -33,7 +49,7 @@ class PortfolioDetailScreen extends StatelessWidget {
               child: ErrorState(
                 message: 'Gagal memuat detail portfolio.',
                 onRetry: () {
-                  (context as Element).markNeedsBuild();
+                  setState(() {});
                 },
               ),
             );
@@ -264,4 +280,3 @@ class PortfolioDetailScreen extends StatelessWidget {
     return withoutEntities.trim();
   }
 }
-

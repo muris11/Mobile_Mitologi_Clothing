@@ -6,6 +6,8 @@ import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/premium_section_header.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -37,17 +39,10 @@ class _AboutScreenState extends State<AboutScreen> {
       backgroundColor: AppColors.background,
       body: CustomScrollView(
         slivers: [
-          SliverAppBar(
-            floating: false,
+          const MitologiSliverAppBar(
+            pageTitle: 'Tentang Kami',
+            showBackButton: true,
             pinned: true,
-            expandedHeight: 0,
-            backgroundColor: AppColors.background,
-            surfaceTintColor: Colors.transparent,
-            leading: IconButton(
-              icon: Icon(PhosphorIconsRegular.arrowLeft,
-                  color: AppColors.primary),
-              onPressed: () => context.pop(),
-            ),
           ),
           if (vm.isLoading)
             const SliverToBoxAdapter(
@@ -67,7 +62,17 @@ class _AboutScreenState extends State<AboutScreen> {
               ),
             )
           else ...[
-            _buildHeroSection(settings),
+            SliverToBoxAdapter(
+              child: Container(
+                color: Colors.white,
+                child: PremiumSectionHeader(
+                  eyebrow: 'ABOUT US',
+                  title: settings.siteName ?? 'Mitologi Clothing',
+                  subtitle: settings.aboutHeadline ?? settings.siteTagline ?? '',
+                  padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),
+                ),
+              ),
+            ),
             _buildHistoryAndMakna(settings),
             _buildFounderStory(settings),
             _buildVisionMission(settings),
@@ -77,54 +82,6 @@ class _AboutScreenState extends State<AboutScreen> {
           ],
           const SliverToBoxAdapter(child: Gap(80)),
         ],
-      ),
-    );
-  }
-
-  // 1. Hero Section
-  Widget _buildHeroSection(SiteSettingsModel settings) {
-    final siteName = settings.siteName ?? 'Mitologi Clothing';
-    final tagline = settings.aboutHeadline ?? settings.siteTagline ?? '';
-
-    return SliverToBoxAdapter(
-      child: Container(
-        color: Colors.white,
-        padding: const EdgeInsets.fromLTRB(20, 0, 20, 48),
-        child: Column(
-          children: [
-            Text(
-              'Tentang Kami',
-              style: TextStyle(
-                fontSize: 11,
-                fontWeight: FontWeight.w600,
-                color: AppColors.secondary,
-                letterSpacing: 0.2,
-              ),
-            ),
-            const Gap(12),
-            Text(
-              siteName,
-              style: TextStyle(
-                fontSize: 32,
-                fontWeight: FontWeight.w700,
-                color: AppColors.primary,
-                height: 1.1,
-              ),
-              textAlign: TextAlign.center,
-            ),
-            const Gap(12),
-            if (tagline.isNotEmpty)
-              Text(
-                tagline,
-                style: TextStyle(
-                  fontSize: 15,
-                  color: AppColors.onSurfaceVariant,
-                  height: 1.5,
-                ),
-                textAlign: TextAlign.center,
-              ),
-          ],
-        ),
       ),
     );
   }

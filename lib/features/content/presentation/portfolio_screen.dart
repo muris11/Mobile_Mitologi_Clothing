@@ -51,7 +51,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                       delegate: SliverChildBuilderDelegate(
                         (context, index) => const Padding(
                           padding: EdgeInsets.only(bottom: 24),
-                          child: ProductCardSkeleton(),
+                          child: PortfolioCardSkeleton(),
                         ),
                         childCount: 3,
                       ),

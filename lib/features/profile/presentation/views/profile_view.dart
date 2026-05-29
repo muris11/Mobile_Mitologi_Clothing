@@ -9,6 +9,7 @@ import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_m
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/cart_icon_button.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/loading_indicator.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -47,7 +48,7 @@ class _ProfileViewState extends State<ProfileView> {
           child: Scaffold(
             backgroundColor: AppColors.background,
             body: profileVM.isLoading
-                ? const Center(child: LoadingIndicator())
+                ? const ProfileSkeleton()
                 : RefreshIndicator(
                     onRefresh: () => profileVM.fetchProfileData(),
                     child: CustomScrollView(
@@ -214,12 +215,6 @@ class _ProfileViewState extends State<ProfileView> {
         label: 'Pesanan Saya',
         subtitle: 'Lacak dan lihat riwayat pesanan',
         onTap: () => context.push('/orders'),
-      ),
-      _MenuItem(
-        icon: PhosphorIconsRegular.heart,
-        label: 'Wishlist',
-        subtitle: 'Produk yang kamu simpan',
-        onTap: () => context.push('/wishlist'),
       ),
       _MenuItem(
         icon: PhosphorIconsRegular.mapPin,

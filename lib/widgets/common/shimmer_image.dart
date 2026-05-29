@@ -8,6 +8,9 @@ class ShimmerImage extends StatelessWidget {
   final double? height;
   final BorderRadius? borderRadius;
 
+  final int? memCacheWidth;
+  final int? memCacheHeight;
+
   const ShimmerImage({
     super.key,
     this.imageUrl,
@@ -15,6 +18,8 @@ class ShimmerImage extends StatelessWidget {
     this.width,
     this.height,
     this.borderRadius,
+    this.memCacheWidth,
+    this.memCacheHeight,
   });
 
   @override
@@ -26,6 +31,8 @@ class ShimmerImage extends StatelessWidget {
             fit: fit,
             width: width,
             height: height,
+            memCacheWidth: memCacheWidth ?? 800,
+            memCacheHeight: memCacheHeight,
             placeholder: (_, __) => _placeholder(),
             errorWidget: (_, __, ___) => _fallback(),
           );

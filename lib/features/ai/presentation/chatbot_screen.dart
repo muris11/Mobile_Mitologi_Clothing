@@ -313,54 +313,58 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
       padding: EdgeInsets.fromLTRB(16, 8, 16, bottomPadding),
       decoration: BoxDecoration(
         color: AppColors.surface,
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.05),
-            blurRadius: 20,
-            offset: const Offset(0, -5),
+        border: Border(
+          top: BorderSide(
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+            width: 0.8,
           ),
-        ],
+        ),
       ),
       child: Row(
         children: [
           Expanded(
             child: Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              height: 48,
+              padding: const EdgeInsets.fromLTRB(16, 0, 8, 0),
               decoration: BoxDecoration(
                 color: AppColors.surfaceContainerLowest,
                 borderRadius: BorderRadius.circular(24),
-                border: Border.all(color: AppColors.outlineVariant),
+                border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.5)),
               ),
-              child: TextField(
-                controller: _controller,
-                style: AppTextStyles.plusJakartaSans(fontSize: 14),
-                decoration: InputDecoration(
-                  hintText: 'Ketik pesan...',
-                  hintStyle: AppTextStyles.plusJakartaSans(color: AppColors.outline),
-                  border: InputBorder.none,
-                ),
-                onSubmitted: (_) => _handleSend(),
-              ),
-            ),
-          ),
-          const SizedBox(width: 8),
-          GestureDetector(
-            onTap: _handleSend,
-            child: Container(
-              width: 48,
-              height: 48,
-              decoration: BoxDecoration(
-                color: AppColors.primary,
-                shape: BoxShape.circle,
-                boxShadow: [
-                  BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.3),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
+              child: Row(
+                children: [
+                  Expanded(
+                    child: TextField(
+                      controller: _controller,
+                      style: AppTextStyles.plusJakartaSans(fontSize: 14),
+                      decoration: InputDecoration(
+                        hintText: 'Ketik pesan...',
+                        hintStyle: AppTextStyles.plusJakartaSans(
+                          color: AppColors.outline.withValues(alpha: 0.6),
+                        ),
+                        border: InputBorder.none,
+                      ),
+                      onSubmitted: (_) => _handleSend(),
+                    ),
+                  ),
+                  GestureDetector(
+                    onTap: _handleSend,
+                    child: Container(
+                      width: 36,
+                      height: 36,
+                      decoration: BoxDecoration(
+                        color: AppColors.primary,
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.send_rounded,
+                        color: Colors.white,
+                        size: 16,
+                      ),
+                    ),
                   ),
                 ],
               ),
-              child: const Icon(Icons.send_rounded, color: Colors.white, size: 20),
             ),
           ),
         ],

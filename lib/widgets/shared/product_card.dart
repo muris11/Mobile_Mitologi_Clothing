@@ -100,6 +100,7 @@ class _ProductCardState extends State<ProductCard>
                       width: double.infinity,
                       height: double.infinity,
                       borderRadius: 0,
+                      memCacheWidth: 400, // Optimize RAM usage for grid thumbnails
                     ),
                     // Gradient overlay for text legibility
                     Positioned(

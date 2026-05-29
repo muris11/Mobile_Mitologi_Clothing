@@ -62,6 +62,7 @@ class ProductCard extends StatelessWidget {
                   fit: BoxFit.cover,
                   width: double.infinity,
                   height: double.infinity,
+                  memCacheWidth: 400,
                 ),
                 Positioned(
                   left: 0,

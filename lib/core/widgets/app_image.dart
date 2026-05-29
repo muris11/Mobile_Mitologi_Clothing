@@ -10,6 +10,8 @@ class AppImage extends StatelessWidget {
   final BoxFit fit;
   final double borderRadius;
   final bool showBorder;
+  final int? memCacheWidth;
+  final int? memCacheHeight;
 
   const AppImage({
     super.key,
@@ -19,6 +21,8 @@ class AppImage extends StatelessWidget {
     this.fit = BoxFit.cover,
     this.borderRadius = AppBorderRadius.lg,
     this.showBorder = false,
+    this.memCacheWidth,
+    this.memCacheHeight,
   });
 
   @override
@@ -37,13 +41,18 @@ class AppImage extends StatelessWidget {
           width: width,
           height: height,
           fit: fit,
-          placeholder: (context, url) => Shimmer.fromColors(
-            baseColor: AppColors.surfaceContainerLow,
-            highlightColor: AppColors.surfaceContainerHigh,
-            child: Container(
-              width: width,
-              height: height,
-              color: Colors.white,
+          memCacheWidth: memCacheWidth ?? 800, // Default to 800px width to prevent OOM
+          memCacheHeight: memCacheHeight,
+          placeholder: (context, url) => Container(
+            width: width,
+            height: height,
+            color: AppColors.surfaceContainerHigh,
+            child: const Center(
+              child: SizedBox(
+                width: 24,
+                height: 24,
+                child: CircularProgressIndicator(strokeWidth: 2),
+              ),
             ),
           ),
           errorWidget: (context, url, error) => Container(

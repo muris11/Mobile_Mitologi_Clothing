@@ -8,6 +8,7 @@ import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_mo
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/empty_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -405,7 +406,7 @@ class _CatalogViewState extends State<CatalogView> {
             ),
           if (viewModel.isLoading && viewModel.products.isEmpty)
             const SliverFillRemaining(
-              child: Center(child: CircularProgressIndicator()),
+              child: ProductGridSkeleton(),
             )
           else if (viewModel.error != null && viewModel.products.isEmpty)
             SliverFillRemaining(

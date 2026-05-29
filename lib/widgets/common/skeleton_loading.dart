@@ -1299,3 +1299,156 @@ class HomeSkeleton extends StatelessWidget {
     );
   }
 }
+
+class PortfolioCardSkeleton extends StatelessWidget {
+  const PortfolioCardSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer(
+      child: Container(
+        margin: const EdgeInsets.only(bottom: 24),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(24),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.04),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AspectRatio(
+              aspectRatio: 16 / 9,
+              child: Container(
+                decoration: const BoxDecoration(
+                  color: AppColors.surfaceContainerHigh,
+                  borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+                ),
+              ),
+            ),
+            const Padding(
+              padding: EdgeInsets.all(20),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  SkeletonBlock(width: 80, height: 12, borderRadius: 6),
+                  SizedBox(height: 10),
+                  SkeletonBlock(width: 180, height: 18, borderRadius: 9),
+                  SizedBox(height: 8),
+                  SkeletonBlock(height: 14, borderRadius: 7),
+                  SizedBox(height: 6),
+                  SkeletonBlock(width: 240, height: 14, borderRadius: 7),
+                ],
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class PortfolioDetailSkeleton extends StatelessWidget {
+  const PortfolioDetailSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer(
+      child: CustomScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        slivers: [
+          const SliverToBoxAdapter(
+            child: SkeletonBlock(height: 320, borderRadius: 0),
+          ),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.fromLTRB(24, 24, 24, 32),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SkeletonBlock(width: 100, height: 20, borderRadius: 10),
+                  const SizedBox(height: 16),
+                  const SkeletonBlock(height: 28, borderRadius: 14),
+                  const SizedBox(height: 8),
+                  SkeletonBlock(
+                    width: MediaQuery.sizeOf(context).width * 0.6,
+                    height: 28,
+                    borderRadius: 14,
+                  ),
+                  const SizedBox(height: 24),
+                  const SkeletonBlock(height: 16, borderRadius: 8),
+                  const SizedBox(height: 8),
+                  const SkeletonBlock(height: 16, borderRadius: 8),
+                  const SizedBox(height: 8),
+                  SkeletonBlock(
+                    width: MediaQuery.sizeOf(context).width * 0.8,
+                    height: 16,
+                    borderRadius: 8,
+                  ),
+                  const SizedBox(height: 32),
+                  const Row(
+                    children: [
+                      SkeletonBlock(width: 4, height: 20, borderRadius: 2),
+                      SizedBox(width: 10),
+                      SkeletonBlock(width: 180, height: 20, borderRadius: 10),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  SizedBox(
+                    height: 240,
+                    child: ListView.separated(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: 3,
+                      separatorBuilder: (_, __) => const SizedBox(width: 16),
+                      itemBuilder: (_, __) => Container(
+                        width: 200,
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(20),
+                          border: Border.all(
+                            color: AppColors.outlineVariant.withOpacity(0.5),
+                          ),
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            AspectRatio(
+                              aspectRatio: 16 / 9,
+                              child: Container(
+                                decoration: const BoxDecoration(
+                                  color: AppColors.surfaceContainerHigh,
+                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                ),
+                              ),
+                            ),
+                            const Padding(
+                              padding: EdgeInsets.all(14),
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  SkeletonBlock(width: 60, height: 10, borderRadius: 5),
+                                  SizedBox(height: 8),
+                                  SkeletonBlock(width: 120, height: 14, borderRadius: 7),
+                                ],
+                              ),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+}
+

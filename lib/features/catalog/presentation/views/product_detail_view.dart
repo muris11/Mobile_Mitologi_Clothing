@@ -12,6 +12,7 @@ import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_v
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/cached_image_widget.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -122,7 +123,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
     return Scaffold(
       backgroundColor: AppColors.background,
       body: isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const ProductDetailSkeleton()
           : product == null
               ? _buildError()
               : _buildContent(product),
@@ -1013,91 +1014,120 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       ),
       child: SafeArea(
         top: false,
-        child: Row(
-          children: [
-            Container(
-              height: 44,
-              decoration: BoxDecoration(
-                border: Border.all(color: AppColors.outlineVariant),
-                borderRadius: BorderRadius.circular(12),
-              ),
-              child: Row(
-                children: [
-                  _QtyButton(
-                    icon: PhosphorIconsRegular.minus,
-                    onTap: _quantity > 1
-                        ? () => setState(() => _quantity--)
-                        : null,
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isNarrow = constraints.maxWidth < 360;
+            final qtySelectorWidth = isNarrow ? 96.0 : 120.0;
+            final qtyButtonWidth = isNarrow ? 30.0 : 40.0;
+            final spacing = isNarrow ? 6.0 : 10.0;
+
+            return Row(
+              children: [
+                Container(
+                  height: 44,
+                  width: qtySelectorWidth,
+                  decoration: BoxDecoration(
+                    border: Border.all(color: AppColors.outlineVariant),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  Container(
-                    width: 40,
-                    alignment: Alignment.center,
-                    child: Text(
-                      '$_quantity',
-                      style: AppTextStyles.plusJakartaSans(
-                        fontWeight: FontWeight.w700,
-                        fontSize: 15,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      GestureDetector(
+                        onTap: _quantity > 1
+                            ? () => setState(() => _quantity--)
+                            : null,
+                        child: Container(
+                          width: qtyButtonWidth,
+                          height: 44,
+                          alignment: Alignment.center,
+                          child: Icon(
+                            PhosphorIconsRegular.minus,
+                            size: 16,
+                            color: _quantity > 1
+                                ? AppColors.onSurface
+                                : AppColors.outlineVariant,
+                          ),
+                        ),
+                      ),
+                      Text(
+                        '$_quantity',
+                        style: AppTextStyles.plusJakartaSans(
+                          fontWeight: FontWeight.w700,
+                          fontSize: isNarrow ? 13 : 15,
+                        ),
+                      ),
+                      GestureDetector(
+                        onTap: () => setState(() => _quantity++),
+                        child: Container(
+                          width: qtyButtonWidth,
+                          height: 44,
+                          alignment: Alignment.center,
+                          child: const Icon(
+                            PhosphorIconsRegular.plus,
+                            size: 16,
+                            color: AppColors.onSurface,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(width: spacing),
+                Expanded(
+                  child: SizedBox(
+                    height: 44,
+                    child: OutlinedButton(
+                      onPressed: canAdd ? () => _handleAddToCart() : null,
+                      style: OutlinedButton.styleFrom(
+                        side: BorderSide(
+                          color:
+                              canAdd ? AppColors.primary : AppColors.outlineVariant,
+                        ),
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: isNarrow ? 4 : 8),
+                      ),
+                      child: Text(
+                        'Keranjang',
+                        style: AppTextStyles.plusJakartaSans(
+                          fontWeight: FontWeight.w700,
+                          fontSize: isNarrow ? 11 : 13,
+                          color: canAdd ? AppColors.primary : AppColors.outline,
+                        ),
                       ),
                     ),
                   ),
-                  _QtyButton(
-                    icon: PhosphorIconsRegular.plus,
-                    onTap: () => setState(() => _quantity++),
-                  ),
-                ],
-              ),
-            ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: SizedBox(
-                height: 44,
-                child: OutlinedButton(
-                  onPressed: canAdd ? () => _handleAddToCart() : null,
-                  style: OutlinedButton.styleFrom(
-                    side: BorderSide(
-                      color:
-                          canAdd ? AppColors.primary : AppColors.outlineVariant,
-                    ),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    'Keranjang',
-                    style: AppTextStyles.plusJakartaSans(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13,
-                      color: canAdd ? AppColors.primary : AppColors.outline,
+                ),
+                SizedBox(width: isNarrow ? 4.0 : 8.0),
+                Expanded(
+                  child: SizedBox(
+                    height: 44,
+                    child: FilledButton(
+                      onPressed: canAdd
+                          ? () => _handleAddToCart(goToCheckout: true)
+                          : null,
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.primary,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        padding: EdgeInsets.symmetric(horizontal: isNarrow ? 4 : 8),
+                      ),
+                      child: Text(
+                        'Beli',
+                        style: AppTextStyles.plusJakartaSans(
+                          fontWeight: FontWeight.w700,
+                          fontSize: isNarrow ? 11 : 13,
+                        ),
+                      ),
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(width: 8),
-            Expanded(
-              child: SizedBox(
-                height: 44,
-                child: FilledButton(
-                  onPressed: canAdd
-                      ? () => _handleAddToCart(goToCheckout: true)
-                      : null,
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                  ),
-                  child: Text(
-                    'Beli',
-                    style: AppTextStyles.plusJakartaSans(
-                      fontWeight: FontWeight.w700,
-                      fontSize: 13,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-          ],
+              ],
+            );
+          },
         ),
       ),
     );

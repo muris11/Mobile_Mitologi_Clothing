@@ -6,6 +6,7 @@ import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/profile/data/profile_repository.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -106,7 +107,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
         ),
       ),
       body: _isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? const OrderListSkeleton()
           : _error != null
               ? _buildError()
               : Column(
