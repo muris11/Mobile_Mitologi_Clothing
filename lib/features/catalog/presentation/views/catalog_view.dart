@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/empty_state.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -119,7 +120,7 @@ class _CatalogViewState extends State<CatalogView> {
                     children: [
                       Text(
                         'Filter',
-                        style: GoogleFonts.notoSerif(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 20,
                           fontWeight: FontWeight.w800,
                         ),
@@ -133,9 +134,9 @@ class _CatalogViewState extends State<CatalogView> {
                         },
                         child: Text(
                           'Hapus Semua',
-                          style: GoogleFonts.manrope(
+                          style: AppTextStyles.plusJakartaSans(
                             color: AppColors.secondary,
-                            fontWeight: FontWeight.w600,
+                            fontWeight: FontWeight.w700,
                           ),
                         ),
                       ),
@@ -144,7 +145,7 @@ class _CatalogViewState extends State<CatalogView> {
                   const Gap(20),
                   Text(
                     'Urutkan',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
@@ -191,7 +192,7 @@ class _CatalogViewState extends State<CatalogView> {
                   const Gap(20),
                   Text(
                     'Rentang Harga',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                     ),
@@ -205,22 +206,15 @@ class _CatalogViewState extends State<CatalogView> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             hintText: 'Min',
-                            hintStyle: GoogleFonts.manrope(fontSize: 13),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: AppColors.outlineVariant),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 12,
-                            ),
+                            hintStyle: AppTextStyles.plusJakartaSans(fontSize: 13),
                           ),
-                          style: GoogleFonts.manrope(fontSize: 14),
+                          style: AppTextStyles.plusJakartaSans(fontSize: 14),
                         ),
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(horizontal: 12),
                         child: Text('—',
-                            style: GoogleFonts.manrope(
+                            style: AppTextStyles.plusJakartaSans(
                                 color: AppColors.onSurfaceVariant)),
                       ),
                       Expanded(
@@ -229,16 +223,9 @@ class _CatalogViewState extends State<CatalogView> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             hintText: 'Max',
-                            hintStyle: GoogleFonts.manrope(fontSize: 13),
-                            border: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(12),
-                              borderSide: BorderSide(color: AppColors.outlineVariant),
-                            ),
-                            contentPadding: const EdgeInsets.symmetric(
-                              horizontal: 14, vertical: 12,
-                            ),
+                            hintStyle: AppTextStyles.plusJakartaSans(fontSize: 13),
                           ),
-                          style: GoogleFonts.manrope(fontSize: 14),
+                          style: AppTextStyles.plusJakartaSans(fontSize: 14),
                         ),
                       ),
                     ],
@@ -294,7 +281,9 @@ class _CatalogViewState extends State<CatalogView> {
       body: CustomScrollView(
         controller: _scrollController,
         slivers: [
-          const MitologiSliverAppBar(),
+          const MitologiSliverAppBar(
+            pageTitle: 'Katalog',
+          ),
           SliverToBoxAdapter(
             child: Padding(
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
@@ -311,10 +300,10 @@ class _CatalogViewState extends State<CatalogView> {
                     if (v.isEmpty) _runSearch('');
                   },
                   textInputAction: TextInputAction.search,
-                  style: GoogleFonts.manrope(fontSize: 14),
+                  style: AppTextStyles.plusJakartaSans(fontSize: 14),
                   decoration: InputDecoration(
                     hintText: 'Cari produk, kategori, tema...',
-                    hintStyle: GoogleFonts.manrope(
+                    hintStyle: AppTextStyles.plusJakartaSans(
                       fontSize: 14,
                       color: AppColors.onSurfaceVariant,
                     ),
@@ -333,6 +322,9 @@ class _CatalogViewState extends State<CatalogView> {
                           )
                         : null,
                     border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    errorBorder: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
                       vertical: 14,
@@ -387,10 +379,10 @@ class _CatalogViewState extends State<CatalogView> {
                   const Spacer(),
                   Text(
                     '${viewModel.products.length} produk',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 12,
                       color: AppColors.onSurfaceVariant,
-                      fontWeight: FontWeight.w500,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
                 ],
@@ -417,66 +409,23 @@ class _CatalogViewState extends State<CatalogView> {
             )
           else if (viewModel.error != null && viewModel.products.isEmpty)
             SliverFillRemaining(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(PhosphorIconsRegular.wifiSlash,
-                          size: 48, color: AppColors.outline),
-                      const Gap(16),
-                      Text(
-                        'Gagal memuat produk',
-                        style: GoogleFonts.notoSerif(
-                            fontSize: 18, fontWeight: FontWeight.w700),
-                      ),
-                      const Gap(8),
-                      Text(
-                        viewModel.error!,
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.manrope(
-                            fontSize: 13, color: AppColors.onSurfaceVariant),
-                      ),
-                      const Gap(24),
-                      FilledButton.icon(
-                        onPressed: () => context
-                            .read<CatalogViewModel>()
-                            .searchProducts(query: _activeQuery),
-                        icon: const Icon(PhosphorIconsRegular.arrowClockwise),
-                        label: const Text('Coba Lagi'),
-                      ),
-                    ],
-                  ),
-                ),
+              child: ErrorState(
+                message: viewModel.error ?? 'Gagal memuat produk',
+                onRetry: () => context.read<CatalogViewModel>().searchProducts(query: _activeQuery),
               ),
             )
           else if (viewModel.products.isEmpty)
             SliverFillRemaining(
-              child: Center(
-                child: Padding(
-                  padding: const EdgeInsets.all(32),
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(PhosphorIconsRegular.package,
-                          size: 48, color: AppColors.outline),
-                      const Gap(16),
-                      Text(
-                        'Produk tidak ditemukan',
-                        style: GoogleFonts.notoSerif(
-                            fontSize: 18, fontWeight: FontWeight.w700),
-                      ),
-                      const Gap(8),
-                      Text(
-                        'Coba kata kunci lain atau hapus filter.',
-                        textAlign: TextAlign.center,
-                        style: GoogleFonts.manrope(
-                            fontSize: 13, color: AppColors.onSurfaceVariant),
-                      ),
-                    ],
-                  ),
-                ),
+              child: AnimatedEmptyState(
+                icon: PhosphorIconsRegular.package,
+                title: 'Produk tidak ditemukan',
+                subtitle: 'Coba kata kunci lain atau hapus filter.',
+                actionLabel: 'Reset Pencarian',
+                onAction: () {
+                  _searchController.clear();
+                  context.read<CatalogViewModel>().clearFilters();
+                  _runSearch('');
+                },
               ),
             )
           else
@@ -485,7 +434,7 @@ class _CatalogViewState extends State<CatalogView> {
               sliver: SliverGrid(
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
-                  childAspectRatio: 0.70, // Reverted and aligned to 0.70 to perfectly display the gorgeous full-image poster card style (beranda style) in a 2-column grid without overflows
+                  childAspectRatio: 0.75, // Standard product card ratio 3:4
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 12,
                 ),
@@ -536,7 +485,7 @@ class _CatalogViewState extends State<CatalogView> {
               const Gap(10),
               Text(
                 'Rekomendasi Untukmu',
-                style: GoogleFonts.notoSerif(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                   color: AppColors.primary,
@@ -546,7 +495,7 @@ class _CatalogViewState extends State<CatalogView> {
           ),
         ),
         SizedBox(
-          height: 260, // Adjusted back to 260 since Beranda-style card has overlay text and takes significantly less vertical space
+          height: 280, // Sesuai dengan height ProductCard 3:4 ratio
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -595,28 +544,19 @@ class _CategoryChip extends StatelessWidget {
         margin: const EdgeInsets.only(right: 8),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          gradient: isSelected ? AppGradients.primaryGradient : null,
-          color: isSelected ? null : Colors.white,
+          color: isSelected ? AppColors.surfaceContainerLow : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
-            color: isSelected ? Colors.transparent : AppColors.outlineVariant,
+            color: isSelected ? AppColors.onSurface : AppColors.outlineVariant,
+            width: isSelected ? 1.5 : 1.0,
           ),
-          boxShadow: isSelected
-              ? [
-                  BoxShadow(
-                    color: AppColors.primary.withValues(alpha: 0.15),
-                    blurRadius: 10,
-                    offset: const Offset(0, 4),
-                  )
-                ]
-              : [],
         ),
         child: Text(
           label,
-          style: GoogleFonts.manrope(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 13,
-            fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
-            color: isSelected ? Colors.white : AppColors.onSurface,
+            fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
+            color: isSelected ? AppColors.onSurface : AppColors.onSurfaceVariant,
           ),
         ),
       ),
@@ -658,9 +598,9 @@ class _FilterChipButton extends StatelessWidget {
             const SizedBox(width: 6),
             Text(
               label,
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 13,
-                fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+                fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
                 color: isActive ? AppColors.secondary : AppColors.onSurface,
               ),
             ),
@@ -703,9 +643,9 @@ class _SortOption extends StatelessWidget {
               const SizedBox(width: 12),
               Text(
                 label,
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 14,
-                  fontWeight: isSelected ? FontWeight.w700 : FontWeight.w500,
+                  fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
                   color: isSelected ? AppColors.secondary : AppColors.onSurface,
                 ),
               ),

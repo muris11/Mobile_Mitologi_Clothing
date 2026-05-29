@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:flutter_html/flutter_html.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
@@ -48,7 +49,7 @@ class CmsPageScreen extends StatelessWidget {
                 surfaceTintColor: Colors.transparent,
                 title: Text(
                   page.title.toUpperCase(),
-                  style: GoogleFonts.notoSerif(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 1.5,
@@ -74,7 +75,7 @@ class CmsPageScreen extends StatelessWidget {
                     children: [
                       Text(
                         page.title,
-                        style: GoogleFonts.notoSerif(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 28,
                           fontWeight: FontWeight.w700,
                           color: AppColors.primary,
@@ -88,7 +89,7 @@ class CmsPageScreen extends StatelessWidget {
                             fontSize: FontSize(15),
                             lineHeight: LineHeight(1.6),
                             color: AppColors.onSurface,
-                            fontFamily: GoogleFonts.manrope().fontFamily,
+                            fontFamily: AppTextStyles.plusJakartaSans().fontFamily,
                           ),
                         },
                       ),
@@ -104,3 +105,4 @@ class CmsPageScreen extends StatelessWidget {
     );
   }
 }
+

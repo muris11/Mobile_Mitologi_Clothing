@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
@@ -84,7 +85,7 @@ class ProductCard extends StatelessWidget {
                       children: [
                         Text(
                           product.name,
-                          style: GoogleFonts.manrope(
+                          style: AppTextStyles.plusJakartaSans(
                             fontSize: 13,
                             fontWeight: FontWeight.w800,
                             color: Colors.white,
@@ -96,7 +97,7 @@ class ProductCard extends StatelessWidget {
                         const SizedBox(height: 4),
                         Text(
                           _formatPrice(product.displayPrice),
-                          style: GoogleFonts.manrope(
+                          style: AppTextStyles.plusJakartaSans(
                             fontSize: 16,
                             fontWeight: FontWeight.w900,
                             color: AppColors.secondary,
@@ -115,7 +116,7 @@ class ProductCard extends StatelessWidget {
                               const SizedBox(width: 3),
                               Text(
                                 product.rating!.toStringAsFixed(1),
-                                style: GoogleFonts.manrope(
+                                style: AppTextStyles.plusJakartaSans(
                                   fontSize: 11,
                                   fontWeight: FontWeight.w700,
                                   color: Colors.white70,
@@ -125,7 +126,7 @@ class ProductCard extends StatelessWidget {
                                 const SizedBox(width: 4),
                                 Text(
                                   '(${product.reviewsCount})',
-                                  style: GoogleFonts.manrope(
+                                  style: AppTextStyles.plusJakartaSans(
                                     fontSize: 10,
                                     color: Colors.white54,
                                   ),
@@ -134,7 +135,7 @@ class ProductCard extends StatelessWidget {
                             ] else ...[
                               Text(
                                 'Siap dikirim',
-                                style: GoogleFonts.manrope(
+                                style: AppTextStyles.plusJakartaSans(
                                   fontSize: 10,
                                   color: Colors.white54,
                                 ),
@@ -219,3 +220,4 @@ class ProductCard extends StatelessWidget {
     return 'Rp $buffer';
   }
 }
+

@@ -15,6 +15,9 @@ abstract final class AppTextStyles {
     Color? color,
     double? height,
     double? letterSpacing,
+    TextDecoration? decoration,
+    FontStyle? fontStyle,
+    List<Shadow>? shadows,
   }) {
     return GoogleFonts.plusJakartaSans(
       fontSize: fontSize,
@@ -22,6 +25,9 @@ abstract final class AppTextStyles {
       color: color ?? AppColors.onSurface,
       height: height,
       letterSpacing: letterSpacing,
+      decoration: decoration,
+      fontStyle: fontStyle,
+      shadows: shadows,
     );
   }
 
@@ -31,13 +37,19 @@ abstract final class AppTextStyles {
     Color? color,
     double? height,
     double? letterSpacing,
+    TextDecoration? decoration,
+    FontStyle? fontStyle,
+    List<Shadow>? shadows,
   }) {
-    return GoogleFonts.manrope(
+    return GoogleFonts.plusJakartaSans(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color ?? AppColors.onSurface,
       height: height,
       letterSpacing: letterSpacing,
+      decoration: decoration,
+      fontStyle: fontStyle,
+      shadows: shadows,
     );
   }
 
@@ -47,6 +59,9 @@ abstract final class AppTextStyles {
     Color? color,
     double? height,
     double? letterSpacing,
+    TextDecoration? decoration,
+    FontStyle? fontStyle,
+    List<Shadow>? shadows,
   }) {
     return GoogleFonts.plusJakartaSans(
       fontSize: fontSize,
@@ -54,6 +69,9 @@ abstract final class AppTextStyles {
       color: color ?? AppColors.onSurface,
       height: height,
       letterSpacing: letterSpacing,
+      decoration: decoration,
+      fontStyle: fontStyle,
+      shadows: shadows,
     );
   }
 
@@ -155,3 +173,5 @@ abstract final class AppTextStyles {
         GoogleFonts.manrope(),
       ]);
 }
+
+

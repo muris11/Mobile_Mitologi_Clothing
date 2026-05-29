@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -37,7 +38,7 @@ class AnimatedEmptyState extends StatelessWidget {
             const SizedBox(height: 24),
             Text(
               title,
-              style: GoogleFonts.notoSerif(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primary,
@@ -48,7 +49,7 @@ class AnimatedEmptyState extends StatelessWidget {
             Text(
               subtitle,
               textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 14,
                 color: AppColors.outline,
               ),
@@ -69,7 +70,7 @@ class AnimatedEmptyState extends StatelessWidget {
               ),
               child: Text(
                 actionLabel,
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                 ),
@@ -142,7 +143,7 @@ class ErrorState extends StatelessWidget {
             const SizedBox(height: 16),
             Text(
               title,
-              style: GoogleFonts.notoSerif(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
                 color: Colors.red[900],
@@ -153,7 +154,7 @@ class ErrorState extends StatelessWidget {
             Text(
               message,
               textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 14,
                 color: Colors.black54,
               ),
@@ -181,3 +182,4 @@ class ErrorState extends StatelessWidget {
     );
   }
 }
+

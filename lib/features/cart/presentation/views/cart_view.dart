@@ -6,6 +6,7 @@ import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/utils/currency_formatter.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/empty_state.dart';
 import 'package:mitologi_clothing_mobile/features/cart/domain/models/cart_model.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -74,64 +75,12 @@ class _CartViewState extends State<CartView> {
 
   Widget _buildEmptyState() {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(40),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              width: 100,
-              height: 100,
-              decoration: const BoxDecoration(
-                color: AppColors.surfaceContainerLow,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                PhosphorIconsRegular.shoppingCartSimple,
-                size: 48,
-                color: AppColors.onSurfaceVariant,
-              ),
-            ),
-            const Gap(24),
-            Text(
-              'Keranjang Kosong',
-              style: AppTextStyles.headingMedium.copyWith(
-                fontWeight: FontWeight.w900,
-              ),
-            ),
-            const Gap(8),
-            Text(
-              'Belum ada produk. Yuk mulai belanja!',
-              textAlign: TextAlign.center,
-              style: AppTextStyles.bodyMedium.copyWith(
-                color: AppColors.onSurfaceVariant,
-                height: 1.5,
-              ),
-            ),
-            const Gap(32),
-            SizedBox(
-              width: double.infinity,
-              child: FilledButton(
-                onPressed: () => context.go('/'),
-                style: FilledButton.styleFrom(
-                  backgroundColor: AppColors.primary,
-                  padding: const EdgeInsets.all(18),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: AppBorderRadius.lgRadius,
-                  ),
-                ),
-                child: Text(
-                  'MULAI BELANJA',
-                  style: AppTextStyles.labelLarge.copyWith(
-                    fontWeight: FontWeight.w900,
-                    letterSpacing: 1,
-                    color: Colors.white,
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
+      child: AnimatedEmptyState(
+        icon: PhosphorIconsRegular.shoppingCartSimple,
+        title: 'Keranjang Kosong',
+        subtitle: 'Belum ada produk. Yuk mulai belanja!',
+        actionLabel: 'MULAI BELANJA',
+        onAction: () => context.go('/'),
       ),
     );
   }

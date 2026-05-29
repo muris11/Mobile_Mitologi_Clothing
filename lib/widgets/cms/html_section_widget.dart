@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
@@ -20,7 +21,7 @@ class HtmlSectionWidget extends StatelessWidget {
       case 'h1':
         child = Text(
           section.content,
-          style: GoogleFonts.notoSerif(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 24,
             fontWeight: FontWeight.w700,
             color: AppColors.onSurface,
@@ -33,7 +34,7 @@ class HtmlSectionWidget extends StatelessWidget {
           children: [
             Text(
               section.content,
-              style: GoogleFonts.notoSerif(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 20,
                 fontWeight: FontWeight.w700,
                 color: AppColors.onSurface,
@@ -51,7 +52,7 @@ class HtmlSectionWidget extends StatelessWidget {
       case 'h3':
         child = Text(
           section.content,
-          style: GoogleFonts.notoSerif(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 18,
             fontWeight: FontWeight.w700,
             color: AppColors.onSurface,
@@ -61,7 +62,7 @@ class HtmlSectionWidget extends StatelessWidget {
       case 'p':
         child = Text(
           section.content,
-          style: GoogleFonts.manrope(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 15,
             color: AppColors.onSurface,
             height: 1.7,
@@ -82,7 +83,7 @@ class HtmlSectionWidget extends StatelessWidget {
                       width: 24,
                       child: Text(
                         section.ordered ? '${i + 1}.' : '•',
-                        style: GoogleFonts.manrope(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 15,
                           fontWeight: FontWeight.w600,
                           color: AppColors.onSurface,
@@ -92,7 +93,7 @@ class HtmlSectionWidget extends StatelessWidget {
                     Expanded(
                       child: Text(
                         section.items[i],
-                        style: GoogleFonts.manrope(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 15,
                           color: AppColors.onSurface,
                           height: 1.6,
@@ -108,7 +109,7 @@ class HtmlSectionWidget extends StatelessWidget {
       default:
         child = Text(
           section.content,
-          style: GoogleFonts.manrope(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 15,
             color: AppColors.onSurface,
           ),
@@ -122,3 +123,4 @@ class HtmlSectionWidget extends StatelessWidget {
     );
   }
 }
+

@@ -22,6 +22,7 @@ import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_mo
 import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -99,214 +100,59 @@ class _HomeViewState extends State<HomeView> {
     log('HomeView: build — isLoading=${viewModel.isLoading} banners=${viewModel.banners.length} error=${viewModel.error}',
         name: 'HOME');
 
-    return SizedBox.expand(
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          RefreshIndicator(
-            onRefresh: viewModel.fetchHomeData,
-            displacement: 100,
-            color: AppColors.primary,
-            child: CustomScrollView(
-              controller: _scrollController,
-              physics: const AlwaysScrollableScrollPhysics(),
-              slivers: [
-                _buildHeroCarousel(viewModel),
-                if (viewModel.isLoading)
-                  const SliverToBoxAdapter(
-                    child: LinearProgressIndicator(minHeight: 2),
-                  ),
-                _buildIntro(theme),
-                _buildSearchBar(),
-                _buildFeaturesSection(viewModel),
-                _buildCategories(viewModel),
-                _buildPortfolioSection(viewModel),
-                if (viewModel.bestSellers.isNotEmpty) ...[
-                  _buildSectionHeader(
-                    context,
-                    title: 'Best Sellers',
-                    subtitle: 'Pilihan paling dicari minggu ini',
-                    onSeeAll: () => context.push('/products'),
-                  ),
-                  _buildProductList(viewModel.bestSellers),
-                ],
-                if (viewModel.newArrivals.isNotEmpty) ...[
-                  _buildSectionHeader(
-                    context,
-                    title: 'New Arrivals',
-                    subtitle: 'Koleksi terbaru minggu ini',
-                    onSeeAll: () => context.push('/products'),
-                  ),
-                  _buildProductList(viewModel.newArrivals),
-                ],
-                _buildWhyChooseUsSection(viewModel),
-                _buildPlastisolPricingSection(viewModel),
-                _buildGuaranteeBonusSection(viewModel),
-              ],
-            ),
+    return RefreshIndicator(
+      onRefresh: viewModel.fetchHomeData,
+      displacement: 100,
+      color: AppColors.primary,
+      child: CustomScrollView(
+        controller: _scrollController,
+        physics: const AlwaysScrollableScrollPhysics(),
+        slivers: [
+          MitologiSliverAppBar(
+            actions: [
+              IconButton(
+                icon: const Icon(PhosphorIconsRegular.magnifyingGlass),
+                color: AppColors.primary,
+                onPressed: () => context.push('/products'),
+              ),
+              const Padding(
+                padding: EdgeInsets.only(right: 16),
+                child: CartIconButton(),
+              ),
+            ],
           ),
-          _buildDynamicAppBar(context),
+          _buildHeroCarousel(viewModel),
+          if (viewModel.isLoading)
+            const SliverToBoxAdapter(
+              child: LinearProgressIndicator(minHeight: 2),
+            ),
+          _buildIntro(theme),
+          _buildSearchBar(),
+          _buildFeaturesSection(viewModel),
+          _buildCategories(viewModel),
+          _buildPortfolioSection(viewModel),
+          if (viewModel.bestSellers.isNotEmpty) ...[
+            _buildSectionHeader(
+              context,
+              title: 'Best Sellers',
+              subtitle: 'Pilihan paling dicari minggu ini',
+              onSeeAll: () => context.push('/products'),
+            ),
+            _buildProductList(viewModel.bestSellers),
+          ],
+          if (viewModel.newArrivals.isNotEmpty) ...[
+            _buildSectionHeader(
+              context,
+              title: 'New Arrivals',
+              subtitle: 'Koleksi terbaru minggu ini',
+              onSeeAll: () => context.push('/products'),
+            ),
+            _buildProductList(viewModel.newArrivals),
+          ],
+          _buildWhyChooseUsSection(viewModel),
+          _buildPlastisolPricingSection(viewModel),
+          _buildGuaranteeBonusSection(viewModel),
         ],
-      ),
-    );
-  }
-
-  Widget _buildDynamicAppBar(BuildContext context) {
-    final topPadding = MediaQuery.of(context).padding.top;
-    final isDarkBackground = Theme.of(context).brightness == Brightness.dark;
-    
-    // Background shifts from transparent (at top) to frosted glass color
-    final glassColor = isDarkBackground
-        ? Colors.black.withOpacity(_scrollOpacity * 0.75)
-        : Colors.white.withOpacity(_scrollOpacity * 0.72);
-        
-    // Text and icons lerp between white (stands out on dark hero page) and AppColors.primary (navy)
-    final contentColor = Color.lerp(
-      Colors.white,
-      AppColors.primary,
-      _scrollOpacity,
-    )!;
-
-    final secondaryContentColor = Color.lerp(
-      Colors.white.withOpacity(0.7),
-      AppColors.secondary,
-      _scrollOpacity,
-    )!;
-
-    final actionBgColor = Color.lerp(
-      Colors.white.withOpacity(0.12),
-      AppColors.surfaceContainerLow,
-      _scrollOpacity,
-    )!;
-
-    final actionBorderColor = Color.lerp(
-      Colors.white.withOpacity(0.2),
-      AppColors.outlineVariant.withOpacity(0.5),
-      _scrollOpacity,
-    )!;
-
-    final bottomBorderColor = isDarkBackground
-        ? Colors.white.withOpacity(_scrollOpacity * 0.08)
-        : Colors.black.withOpacity(_scrollOpacity * 0.06);
-
-    return Positioned(
-      top: 0,
-      left: 0,
-      right: 0,
-      child: ClipRect(
-        child: BackdropFilter(
-          filter: ImageFilter.blur(
-            sigmaX: _scrollOpacity * 16.0,
-            sigmaY: _scrollOpacity * 16.0,
-          ),
-          child: Container(
-            height: topPadding + 64,
-            padding: EdgeInsets.only(top: topPadding),
-            decoration: BoxDecoration(
-              color: glassColor,
-              border: Border(
-                bottom: BorderSide(
-                  color: bottomBorderColor,
-                  width: 1.0,
-                ),
-              ),
-              boxShadow: _scrollOpacity > 0.1
-                  ? [
-                      BoxShadow(
-                        color: AppColors.shadow.withOpacity(0.04 * _scrollOpacity),
-                        blurRadius: 16,
-                        offset: const Offset(0, 4),
-                      )
-                    ]
-                  : [],
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              child: Row(
-                children: [
-                  Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        'MITOLOGI',
-                        style: TextStyle(
-                          color: contentColor,
-                          fontWeight: FontWeight.w900,
-                          fontSize: 16,
-                          letterSpacing: 2.0,
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: SizedBox(
-                          width: 4,
-                          height: 4,
-                          child: DecoratedBox(
-                            decoration: BoxDecoration(
-                              color: secondaryContentColor,
-                              shape: BoxShape.circle,
-                            ),
-                          ),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(left: 6),
-                        child: Text(
-                          'ID',
-                          style: TextStyle(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w800,
-                            letterSpacing: 0.8,
-                            color: secondaryContentColor,
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const Spacer(),
-                  _buildAppBarAction(
-                    icon: PhosphorIconsRegular.magnifyingGlass,
-                    iconColor: contentColor,
-                    bgColor: actionBgColor,
-                    borderColor: actionBorderColor,
-                    onPressed: () => context.push('/products'),
-                  ),
-                  const Gap(10),
-                  SizedBox(
-                    width: 40,
-                    height: 40,
-                    child: CartIconButton(
-                      iconColor: contentColor,
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildAppBarAction({
-    required IconData icon,
-    required Color iconColor,
-    required Color bgColor,
-    required Color borderColor,
-    required VoidCallback onPressed,
-  }) {
-    return Container(
-      width: 40,
-      height: 40,
-      decoration: BoxDecoration(
-        color: bgColor,
-        shape: BoxShape.circle,
-        border: Border.all(color: borderColor, width: 1.0),
-      ),
-      child: IconButton(
-        icon: Icon(icon, color: iconColor, size: 20),
-        onPressed: onPressed,
-        padding: EdgeInsets.zero,
       ),
     );
   }
@@ -2144,3 +1990,4 @@ class _OrderFlowWidgetState extends State<_OrderFlowWidget> {
       );
   }
 }
+

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
@@ -141,7 +141,7 @@ class _ProfileViewState extends State<ProfileView> {
                       : Center(
                           child: Text(
                             initial,
-                            style: GoogleFonts.notoSerif(
+                            style: AppTextStyles.plusJakartaSans(
                               fontSize: 24,
                               fontWeight: FontWeight.w800,
                               color: Colors.white,
@@ -157,7 +157,7 @@ class _ProfileViewState extends State<ProfileView> {
                   children: [
                     Text(
                       user?.name ?? 'Pengguna',
-                      style: GoogleFonts.notoSerif(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 18,
                         fontWeight: FontWeight.w800,
                         color: AppColors.primary,
@@ -166,7 +166,7 @@ class _ProfileViewState extends State<ProfileView> {
                     const Gap(2),
                     Text(
                       user?.email ?? '',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 13,
                         color: AppColors.onSurfaceVariant,
                         fontWeight: FontWeight.w500,
@@ -197,7 +197,7 @@ class _ProfileViewState extends State<ProfileView> {
       child: Center(
         child: Text(
           initial,
-          style: GoogleFonts.notoSerif(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 24,
             fontWeight: FontWeight.w800,
             color: Colors.white,
@@ -275,7 +275,7 @@ class _ProfileViewState extends State<ProfileView> {
               padding: const EdgeInsets.only(left: 4, bottom: 8),
               child: Text(
                 'MENU',
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 11,
                   fontWeight: FontWeight.w800,
                   color: AppColors.onSurfaceVariant,
@@ -332,7 +332,7 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   Text(
                     item.label,
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w700,
                       color: AppColors.onSurface,
@@ -341,7 +341,7 @@ class _ProfileViewState extends State<ProfileView> {
                   if (item.subtitle != null)
                     Text(
                       item.subtitle!,
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 12,
                         color: AppColors.onSurfaceVariant,
                         fontWeight: FontWeight.w400,
@@ -376,7 +376,7 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   Text(
                     'PESANAN TERBARU',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 11,
                       fontWeight: FontWeight.w800,
                       color: AppColors.onSurfaceVariant,
@@ -387,7 +387,7 @@ class _ProfileViewState extends State<ProfileView> {
                     onPressed: () => context.push('/orders'),
                     child: Text(
                       'Lihat Semua',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w700,
                         color: AppColors.primary,
@@ -455,7 +455,7 @@ class _ProfileViewState extends State<ProfileView> {
               children: [
                 Text(
                   '#${order.orderNumber}',
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     fontWeight: FontWeight.w800,
                     fontSize: 14,
                     color: AppColors.primary,
@@ -485,14 +485,14 @@ class _ProfileViewState extends State<ProfileView> {
               children: [
                 Text(
                   '${order.itemsCount > 0 ? order.itemsCount : order.items.length} item',
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: 12,
                     color: AppColors.onSurfaceVariant,
                   ),
                 ),
                 Text(
                   _formatCurrency(order.totalAmount),
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     fontWeight: FontWeight.w700,
                     fontSize: 13,
                   ),
@@ -544,7 +544,7 @@ class _ProfileViewState extends State<ProfileView> {
                   const Gap(20),
                   Text(
                     'Kebijakan & Syarat',
-                    style: GoogleFonts.notoSerif(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 20,
                       fontWeight: FontWeight.w800,
                       color: AppColors.primary,
@@ -553,7 +553,7 @@ class _ProfileViewState extends State<ProfileView> {
                   const Gap(6),
                   Text(
                     'Pilih dokumen hukum yang ingin Anda tinjau',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 13,
                       color: AppColors.onSurfaceVariant,
                       fontWeight: FontWeight.w500,
@@ -637,7 +637,7 @@ class _ProfileViewState extends State<ProfileView> {
                 children: [
                   Text(
                     title,
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 14,
                       fontWeight: FontWeight.w800,
                       color: AppColors.primary,
@@ -646,7 +646,7 @@ class _ProfileViewState extends State<ProfileView> {
                   const Gap(4),
                   Text(
                     desc,
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 11.5,
                       color: AppColors.onSurfaceVariant,
                       fontWeight: FontWeight.w500,
@@ -673,18 +673,18 @@ class _ProfileViewState extends State<ProfileView> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           'Keluar dari Akun?',
-          style: GoogleFonts.notoSerif(fontWeight: FontWeight.w800),
+          style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w800),
         ),
         content: Text(
           'Apakah Anda yakin ingin keluar dari akun ini?',
-          style: GoogleFonts.manrope(fontSize: 14),
+          style: AppTextStyles.plusJakartaSans(fontSize: 14),
         ),
         actions: [
           TextButton(
             onPressed: () => ctx.pop(),
             child: Text(
               'Batal',
-              style: GoogleFonts.manrope(fontWeight: FontWeight.w600),
+              style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w600),
             ),
           ),
           FilledButton(
@@ -699,7 +699,7 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             child: Text(
               'Keluar',
-              style: GoogleFonts.manrope(fontWeight: FontWeight.w700),
+              style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w700),
             ),
           ),
         ],
@@ -715,7 +715,7 @@ class _ProfileViewState extends State<ProfileView> {
         scrolledUnderElevation: 0,
         title: Text(
           'Akun Saya',
-          style: GoogleFonts.notoSerif(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 18,
             fontWeight: FontWeight.w800,
             color: AppColors.primary,
@@ -734,7 +734,7 @@ class _ProfileViewState extends State<ProfileView> {
               const Gap(16),
               Text(
                 'Belum Masuk',
-                style: GoogleFonts.notoSerif(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary,
@@ -744,7 +744,7 @@ class _ProfileViewState extends State<ProfileView> {
               Text(
                 'Masuk untuk melihat akun dan pesanan Anda',
                 textAlign: TextAlign.center,
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 14,
                   color: AppColors.onSurfaceVariant,
                 ),

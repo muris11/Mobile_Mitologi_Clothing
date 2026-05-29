@@ -2,7 +2,7 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
@@ -173,7 +173,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         title: Text(
           'Batalkan Pembayaran?',
-          style: GoogleFonts.notoSerif(fontWeight: FontWeight.w800),
+          style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w800),
         ),
         content: const Text(
           'Pesanan tetap tersimpan. Kamu bisa melanjutkan pembayaran nanti dari halaman Detail Pesanan.',
@@ -230,7 +230,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
               children: [
                 Text(
                   'Pembayaran',
-                  style: GoogleFonts.notoSerif(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: 15,
                     fontWeight: FontWeight.w800,
                     color: AppColors.primary,
@@ -238,7 +238,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
                 ),
                 Text(
                   '#${widget.orderNumber}',
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: 11,
                     color: AppColors.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
@@ -264,7 +264,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
                     const SizedBox(width: 4),
                     Text(
                       'Aman',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 11,
                         fontWeight: FontWeight.w700,
                         color: const Color(0xFF059669),
@@ -315,7 +315,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
             icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 18),
             label: Text(
               'Kembali ke Aplikasi',
-              style: GoogleFonts.manrope(fontWeight: FontWeight.w700),
+              style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w700),
             ),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
@@ -380,7 +380,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
             const SizedBox(height: 24),
             Text(
               'Gagal Memuat Halaman',
-              style: GoogleFonts.notoSerif(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 18,
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,

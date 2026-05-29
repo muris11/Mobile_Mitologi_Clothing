@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
@@ -230,7 +230,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
             const Gap(24),
             Text(
               'Belum Ada Alamat',
-              style: GoogleFonts.notoSerif(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,
@@ -240,7 +240,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
             Text(
               'Tambahkan alamat pengiriman untuk memudahkan proses checkout.',
               textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 14,
                 color: AppColors.onSurfaceVariant,
                 height: 1.5,
@@ -292,7 +292,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                 Expanded(
                   child: Text(
                     address.label,
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontWeight: FontWeight.w800,
                       fontSize: 15,
                       color: AppColors.primary,
@@ -342,7 +342,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                 Expanded(
                   child: Text(
                     '${address.recipientName} · ${address.phone}',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 13,
                       color: AppColors.onSurfaceVariant,
                     ),
@@ -360,7 +360,7 @@ class _AddressesScreenState extends State<AddressesScreen> {
                 Expanded(
                   child: Text(
                     address.fullAddress,
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 13,
                       color: AppColors.onSurfaceVariant,
                       height: 1.4,
@@ -590,7 +590,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
               const Gap(24),
               Text(
                 widget.address == null ? 'Tambah Alamat' : 'Edit Alamat',
-                style: GoogleFonts.notoSerif(fontSize: 20, fontWeight: FontWeight.w800),
+                style: AppTextStyles.plusJakartaSans(fontSize: 20, fontWeight: FontWeight.w800),
               ),
               const Gap(24),
               TextFormField(

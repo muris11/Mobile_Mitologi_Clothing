@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:mitologi_clothing_mobile/utils/responsive_utils.dart';
@@ -119,7 +119,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
               const SizedBox(width: 8),
               Text(
                 'CURATED SELECTION',
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 10,
                   fontWeight: FontWeight.w800,
                   color: AppColors.secondary,
@@ -131,7 +131,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           const SizedBox(height: 12),
           Text(
             'Your Favorites',
-            style: GoogleFonts.notoSerif(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 32,
               fontWeight: FontWeight.w700,
               color: AppColors.primary,
@@ -141,7 +141,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           const SizedBox(height: 4),
           Text(
             'Items you\'ve saved for later',
-            style: GoogleFonts.manrope(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 14,
               color: AppColors.outline,
               fontWeight: FontWeight.w500,

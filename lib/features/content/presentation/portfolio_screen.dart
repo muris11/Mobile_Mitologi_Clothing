@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
@@ -110,7 +111,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               const SizedBox(width: 8),
               Text(
                 'OUR JOURNEY',
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 10,
                   fontWeight: FontWeight.w800,
                   color: AppColors.secondary,
@@ -122,7 +123,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           const SizedBox(height: 12),
           Text(
             'Masterpieces',
-            style: GoogleFonts.notoSerif(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 32,
               fontWeight: FontWeight.w700,
               color: AppColors.primary,
@@ -132,7 +133,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           const SizedBox(height: 4),
           Text(
             'Showcasing our best work and collaborations',
-            style: GoogleFonts.manrope(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 14,
               color: AppColors.outline,
               fontWeight: FontWeight.w500,
@@ -193,7 +194,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                       if (item.category != null)
                         Text(
                           item.category!.toUpperCase(),
-                          style: GoogleFonts.manrope(
+                          style: AppTextStyles.plusJakartaSans(
                             fontSize: 10,
                             fontWeight: FontWeight.w800,
                             color: AppColors.secondary,
@@ -203,7 +204,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                       const SizedBox(height: 8),
                       Text(
                         item.title,
-                        style: GoogleFonts.notoSerif(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 20,
                           fontWeight: FontWeight.w700,
                           color: AppColors.primary,
@@ -215,7 +216,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
                           cleanDescription,
                           maxLines: 2,
                           overflow: TextOverflow.ellipsis,
-                          style: GoogleFonts.manrope(
+                          style: AppTextStyles.plusJakartaSans(
                             fontSize: 14,
                             color: AppColors.outline,
                             height: 1.5,
@@ -233,3 +234,4 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
     );
   }
 }
+

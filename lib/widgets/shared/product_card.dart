@@ -264,31 +264,32 @@ class _ProductCardState extends State<ProductCard>
           AppHaptics.lightImpact();
           widget.onWishlistToggle?.call();
         },
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(999),
-          child: BackdropFilter(
-            filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
-            child: Container(
-              width: 34,
-              height: 34,
-              decoration: BoxDecoration(
-                color: Colors.white.withValues(alpha: 0.8),
-                shape: BoxShape.circle,
-                border: Border.all(
-                  color: Colors.white.withValues(alpha: 0.5),
-                  width: 1,
-                ),
-              ),
-              child: Icon(
-                widget.isInWishlist
-                    ? PhosphorIconsFill.heart
-                    : PhosphorIconsRegular.heart,
-                color: widget.isInWishlist
-                    ? const Color(0xFFE53E3E)
-                    : AppColors.primary,
-                size: 16,
-              ),
+        child: Container(
+          width: 34,
+          height: 34,
+          decoration: BoxDecoration(
+            color: Colors.white.withValues(alpha: 0.9),
+            shape: BoxShape.circle,
+            border: Border.all(
+              color: AppColors.outlineVariant.withValues(alpha: 0.5),
+              width: 1,
             ),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.05),
+                blurRadius: 4,
+                offset: const Offset(0, 2),
+              ),
+            ],
+          ),
+          child: Icon(
+            widget.isInWishlist
+                ? PhosphorIconsFill.heart
+                : PhosphorIconsRegular.heart,
+            color: widget.isInWishlist
+                ? const Color(0xFFE53E3E)
+                : AppColors.primary,
+            size: 16,
           ),
         ),
       ),

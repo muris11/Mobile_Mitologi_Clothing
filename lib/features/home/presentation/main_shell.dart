@@ -1,4 +1,3 @@
-import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
@@ -56,41 +55,35 @@ class MainShell extends StatelessWidget {
           top: false,
           child: Padding(
             padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
-            child: ClipRRect(
-              borderRadius: AppBorderRadius.xlRadius,
-              child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
-                child: Container(
-                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
-                  decoration: BoxDecoration(
-                    color: AppColors.surface.withValues(alpha: 0.85),
-                    borderRadius: AppBorderRadius.xlRadius,
-                    border: Border.all(
-                      color: Colors.white.withValues(alpha: 0.6),
-                      width: 1.5,
-                    ),
-                    boxShadow: [
-                      AppShadows.floating,
-                      BoxShadow(
-                        color: AppColors.primary.withValues(alpha: 0.03),
-                        blurRadius: 16,
-                        spreadRadius: 2,
-                      ),
-                    ],
+            child: Container(
+              padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+              decoration: BoxDecoration(
+                color: AppColors.surface.withValues(alpha: 0.98), // Solid color for performance
+                borderRadius: AppBorderRadius.xlRadius,
+                border: Border.all(
+                  color: AppColors.outlineVariant.withValues(alpha: 0.4),
+                  width: 1.0,
+                ),
+                boxShadow: [
+                  AppShadows.floating,
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.05),
+                    blurRadius: 16,
+                    spreadRadius: 2,
                   ),
-                  child: SizedBox(
-                    height: 56,
-                    child: Row(
-                      children: items.map((item) {
-                        final isActive = item.route == '/'
-                            ? location == '/'
-                            : location.startsWith(item.route);
-                        return Expanded(
-                          child: _NavButton(item: item, isActive: isActive),
-                        );
-                      }).toList(),
-                    ),
-                  ),
+                ],
+              ),
+              child: SizedBox(
+                height: 56,
+                child: Row(
+                  children: items.map((item) {
+                    final isActive = item.route == '/'
+                        ? location == '/'
+                        : location.startsWith(item.route);
+                    return Expanded(
+                      child: _NavButton(item: item, isActive: isActive),
+                    );
+                  }).toList(),
                 ),
               ),
             ),
@@ -157,3 +150,4 @@ class _NavButton extends StatelessWidget {
     );
   }
 }
+

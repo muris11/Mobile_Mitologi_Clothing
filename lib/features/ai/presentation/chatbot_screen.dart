@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
@@ -62,7 +63,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           children: [
             Text(
               'MITOLOGI CS & STYLIST',
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 16,
                 fontWeight: FontWeight.w900,
                 letterSpacing: 0.5,
@@ -83,7 +84,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                 const SizedBox(width: 4),
                 Text(
                   'Aktif',
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: 10,
                     fontWeight: FontWeight.w700,
                     color: const Color(0xFF10B981),
@@ -152,7 +153,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             const SizedBox(height: 24),
             Text(
               'Halo! Saya Stylist & CS Anda',
-              style: GoogleFonts.notoSerif(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 20,
                 fontWeight: FontWeight.w800,
                 color: AppColors.primary,
@@ -163,7 +164,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             Text(
               'Tanyakan apa saja seputar panduan ukuran, status pengiriman, voucher promo, atau minta rekomendasi gaya terbaik Anda!',
               textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 14,
                 color: AppColors.onSurfaceVariant,
                 height: 1.5,
@@ -206,7 +207,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             ),
             child: Text(
               t['label']!,
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 12,
                 fontWeight: FontWeight.w700,
                 color: AppColors.primary,
@@ -262,7 +263,7 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               ),
               child: Text(
                 message.content,
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
                   color: isUser ? Colors.white : AppColors.onSurface,
@@ -332,10 +333,10 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
               ),
               child: TextField(
                 controller: _controller,
-                style: GoogleFonts.manrope(fontSize: 14),
+                style: AppTextStyles.plusJakartaSans(fontSize: 14),
                 decoration: InputDecoration(
                   hintText: 'Ketik pesan...',
-                  hintStyle: GoogleFonts.manrope(color: AppColors.outline),
+                  hintStyle: AppTextStyles.plusJakartaSans(color: AppColors.outline),
                   border: InputBorder.none,
                 ),
                 onSubmitted: (_) => _handleSend(),
@@ -426,3 +427,4 @@ class _TypingDotState extends State<_TypingDot> with SingleTickerProviderStateMi
     );
   }
 }
+

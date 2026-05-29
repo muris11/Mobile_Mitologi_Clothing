@@ -3,8 +3,6 @@ import 'package:google_fonts/google_fonts.dart';
 import 'app_colors.dart';
 
 class AppTheme {
-  static const double _borderRadius = AppBorderRadius.xl;
-
   static ThemeData get lightTheme {
     return ThemeData(
       useMaterial3: true,

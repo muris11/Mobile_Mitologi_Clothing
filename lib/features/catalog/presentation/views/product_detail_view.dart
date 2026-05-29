@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
+import 'package:mitologi_clothing_mobile/core/widgets/empty_state.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_detail_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/cached_image_widget.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -131,27 +133,12 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 
   Widget _buildError() {
     return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(32),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            const Icon(PhosphorIconsRegular.package,
-                size: 48, color: AppColors.outline),
-            const Gap(16),
-            Text(
-              'Produk tidak ditemukan',
-              style: GoogleFonts.notoSerif(
-                  fontSize: 18, fontWeight: FontWeight.w700),
-            ),
-            const Gap(24),
-            FilledButton.icon(
-              onPressed: () => context.pop(),
-              icon: const Icon(PhosphorIconsRegular.arrowLeft),
-              label: const Text('Kembali'),
-            ),
-          ],
-        ),
+      child: AnimatedEmptyState(
+        icon: PhosphorIconsRegular.package,
+        title: 'Produk tidak ditemukan',
+        subtitle: 'Produk yang Anda cari mungkin telah dihapus atau tidak tersedia.',
+        actionLabel: 'Kembali',
+        onAction: () => context.pop(),
       ),
     );
   }
@@ -359,7 +346,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         children: [
           Text(
             product.name,
-            style: GoogleFonts.notoSerif(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 22,
               fontWeight: FontWeight.w800,
               height: 1.2,
@@ -385,7 +372,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       const SizedBox(width: 3),
                       Text(
                         product.rating!.toStringAsFixed(1),
-                        style: GoogleFonts.manrope(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w700,
                           color: _gold,
@@ -399,7 +386,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               if (product.reviewsCount > 0) ...[
                 Text(
                   '${product.reviewsCount} ulasan',
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: 12,
                     color: AppColors.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
@@ -419,7 +406,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               if (product.totalSold > 0)
                 Text(
                   '${_formatCount(product.totalSold)}+ terjual',
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: 12,
                     color: AppColors.onSurfaceVariant,
                     fontWeight: FontWeight.w500,
@@ -430,7 +417,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           const Gap(16),
           Text(
             _formatPrice(product.displayPrice),
-            style: GoogleFonts.manrope(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 26,
               fontWeight: FontWeight.w900,
               color: _gold,
@@ -442,7 +429,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               padding: const EdgeInsets.only(top: 4),
               child: Text(
                 _formatPrice(product.price),
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 15,
                   color: AppColors.outline,
                   decoration: TextDecoration.lineThrough,
@@ -473,7 +460,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             children: [
               Text(
                 _sortLabel(option.name),
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 13,
                   fontWeight: FontWeight.w700,
                   color: AppColors.onSurface,
@@ -493,7 +480,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       const SizedBox(width: 4),
                       Text(
                         'Panduan Ukuran',
-                        style: GoogleFonts.manrope(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 12,
                           fontWeight: FontWeight.w600,
                           color: _gold,
@@ -552,7 +539,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   ),
                   child: Text(
                     value,
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 13,
                       fontWeight:
                           isSelected ? FontWeight.w700 : FontWeight.w500,
@@ -626,7 +613,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         children: [
           Text(
             'Deskripsi Produk',
-            style: GoogleFonts.notoSerif(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 18,
               fontWeight: FontWeight.w800,
             ),
@@ -636,7 +623,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             product.descriptionHtml?.isNotEmpty == true
                 ? product.descriptionHtml!.replaceAll(RegExp(r'<[^>]*>'), '')
                 : product.description,
-            style: GoogleFonts.manrope(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 14,
               height: 1.7,
               color: AppColors.onSurfaceVariant,
@@ -684,7 +671,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 children: [
                   Text(
                     'Ulasan',
-                    style: GoogleFonts.notoSerif(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 18,
                       fontWeight: FontWeight.w800,
                     ),
@@ -693,7 +680,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     const SizedBox(width: 8),
                     Text(
                       '($totalRev)',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 14,
                         color: AppColors.onSurfaceVariant,
                       ),
@@ -707,7 +694,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     size: 16, color: _gold),
                 label: Text(
                   'Tulis Ulasan',
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     color: _gold,
                     fontSize: 13,
                     fontWeight: FontWeight.w700,
@@ -723,7 +710,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               children: [
                 Text(
                   avgRating.toStringAsFixed(1),
-                  style: GoogleFonts.manrope(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: 36,
                     fontWeight: FontWeight.w900,
                     color: _gold,
@@ -747,7 +734,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     ),
                     Text(
                       '$totalRev ulasan',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 12,
                         color: AppColors.onSurfaceVariant,
                       ),
@@ -771,7 +758,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                               width: 14,
                               child: Text(
                                 '$star',
-                                style: GoogleFonts.manrope(
+                                style: AppTextStyles.plusJakartaSans(
                                   fontSize: 10,
                                   color: AppColors.onSurfaceVariant,
                                 ),
@@ -796,7 +783,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                               width: 20,
                               child: Text(
                                 '$count',
-                                style: GoogleFonts.manrope(
+                                style: AppTextStyles.plusJakartaSans(
                                   fontSize: 10,
                                   color: AppColors.onSurfaceVariant,
                                 ),
@@ -838,7 +825,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     viewModel.isLoadingReviews
                         ? 'Memuat...'
                         : 'Lihat ulasan lainnya',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 13,
                       fontWeight: FontWeight.w600,
                     ),
@@ -848,7 +835,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           ] else if (summary != null)
             Text(
               'Belum ada ulasan untuk produk ini.',
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 13,
                 color: AppColors.onSurfaceVariant,
               ),
@@ -884,7 +871,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   children: [
                     Text(
                       review.userName,
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 13,
                         fontWeight: FontWeight.w700,
                       ),
@@ -906,7 +893,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               ),
               Text(
                 _formatDate(review.createdAt),
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 11,
                   color: AppColors.onSurfaceVariant,
                 ),
@@ -917,7 +904,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             const Gap(8),
             Text(
               review.comment,
-              style: GoogleFonts.manrope(
+              style: AppTextStyles.plusJakartaSans(
                 fontSize: 13,
                 height: 1.5,
                 color: AppColors.onSurface,
@@ -941,7 +928,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   Expanded(
                     child: Text(
                       review.adminReply!,
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 12,
                         height: 1.4,
                         color: AppColors.onSurface,
@@ -972,73 +959,32 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         children: [
           Text(
             'Produk Terkait',
-            style: GoogleFonts.notoSerif(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 18,
               fontWeight: FontWeight.w800,
             ),
           ),
           const Gap(16),
           SizedBox(
-            height: 260,
+            height: 280, // Updated height to match standard ProductCard 3:4 ratio
             child: ListView.builder(
               scrollDirection: Axis.horizontal,
               itemCount: products.length.clamp(0, 8),
               itemBuilder: (context, index) {
                 final p = products[index];
-                return GestureDetector(
-                  onTap: () {
-                    context.push('/product/${p.slug}');
+                return Consumer<WishlistProvider>(
+                  builder: (context, wishlist, _) {
+                    return Container(
+                      width: 175,
+                      margin: const EdgeInsets.only(right: 12),
+                      child: ProductCard(
+                        product: p,
+                        showBrand: false,
+                        isInWishlist: wishlist.isInWishlist(p.id),
+                        onWishlistToggle: () => wishlist.toggleWishlist(p.id),
+                      ),
+                    );
                   },
-                  child: Container(
-                    width: 160,
-                    margin: const EdgeInsets.only(right: 12),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(14),
-                      color: AppColors.surfaceContainerLowest,
-                      border: Border.all(color: AppColors.outlineVariant),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Expanded(
-                          child: ShimmerImage(
-                            imageUrl:
-                                ApiConfig.buildImageUrl(p.featuredImageUrl),
-                            fit: BoxFit.cover,
-                            width: double.infinity,
-                          ),
-                        ),
-                        Padding(
-                          padding: const EdgeInsets.all(10),
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                p.name,
-                                maxLines: 2,
-                                overflow: TextOverflow.ellipsis,
-                                style: GoogleFonts.manrope(
-                                  fontSize: 12,
-                                  fontWeight: FontWeight.w700,
-                                  height: 1.2,
-                                ),
-                              ),
-                              const SizedBox(height: 4),
-                              Text(
-                                _formatPrice(p.displayPrice),
-                                style: GoogleFonts.manrope(
-                                  fontSize: 13,
-                                  fontWeight: FontWeight.w900,
-                                  color: _gold,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
                 );
               },
             ),
@@ -1088,7 +1034,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     alignment: Alignment.center,
                     child: Text(
                       '$_quantity',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontWeight: FontWeight.w700,
                         fontSize: 15,
                       ),
@@ -1118,7 +1064,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   ),
                   child: Text(
                     'Keranjang',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontWeight: FontWeight.w700,
                       fontSize: 13,
                       color: canAdd ? AppColors.primary : AppColors.outline,
@@ -1143,7 +1089,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   ),
                   child: Text(
                     'Beli',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontWeight: FontWeight.w700,
                       fontSize: 13,
                     ),
@@ -1210,14 +1156,14 @@ class _SpecRow extends StatelessWidget {
       children: [
         Text(
           label,
-          style: GoogleFonts.manrope(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 13,
             color: AppColors.onSurfaceVariant,
           ),
         ),
         Text(
           value,
-          style: GoogleFonts.manrope(
+          style: AppTextStyles.plusJakartaSans(
             fontSize: 13,
             fontWeight: FontWeight.w700,
           ),
@@ -1289,7 +1235,7 @@ class ProductReviewAvatar extends StatelessWidget {
       color: AppColors.surfaceContainerLow,
       child: Text(
         review.userName.isNotEmpty ? review.userName[0].toUpperCase() : '?',
-        style: GoogleFonts.manrope(
+        style: AppTextStyles.plusJakartaSans(
           fontSize: size * 0.4,
           fontWeight: FontWeight.w700,
           color: AppColors.onSurfaceVariant,
@@ -1400,7 +1346,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
             children: [
               Text(
                 'Tulis Ulasan Produk',
-                style: GoogleFonts.notoSerif(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                   color: AppColors.primary,
@@ -1436,7 +1382,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
               ),
               child: Text(
                 _errorMessage!,
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   color: AppColors.error,
                   fontSize: 13,
                   fontWeight: FontWeight.w600,
@@ -1447,7 +1393,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
           ],
           Text(
             'Rating Bintang',
-            style: GoogleFonts.manrope(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: AppColors.onSurface,
@@ -1477,7 +1423,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
           const Gap(20),
           Text(
             'Komentar Ulasan',
-            style: GoogleFonts.manrope(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 14,
               fontWeight: FontWeight.w700,
               color: AppColors.onSurface,
@@ -1488,12 +1434,12 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
             controller: _commentController,
             maxLines: 4,
             textCapitalization: TextCapitalization.sentences,
-            style: GoogleFonts.manrope(fontSize: 14),
+            style: AppTextStyles.plusJakartaSans(fontSize: 14),
             decoration: InputDecoration(
               hintText:
                   'Tuliskan ulasan pengalaman Anda terhadap produk ini...',
               hintStyle:
-                  GoogleFonts.manrope(fontSize: 13, color: AppColors.outline),
+                  AppTextStyles.plusJakartaSans(fontSize: 13, color: AppColors.outline),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: const BorderSide(color: AppColors.outlineVariant),
@@ -1528,7 +1474,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                     )
                   : Text(
                       'Kirim Ulasan',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontWeight: FontWeight.w700,
                         fontSize: 14,
                       ),
@@ -1671,7 +1617,7 @@ class _PremiumSizeCalculatorSheetState
             children: [
               Text(
                 'Kalkulator Ukuran Premium',
-                style: GoogleFonts.notoSerif(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 18,
                   fontWeight: FontWeight.w800,
                   color: AppColors.primary,
@@ -1697,7 +1643,7 @@ class _PremiumSizeCalculatorSheetState
           const Gap(8),
           Text(
             'Masukkan tinggi dan berat badan Anda untuk mendapatkan rekomendasi ukuran terbaik dari koleksi premium kami.',
-            style: GoogleFonts.manrope(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 13,
               color: AppColors.onSurfaceVariant,
               height: 1.5,
@@ -1711,7 +1657,7 @@ class _PremiumSizeCalculatorSheetState
             children: [
               Text(
                 'Tinggi Badan',
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: AppColors.onSurface,
@@ -1722,7 +1668,7 @@ class _PremiumSizeCalculatorSheetState
                   children: [
                     TextSpan(
                       text: _height.toStringAsFixed(0),
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
                         color: _gold,
@@ -1730,7 +1676,7 @@ class _PremiumSizeCalculatorSheetState
                     ),
                     TextSpan(
                       text: ' cm',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: AppColors.onSurfaceVariant,
@@ -1749,7 +1695,7 @@ class _PremiumSizeCalculatorSheetState
                   AppColors.outlineVariant.withValues(alpha: 0.3),
               thumbColor: _gold,
               overlayColor: _gold.withValues(alpha: 0.15),
-              valueIndicatorTextStyle: GoogleFonts.manrope(color: Colors.white),
+              valueIndicatorTextStyle: AppTextStyles.plusJakartaSans(color: Colors.white),
             ),
             child: Slider(
               value: _height,
@@ -1772,7 +1718,7 @@ class _PremiumSizeCalculatorSheetState
             children: [
               Text(
                 'Berat Badan',
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w700,
                   color: AppColors.onSurface,
@@ -1783,7 +1729,7 @@ class _PremiumSizeCalculatorSheetState
                   children: [
                     TextSpan(
                       text: _weight.toStringAsFixed(0),
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 16,
                         fontWeight: FontWeight.w800,
                         color: _gold,
@@ -1791,7 +1737,7 @@ class _PremiumSizeCalculatorSheetState
                     ),
                     TextSpan(
                       text: ' kg',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 12,
                         fontWeight: FontWeight.w500,
                         color: AppColors.onSurfaceVariant,
@@ -1810,7 +1756,7 @@ class _PremiumSizeCalculatorSheetState
                   AppColors.outlineVariant.withValues(alpha: 0.3),
               thumbColor: _gold,
               overlayColor: _gold.withValues(alpha: 0.15),
-              valueIndicatorTextStyle: GoogleFonts.manrope(color: Colors.white),
+              valueIndicatorTextStyle: AppTextStyles.plusJakartaSans(color: Colors.white),
             ),
             child: Slider(
               value: _weight,
@@ -1866,7 +1812,7 @@ class _PremiumSizeCalculatorSheetState
                   alignment: Alignment.center,
                   child: Text(
                     _calculatedSize ?? 'M',
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: 26,
                       fontWeight: FontWeight.w900,
                       color: Colors.white,
@@ -1882,7 +1828,7 @@ class _PremiumSizeCalculatorSheetState
                         children: [
                           Text(
                             'Rekomendasi Anda',
-                            style: GoogleFonts.manrope(
+                            style: AppTextStyles.plusJakartaSans(
                               fontSize: 12,
                               fontWeight: FontWeight.w500,
                               color: AppColors.onSurfaceVariant,
@@ -1907,7 +1853,7 @@ class _PremiumSizeCalculatorSheetState
                                 const SizedBox(width: 4),
                                 Text(
                                   'Cocok ${_matchPercentage.toStringAsFixed(0)}%',
-                                  style: GoogleFonts.manrope(
+                                  style: AppTextStyles.plusJakartaSans(
                                     fontSize: 10,
                                     fontWeight: FontWeight.w700,
                                     color: AppColors.success,
@@ -1921,7 +1867,7 @@ class _PremiumSizeCalculatorSheetState
                       const Gap(4),
                       Text(
                         'Ukuran ${_calculatedSize ?? "M"}',
-                        style: GoogleFonts.notoSerif(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 18,
                           fontWeight: FontWeight.w800,
                           color: AppColors.primary,
@@ -1930,7 +1876,7 @@ class _PremiumSizeCalculatorSheetState
                       const Gap(6),
                       Text(
                         _fitFeedback,
-                        style: GoogleFonts.manrope(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 12,
                           color: AppColors.onSurface,
                           fontWeight: FontWeight.w500,
@@ -1974,7 +1920,7 @@ class _PremiumSizeCalculatorSheetState
               ),
               child: Text(
                 'Terapkan Ukuran',
-                style: GoogleFonts.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   fontWeight: FontWeight.w700,
                   fontSize: 14,
                 ),

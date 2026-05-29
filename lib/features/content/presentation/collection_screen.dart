@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:go_router/go_router.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
@@ -59,7 +60,7 @@ class CollectionScreen extends StatelessWidget {
                   flexibleSpace: FlexibleSpaceBar(
                     title: Text(
                       collection.title.toUpperCase(),
-                      style: GoogleFonts.notoSerif(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 14,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 2,
@@ -106,7 +107,7 @@ class CollectionScreen extends StatelessWidget {
                       padding: const EdgeInsets.fromLTRB(24, 24, 24, 0),
                       child: Text(
                         collection.description!,
-                        style: GoogleFonts.manrope(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 15,
                           color: AppColors.outline,
                           height: 1.6,
@@ -153,3 +154,4 @@ class CollectionScreen extends StatelessWidget {
     );
   }
 }
+

@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/profile/data/profile_repository.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -186,57 +187,12 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
   }
 
   Widget _buildEmpty() {
-    return Center(
-      child: Padding(
-        padding: const EdgeInsets.all(40),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 88,
-              height: 88,
-              decoration: const BoxDecoration(
-                color: AppColors.surfaceContainerLow,
-                shape: BoxShape.circle,
-              ),
-              child: const Icon(
-                PhosphorIconsRegular.shoppingBag,
-                size: 40,
-                color: AppColors.onSurfaceVariant,
-              ),
-            ),
-            const Gap(24),
-            Text(
-              'Belum Ada Pesanan',
-              style: GoogleFonts.notoSerif(
-                fontSize: 20,
-                fontWeight: FontWeight.w800,
-                color: AppColors.primary,
-              ),
-            ),
-            const Gap(8),
-            Text(
-              'Mulai belanja dan buat pesanan pertama Anda.',
-              textAlign: TextAlign.center,
-              style: GoogleFonts.manrope(
-                fontSize: 14,
-                color: AppColors.onSurfaceVariant,
-                height: 1.5,
-              ),
-            ),
-            const Gap(32),
-            FilledButton.icon(
-              onPressed: () => context.go('/products'),
-              icon: const Icon(PhosphorIconsRegular.storefront),
-              label: const Text('Lihat Katalog'),
-              style: FilledButton.styleFrom(
-                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 14),
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
-              ),
-            ),
-          ],
-        ),
-      ),
+    return AnimatedEmptyState(
+      icon: PhosphorIconsRegular.shoppingBag,
+      title: 'Belum Ada Pesanan',
+      subtitle: 'Mulai belanja dan buat pesanan pertama Anda.',
+      actionLabel: 'Lihat Katalog',
+      onAction: () => context.push('/products'),
     );
   }
 
@@ -288,7 +244,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                   Expanded(
                     child: Text(
                       '#${order.orderNumber}',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontWeight: FontWeight.w800,
                         fontSize: 15,
                         color: AppColors.primary,
@@ -328,7 +284,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                       const Gap(4),
                       Text(
                         formattedDate,
-                        style: GoogleFonts.manrope(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 12,
                           color: AppColors.onSurfaceVariant,
                         ),
@@ -343,7 +299,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                       const Gap(4),
                       Text(
                         '${order.itemsCount > 0 ? order.itemsCount : order.items.length} item',
-                        style: GoogleFonts.manrope(
+                        style: AppTextStyles.plusJakartaSans(
                           fontSize: 12,
                           color: AppColors.onSurfaceVariant,
                         ),
@@ -361,7 +317,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                   Expanded(
                     child: Text(
                       'Total Pembayaran',
-                      style: GoogleFonts.manrope(
+                      style: AppTextStyles.plusJakartaSans(
                         fontSize: 12,
                         color: AppColors.onSurfaceVariant,
                       ),
@@ -371,7 +327,7 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
                   const Gap(8),
                   Text(
                     formattedTotal,
-                    style: GoogleFonts.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontWeight: FontWeight.w800,
                       fontSize: 15,
                       color: AppColors.primary,

@@ -1,4 +1,4 @@
-import 'dart:ui';
+// Removed dart:ui
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -78,29 +78,25 @@ class AuthScaffold extends StatelessWidget {
               child: Center(
                 child: SingleChildScrollView(
                   padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
-                  child: ClipRRect(
-                    borderRadius: AppBorderRadius.xxlRadius,
-                    child: BackdropFilter(
-                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
-                      child: Container(
-                        width: 560,
-                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
-                        decoration: BoxDecoration(
-                          color: Colors.white.withValues(alpha: 0.85),
-                          borderRadius: AppBorderRadius.xxlRadius,
-                          border: Border.all(
-                            color: Colors.white.withValues(alpha: 0.9),
-                            width: 1.5,
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: AppColors.primary.withValues(alpha: 0.05),
-                              blurRadius: 40,
-                              offset: const Offset(0, 20),
-                            ),
-                          ],
+                  child: Container(
+                    width: 560,
+                    padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withValues(alpha: 0.85),
+                      borderRadius: AppBorderRadius.xxlRadius,
+                      border: Border.all(
+                        color: Colors.white.withValues(alpha: 0.9),
+                        width: 1.5,
+                      ),
+                      boxShadow: [
+                        BoxShadow(
+                          color: AppColors.primary.withValues(alpha: 0.05),
+                          blurRadius: 40,
+                          offset: const Offset(0, 20),
                         ),
-                        child: Column(
+                      ],
+                    ),
+                    child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Padding(
@@ -169,8 +165,6 @@ class AuthScaffold extends StatelessWidget {
                             ),
                           ],
                         ),
-                      ),
-                    ),
                   ),
                 ),
               ),
