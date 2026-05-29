@@ -28,29 +28,31 @@ class LuxuryButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final foreground = switch (variant) {
       LuxuryButtonVariant.primary => AppColors.onPrimary,
-      LuxuryButtonVariant.secondary => AppColors.primary,
+      LuxuryButtonVariant.secondary => AppColors.onSecondaryContainer,
       LuxuryButtonVariant.ghost => AppColors.primary,
     };
     final background = switch (variant) {
       LuxuryButtonVariant.primary => AppColors.primary,
-      LuxuryButtonVariant.secondary => AppColors.secondarySoft,
+      LuxuryButtonVariant.secondary => AppColors.secondary,
       LuxuryButtonVariant.ghost => Colors.transparent,
     };
     final border = switch (variant) {
       LuxuryButtonVariant.primary => BorderSide.none,
-      LuxuryButtonVariant.secondary => const BorderSide(color: AppColors.glassBorder),
-      LuxuryButtonVariant.ghost => const BorderSide(color: AppColors.outlineVariant),
+      LuxuryButtonVariant.secondary => BorderSide.none,
+      LuxuryButtonVariant.ghost =>
+        const BorderSide(color: AppColors.outlineVariant),
     };
 
     final child = AnimatedContainer(
       duration: const Duration(milliseconds: 220),
       curve: Curves.easeOutCubic,
-      padding: padding ?? const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding:
+          padding ?? const EdgeInsets.symmetric(horizontal: 22, vertical: 16),
       decoration: BoxDecoration(
         color: background,
-        borderRadius: AppBorderRadius.lgRadius,
+        borderRadius: AppBorderRadius.fullRadius,
         border: Border.fromBorderSide(border),
-        boxShadow: variant == LuxuryButtonVariant.primary
+        boxShadow: variant != LuxuryButtonVariant.ghost
             ? [AppShadows.button]
             : const <BoxShadow>[],
       ),
@@ -80,7 +82,7 @@ class LuxuryButton extends StatelessWidget {
                   fontSize: 14,
                   fontWeight: FontWeight.w800,
                   color: foreground,
-                  letterSpacing: 0.3,
+                  letterSpacing: 0.2,
                 ),
               ),
             ),
@@ -93,7 +95,7 @@ class LuxuryButton extends StatelessWidget {
       color: Colors.transparent,
       child: InkWell(
         onTap: isLoading ? null : onPressed,
-        borderRadius: AppBorderRadius.lgRadius,
+        borderRadius: AppBorderRadius.fullRadius,
         child: child,
       ),
     );

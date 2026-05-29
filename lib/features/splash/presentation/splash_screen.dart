@@ -135,16 +135,19 @@ class _SplashScreenState extends State<SplashScreen>
                             child: Opacity(
                               opacity: _logoOpacity.value,
                               child: Container(
-                                width: 120,
-                                height: 120,
+                                width: 124,
+                                height: 124,
                                 decoration: BoxDecoration(
+                                  color: AppColors.surface,
                                   borderRadius: AppBorderRadius.xxlRadius,
+                                  border: Border.all(
+                                      color: AppColors.outlineVariant),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: AppColors.secondaryContainer
-                                          .withValues(alpha: 0.18),
+                                      color: AppColors.primary
+                                          .withValues(alpha: 0.08),
                                       blurRadius: 40,
-                                      spreadRadius: 8,
+                                      spreadRadius: 2,
                                     ),
                                   ],
                                 ),
@@ -172,11 +175,11 @@ class _SplashScreenState extends State<SplashScreen>
                                   position: _titleSlide,
                                   child: Text(
                                     'MITOLOGI',
-                                    style: AppTextStyles.notoSerif(
-                                      fontSize: 32,
+                                    style: AppTextStyles.plusJakartaSans(
+                                      fontSize: 34,
                                       fontWeight: FontWeight.w900,
                                       color: AppColors.primary,
-                                      letterSpacing: 6,
+                                      letterSpacing: 3,
                                     ),
                                   ),
                                 ),
@@ -188,11 +191,11 @@ class _SplashScreenState extends State<SplashScreen>
                                   position: _subtitleSlide,
                                   child: Text(
                                     'CLOTHING',
-                                    style: AppTextStyles.manrope(
+                                    style: AppTextStyles.plusJakartaSans(
                                       fontSize: 13,
-                                      fontWeight: FontWeight.w600,
-                                      color: AppColors.secondaryContainer,
-                                      letterSpacing: 8,
+                                      fontWeight: FontWeight.w800,
+                                      color: AppColors.secondary,
+                                      letterSpacing: 6,
                                     ),
                                   ),
                                 ),
@@ -220,16 +223,16 @@ class _SplashScreenState extends State<SplashScreen>
                               backgroundColor:
                                   AppColors.primary.withValues(alpha: 0.1),
                               valueColor: const AlwaysStoppedAnimation<Color>(
-                                AppColors.secondaryContainer,
+                                AppColors.secondary,
                               ),
                             ),
                           ),
                           const SizedBox(height: 16),
                           Text(
                             'Memuat aplikasi...',
-                            style: AppTextStyles.manrope(
+                            style: AppTextStyles.plusJakartaSans(
                               fontSize: 12,
-                              color: AppColors.primary.withValues(alpha: 0.4),
+                              color: AppColors.onSurfaceVariant,
                               letterSpacing: 0.5,
                             ),
                           ),

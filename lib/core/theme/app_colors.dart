@@ -1,80 +1,80 @@
 import 'package:flutter/material.dart';
 
 class AppColors {
-  static const Color primary = Color(0xFF000613); // Deep Navy
+  static const Color primary = Color(0xFF0C1A2E);
   static const Color onPrimary = Color(0xFFFFFFFF);
-  static const Color primaryContainer = Color(0xFF001F3F);
-  static const Color onPrimaryContainer = Color(0xFF6F88AD);
-  
-  static const Color secondary = Color(0xFF735C00); // Gold
-  static const Color onSecondary = Color(0xFFFFFFFF);
-  static const Color secondaryContainer = Color(0xFFFED65B);
-  static const Color onSecondaryContainer = Color(0xFF745C00);
+  static const Color primaryContainer = Color(0xFF1E3A5F);
+  static const Color onPrimaryContainer = Color(0xFFE5C463);
 
-  static const Color background = Color(0xFFFAF9F5);
-  static const Color onBackground = Color(0xFF1B1C1A);
-  static const Color surface = Color(0xFFFAF9F5);
-  static const Color onSurface = Color(0xFF1B1C1A);
-  static const Color surfaceVariant = Color(0xFFE3E2DF);
-  static const Color onSurfaceVariant = Color(0xFF43474E);
-  
+  static const Color secondary = Color(0xFFCA8A04);
+  static const Color onSecondary = Color(0xFFFFFFFF);
+  static const Color secondaryContainer = Color(0xFFE5C463);
+  static const Color onSecondaryContainer = Color(0xFF0C1A2E);
+
+  static const Color background = Color(0xFFF8FAFC);
+  static const Color onBackground = Color(0xFF0F172A);
+  static const Color surface = Color(0xFFFFFFFF);
+  static const Color onSurface = Color(0xFF0F172A);
+  static const Color surfaceVariant = Color(0xFFF1F5F9);
+  static const Color onSurfaceVariant = Color(0xFF64748B);
+
   static const Color error = Color(0xFFBA1A1A);
   static const Color onError = Color(0xFFFFFFFF);
   static const Color success = Color(0xFF2E7D32);
   static const Color onSuccess = Color(0xFFFFFFFF);
 
-  static const Color outline = Color(0xFF74777F);
-  static const Color outlineVariant = Color(0xFFC4C6CF);
-  
+  static const Color outline = Color(0xFF94A3B8);
+  static const Color outlineVariant = Color(0xFFE2E8F0);
+
   static const Color surfaceContainerLowest = Color(0xFFFFFFFF);
-  static const Color surfaceContainerLow = Color(0xFFF4F4F0);
-  static const Color surfaceContainer = Color(0xFFEFEEEA);
-  static const Color surfaceContainerHigh = Color(0xFFE9E8E4);
-  static const Color surfaceContainerHighest = Color(0xFFE3E2DF);
-  
+  static const Color surfaceContainerLow = Color(0xFFF8FAFC);
+  static const Color surfaceContainer = Color(0xFFF1F5F9);
+  static const Color surfaceContainerHigh = Color(0xFFE2E8F0);
+  static const Color surfaceContainerHighest = Color(0xFFCBD5E1);
+
   static const Color shadow = Color(0xFF000000);
 
-  static const Color secondarySoft = Color(0x1FAD8C35); // A soft tinted variant of the secondary Gold color
-  static const Color glassBorder = Color(0x22FFFFFF); // Subtle translucent white border
-  static const Color glassSurface = Color(0x80FFFFFF); // Semi-transparent white for glass surfaces
-  static const Color glassSurfaceStrong = Color(0xCCFFFFFF); // Stronger semi-transparent white for glass surfaces
+  static const Color secondarySoft = Color(0x1FCA8A04);
+  static const Color glassBorder = Color(0x22FFFFFF);
+  static const Color glassSurface = Color(0xE6FFFFFF);
+  static const Color glassSurfaceStrong = Color(0xF7FFFFFF);
 }
 
 class AppShadows {
   static final BoxShadow card = BoxShadow(
-    color: AppColors.shadow.withValues(alpha: 0.08),
-    blurRadius: 20,
+    color: const Color(0xFF0C1A2E).withValues(alpha: 0.06),
+    blurRadius: 24,
     offset: const Offset(0, 10),
   );
   static final BoxShadow cardSoft = BoxShadow(
-    color: AppColors.shadow.withValues(alpha: 0.04),
-    blurRadius: 12,
+    color: const Color(0xFF0C1A2E).withValues(alpha: 0.04),
+    blurRadius: 16,
     offset: const Offset(0, 4),
   );
   static final BoxShadow cardElevated = BoxShadow(
-    color: AppColors.shadow.withValues(alpha: 0.12),
-    blurRadius: 24,
-    offset: const Offset(0, 8),
+    color: const Color(0xFF0C1A2E).withValues(alpha: 0.08),
+    blurRadius: 32,
+    offset: const Offset(0, 12),
   );
   static final BoxShadow button = BoxShadow(
-    color: AppColors.primary.withValues(alpha: 0.2),
-    blurRadius: 30,
+    color: AppColors.primary.withValues(alpha: 0.16),
+    blurRadius: 24,
     offset: const Offset(0, 10),
   );
   static final BoxShadow bottomNav = BoxShadow(
-    color: AppColors.shadow.withValues(alpha: 0.03),
-    blurRadius: 30,
+    color: const Color(0xFF0C1A2E).withValues(alpha: 0.05),
+    blurRadius: 24,
     offset: const Offset(0, -10),
   );
   static final BoxShadow floating = BoxShadow(
-    color: AppColors.shadow.withValues(alpha: 0.15),
-    blurRadius: 20,
-    offset: const Offset(0, 6),
+    color: const Color(0xFF0C1A2E).withValues(alpha: 0.12),
+    blurRadius: 24,
+    offset: const Offset(0, 8),
     spreadRadius: -4,
   );
   static final BoxShadow glass = BoxShadow(
-    color: AppColors.shadow.withValues(alpha: 0.05),
-    blurRadius: 16,
+    color: const Color(0xFF0C1A2E).withValues(alpha: 0.05),
+    blurRadius: 20,
     offset: const Offset(0, 4),
   );
 }
@@ -93,9 +93,9 @@ class AppGradients {
     begin: Alignment.topLeft,
     end: Alignment.bottomRight,
     colors: [
-      Color(0xFF735C00),
-      Color(0xFFFED65B),
-      Color(0xFF735C00),
+      Color(0xFFCA8A04),
+      Color(0xFFE5C463),
+      Color(0xFFCA8A04),
     ],
   );
 
@@ -103,7 +103,7 @@ class AppGradients {
     begin: Alignment.topCenter,
     end: Alignment.bottomCenter,
     colors: [
-      AppColors.surfaceContainerLowest,
+      AppColors.background,
       AppColors.surfaceContainerLow,
     ],
   );
@@ -138,12 +138,12 @@ class AppGradients {
 }
 
 class AppBorderRadius {
-  static const double xs = 4;
+  static const double xs = 6;
   static const double sm = 8;
   static const double md = 12;
   static const double lg = 16;
-  static const double xl = 12;
-  static const double xxl = 20;
+  static const double xl = 24;
+  static const double xxl = 32;
   static const double full = 9999;
 
   static BorderRadius get xsRadius => BorderRadius.circular(xs);

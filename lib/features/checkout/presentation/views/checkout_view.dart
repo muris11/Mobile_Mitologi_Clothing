@@ -64,6 +64,7 @@ class _CheckoutViewState extends State<CheckoutView> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          _buildCheckoutProgress(),
           _buildSectionTitle('Alamat Pengiriman', PhosphorIconsRegular.mapPin),
           const Gap(12),
           if (viewModel.addresses.isEmpty)
@@ -653,6 +654,80 @@ class _CheckoutViewState extends State<CheckoutView> {
           ],
         ),
       ),
+    );
+  }
+
+  Widget _buildCheckoutProgress() {
+    return Container(
+      margin: const EdgeInsets.only(bottom: 24),
+      padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 12),
+      decoration: BoxDecoration(
+        color: AppColors.surface,
+        borderRadius: AppBorderRadius.lgRadius,
+        border: Border.all(color: AppColors.outlineVariant),
+        boxShadow: [AppShadows.cardSoft],
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+        children: [
+          _buildProgressStep(1, 'Keranjang', true),
+          _buildProgressLine(true),
+          _buildProgressStep(2, 'Checkout', true, isActive: true),
+          _buildProgressLine(false),
+          _buildProgressStep(3, 'Bayar', false),
+        ],
+      ),
+    );
+  }
+
+  Widget _buildProgressStep(int step, String label, bool isDone, {bool isActive = false}) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Container(
+          width: 22,
+          height: 22,
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: isActive
+                ? AppColors.primary
+                : isDone
+                    ? AppColors.success.withValues(alpha: 0.1)
+                    : AppColors.outlineVariant,
+            border: isActive
+                ? Border.all(color: AppColors.secondaryContainer, width: 2)
+                : null,
+          ),
+          alignment: Alignment.center,
+          child: isDone && !isActive
+              ? const Icon(Icons.check, size: 12, color: AppColors.success)
+              : Text(
+                  '$step',
+                  style: TextStyle(
+                    fontSize: 10,
+                    fontWeight: FontWeight.w800,
+                    color: isActive ? Colors.white : AppColors.onSurfaceVariant,
+                  ),
+                ),
+        ),
+        const Gap(6),
+        Text(
+          label,
+          style: TextStyle(
+            fontSize: 11,
+            fontWeight: isActive || isDone ? FontWeight.w800 : FontWeight.w600,
+            color: isActive ? AppColors.primary : AppColors.onSurfaceVariant,
+          ),
+        ),
+      ],
+    );
+  }
+
+  Widget _buildProgressLine(bool active) {
+    return Container(
+      width: 24,
+      height: 2,
+      color: active ? AppColors.primary : AppColors.outlineVariant,
     );
   }
 }

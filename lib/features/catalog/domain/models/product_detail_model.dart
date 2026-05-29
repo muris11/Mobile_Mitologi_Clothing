@@ -46,7 +46,8 @@ class ProductDetailModel extends ProductModel {
       name: json['name'] as String? ?? json['title'] as String? ?? '',
       slug: json['slug'] as String? ?? json['handle'] as String? ?? '',
       description: json['description'] as String? ?? '',
-      descriptionHtml: json['descriptionHtml'] as String? ?? json['description_html'] as String?,
+      descriptionHtml: json['descriptionHtml'] as String? ??
+          json['description_html'] as String?,
       price: ParserUtils.parseDouble(
         json['price'] ?? minVariantPrice['amount'],
       ),
@@ -71,9 +72,7 @@ class ProductDetailModel extends ProductModel {
       ),
       images: images
           .map(
-            (e) => e is Map
-                ? e['url']?.toString() ?? ''
-                : e.toString(),
+            (e) => e is Map ? e['url']?.toString() ?? '' : e.toString(),
           )
           .where((e) => e.isNotEmpty)
           .toList(),
@@ -82,15 +81,22 @@ class ProductDetailModel extends ProductModel {
       reviews: ParserUtils.parseList(json['reviews'], ProductReview.fromJson),
       relatedProducts: ParserUtils.parseList(
           json['related_products'], ProductModel.fromJson),
-      options:
-          ParserUtils.parseList(json['options'], ProductOption.fromJson),
+      options: ParserUtils.parseList(json['options'], ProductOption.fromJson),
       tags: (json['tags'] as List?)?.map((e) => e.toString()).toList() ?? [],
     );
   }
 
   @override
-  List<Object?> get props =>
-      [...super.props, images, variants, reviews, relatedProducts, options, tags, descriptionHtml];
+  List<Object?> get props => [
+        ...super.props,
+        images,
+        variants,
+        reviews,
+        relatedProducts,
+        options,
+        tags,
+        descriptionHtml
+      ];
 }
 
 class ProductOption extends Equatable {
@@ -108,10 +114,8 @@ class ProductOption extends Equatable {
     return ProductOption(
       id: ParserUtils.parseInt(json['id']),
       name: json['name'] as String? ?? '',
-      values: (json['values'] as List?)
-              ?.map((e) => e.toString())
-              .toList() ??
-          [],
+      values:
+          (json['values'] as List?)?.map((e) => e.toString()).toList() ?? [],
     );
   }
 
@@ -143,8 +147,7 @@ class ProductVariant extends Equatable {
   factory ProductVariant.fromJson(Map<String, dynamic> json) {
     final selectedOptions = (json['selectedOptions'] as List?) ?? const [];
     final selectedLabel = selectedOptions
-        .map((e) =>
-            e is Map ? e['value']?.toString() ?? '' : '')
+        .map((e) => e is Map ? e['value']?.toString() ?? '' : '')
         .where((value) => value.isNotEmpty)
         .join(' / ');
 
@@ -154,8 +157,7 @@ class ProductVariant extends Equatable {
           json['name'] as String? ?? json['title'] as String? ?? selectedLabel,
       value: json['value'] as String?,
       stock: ParserUtils.parseInt(json['stock']),
-      availableForSale:
-          ParserUtils.parseBool(json['availableForSale'] ?? true),
+      availableForSale: ParserUtils.parseBool(json['availableForSale'] ?? true),
       priceAdjustment: ParserUtils.parseDouble(
         json['price_adjustment'] ??
             ParserUtils.parseMap(json['price'])['amount'],
@@ -171,8 +173,16 @@ class ProductVariant extends Equatable {
   }
 
   @override
-  List<Object?> get props =>
-      [id, name, value, stock, availableForSale, priceAdjustment, sku, selectedOptions];
+  List<Object?> get props => [
+        id,
+        name,
+        value,
+        stock,
+        availableForSale,
+        priceAdjustment,
+        sku,
+        selectedOptions
+      ];
 }
 
 class ProductSelectedOption extends Equatable {
@@ -207,8 +217,10 @@ class ReviewSummary extends Equatable {
     }
 
     return ReviewSummary(
-      averageRating: ParserUtils.parseDouble(json['averageRating'] ?? json['average_rating']),
-      totalReviews: ParserUtils.parseInt(json['totalReviews'] ?? json['total_reviews']),
+      averageRating: ParserUtils.parseDouble(
+          json['averageRating'] ?? json['average_rating']),
+      totalReviews:
+          ParserUtils.parseInt(json['totalReviews'] ?? json['total_reviews']),
       ratingBreakdown: breakdown,
     );
   }
@@ -237,18 +249,33 @@ class ProductReview extends Equatable {
   });
 
   factory ProductReview.fromJson(Map<String, dynamic> json) {
+    final user = ParserUtils.parseMap(json['user']);
+    final userName = json['user_name'] as String? ??
+        json['userName'] as String? ??
+        user['name'] as String? ??
+        'Anonymous';
+    final userAvatar = json['user_avatar'] as String? ??
+        json['userAvatar'] as String? ??
+        user['avatar_url'] as String? ??
+        user['avatarUrl'] as String? ??
+        user['avatar'] as String?;
+
     return ProductReview(
       id: ParserUtils.parseInt(json['id']),
-      userName: json['user_name'] as String? ?? json['userName'] as String? ?? 'Anonymous',
-      userAvatar: json['user_avatar'] as String? ?? json['userAvatar'] as String?,
+      userName: userName,
+      userAvatar: userAvatar,
       rating: ParserUtils.parseDouble(json['rating']),
       comment: json['comment'] as String? ?? '',
-      adminReply: json['admin_reply'] as String? ?? json['adminReply'] as String?,
-      createdAt: DateTime.tryParse(json['created_at']?.toString() ?? json['createdAt']?.toString() ?? '') ??
+      adminReply:
+          json['admin_reply'] as String? ?? json['adminReply'] as String?,
+      createdAt: DateTime.tryParse(json['created_at']?.toString() ??
+              json['createdAt']?.toString() ??
+              '') ??
           DateTime.now(),
     );
   }
 
   @override
-  List<Object?> get props => [id, userName, rating, comment, createdAt];
+  List<Object?> get props =>
+      [id, userName, userAvatar, rating, comment, adminReply, createdAt];
 }

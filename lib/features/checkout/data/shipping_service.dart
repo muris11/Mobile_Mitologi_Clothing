@@ -56,7 +56,7 @@ class ProvinceData {
 
   factory ProvinceData.fromJson(Map<String, dynamic> json) {
     return ProvinceData(
-      provinceId: (json['province_id'] ?? json['id'] ?? '').toString(),
+      provinceId: (json['province_id'] ?? json['id'] ?? json['provinceId'] ?? '').toString(),
       province: json['province'] ?? json['name'] ?? '',
     );
   }
@@ -80,10 +80,10 @@ class CityData {
   factory CityData.fromJson(Map<String, dynamic> json) {
     return CityData(
       cityId: (json['city_id'] ?? json['id'] ?? '').toString(),
-      provinceId: (json['province_id'] ?? '').toString(),
-      type: json['type'] ?? 'Kota',
+      provinceId: (json['province_id'] ?? json['provinceId'] ?? '').toString(),
+      type: (json['type'] ?? 'Kota').toString(),
       cityName: json['city_name'] ?? json['name'] ?? '',
-      postalCode: json['postal_code'] ?? '',
+      postalCode: (json['postal_code'] ?? json['postalCode'] ?? '').toString(),
     );
   }
 
@@ -104,7 +104,7 @@ class SubdistrictData {
   factory SubdistrictData.fromJson(Map<String, dynamic> json) {
     return SubdistrictData(
       subdistrictId: (json['subdistrict_id'] ?? json['id'] ?? '').toString(),
-      cityId: (json['city_id'] ?? '').toString(),
+      cityId: (json['city_id'] ?? json['cityId'] ?? '').toString(),
       subdistrictName: json['subdistrict_name'] ?? json['name'] ?? '',
     );
   }

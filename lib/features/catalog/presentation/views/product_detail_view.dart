@@ -9,6 +9,7 @@ import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_mo
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_detail_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/wishlist/presentation/wishlist_provider.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/cached_image_widget.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -270,10 +271,11 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 child: SafeArea(
                   child: Consumer<WishlistProvider>(
                     builder: (context, wishlist, _) {
-                      final inWishlist =
-                          wishlist.isInWishlist(
-                              context.read<CatalogViewModel>()
-                                  .selectedProduct?.id ?? 0);
+                      final inWishlist = wishlist.isInWishlist(context
+                              .read<CatalogViewModel>()
+                              .selectedProduct
+                              ?.id ??
+                          0);
                       return GestureDetector(
                         onTap: () {
                           final pid = context
@@ -294,7 +296,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                 ? PhosphorIconsFill.heart
                                 : PhosphorIconsRegular.heart,
                             size: 20,
-                            color: inWishlist ? _gold : AppColors.onSurfaceVariant,
+                            color:
+                                inWishlist ? _gold : AppColors.onSurfaceVariant,
                           ),
                         ),
                       );
@@ -378,8 +381,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
                     children: [
-                      const Icon(Icons.star_rounded,
-                          size: 14, color: _gold),
+                      const Icon(Icons.star_rounded, size: 14, color: _gold),
                       const SizedBox(width: 3),
                       Text(
                         product.rating!.toStringAsFixed(1),
@@ -512,15 +514,14 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               final product = context.read<CatalogViewModel>().selectedProduct!;
               final isAvailable = product.variants.any((v) =>
                   v.availableForSale &&
-                  v.selectedOptions.any(
-                      (o) => o.name.toLowerCase() == optionKey && o.value == value));
+                  v.selectedOptions.any((o) =>
+                      o.name.toLowerCase() == optionKey && o.value == value));
 
               return GestureDetector(
                 onTap: isAvailable
                     ? () {
                         setState(() {
-                          _selectedOptions[optionKey] =
-                              isSelected ? '' : value;
+                          _selectedOptions[optionKey] = isSelected ? '' : value;
                         });
                       }
                     : null,
@@ -529,17 +530,25 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: 16, vertical: 9),
                   decoration: BoxDecoration(
-                    color: isSelected
-                        ? AppColors.primary
-                        : Colors.white,
+                    gradient: isSelected ? AppGradients.primaryGradient : null,
+                    color: isSelected ? null : Colors.white,
                     borderRadius: BorderRadius.circular(10),
                     border: Border.all(
                       color: isSelected
-                          ? AppColors.primary
+                          ? Colors.transparent
                           : isAvailable
                               ? AppColors.outlineVariant
                               : AppColors.outlineVariant.withValues(alpha: 0.3),
                     ),
+                    boxShadow: isSelected
+                        ? [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.15),
+                              blurRadius: 10,
+                              offset: const Offset(0, 4),
+                            )
+                          ]
+                        : [],
                   ),
                   child: Text(
                     value,
@@ -551,7 +560,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           ? Colors.white
                           : isAvailable
                               ? AppColors.onSurface
-                              : AppColors.onSurfaceVariant.withValues(alpha: 0.3),
+                              : AppColors.onSurfaceVariant
+                                  .withValues(alpha: 0.3),
                     ),
                   ),
                 ),
@@ -624,8 +634,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           const Gap(12),
           Text(
             product.descriptionHtml?.isNotEmpty == true
-                ? product.descriptionHtml!
-                    .replaceAll(RegExp(r'<[^>]*>'), '')
+                ? product.descriptionHtml!.replaceAll(RegExp(r'<[^>]*>'), '')
                 : product.description,
             style: GoogleFonts.manrope(
               fontSize: 14,
@@ -694,7 +703,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               ),
               TextButton.icon(
                 onPressed: () => _openReviewFormBottomSheet(product),
-                icon: const Icon(PhosphorIconsRegular.pencilSimpleLine, size: 16, color: _gold),
+                icon: const Icon(PhosphorIconsRegular.pencilSimpleLine,
+                    size: 16, color: _gold),
                 label: Text(
                   'Tulis Ulasan',
                   style: GoogleFonts.manrope(
@@ -775,10 +785,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                                 borderRadius: BorderRadius.circular(2),
                                 child: LinearProgressIndicator(
                                   value: pct,
-                                  backgroundColor:
-                                      AppColors.outlineVariant,
-                                  valueColor: const AlwaysStoppedAnimation(
-                                      _gold),
+                                  backgroundColor: AppColors.outlineVariant,
+                                  valueColor:
+                                      const AlwaysStoppedAnimation(_gold),
                                 ),
                               ),
                             ),
@@ -824,8 +833,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                           height: 14,
                           child: CircularProgressIndicator(strokeWidth: 2),
                         )
-                      : const Icon(PhosphorIconsRegular.arrowDown,
-                          size: 16),
+                      : const Icon(PhosphorIconsRegular.arrowDown, size: 16),
                   label: Text(
                     viewModel.isLoadingReviews
                         ? 'Memuat...'
@@ -865,18 +873,9 @@ class _ProductDetailViewState extends State<ProductDetailView> {
           Row(
             children: [
               CircleAvatar(
-                radius: 16,
+                radius: 17,
                 backgroundColor: AppColors.outlineVariant,
-                child: Text(
-                  review.userName.isNotEmpty
-                      ? review.userName[0].toUpperCase()
-                      : '?',
-                  style: GoogleFonts.manrope(
-                    fontSize: 13,
-                    fontWeight: FontWeight.w700,
-                    color: AppColors.onSurfaceVariant,
-                  ),
-                ),
+                child: ProductReviewAvatar(review: review, radius: 16),
               ),
               const SizedBox(width: 10),
               Expanded(
@@ -1051,7 +1050,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 
   Widget _buildBottomBar(ProductDetailModel product) {
     final variant = _matchedVariant;
-    final canAdd = product.availableForSale && (variant?.availableForSale ?? true);
+    final canAdd =
+        product.availableForSale && (variant?.availableForSale ?? true);
 
     return Container(
       padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
@@ -1109,7 +1109,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                   onPressed: canAdd ? () => _handleAddToCart() : null,
                   style: OutlinedButton.styleFrom(
                     side: BorderSide(
-                      color: canAdd ? AppColors.primary : AppColors.outlineVariant,
+                      color:
+                          canAdd ? AppColors.primary : AppColors.outlineVariant,
                     ),
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(12),
@@ -1178,8 +1179,19 @@ class _ProductDetailViewState extends State<ProductDetailView> {
 
   String _formatDate(DateTime date) {
     const months = [
-      '', 'Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun',
-      'Jul', 'Agu', 'Sep', 'Okt', 'Nov', 'Des',
+      '',
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'Mei',
+      'Jun',
+      'Jul',
+      'Agu',
+      'Sep',
+      'Okt',
+      'Nov',
+      'Des',
     ];
     return '${date.day} ${months[date.month]} ${date.year}';
   }
@@ -1229,10 +1241,59 @@ class _QtyButton extends StatelessWidget {
         width: 40,
         height: 44,
         alignment: Alignment.center,
-        child: Icon(icon, size: 16,
-            color: onTap != null
-                ? AppColors.onSurface
-                : AppColors.outlineVariant),
+        child: Icon(icon,
+            size: 16,
+            color:
+                onTap != null ? AppColors.onSurface : AppColors.outlineVariant),
+      ),
+    );
+  }
+}
+
+class ProductReviewAvatar extends StatelessWidget {
+  final ProductReview review;
+  final double radius;
+
+  const ProductReviewAvatar({
+    super.key,
+    required this.review,
+    this.radius = 16,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final avatar = review.userAvatar?.trim() ?? '';
+    final size = radius * 2;
+
+    if (avatar.isEmpty) {
+      return _fallback(size);
+    }
+
+    return ClipOval(
+      child: CachedImageWidget(
+        imageUrl: ApiConfig.buildImageUrl(avatar),
+        width: size,
+        height: size,
+        fit: BoxFit.cover,
+        placeholder: _fallback(size),
+        errorWidget: _fallback(size),
+      ),
+    );
+  }
+
+  Widget _fallback(double size) {
+    return Container(
+      width: size,
+      height: size,
+      alignment: Alignment.center,
+      color: AppColors.surfaceContainerLow,
+      child: Text(
+        review.userName.isNotEmpty ? review.userName[0].toUpperCase() : '?',
+        style: GoogleFonts.manrope(
+          fontSize: size * 0.4,
+          fontWeight: FontWeight.w700,
+          color: AppColors.onSurfaceVariant,
+        ),
       ),
     );
   }
@@ -1317,7 +1378,8 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
           top: Radius.circular(AppBorderRadius.xxl),
         ),
       ),
-      padding: EdgeInsets.fromLTRB(24, 20, 24, MediaQuery.of(context).padding.bottom + 24 + bottomInset),
+      padding: EdgeInsets.fromLTRB(
+          24, 20, 24, MediaQuery.of(context).padding.bottom + 24 + bottomInset),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1369,7 +1431,8 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
               decoration: BoxDecoration(
                 color: AppColors.error.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: AppColors.error.withValues(alpha: 0.2)),
+                border:
+                    Border.all(color: AppColors.error.withValues(alpha: 0.2)),
               ),
               child: Text(
                 _errorMessage!,
@@ -1401,7 +1464,9 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                 child: Padding(
                   padding: const EdgeInsets.only(right: 8.0),
                   child: Icon(
-                    isFilled ? PhosphorIconsFill.star : PhosphorIconsRegular.star,
+                    isFilled
+                        ? PhosphorIconsFill.star
+                        : PhosphorIconsRegular.star,
                     color: _gold,
                     size: 32,
                   ),
@@ -1425,8 +1490,10 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
             textCapitalization: TextCapitalization.sentences,
             style: GoogleFonts.manrope(fontSize: 14),
             decoration: InputDecoration(
-              hintText: 'Tuliskan ulasan pengalaman Anda terhadap produk ini...',
-              hintStyle: GoogleFonts.manrope(fontSize: 13, color: AppColors.outline),
+              hintText:
+                  'Tuliskan ulasan pengalaman Anda terhadap produk ini...',
+              hintStyle:
+                  GoogleFonts.manrope(fontSize: 13, color: AppColors.outline),
               border: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12),
                 borderSide: const BorderSide(color: AppColors.outlineVariant),
@@ -1478,12 +1545,14 @@ class _PremiumSizeCalculatorSheet extends StatefulWidget {
   const _PremiumSizeCalculatorSheet();
 
   @override
-  State<_PremiumSizeCalculatorSheet> createState() => _PremiumSizeCalculatorSheetState();
+  State<_PremiumSizeCalculatorSheet> createState() =>
+      _PremiumSizeCalculatorSheetState();
 }
 
-class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet> {
+class _PremiumSizeCalculatorSheetState
+    extends State<_PremiumSizeCalculatorSheet> {
   double _height = 170; // cm
-  double _weight = 65;  // kg
+  double _weight = 65; // kg
   String? _calculatedSize;
   double _matchPercentage = 0;
   String _fitFeedback = '';
@@ -1571,7 +1640,7 @@ class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet
   @override
   Widget build(BuildContext context) {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
-    
+
     return Container(
       decoration: const BoxDecoration(
         color: AppColors.background,
@@ -1579,7 +1648,8 @@ class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet
           top: Radius.circular(AppBorderRadius.xxl),
         ),
       ),
-      padding: EdgeInsets.fromLTRB(24, 20, 24, MediaQuery.of(context).padding.bottom + 24 + bottomInset),
+      padding: EdgeInsets.fromLTRB(
+          24, 20, 24, MediaQuery.of(context).padding.bottom + 24 + bottomInset),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -1634,7 +1704,7 @@ class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet
             ),
           ),
           const Gap(24),
-          
+
           // Height Slider
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -1675,7 +1745,8 @@ class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
               activeTrackColor: AppColors.primary,
-              inactiveTrackColor: AppColors.outlineVariant.withValues(alpha: 0.3),
+              inactiveTrackColor:
+                  AppColors.outlineVariant.withValues(alpha: 0.3),
               thumbColor: _gold,
               overlayColor: _gold.withValues(alpha: 0.15),
               valueIndicatorTextStyle: GoogleFonts.manrope(color: Colors.white),
@@ -1735,7 +1806,8 @@ class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet
           SliderTheme(
             data: SliderTheme.of(context).copyWith(
               activeTrackColor: AppColors.primary,
-              inactiveTrackColor: AppColors.outlineVariant.withValues(alpha: 0.3),
+              inactiveTrackColor:
+                  AppColors.outlineVariant.withValues(alpha: 0.3),
               thumbColor: _gold,
               overlayColor: _gold.withValues(alpha: 0.15),
               valueIndicatorTextStyle: GoogleFonts.manrope(color: Colors.white),
@@ -1818,7 +1890,8 @@ class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet
                           ),
                           const Spacer(),
                           Container(
-                            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
+                            padding: const EdgeInsets.symmetric(
+                                horizontal: 8, vertical: 3),
                             decoration: BoxDecoration(
                               color: AppColors.success.withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(99),
@@ -1870,7 +1943,7 @@ class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet
             ),
           ),
           const Gap(24),
-          
+
           // Apply Button
           SizedBox(
             width: double.infinity,
@@ -1878,10 +1951,12 @@ class _PremiumSizeCalculatorSheetState extends State<_PremiumSizeCalculatorSheet
             child: FilledButton(
               onPressed: () {
                 // Apply the calculated size back to the main detail view
-                final detailState = context.findAncestorStateOfType<_ProductDetailViewState>();
+                final detailState =
+                    context.findAncestorStateOfType<_ProductDetailViewState>();
                 if (detailState != null) {
                   detailState.setState(() {
-                    detailState._selectedOptions['size'] = _calculatedSize ?? 'M';
+                    detailState._selectedOptions['size'] =
+                        _calculatedSize ?? 'M';
                   });
                   AnimatedSnackbar.success(
                     context,

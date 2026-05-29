@@ -4,6 +4,7 @@ import 'package:go_router/go_router.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
+import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_button.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
@@ -84,19 +85,41 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
                 return null;
               },
             ),
-            const Gap(24),
-            AppButton(
-              text: 'Kirim Tautan Reset',
-              onPressed: _handleSubmit,
-              isLoading: viewModel.isLoading,
-              height: 58,
+            const Gap(32),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.15),
+                    blurRadius: 24,
+                    offset: const Offset(0, 12),
+                  ),
+                ],
+              ),
+              child: AppButton(
+                text: 'KIRIM TAUTAN RESET',
+                onPressed: _handleSubmit,
+                isLoading: viewModel.isLoading,
+                height: 60,
+              ),
             ),
-            const Gap(20),
+            const Gap(24),
             Center(
               child: TextButton.icon(
                 onPressed: () => context.go('/login'),
-                icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 18),
-                label: const Text('Kembali ke Login'),
+                icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 16),
+                style: TextButton.styleFrom(
+                  foregroundColor: AppColors.onSurfaceVariant,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                ),
+                label: const Text(
+                  'Kembali ke Login',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w700,
+                    letterSpacing: 0.5,
+                  ),
+                ),
               ),
             ),
           ],

@@ -166,20 +166,33 @@ class _RegisterViewState extends State<RegisterView> {
                 return null;
               },
             ),
-            const Gap(24),
-            AppButton(
-              text: 'Buat Akun',
-              onPressed: _handleRegister,
-              isLoading: viewModel.isLoading,
-              height: 58,
+            const Gap(32),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.15),
+                    blurRadius: 24,
+                    offset: const Offset(0, 12),
+                  ),
+                ],
+              ),
+              child: AppButton(
+                text: 'BUAT AKUN SEKARANG',
+                onPressed: _handleRegister,
+                isLoading: viewModel.isLoading,
+                height: 60,
+              ),
             ),
-            const Gap(18),
+            const Gap(24),
             Center(
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: AppColors.onSurfaceVariant,
                         fontWeight: FontWeight.w500,
+                        fontSize: 14,
                       ),
                   children: [
                     const TextSpan(text: 'Sudah punya akun? '),
@@ -191,7 +204,9 @@ class _RegisterViewState extends State<RegisterView> {
                           'Masuk di sini',
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: AppColors.primary,
-                                fontWeight: FontWeight.w700,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 14,
+                                letterSpacing: 0.5,
                               ),
                         ),
                       ),

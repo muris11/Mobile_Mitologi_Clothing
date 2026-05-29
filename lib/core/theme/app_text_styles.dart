@@ -5,7 +5,7 @@ import 'app_colors.dart';
 
 abstract final class AppTextStyles {
   static const String fontFamily = 'PlusJakartaSans';
-  static const String notoSerifFamily = 'Merriweather';
+  static const String notoSerifFamily = 'PlusJakartaSans';
   static const String manropeFamily = 'Manrope';
   static const String plusJakartaSansFamily = 'PlusJakartaSans';
 
@@ -16,7 +16,7 @@ abstract final class AppTextStyles {
     double? height,
     double? letterSpacing,
   }) {
-    return GoogleFonts.merriweather(
+    return GoogleFonts.plusJakartaSans(
       fontSize: fontSize,
       fontWeight: fontWeight,
       color: color ?? AppColors.onSurface,
@@ -61,32 +61,34 @@ abstract final class AppTextStyles {
     fontSize: 32,
     fontWeight: FontWeight.w800,
     color: AppColors.primary,
-    letterSpacing: -0.5,
+    letterSpacing: 0,
+    height: 1.05,
   );
 
   static final TextStyle displayMedium = GoogleFonts.plusJakartaSans(
     fontSize: 28,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     color: AppColors.primary,
+    height: 1.1,
   );
 
   static final TextStyle headingLarge = GoogleFonts.plusJakartaSans(
     fontSize: 24,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     color: AppColors.primary,
     height: 1.15,
   );
 
   static final TextStyle headingMedium = GoogleFonts.plusJakartaSans(
     fontSize: 20,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     color: AppColors.primary,
     height: 1.2,
   );
 
   static final TextStyle headingSmall = GoogleFonts.plusJakartaSans(
     fontSize: 18,
-    fontWeight: FontWeight.w700,
+    fontWeight: FontWeight.w800,
     color: AppColors.primary,
     height: 1.25,
   );
@@ -150,7 +152,6 @@ abstract final class AppTextStyles {
 
   static Future<void> preload() => GoogleFonts.pendingFonts([
         GoogleFonts.plusJakartaSans(),
-        GoogleFonts.merriweather(),
         GoogleFonts.manrope(),
       ]);
 }

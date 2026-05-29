@@ -17,7 +17,7 @@ class AppImage extends StatelessWidget {
     this.width,
     this.height,
     this.fit = BoxFit.cover,
-    this.borderRadius = 12.0,
+    this.borderRadius = AppBorderRadius.lg,
     this.showBorder = false,
   });
 
@@ -28,9 +28,7 @@ class AppImage extends StatelessWidget {
       height: height,
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(borderRadius),
-        border: showBorder
-            ? Border.all(color: AppColors.outlineVariant, width: 0.5)
-            : null,
+        border: showBorder ? Border.all(color: AppColors.outlineVariant) : null,
       ),
       child: ClipRRect(
         borderRadius: BorderRadius.circular(borderRadius),
@@ -52,7 +50,8 @@ class AppImage extends StatelessWidget {
             width: width,
             height: height,
             color: AppColors.surfaceContainerLow,
-            child: const Icon(Icons.broken_image_outlined, color: AppColors.outline),
+            child: const Icon(Icons.broken_image_outlined,
+                color: AppColors.outline),
           ),
         ),
       ),

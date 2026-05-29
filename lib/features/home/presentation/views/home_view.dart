@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'dart:developer';
+import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
@@ -18,6 +19,7 @@ import 'package:mitologi_clothing_mobile/features/home/domain/models/product_pri
 import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
 
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -34,10 +36,12 @@ class _HomeViewState extends State<HomeView> {
   int _currentBannerIndex = 0;
   Timer? _bannerTimer;
   HomeViewModel? _viewModel;
+  double _scrollOpacity = 0.0;
 
   @override
   void initState() {
     super.initState();
+    _scrollController.addListener(_onScroll);
     log('HomeView: initState called', name: 'HOME');
     WidgetsBinding.instance.addPostFrameCallback((_) {
       if (!mounted) return;
@@ -51,6 +55,17 @@ class _HomeViewState extends State<HomeView> {
         if (mounted) _startBannerTimer();
       });
     });
+  }
+
+  void _onScroll() {
+    if (!_scrollController.hasClients) return;
+    final offset = _scrollController.offset;
+    final newOpacity = (offset / 150.0).clamp(0.0, 1.0);
+    if (newOpacity != _scrollOpacity) {
+      setState(() {
+        _scrollOpacity = newOpacity;
+      });
+    }
   }
 
   void _startBannerTimer() {
@@ -70,6 +85,7 @@ class _HomeViewState extends State<HomeView> {
 
   @override
   void dispose() {
+    _scrollController.removeListener(_onScroll);
     _bannerTimer?.cancel();
     _bannerController.dispose();
     _scrollController.dispose();
@@ -95,15 +111,13 @@ class _HomeViewState extends State<HomeView> {
               controller: _scrollController,
               physics: const AlwaysScrollableScrollPhysics(),
               slivers: [
-                SliverToBoxAdapter(
-                  child: SizedBox(height: MediaQuery.of(context).padding.top + 64),
-                ),
                 _buildHeroCarousel(viewModel),
                 if (viewModel.isLoading)
                   const SliverToBoxAdapter(
                     child: LinearProgressIndicator(minHeight: 2),
                   ),
                 _buildIntro(theme),
+                _buildSearchBar(),
                 _buildFeaturesSection(viewModel),
                 _buildCategories(viewModel),
                 _buildPortfolioSection(viewModel),
@@ -128,7 +142,6 @@ class _HomeViewState extends State<HomeView> {
                 _buildWhyChooseUsSection(viewModel),
                 _buildPlastisolPricingSection(viewModel),
                 _buildGuaranteeBonusSection(viewModel),
-                _buildAboutSection(viewModel),
               ],
             ),
           ),
@@ -139,72 +152,136 @@ class _HomeViewState extends State<HomeView> {
   }
 
   Widget _buildDynamicAppBar(BuildContext context) {
+    final topPadding = MediaQuery.of(context).padding.top;
+    final isDarkBackground = Theme.of(context).brightness == Brightness.dark;
+    
+    // Background shifts from transparent (at top) to frosted glass color
+    final glassColor = isDarkBackground
+        ? Colors.black.withOpacity(_scrollOpacity * 0.75)
+        : Colors.white.withOpacity(_scrollOpacity * 0.72);
+        
+    // Text and icons lerp between white (stands out on dark hero page) and AppColors.primary (navy)
+    final contentColor = Color.lerp(
+      Colors.white,
+      AppColors.primary,
+      _scrollOpacity,
+    )!;
+
+    final secondaryContentColor = Color.lerp(
+      Colors.white.withOpacity(0.7),
+      AppColors.secondary,
+      _scrollOpacity,
+    )!;
+
+    final actionBgColor = Color.lerp(
+      Colors.white.withOpacity(0.12),
+      AppColors.surfaceContainerLow,
+      _scrollOpacity,
+    )!;
+
+    final actionBorderColor = Color.lerp(
+      Colors.white.withOpacity(0.2),
+      AppColors.outlineVariant.withOpacity(0.5),
+      _scrollOpacity,
+    )!;
+
+    final bottomBorderColor = isDarkBackground
+        ? Colors.white.withOpacity(_scrollOpacity * 0.08)
+        : Colors.black.withOpacity(_scrollOpacity * 0.06);
+
     return Positioned(
       top: 0,
       left: 0,
       right: 0,
-      child: Container(
-        height: MediaQuery.of(context).padding.top + 64,
-        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
-        decoration: BoxDecoration(
-          color: AppColors.background,
-          boxShadow: [AppShadows.bottomNav],
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16),
-          child: Row(
-            children: [
-              Row(
-                mainAxisSize: MainAxisSize.min,
+      child: ClipRect(
+        child: BackdropFilter(
+          filter: ImageFilter.blur(
+            sigmaX: _scrollOpacity * 16.0,
+            sigmaY: _scrollOpacity * 16.0,
+          ),
+          child: Container(
+            height: topPadding + 64,
+            padding: EdgeInsets.only(top: topPadding),
+            decoration: BoxDecoration(
+              color: glassColor,
+              border: Border(
+                bottom: BorderSide(
+                  color: bottomBorderColor,
+                  width: 1.0,
+                ),
+              ),
+              boxShadow: _scrollOpacity > 0.1
+                  ? [
+                      BoxShadow(
+                        color: AppColors.shadow.withOpacity(0.04 * _scrollOpacity),
+                        blurRadius: 16,
+                        offset: const Offset(0, 4),
+                      )
+                    ]
+                  : [],
+            ),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Row(
                 children: [
-                  Text(
-                    'MITOLOGI',
-                    style: TextStyle(
-                      color: AppColors.primary,
-                      fontWeight: FontWeight.w900,
-                      fontSize: 15,
-                      letterSpacing: 1.5,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(left: 6),
-                    child: SizedBox(
-                      width: 3,
-                      height: 3,
-                      child: DecoratedBox(
-                        decoration: BoxDecoration(
-                          color: AppColors.secondary,
-                          shape: BoxShape.circle,
+                  Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'MITOLOGI',
+                        style: TextStyle(
+                          color: contentColor,
+                          fontWeight: FontWeight.w900,
+                          fontSize: 16,
+                          letterSpacing: 2.0,
                         ),
                       ),
-                    ),
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 6),
-                    child: Text(
-                      'ID',
-                      style: TextStyle(
-                        fontSize: 8,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 0.5,
-                        color: AppColors.secondary,
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: SizedBox(
+                          width: 4,
+                          height: 4,
+                          child: DecoratedBox(
+                            decoration: BoxDecoration(
+                              color: secondaryContentColor,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
                       ),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 6),
+                        child: Text(
+                          'ID',
+                          style: TextStyle(
+                            fontSize: 9,
+                            fontWeight: FontWeight.w800,
+                            letterSpacing: 0.8,
+                            color: secondaryContentColor,
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const Spacer(),
+                  _buildAppBarAction(
+                    icon: PhosphorIconsRegular.magnifyingGlass,
+                    iconColor: contentColor,
+                    bgColor: actionBgColor,
+                    borderColor: actionBorderColor,
+                    onPressed: () => context.push('/products'),
+                  ),
+                  const Gap(10),
+                  SizedBox(
+                    width: 40,
+                    height: 40,
+                    child: CartIconButton(
+                      iconColor: contentColor,
                     ),
                   ),
                 ],
               ),
-              const Spacer(),
-              _buildAppBarAction(
-                icon: PhosphorIconsRegular.magnifyingGlass,
-                onPressed: () => context.push('/products'),
-              ),
-              const Gap(8),
-              SizedBox(
-                width: 40,
-                height: 40,
-                child: CartIconButton(),
-              ),
-            ],
+            ),
           ),
         ),
       ),
@@ -213,17 +290,21 @@ class _HomeViewState extends State<HomeView> {
 
   Widget _buildAppBarAction({
     required IconData icon,
+    required Color iconColor,
+    required Color bgColor,
+    required Color borderColor,
     required VoidCallback onPressed,
   }) {
     return Container(
       width: 40,
       height: 40,
       decoration: BoxDecoration(
-        color: AppColors.surfaceContainerLow,
+        color: bgColor,
         shape: BoxShape.circle,
+        border: Border.all(color: borderColor, width: 1.0),
       ),
       child: IconButton(
-        icon: Icon(icon, color: AppColors.primary, size: 22),
+        icon: Icon(icon, color: iconColor, size: 20),
         onPressed: onPressed,
         padding: EdgeInsets.zero,
       ),
@@ -237,7 +318,8 @@ class _HomeViewState extends State<HomeView> {
 
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 520,
+        // Design.md §12.4: 188–224px pada mobile normal
+        height: 230,
         child: Stack(
           children: [
             PageView.builder(
@@ -265,9 +347,9 @@ class _HomeViewState extends State<HomeView> {
                           begin: Alignment.topCenter,
                           end: Alignment.bottomCenter,
                           colors: [
-                            Colors.black.withValues(alpha: 0.48),
-                            Colors.black.withValues(alpha: 0.18),
-                            Colors.black.withValues(alpha: 0.88),
+                            Colors.black.withOpacity(0.55), // Dark top vignette to ensure transparent App Bar readability
+                            Colors.black.withOpacity(0.1),  // Clear center to showcase streetwear clothes
+                            Colors.black.withOpacity(0.85), // Deep bottom dark block for text legibility
                           ],
                           stops: const [0.0, 0.4, 1.0],
                         ),
@@ -276,97 +358,79 @@ class _HomeViewState extends State<HomeView> {
                     Positioned(
                       left: 24,
                       right: 24,
-                      bottom: 70,
+                      bottom: 74,
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Container(
                             padding: const EdgeInsets.symmetric(
-                                horizontal: 12, vertical: 6),
+                                horizontal: 14, vertical: 6),
                             decoration: BoxDecoration(
-                              color: AppColors.secondary,
-                              borderRadius: BorderRadius.circular(6),
+                              gradient: AppGradients.premiumGold,
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.secondary.withOpacity(0.25),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
                             ),
                             child: Text(
                               subtitle.toUpperCase(),
                               style: const TextStyle(
                                 color: Colors.white,
-                                fontSize: 10,
-                                fontWeight: FontWeight.w800,
-                                letterSpacing: 1.5,
+                                fontSize: 9,
+                                fontWeight: FontWeight.w900,
+                                letterSpacing: 2.2,
                               ),
                             ),
                           ),
-                          const Gap(12),
+                          const Gap(8),
                           Text(
                             title,
                             style: const TextStyle(
                               color: Colors.white,
-                              fontSize: 40,
+                              fontSize: 26,
                               fontWeight: FontWeight.w900,
-                              height: 1.05,
+                              height: 1.15,
+                              letterSpacing: -0.5,
                             ),
                           ),
-                          const Gap(12),
+                          const Gap(10),
                           Text(
                             description,
                             maxLines: 2,
                             overflow: TextOverflow.ellipsis,
                             style: TextStyle(
-                              color: Colors.white.withValues(alpha: 0.84),
-                              fontSize: 15,
-                              height: 1.4,
+                              color: Colors.white.withOpacity(0.88),
+                              fontSize: 13,
+                              height: 1.5,
                             ),
                           ),
-                          const Gap(20),
-                          Row(
-                            children: [
-                              GestureDetector(
-                                onTap: () => context.push('/products'),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white,
-                                    borderRadius: BorderRadius.circular(10),
-                                  ),
-                                  child: Text(
-                                    (banner.link != null &&
-                                            banner.link!.isNotEmpty)
-                                        ? 'LIHAT KOLEKSI'
-                                        : 'SHOP NOW',
-                                    style: const TextStyle(
-                                      color: AppColors.primary,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w900,
-                                      letterSpacing: 1,
-                                    ),
-                                  ),
+                          const Gap(16),
+                          // Single CTA sesuai spec (bukan dua tombol)
+                          GestureDetector(
+                            onTap: () => context.push('/products'),
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 20, vertical: 11),
+                              decoration: BoxDecoration(
+                                gradient: AppGradients.premiumGold,
+                                borderRadius: BorderRadius.circular(AppBorderRadius.sm),
+                              ),
+                              child: Text(
+                                (banner.link != null && banner.link!.isNotEmpty)
+                                    ? 'LIHAT KOLEKSI'
+                                    : 'SHOP NOW',
+                                style: const TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 11,
+                                  fontWeight: FontWeight.w900,
+                                  letterSpacing: 1.2,
                                 ),
                               ),
-                              const Gap(12),
-                              GestureDetector(
-                                onTap: () => context.push('/products'),
-                                child: Container(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 20, vertical: 12),
-                                  decoration: BoxDecoration(
-                                    color: Colors.white.withValues(alpha: 0.15),
-                                    borderRadius: BorderRadius.circular(10),
-                                    border: Border.all(color: Colors.white38),
-                                  ),
-                                  child: const Text(
-                                    'KATALOG',
-                                    style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 12,
-                                      fontWeight: FontWeight.w800,
-                                      letterSpacing: 1,
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
+                            ),
                           ),
                         ],
                       ),
@@ -384,13 +448,16 @@ class _HomeViewState extends State<HomeView> {
                   (index) => AnimatedContainer(
                     duration: const Duration(milliseconds: 300),
                     width: index == _currentBannerIndex ? 24 : 8,
-                    height: 8,
+                    height: 6,
                     margin: const EdgeInsets.only(right: 6),
                     decoration: BoxDecoration(
+                      gradient: index == _currentBannerIndex
+                          ? AppGradients.premiumGold
+                          : null,
                       color: index == _currentBannerIndex
-                          ? AppColors.secondary
-                          : Colors.white38,
-                      borderRadius: BorderRadius.circular(4),
+                          ? null
+                          : Colors.white.withOpacity(0.3),
+                      borderRadius: BorderRadius.circular(3),
                     ),
                   ),
                 ),
@@ -438,37 +505,108 @@ class _HomeViewState extends State<HomeView> {
   Widget _buildIntro(ThemeData theme) {
     return SliverToBoxAdapter(
       child: Padding(
-        padding: const EdgeInsets.fromLTRB(24, 32, 24, 0),
+        padding: const EdgeInsets.fromLTRB(24, 40, 24, 0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Row(
               children: [
                 Container(
-                  width: 40,
-                  height: 2,
-                  color: AppColors.secondary,
+                  width: 32,
+                  height: 3,
+                  decoration: BoxDecoration(
+                    gradient: AppGradients.premiumGold,
+                    borderRadius: BorderRadius.circular(2),
+                  ),
                 ),
                 const Gap(12),
                 Text(
                   'WHO WE ARE',
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: AppColors.secondary,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 2,
+                    fontWeight: FontWeight.w900,
+                    letterSpacing: 3.5,
+                    fontSize: 11,
                   ),
                 ),
               ],
             ),
-            const Gap(16),
+            const Gap(18),
+            RichText(
+              text: TextSpan(
+                style: theme.textTheme.headlineSmall?.copyWith(
+                  fontWeight: FontWeight.w900,
+                  height: 1.3,
+                  fontSize: 24,
+                  color: AppColors.onBackground,
+                ),
+                children: const [
+                  TextSpan(text: 'Premium '),
+                  TextSpan(
+                    text: 'mythology-inspired',
+                    style: TextStyle(
+                      color: AppColors.secondary,
+                    ),
+                  ),
+                  TextSpan(text: ' apparel for the modern explorer.'),
+                ],
+              ),
+            ),
+            const Gap(12),
             Text(
-              'Premium mythology-inspired apparel for the modern explorer.',
-              style: theme.textTheme.headlineSmall?.copyWith(
-                fontWeight: FontWeight.w900,
-                height: 1.2,
+              'Setiap benang ditenun untuk menceritakan kisah epik dari mitologi dunia, menggabungkan kenyamanan modern dengan estetika streetwear legendaris yang tak lekang oleh waktu.',
+              style: theme.textTheme.bodyMedium?.copyWith(
+                color: AppColors.onSurfaceVariant,
+                height: 1.6,
+                fontSize: 13,
               ),
             ),
           ],
+        ),
+      ),
+    );
+  }
+
+  /// Search bar di bawah intro — terhubung ke route /products existing (design.md §12.2 poin 2)
+  Widget _buildSearchBar() {
+    return SliverToBoxAdapter(
+      child: Padding(
+        padding: const EdgeInsets.fromLTRB(24, 20, 24, 0),
+        child: GestureDetector(
+          onTap: () => context.push('/products'),
+          child: Container(
+            height: 50,
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            decoration: BoxDecoration(
+              color: AppColors.surfaceContainerLow,
+              borderRadius: BorderRadius.circular(AppBorderRadius.full),
+              border: Border.all(
+                color: AppColors.outlineVariant.withValues(alpha: 0.6),
+                width: 1,
+              ),
+            ),
+            child: Row(
+              children: [
+                const Icon(
+                  PhosphorIconsRegular.magnifyingGlass,
+                  size: 20,
+                  color: AppColors.outline,
+                ),
+                const Gap(10),
+                Expanded(
+                  child: Text(
+                    'Cari kaos, hoodie, atau merchandise\u2026',
+                    style: TextStyle(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w400,
+                      color: AppColors.outline,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                  ),
+                ),
+              ],
+            ),
+          ),
         ),
       ),
     );
@@ -497,7 +635,17 @@ class _HomeViewState extends State<HomeView> {
               decoration: BoxDecoration(
                 color: AppColors.surfaceContainerLowest,
                 borderRadius: BorderRadius.circular(24),
-                boxShadow: [AppShadows.cardSoft],
+                border: Border.all(
+                  color: AppColors.outlineVariant.withOpacity(0.5),
+                  width: 1.0,
+                ),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.shadow.withOpacity(0.03),
+                    blurRadius: 16,
+                    offset: const Offset(0, 8),
+                  )
+                ],
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -506,13 +654,17 @@ class _HomeViewState extends State<HomeView> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: AppColors.primary.withValues(alpha: 0.05),
+                      color: AppColors.primary.withOpacity(0.04),
                       shape: BoxShape.circle,
+                      border: Border.all(
+                        color: AppColors.secondary.withOpacity(0.3),
+                        width: 1.0,
+                      ),
                     ),
                     child: Icon(
                       _getFeatureIcon(feature.icon),
-                      color: AppColors.primary,
-                      size: 24,
+                      color: AppColors.secondary,
+                      size: 22,
                     ),
                   ),
                   const Gap(16),
@@ -521,6 +673,8 @@ class _HomeViewState extends State<HomeView> {
                     style: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 14,
+                      color: AppColors.primary,
+                      letterSpacing: -0.2,
                     ),
                   ),
                   const Gap(4),
@@ -528,9 +682,10 @@ class _HomeViewState extends State<HomeView> {
                     feature.description,
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
-                    style: TextStyle(
+                    style: const TextStyle(
                       color: AppColors.onSurfaceVariant,
                       fontSize: 11,
+                      height: 1.4,
                     ),
                   ),
                 ],
@@ -603,8 +758,18 @@ class _HomeViewState extends State<HomeView> {
       onTap: () => context.push('/products?category=${category.slug}'),
       child: Container(
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [AppShadows.cardSoft],
+          borderRadius: BorderRadius.circular(20),
+          border: Border.all(
+            color: AppColors.outlineVariant.withOpacity(0.4),
+            width: 1.0,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: AppColors.shadow.withOpacity(0.04),
+              blurRadius: 16,
+              offset: const Offset(0, 8),
+            )
+          ],
         ),
         clipBehavior: Clip.antiAlias,
         child: Stack(
@@ -638,42 +803,63 @@ class _HomeViewState extends State<HomeView> {
               ),
             Positioned.fill(
               child: Container(
-                decoration: const BoxDecoration(
+                decoration: BoxDecoration(
                   gradient: LinearGradient(
                     begin: Alignment.topCenter,
                     end: Alignment.bottomCenter,
-                    colors: [Colors.transparent, Colors.black54],
-                    stops: [0.5, 1.0],
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withOpacity(0.1),
+                      Colors.black.withOpacity(0.75),
+                    ],
+                    stops: const [0.4, 0.7, 1.0],
                   ),
                 ),
               ),
             ),
             Positioned(
-              left: 12,
-              right: 12,
-              bottom: 12,
+              left: 14,
+              right: 14,
+              bottom: 14,
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(
-                    category.name,
+                    category.name.toUpperCase(),
                     style: const TextStyle(
                       color: Colors.white,
-                      fontSize: 16,
-                      fontWeight: FontWeight.w700,
+                      fontSize: 14,
+                      fontWeight: FontWeight.w900,
+                      letterSpacing: 1.2,
+                      height: 1.2,
                     ),
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  const Gap(4),
-                  Text(
-                    'Lihat Produk →',
-                    style: TextStyle(
-                      color: Colors.white.withValues(alpha: 0.7),
-                      fontSize: 11,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  const Gap(6),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: Text(
+                          'EXPLORE COLLECTION',
+                          style: TextStyle(
+                            color: AppColors.secondary,
+                            fontSize: 9,
+                            fontWeight: FontWeight.w900,
+                            letterSpacing: 1.2,
+                          ),
+                          maxLines: 1,
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ),
+                      const Gap(4),
+                      const Icon(
+                        PhosphorIconsRegular.arrowRight,
+                        size: 10,
+                        color: AppColors.secondary,
+                      ),
+                    ],
                   ),
                 ],
               ),
@@ -689,108 +875,23 @@ class _HomeViewState extends State<HomeView> {
       return const SliverToBoxAdapter(child: SizedBox.shrink());
     }
 
+    // Horizontal scroll menggunakan ProductCard resmi dengan ratio 3:4
     return SliverToBoxAdapter(
       child: SizedBox(
-        height: 320,
+        height: 280, // = width(175) / (3/4) ≈ 233 image + info
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
           padding: const EdgeInsets.symmetric(horizontal: 24),
           itemCount: products.length,
           itemBuilder: (context, index) {
             final product = products[index];
-            return GestureDetector(
-              onTap: () => context.push('/product/${product.slug}'),
-              child: Container(
-                width: 220,
-                margin: const EdgeInsets.only(right: 16),
-                clipBehavior: Clip.antiAlias,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(22),
-                  border: Border.all(color: AppColors.outlineVariant),
-                  boxShadow: [
-                    BoxShadow(
-                      color: AppColors.shadow.withValues(alpha: 0.06),
-                      blurRadius: 16,
-                      offset: const Offset(0, 6),
-                    ),
-                  ],
-                ),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    ShimmerImage(
-                      imageUrl: ApiConfig.buildImageUrl(product.featuredImageUrl),
-                      fit: BoxFit.cover,
-                      width: double.infinity,
-                      height: double.infinity,
-                    ),
-                    Positioned(
-                      left: 0,
-                      right: 0,
-                      bottom: 0,
-                      child: Container(
-                        padding: const EdgeInsets.fromLTRB(16, 40, 16, 20),
-                        decoration: BoxDecoration(
-                          gradient: LinearGradient(
-                            begin: Alignment.topCenter,
-                            end: Alignment.bottomCenter,
-                            colors: [
-                              Colors.transparent,
-                              Colors.black.withValues(alpha: 0.85),
-                            ],
-                          ),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              product.name,
-                              style: const TextStyle(
-                                color: Colors.white,
-                                fontSize: 15,
-                                fontWeight: FontWeight.w800,
-                                height: 1.2,
-                              ),
-                              maxLines: 2,
-                              overflow: TextOverflow.ellipsis,
-                            ),
-                            const SizedBox(height: 6),
-                            Text(
-                              _formatPrice(product.displayPrice),
-                              style: const TextStyle(
-                                color: AppColors.secondary,
-                                fontSize: 17,
-                                fontWeight: FontWeight.w900,
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    if (product.onSale)
-                      Positioned(
-                        top: 12,
-                        left: 12,
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 10, vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: const Color(0xD6142033),
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                          child: const Text(
-                            'PROMO',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 10,
-                              fontWeight: FontWeight.w800,
-                              letterSpacing: 1.1,
-                            ),
-                          ),
-                        ),
-                      ),
-                  ],
+            return SizedBox(
+              width: 175,
+              child: Padding(
+                padding: const EdgeInsets.only(right: 12),
+                child: ProductCard(
+                  product: product,
+                  showBrand: false,
                 ),
               ),
             );
@@ -1385,117 +1486,7 @@ class _HomeViewState extends State<HomeView> {
     );
   }
 
-  Widget _buildAboutSection(HomeViewModel viewModel) {
-    final settings = viewModel.siteSettings;
-    if (settings == null) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
-    }
 
-    final headline = settings.aboutHeadline ?? 'Tentang Mitologi Clothing';
-    final desc1 = settings.aboutDescription1 ?? '';
-    final desc2 = settings.aboutDescription2 ?? '';
-    final year = settings.companyFoundedYear ?? '';
-    final aboutImg = settings.aboutImage;
-
-    if (desc1.isEmpty && desc2.isEmpty) {
-      return const SliverToBoxAdapter(child: SizedBox.shrink());
-    }
-
-    return SliverToBoxAdapter(
-      child: Container(
-        margin: const EdgeInsets.fromLTRB(24, 48, 24, 0),
-        padding: const EdgeInsets.all(24),
-        decoration: BoxDecoration(
-          color: AppColors.surfaceContainerLowest,
-          borderRadius: BorderRadius.circular(32),
-          border: Border.all(color: AppColors.outlineVariant),
-          boxShadow: [AppShadows.cardSoft],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Container(width: 32, height: 2, color: AppColors.secondary),
-                const Gap(10),
-                Text(
-                  'TENTANG KAMI',
-                  style: TextStyle(
-                    color: AppColors.secondary,
-                    fontSize: 10,
-                    fontWeight: FontWeight.w800,
-                    letterSpacing: 2,
-                  ),
-                ),
-              ],
-            ),
-            const Gap(12),
-            Text(
-              headline,
-              style: const TextStyle(
-                fontSize: 22,
-                fontWeight: FontWeight.w900,
-                height: 1.2,
-              ),
-            ),
-            if (aboutImg != null && aboutImg.isNotEmpty) ...[
-              const Gap(16),
-              ClipRRect(
-                borderRadius: BorderRadius.circular(20),
-                child: AspectRatio(
-                  aspectRatio: 16 / 9,
-                  child: AppImage(
-                    imageUrl: ApiConfig.buildImageUrl(aboutImg),
-                    fit: BoxFit.cover,
-                  ),
-                ),
-              ),
-            ],
-            const Gap(16),
-            if (desc1.isNotEmpty)
-              Text(
-                desc1,
-                style: TextStyle(
-                  color: AppColors.onSurfaceVariant,
-                  fontSize: 14,
-                  height: 1.6,
-                ),
-              ),
-            if (desc2.isNotEmpty) ...[
-              const Gap(8),
-              Text(
-                desc2,
-                style: TextStyle(
-                  color: AppColors.onSurfaceVariant,
-                  fontSize: 14,
-                  height: 1.6,
-                ),
-              ),
-            ],
-            if (year.isNotEmpty) ...[
-              const Gap(20),
-              Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
-                decoration: BoxDecoration(
-                  color: AppColors.primary,
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Text(
-                  'Berdiri sejak $year',
-                  style: const TextStyle(
-                    color: Colors.white,
-                    fontWeight: FontWeight.w800,
-                    fontSize: 13,
-                  ),
-                ),
-              ),
-            ],
-          ],
-        ),
-      ),
-    );
-  }
 
   Widget _buildWhyChooseUsSection(HomeViewModel viewModel) {
     final settings = viewModel.siteSettings;

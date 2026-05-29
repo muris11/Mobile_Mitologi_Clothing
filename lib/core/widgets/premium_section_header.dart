@@ -25,7 +25,7 @@ class PremiumSectionHeader extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final eyebrowSize = ResponsiveConfig.sp(context, 11);
-    final titleSize = ResponsiveConfig.sp(context, 26);
+    final titleSize = ResponsiveConfig.sp(context, 28);
     final subtitleSize = ResponsiveConfig.sp(context, 13);
 
     return Padding(
@@ -40,18 +40,18 @@ class PremiumSectionHeader extends StatelessWidget {
                 if (eyebrow != null && eyebrow!.isNotEmpty) ...[
                   Text(
                     eyebrow!,
-                    style: AppTextStyles.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: eyebrowSize,
                       fontWeight: FontWeight.w900,
                       color: AppColors.secondary,
-                      letterSpacing: 2.2,
+                      letterSpacing: 2.4,
                     ),
                   ),
                   const SizedBox(height: 10),
                 ],
                 Text(
                   title,
-                  style: AppTextStyles.notoSerif(
+                  style: AppTextStyles.plusJakartaSans(
                     fontSize: titleSize,
                     fontWeight: FontWeight.w800,
                     color: AppColors.primary,
@@ -62,7 +62,7 @@ class PremiumSectionHeader extends StatelessWidget {
                   const SizedBox(height: 6),
                   Text(
                     subtitle!,
-                    style: AppTextStyles.manrope(
+                    style: AppTextStyles.plusJakartaSans(
                       fontSize: subtitleSize,
                       fontWeight: FontWeight.w500,
                       color: AppColors.onSurfaceVariant,

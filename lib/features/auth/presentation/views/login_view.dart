@@ -99,28 +99,51 @@ class _LoginViewState extends State<LoginView> {
                 return null;
               },
             ),
-            const Gap(8),
+            const Gap(12),
             Align(
               alignment: Alignment.centerRight,
               child: TextButton(
                 onPressed: () => context.go('/forgot-password'),
-                child: const Text('Lupa Password?'),
+                style: TextButton.styleFrom(
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                  foregroundColor: AppColors.secondary,
+                ),
+                child: const Text(
+                  'Lupa Password?',
+                  style: TextStyle(
+                    fontWeight: FontWeight.w800,
+                    letterSpacing: 0.5,
+                  ),
+                ),
               ),
             ),
-            const Gap(20),
-            AppButton(
-              text: 'Masuk Sekarang',
-              onPressed: _handleLogin,
-              isLoading: viewModel.isLoading,
-              height: 58,
+            const Gap(28),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.15),
+                    blurRadius: 24,
+                    offset: const Offset(0, 12),
+                  ),
+                ],
+              ),
+              child: AppButton(
+                text: 'MASUK SEKARANG',
+                onPressed: _handleLogin,
+                isLoading: viewModel.isLoading,
+                height: 60,
+              ),
             ),
-            const Gap(18),
+            const Gap(24),
             Center(
               child: RichText(
                 text: TextSpan(
                   style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color: AppColors.onSurfaceVariant,
                         fontWeight: FontWeight.w500,
+                        fontSize: 14,
                       ),
                   children: [
                     const TextSpan(text: 'Belum punya akun? '),
@@ -130,11 +153,12 @@ class _LoginViewState extends State<LoginView> {
                         onTap: () => context.go('/register'),
                         child: Text(
                           'Daftar Disini',
-                          style:
-                              Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w700,
-                                  ),
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                                color: AppColors.primary,
+                                fontWeight: FontWeight.w900,
+                                fontSize: 14,
+                                letterSpacing: 0.5,
+                              ),
                         ),
                       ),
                     ),

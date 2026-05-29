@@ -1,9 +1,10 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class MainShell extends StatelessWidget {
@@ -46,37 +47,51 @@ class MainShell extends StatelessWidget {
     return AnnotatedRegion<SystemUiOverlayStyle>(
       value: SystemUiOverlayStyle.dark.copyWith(
         statusBarColor: Colors.transparent,
-        systemNavigationBarColor: Colors.white,
+        systemNavigationBarColor: AppColors.background,
         systemNavigationBarIconBrightness: Brightness.dark,
       ),
       child: Scaffold(
         body: child,
-        bottomNavigationBar: Container(
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: const Border(
-                top: BorderSide(color: AppColors.outlineVariant, width: 0.8)),
-            boxShadow: [
-              BoxShadow(
-                color: AppColors.shadow.withValues(alpha: 0.07),
-                blurRadius: 20,
-                offset: const Offset(0, -4),
-              ),
-            ],
-          ),
-          child: SafeArea(
-            top: false,
-            child: SizedBox(
-              height: 60,
-              child: Row(
-                children: items.map((item) {
-                  final isActive = item.route == '/'
-                      ? location == '/'
-                      : location.startsWith(item.route);
-                  return Expanded(
-                    child: _NavButton(item: item, isActive: isActive),
-                  );
-                }).toList(),
+        bottomNavigationBar: SafeArea(
+          top: false,
+          child: Padding(
+            padding: const EdgeInsets.fromLTRB(16, 0, 16, 12),
+            child: ClipRRect(
+              borderRadius: AppBorderRadius.xlRadius,
+              child: BackdropFilter(
+                filter: ImageFilter.blur(sigmaX: 16, sigmaY: 16),
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
+                  decoration: BoxDecoration(
+                    color: AppColors.surface.withValues(alpha: 0.85),
+                    borderRadius: AppBorderRadius.xlRadius,
+                    border: Border.all(
+                      color: Colors.white.withValues(alpha: 0.6),
+                      width: 1.5,
+                    ),
+                    boxShadow: [
+                      AppShadows.floating,
+                      BoxShadow(
+                        color: AppColors.primary.withValues(alpha: 0.03),
+                        blurRadius: 16,
+                        spreadRadius: 2,
+                      ),
+                    ],
+                  ),
+                  child: SizedBox(
+                    height: 56,
+                    child: Row(
+                      children: items.map((item) {
+                        final isActive = item.route == '/'
+                            ? location == '/'
+                            : location.startsWith(item.route);
+                        return Expanded(
+                          child: _NavButton(item: item, isActive: isActive),
+                        );
+                      }).toList(),
+                    ),
+                  ),
+                ),
               ),
             ),
           ),
@@ -117,25 +132,23 @@ class _NavButton extends StatelessWidget {
           AnimatedContainer(
             duration: const Duration(milliseconds: 200),
             curve: Curves.easeOutCubic,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+            padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
             decoration: BoxDecoration(
-              color: isActive
-                  ? AppColors.primary.withValues(alpha: 0.08)
-                  : Colors.transparent,
-              borderRadius: BorderRadius.circular(20),
+              color: isActive ? AppColors.primary : Colors.transparent,
+              borderRadius: AppBorderRadius.fullRadius,
             ),
             child: Icon(
               isActive ? item.activeIcon : item.icon,
-              size: 22,
-              color: isActive ? AppColors.primary : AppColors.outline,
+              size: 21,
+              color: isActive ? AppColors.onPrimary : AppColors.outline,
             ),
           ),
           const Gap(2),
           Text(
             item.label,
-            style: GoogleFonts.manrope(
+            style: AppTextStyles.plusJakartaSans(
               fontSize: 10,
-              fontWeight: isActive ? FontWeight.w700 : FontWeight.w500,
+              fontWeight: isActive ? FontWeight.w800 : FontWeight.w600,
               color: isActive ? AppColors.primary : AppColors.outline,
             ),
           ),

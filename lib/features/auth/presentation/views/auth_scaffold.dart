@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -22,96 +23,153 @@ class AuthScaffold extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: AppColors.background,
+      backgroundColor: Colors.white,
       body: Container(
         decoration: const BoxDecoration(
           gradient: LinearGradient(
-            begin: Alignment.topCenter,
-            end: Alignment.bottomCenter,
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
             colors: [
-              Color(0xFFF9F6EF),
-              AppColors.background,
+              Color(0xFFFAF8F5),
+              Colors.white,
+              Color(0xFFF8FAFC),
             ],
           ),
         ),
         child: Stack(
           children: [
+            // Top ambient glow - very soft warm gold
             Positioned(
-              top: -80,
-              left: -60,
+              top: -150,
+              left: -100,
               child: Container(
-                width: 240,
-                height: 240,
+                width: 400,
+                height: 400,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
-                  color: AppColors.secondary.withValues(alpha: 0.12),
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColors.secondary.withValues(alpha: 0.15),
+                      AppColors.secondary.withValues(alpha: 0.0),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            // Bottom right ambient glow - soft primary navy
+            Positioned(
+              bottom: -200,
+              right: -150,
+              child: Container(
+                width: 500,
+                height: 500,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  gradient: RadialGradient(
+                    colors: [
+                      AppColors.primary.withValues(alpha: 0.08),
+                      AppColors.primary.withValues(alpha: 0.0),
+                    ],
+                  ),
                 ),
               ),
             ),
             SafeArea(
               child: Center(
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-                  child: Container(
-                    width: 560,
-                      padding: const EdgeInsets.all(28),
-                      decoration: BoxDecoration(
-                        color: AppColors.surfaceContainerLowest,
-                        borderRadius: AppBorderRadius.xxlRadius,
-                        border: Border.all(color: AppColors.outlineVariant),
-                        boxShadow: [AppShadows.cardElevated],
+                  padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 32),
+                  child: ClipRRect(
+                    borderRadius: AppBorderRadius.xxlRadius,
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 20, sigmaY: 20),
+                      child: Container(
+                        width: 560,
+                        padding: const EdgeInsets.symmetric(horizontal: 32, vertical: 40),
+                        decoration: BoxDecoration(
+                          color: Colors.white.withValues(alpha: 0.85),
+                          borderRadius: AppBorderRadius.xxlRadius,
+                          border: Border.all(
+                            color: Colors.white.withValues(alpha: 0.9),
+                            width: 1.5,
+                          ),
+                          boxShadow: [
+                            BoxShadow(
+                              color: AppColors.primary.withValues(alpha: 0.05),
+                              blurRadius: 40,
+                              offset: const Offset(0, 20),
+                            ),
+                          ],
+                        ),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
+                            Padding(
+                              padding: const EdgeInsets.only(bottom: 32),
+                              child: Column(
+                                children: [
+                                  // Streetwear styled eyebrow
+                                  Container(
+                                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+                                    decoration: BoxDecoration(
+                                      color: AppColors.secondary.withValues(alpha: 0.1),
+                                      borderRadius: BorderRadius.circular(30),
+                                      border: Border.all(
+                                        color: AppColors.secondary.withValues(alpha: 0.2),
+                                        width: 1,
+                                      ),
+                                    ),
+                                    child: Text(
+                                      eyebrow.toUpperCase(),
+                                      style: AppTextStyles.bodySmall.copyWith(
+                                        color: AppColors.secondary,
+                                        fontWeight: FontWeight.w900,
+                                        letterSpacing: 4.0,
+                                        fontSize: 9,
+                                      ),
+                                    ),
+                                  ),
+                                  const Gap(24),
+                                  Text(
+                                    title,
+                                    textAlign: TextAlign.center,
+                                    style: AppTextStyles.headingLarge.copyWith(
+                                      color: AppColors.primary,
+                                      fontWeight: FontWeight.w900,
+                                      letterSpacing: -1.0,
+                                      fontSize: 34,
+                                    ),
+                                  ),
+                                  const Gap(12),
+                                  Text(
+                                    description,
+                                    textAlign: TextAlign.center,
+                                    style: AppTextStyles.bodyMedium.copyWith(
+                                      color: AppColors.onSurfaceVariant,
+                                      height: 1.6,
+                                      fontSize: 14,
+                                    ),
+                                  ),
+                                  const Gap(32),
+                                  const Divider(color: AppColors.outlineVariant, thickness: 1.0),
+                                ],
+                              ),
+                            ),
+                            child,
+                            const Gap(32),
+                            const Divider(color: AppColors.outlineVariant, thickness: 1.0),
+                            const Gap(20),
+                            Text(
+                              '© Mitologi Clothing. Hak cipta dilindungi.',
+                              textAlign: TextAlign.center,
+                              style: AppTextStyles.bodySmall.copyWith(
+                                color: AppColors.outline,
+                                fontWeight: FontWeight.w600,
+                                letterSpacing: 0.5,
+                              ),
+                            ),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Padding(
-                            padding: const EdgeInsets.only(bottom: 28),
-                            child: Column(
-                              children: [
-                                Text(
-                                  eyebrow.toUpperCase(),
-                                  style: AppTextStyles.bodySmall.copyWith(
-                                    color: AppColors.secondary,
-                                    fontWeight: FontWeight.w700,
-                                    letterSpacing: 2.8,
-                                  ),
-                                ),
-                                const Gap(16),
-                                Text(
-                                  title,
-                                  textAlign: TextAlign.center,
-                                  style: AppTextStyles.headingLarge.copyWith(
-                                    color: AppColors.primary,
-                                    fontWeight: FontWeight.w600,
-                                  ),
-                                ),
-                                const Gap(12),
-                                Text(
-                                  description,
-                                  textAlign: TextAlign.center,
-                                  style: AppTextStyles.bodyMedium.copyWith(
-                                    color: AppColors.onSurfaceVariant,
-                                    height: 1.6,
-                                  ),
-                                ),
-                                const Gap(28),
-                                const Divider(color: AppColors.outlineVariant),
-                              ],
-                            ),
-                          ),
-                          child,
-                          const Gap(28),
-                          const Divider(color: AppColors.surfaceContainer),
-                          const Gap(20),
-                          Text(
-                            '© Mitologi Clothing. Hak cipta dilindungi.',
-                            textAlign: TextAlign.center,
-                            style: AppTextStyles.bodySmall.copyWith(
-                              color: AppColors.outline,
-                              fontWeight: FontWeight.w500,
-                            ),
-                          ),
-                      ],
                     ),
                   ),
                 ),
@@ -152,7 +210,7 @@ class AuthAlert extends StatelessWidget {
               message,
               style: AppTextStyles.bodyMedium.copyWith(
                 color: AppColors.error,
-                fontWeight: FontWeight.w500,
+                fontWeight: FontWeight.w600,
               ),
             ),
           ),
@@ -170,20 +228,21 @@ class AuthLabel extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 8),
+      padding: const EdgeInsets.only(bottom: 10),
       child: Text(
         text.toUpperCase(),
         style: AppTextStyles.bodySmall.copyWith(
-          color: AppColors.onSurfaceVariant,
-          fontWeight: FontWeight.w700,
-          letterSpacing: 1.8,
+          color: AppColors.primary,
+          fontWeight: FontWeight.w800,
+          letterSpacing: 1.5,
+          fontSize: 11,
         ),
       ),
     );
   }
 }
 
-class AuthTextField extends StatelessWidget {
+class AuthTextField extends StatefulWidget {
   final TextEditingController controller;
   final String hintText;
   final IconData prefixIcon;
@@ -206,17 +265,91 @@ class AuthTextField extends StatelessWidget {
   });
 
   @override
+  State<AuthTextField> createState() => _AuthTextFieldState();
+}
+
+class _AuthTextFieldState extends State<AuthTextField> {
+  bool _isFocused = false;
+  late FocusNode _focusNode;
+
+  @override
+  void initState() {
+    super.initState();
+    _focusNode = FocusNode();
+    _focusNode.addListener(() {
+      setState(() {
+        _isFocused = _focusNode.hasFocus;
+      });
+    });
+  }
+
+  @override
+  void dispose() {
+    _focusNode.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      textInputAction: textInputAction,
-      validator: validator,
+      controller: widget.controller,
+      focusNode: _focusNode,
+      obscureText: widget.obscureText,
+      keyboardType: widget.keyboardType,
+      textInputAction: widget.textInputAction,
+      validator: widget.validator,
+      style: const TextStyle(
+        fontWeight: FontWeight.w700,
+        color: AppColors.primary,
+        fontSize: 15,
+      ),
       decoration: InputDecoration(
-        hintText: hintText,
-        prefixIcon: Icon(prefixIcon),
-        suffixIcon: suffixIcon,
+        hintText: widget.hintText,
+        hintStyle: TextStyle(
+          color: AppColors.outline.withValues(alpha: 0.8),
+          fontWeight: FontWeight.w500,
+        ),
+        prefixIcon: Icon(
+          widget.prefixIcon,
+          color: _isFocused ? AppColors.secondary : AppColors.outline,
+          size: 22,
+        ),
+        suffixIcon: widget.suffixIcon,
+        filled: true,
+        fillColor: _isFocused ? Colors.white : AppColors.surfaceContainerLow,
+        contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+        border: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide.none,
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: BorderSide(
+            color: AppColors.outlineVariant.withValues(alpha: 0.6),
+            width: 1.0,
+          ),
+        ),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(
+            color: AppColors.secondary,
+            width: 2.0,
+          ),
+        ),
+        errorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(
+            color: AppColors.error,
+            width: 1.0,
+          ),
+        ),
+        focusedErrorBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(16),
+          borderSide: const BorderSide(
+            color: AppColors.error,
+            width: 2.0,
+          ),
+        ),
       ),
     );
   }

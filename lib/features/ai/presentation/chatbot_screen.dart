@@ -239,27 +239,32 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
             child: Container(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
               decoration: BoxDecoration(
-                color: isUser ? AppColors.primary : AppColors.surfaceContainerLow,
+                gradient: isUser ? AppGradients.primaryGradient : null,
+                color: isUser ? null : Colors.white,
                 borderRadius: BorderRadius.only(
                   topLeft: const Radius.circular(20),
                   topRight: const Radius.circular(20),
                   bottomLeft: Radius.circular(isUser ? 20 : 4),
                   bottomRight: Radius.circular(isUser ? 4 : 20),
                 ),
+                border: isUser
+                    ? null
+                    : Border.all(color: AppColors.outlineVariant, width: 1.2),
                 boxShadow: [
-                  if (!isUser)
-                    BoxShadow(
-                      color: Colors.black.withValues(alpha: 0.05),
-                      blurRadius: 10,
-                      offset: const Offset(0, 4),
-                    ),
+                  BoxShadow(
+                    color: isUser
+                        ? AppColors.primary.withValues(alpha: 0.12)
+                        : Colors.black.withValues(alpha: 0.04),
+                    blurRadius: 12,
+                    offset: const Offset(0, 4),
+                  ),
                 ],
               ),
               child: Text(
                 message.content,
                 style: GoogleFonts.manrope(
                   fontSize: 14,
-                  fontWeight: FontWeight.w500,
+                  fontWeight: FontWeight.w600,
                   color: isUser ? Colors.white : AppColors.onSurface,
                   height: 1.5,
                 ),

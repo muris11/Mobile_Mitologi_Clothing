@@ -62,9 +62,23 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
+        automaticallyImplyLeading: false,
+        leadingWidth: 56,
         leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
+          icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 24),
+          onPressed: () {
+            if (context.mounted) {
+              if (context.canPop()) {
+                context.pop();
+              } else {
+                context.go('/profile');
+              }
+            }
+          },
+          splashRadius: 24,
+          padding: EdgeInsets.zero,
+          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
+          tooltip: 'Kembali',
         ),
         title: Text(
           'Order #${widget.orderNumber}',

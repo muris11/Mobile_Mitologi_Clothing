@@ -245,11 +245,12 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
 
   Widget _buildOrderNumber(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+      padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 14),
       decoration: BoxDecoration(
-        color: AppColors.primary.withValues(alpha: 0.06),
+        color: AppColors.surface,
         borderRadius: BorderRadius.circular(16),
-        border: Border.all(color: AppColors.primary.withValues(alpha: 0.15)),
+        border: Border.all(color: AppColors.secondaryContainer.withValues(alpha: 0.8), width: 1.5),
+        boxShadow: [AppShadows.cardSoft],
       ),
       child: Row(
         mainAxisSize: MainAxisSize.min,
@@ -257,7 +258,8 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
           Text(
             'Order ID',
             style: Theme.of(context).textTheme.bodySmall?.copyWith(
-                  color: AppColors.onSurfaceVariant,
+                  color: AppColors.primary,
+                  fontWeight: FontWeight.w800,
                   letterSpacing: 0.5,
                 ),
           ),
@@ -265,9 +267,10 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
           Text(
             '#${widget.orderNumber}',
             style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w700,
+                  fontWeight: FontWeight.w900,
                   fontFamily: 'monospace',
-                  color: AppColors.primary,
+                  color: AppColors.secondary,
+                  fontSize: 15,
                 ),
           ),
           const Gap(8),

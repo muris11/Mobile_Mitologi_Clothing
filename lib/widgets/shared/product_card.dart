@@ -1,3 +1,4 @@
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
@@ -31,7 +32,8 @@ class ProductCard extends StatefulWidget {
   State<ProductCard> createState() => _ProductCardState();
 }
 
-class _ProductCardState extends State<ProductCard> with SingleTickerProviderStateMixin {
+class _ProductCardState extends State<ProductCard>
+    with SingleTickerProviderStateMixin {
   late AnimationController _controller;
   late Animation<double> _scaleAnimation;
 
@@ -42,7 +44,7 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
       vsync: this,
       duration: const Duration(milliseconds: 150),
     );
-    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.98).animate(
+    _scaleAnimation = Tween<double>(begin: 1.0, end: 0.97).animate(
       CurvedAnimation(parent: _controller, curve: Curves.easeInOut),
     );
   }
@@ -75,153 +77,159 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
             color: AppColors.surface,
-            borderRadius: BorderRadius.circular(22),
-            border: Border.all(color: AppColors.outlineVariant),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withValues(alpha: 0.04),
-                blurRadius: 12,
-                offset: const Offset(0, 4),
-              ),
-            ],
+            // radius 18px (radiusLg) sesuai design.md §7.3
+            borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+            border: Border.all(
+              color: AppColors.outlineVariant.withValues(alpha: 0.5),
+            ),
           ),
-          child: Stack(
-            fit: StackFit.expand,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
             children: [
-              AppImage(
-                imageUrl: ApiConfig.buildImageUrl(widget.product.featuredImageUrl),
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-                borderRadius: 0,
-              ),
-              Positioned(
-                left: 0,
-                right: 0,
-                bottom: 0,
-                child: Container(
-                  padding: const EdgeInsets.fromLTRB(12, 48, 12, 14),
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.transparent,
-                        Colors.black.withValues(alpha: 0.88),
-                      ],
+              // ── Image section (3:4 ratio, text overlay) ──────────────
+              Expanded(
+                child: Stack(
+                  fit: StackFit.expand,
+                  children: [
+                    // Product image
+                    AppImage(
+                      imageUrl: ApiConfig.buildImageUrl(
+                          widget.product.featuredImageUrl),
+                      fit: BoxFit.cover,
+                      width: double.infinity,
+                      height: double.infinity,
+                      borderRadius: 0,
                     ),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      if (widget.showBrand && widget.product.vendor != null) ...[
-                        Text(
-                          widget.product.vendor!.toUpperCase(),
-                          style: AppTextStyles.manrope(
-                            fontSize: 9,
-                            fontWeight: FontWeight.w800,
-                            color: AppColors.secondary,
-                            letterSpacing: 1.5,
-                            height: 1.0,
+                    // Gradient overlay for text legibility
+                    Positioned(
+                      left: 0,
+                      right: 0,
+                      bottom: 0,
+                      child: Container(
+                        padding:
+                            const EdgeInsets.fromLTRB(10, 40, 10, 12),
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            begin: Alignment.topCenter,
+                            end: Alignment.bottomCenter,
+                            colors: [
+                              Colors.transparent,
+                              Colors.black.withValues(alpha: 0.75),
+                            ],
+                            stops: const [0.0, 1.0],
                           ),
-                          maxLines: 1,
-                          overflow: TextOverflow.ellipsis,
                         ),
-                        const SizedBox(height: 4),
-                      ],
-                      Text(
-                        widget.product.name,
-                        style: AppTextStyles.plusJakartaSans(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Colors.white,
-                          height: 1.3,
-                        ),
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                      ),
-                      const SizedBox(height: 4),
-                      Text(
-                        _formatPrice(widget.product.displayPrice),
-                        style: AppTextStyles.manrope(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w900,
-                          color: AppColors.secondary,
-                          height: 1.0,
-                        ),
-                      ),
-                      const SizedBox(height: 6),
-                      Row(
-                        children: [
-                          if ((widget.product.rating ?? 0) > 0) ...[
-                            const Icon(
-                              Icons.star_rounded,
-                              size: 14,
-                              color: AppColors.secondary,
-                            ),
-                            const SizedBox(width: 3),
-                            Text(
-                              widget.product.rating!.toStringAsFixed(1),
-                              style: AppTextStyles.manrope(
-                                  fontSize: 11,
-                                  fontWeight: FontWeight.w700,
-                                  color: Colors.white70),
-                            ),
-                            if (widget.product.reviewsCount > 0) ...[
-                              const SizedBox(width: 4),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            if (widget.showBrand &&
+                                widget.product.vendor != null) ...[
                               Text(
-                                '(${widget.product.reviewsCount})',
-                                style: AppTextStyles.manrope(
-                                    fontSize: 10, color: Colors.white54),
+                                widget.product.vendor!.toUpperCase(),
+                                style: AppTextStyles.plusJakartaSans(
+                                  fontSize: 9,
+                                  fontWeight: FontWeight.w800,
+                                  color: AppColors.secondary,
+                                  letterSpacing: 1.5,
+                                  height: 1.0,
+                                ),
+                                maxLines: 1,
+                                overflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 3),
+                            ],
+                            // Product name — max 2 lines, titleCard 15sp w600
+                            Text(
+                              widget.product.name,
+                              style: AppTextStyles.plusJakartaSans(
+                                fontSize: 13,
+                                fontWeight: FontWeight.w700,
+                                color: Colors.white,
+                                height: 1.3,
+                              ),
+                              maxLines: 2,
+                              overflow: TextOverflow.ellipsis,
+                            ),
+                            const SizedBox(height: 3),
+                            // Price — priceCard 16sp w700 gold
+                            Text(
+                              _formatPrice(widget.product.displayPrice),
+                              style: AppTextStyles.plusJakartaSans(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w800,
+                                color: AppColors.secondary,
+                                height: 1.1,
+                              ),
+                            ),
+                            if ((widget.product.rating ?? 0) > 0) ...[
+                              const SizedBox(height: 4),
+                              Row(
+                                children: [
+                                  const Icon(
+                                    Icons.star_rounded,
+                                    size: 12,
+                                    color: AppColors.secondary,
+                                  ),
+                                  const SizedBox(width: 3),
+                                  Text(
+                                    widget.product.rating!.toStringAsFixed(1),
+                                    style: AppTextStyles.plusJakartaSans(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w600,
+                                      color: Colors.white70,
+                                    ),
+                                  ),
+                                  if (widget.product.reviewsCount > 0) ...[
+                                    const SizedBox(width: 3),
+                                    Text(
+                                      '(${widget.product.reviewsCount})',
+                                      style: AppTextStyles.plusJakartaSans(
+                                        fontSize: 10,
+                                        color: Colors.white54,
+                                      ),
+                                    ),
+                                  ],
+                                ],
                               ),
                             ],
-                          ] else ...[
-                            Text(
-                              'Siap dikirim',
-                              style: AppTextStyles.manrope(
-                                  fontSize: 10, color: Colors.white54),
-                            ),
                           ],
-                        ],
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-              if (widget.product.onSale)
-                Positioned(
-                  left: 10,
-                  top: 10,
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 8,
-                      vertical: 4,
-                    ),
-                    decoration: BoxDecoration(
-                      color: AppColors.secondary,
-                      borderRadius: BorderRadius.circular(999),
-                    ),
-                    child: const Text(
-                      'PROMO',
-                      style: TextStyle(
-                        color: Colors.white,
-                        fontSize: 9,
-                        fontWeight: FontWeight.w800,
-                        letterSpacing: 1,
+                        ),
                       ),
                     ),
-                  ),
-                ),
-              Positioned(
-                top: 8,
-                right: 8,
-                child: Container(
-                  decoration: const BoxDecoration(
-                    color: Colors.transparent,
-                    shape: BoxShape.circle,
-                  ),
-                  child: _buildWishlistButton(isMobile),
+                    // ── PROMO badge (top-left) ──────────────────────
+                    if (widget.product.onSale)
+                      Positioned(
+                        left: 8,
+                        top: 8,
+                        child: Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 8,
+                            vertical: 4,
+                          ),
+                          decoration: BoxDecoration(
+                            gradient: AppGradients.premiumGold,
+                            borderRadius: BorderRadius.circular(AppBorderRadius.xs),
+                          ),
+                          child: const Text(
+                            'PROMO',
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 9,
+                              fontWeight: FontWeight.w800,
+                              letterSpacing: 0.8,
+                            ),
+                          ),
+                        ),
+                      ),
+                    // ── Wishlist button (top-right) ─────────────────
+                    Positioned(
+                      top: 8,
+                      right: 8,
+                      child: _buildWishlistButton(isMobile),
+                    ),
+                  ],
                 ),
               ),
             ],
@@ -245,21 +253,43 @@ class _ProductCardState extends State<ProductCard> with SingleTickerProviderStat
   }
 
   Widget _buildWishlistButton(bool isSmallScreen) {
-    return GestureDetector(
-       behavior: HitTestBehavior.opaque,
-       onTap: () {
-         AppHaptics.lightImpact();
-         widget.onWishlistToggle?.call();
-       },
-       child: SizedBox(
-        width: isSmallScreen ? 28 : 32,
-        height: isSmallScreen ? 28 : 32,
-        child: Icon(
-          widget.isInWishlist ? PhosphorIconsFill.heart : PhosphorIconsRegular.heart,
-          color: widget.isInWishlist
-              ? AppColors.error
-              : AppColors.primary.withValues(alpha: 0.6),
-          size: isSmallScreen ? 14 : 18,
+    return Semantics(
+      label: widget.isInWishlist
+          ? 'Hapus dari wishlist'
+          : 'Tambahkan ke wishlist',
+      button: true,
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap: () {
+          AppHaptics.lightImpact();
+          widget.onWishlistToggle?.call();
+        },
+        child: ClipRRect(
+          borderRadius: BorderRadius.circular(999),
+          child: BackdropFilter(
+            filter: ImageFilter.blur(sigmaX: 6, sigmaY: 6),
+            child: Container(
+              width: 34,
+              height: 34,
+              decoration: BoxDecoration(
+                color: Colors.white.withValues(alpha: 0.8),
+                shape: BoxShape.circle,
+                border: Border.all(
+                  color: Colors.white.withValues(alpha: 0.5),
+                  width: 1,
+                ),
+              ),
+              child: Icon(
+                widget.isInWishlist
+                    ? PhosphorIconsFill.heart
+                    : PhosphorIconsRegular.heart,
+                color: widget.isInWishlist
+                    ? const Color(0xFFE53E3E)
+                    : AppColors.primary,
+                size: 16,
+              ),
+            ),
+          ),
         ),
       ),
     );

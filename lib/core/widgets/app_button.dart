@@ -26,7 +26,7 @@ class AppButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
-    
+
     Widget content = isLoading
         ? SizedBox(
             height: 24,
@@ -34,7 +34,8 @@ class AppButton extends StatelessWidget {
             child: CircularProgressIndicator(
               strokeWidth: 2.5,
               valueColor: AlwaysStoppedAnimation<Color>(
-                variant == AppButtonVariant.outline || variant == AppButtonVariant.text
+                variant == AppButtonVariant.outline ||
+                        variant == AppButtonVariant.text
                     ? AppColors.primary
                     : AppColors.onPrimary,
               ),
@@ -64,6 +65,10 @@ class AppButton extends StatelessWidget {
   }
 
   Widget _buildButton(Widget content) {
+    final shape = RoundedRectangleBorder(
+      borderRadius: BorderRadius.circular(AppBorderRadius.full),
+    );
+
     switch (variant) {
       case AppButtonVariant.primary:
         return ElevatedButton(
@@ -71,6 +76,9 @@ class AppButton extends StatelessWidget {
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.primary,
             foregroundColor: AppColors.onPrimary,
+            elevation: 0,
+            shadowColor: AppColors.primary.withValues(alpha: 0.16),
+            shape: shape,
           ),
           child: content,
         );
@@ -79,13 +87,20 @@ class AppButton extends StatelessWidget {
           onPressed: isLoading ? null : onPressed,
           style: ElevatedButton.styleFrom(
             backgroundColor: AppColors.secondary,
-            foregroundColor: AppColors.onSecondary,
+            foregroundColor: AppColors.onSecondaryContainer,
+            elevation: 0,
+            shape: shape,
           ),
           child: content,
         );
       case AppButtonVariant.outline:
         return OutlinedButton(
           onPressed: isLoading ? null : onPressed,
+          style: OutlinedButton.styleFrom(
+            foregroundColor: AppColors.primary,
+            side: const BorderSide(color: AppColors.outlineVariant),
+            shape: shape,
+          ),
           child: content,
         );
       case AppButtonVariant.text:
@@ -105,7 +120,7 @@ class AppButton extends StatelessWidget {
       case AppButtonVariant.primary:
         return AppColors.onPrimary;
       case AppButtonVariant.secondary:
-        return AppColors.onSecondary;
+        return AppColors.onSecondaryContainer;
       case AppButtonVariant.outline:
       case AppButtonVariant.text:
         return AppColors.primary;

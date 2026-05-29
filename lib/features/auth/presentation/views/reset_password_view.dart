@@ -130,9 +130,34 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
             TextFormField(
               initialValue: widget.email,
               readOnly: true,
-              decoration: const InputDecoration(
+              style: TextStyle(
+                color: AppColors.outline,
+                fontWeight: FontWeight.w600,
+              ),
+              decoration: InputDecoration(
                 hintText: 'email',
-                prefixIcon: Icon(PhosphorIconsRegular.envelope),
+                prefixIcon: const Icon(PhosphorIconsRegular.envelope, color: AppColors.outline),
+                filled: true,
+                fillColor: AppColors.surfaceContainerLow,
+                contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide.none,
+                ),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide(
+                    color: AppColors.outlineVariant.withValues(alpha: 0.6),
+                    width: 1.0,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(16),
+                  borderSide: BorderSide(
+                    color: AppColors.outlineVariant.withValues(alpha: 0.6),
+                    width: 1.0,
+                  ),
+                ),
               ),
             ),
             const Gap(16),
@@ -195,12 +220,24 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
                     ),
               ),
             ],
-            const Gap(24),
-            AppButton(
-              text: 'Perbarui Password',
-              onPressed: _handleSubmit,
-              isLoading: viewModel.isLoading,
-              height: 58,
+            const Gap(32),
+            Container(
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(100),
+                boxShadow: [
+                  BoxShadow(
+                    color: AppColors.primary.withValues(alpha: 0.15),
+                    blurRadius: 24,
+                    offset: const Offset(0, 12),
+                  ),
+                ],
+              ),
+              child: AppButton(
+                text: 'PERBARUI PASSWORD',
+                onPressed: _handleSubmit,
+                isLoading: viewModel.isLoading,
+                height: 60,
+              ),
             ),
           ],
         ),

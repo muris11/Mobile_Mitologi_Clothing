@@ -31,18 +31,17 @@ class GlassContainer extends StatelessWidget {
       margin: margin,
       decoration: BoxDecoration(
         borderRadius: radius,
-        boxShadow: boxShadow ?? [AppShadows.glass],
+        boxShadow: boxShadow ?? [AppShadows.cardSoft],
       ),
       child: ClipRRect(
         borderRadius: radius,
         child: Container(
           padding: padding ?? const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: color ?? AppColors.glassSurface,
+            color: color ?? AppColors.glassSurfaceStrong,
             borderRadius: radius,
             border:
-                border ?? Border.all(color: AppColors.glassBorder, width: 1),
-            gradient: AppGradients.glassHighlight,
+                border ?? Border.all(color: AppColors.outlineVariant, width: 1),
           ),
           child: child,
         ),

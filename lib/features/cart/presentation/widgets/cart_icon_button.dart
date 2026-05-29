@@ -6,7 +6,8 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
 class CartIconButton extends StatelessWidget {
-  const CartIconButton({super.key});
+  final Color? iconColor;
+  const CartIconButton({super.key, this.iconColor});
 
   CartViewModel? _cartViewModel(BuildContext context) {
     try {
@@ -30,7 +31,7 @@ class CartIconButton extends StatelessWidget {
       children: [
         IconButton(
           icon: const Icon(PhosphorIconsRegular.shoppingCart),
-          color: AppColors.primary,
+          color: iconColor ?? AppColors.primary,
           tooltip: 'Keranjang',
           onPressed: () => context.push('/cart'),
         ),

@@ -109,39 +109,46 @@ class _ProfileViewState extends State<ProfileView> {
           child: Row(
             children: [
               Container(
-                width: 64,
-                height: 64,
+                padding: const EdgeInsets.all(2.5),
                 decoration: BoxDecoration(
-                  gradient: avatarUrl == null
-                      ? LinearGradient(
-                          colors: [AppColors.primary, AppColors.primaryContainer],
-                          begin: Alignment.topLeft,
-                          end: Alignment.bottomRight,
-                        )
-                      : null,
-                  borderRadius: BorderRadius.circular(20),
+                  gradient: AppGradients.premiumGold,
+                  borderRadius: BorderRadius.circular(22),
                 ),
-                child: avatarUrl != null
-                    ? ClipRRect(
-                        borderRadius: BorderRadius.circular(20),
-                        child: Image.network(
-                          avatarUrl,
-                          width: 64,
-                          height: 64,
-                          fit: BoxFit.cover,
-                          errorBuilder: (_, __, ___) => _buildAvatarFallback(initial),
-                        ),
-                      )
-                    : Center(
-                        child: Text(
-                          initial,
-                          style: GoogleFonts.notoSerif(
-                            fontSize: 28,
-                            fontWeight: FontWeight.w800,
-                            color: Colors.white,
+                child: Container(
+                  width: 60,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    gradient: avatarUrl == null
+                        ? LinearGradient(
+                            colors: [AppColors.primary, AppColors.primaryContainer],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          )
+                        : null,
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: avatarUrl != null
+                      ? ClipRRect(
+                          borderRadius: BorderRadius.circular(20),
+                          child: Image.network(
+                            avatarUrl,
+                            width: 60,
+                            height: 60,
+                            fit: BoxFit.cover,
+                            errorBuilder: (_, __, ___) => _buildAvatarFallback(initial),
+                          ),
+                        )
+                      : Center(
+                          child: Text(
+                            initial,
+                            style: GoogleFonts.notoSerif(
+                              fontSize: 24,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                            ),
                           ),
                         ),
-                      ),
+                ),
               ),
               const Gap(16),
               Expanded(
@@ -177,8 +184,8 @@ class _ProfileViewState extends State<ProfileView> {
 
   Widget _buildAvatarFallback(String initial) {
     return Container(
-      width: 64,
-      height: 64,
+      width: 60,
+      height: 60,
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: [AppColors.primary, AppColors.primaryContainer],
@@ -191,7 +198,7 @@ class _ProfileViewState extends State<ProfileView> {
         child: Text(
           initial,
           style: GoogleFonts.notoSerif(
-            fontSize: 28,
+            fontSize: 24,
             fontWeight: FontWeight.w800,
             color: Colors.white,
           ),
