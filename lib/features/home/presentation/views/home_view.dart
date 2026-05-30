@@ -10,7 +10,6 @@ import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/widgets/cart_icon_button.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
-import 'package:mitologi_clothing_mobile/features/home/domain/models/banner_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/category_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/order_step_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/portfolio_item_model.dart';
@@ -18,11 +17,11 @@ import 'package:mitologi_clothing_mobile/features/home/domain/models/product_pri
 import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
 
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
+import 'package:mitologi_clothing_mobile/features/home/presentation/widgets/home_hero_section.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/product_card.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:mitologi_clothing_mobile/core/utils/responsive_utils.dart';
 
 class HomeView extends StatefulWidget {
   const HomeView({super.key});
@@ -103,8 +102,12 @@ class _HomeViewState extends State<HomeView> {
           SliverToBoxAdapter(
             child: _buildHomeHeader(),
           ),
-          SliverToBoxAdapter(
-            child: _buildNewHeroCarousel(viewModel),
+          HomeHeroSection(
+            bannerController: _bannerController,
+            currentBannerIndex: _currentBannerIndex,
+            onBannerIndexChanged: (index) {
+              setState(() => _currentBannerIndex = index);
+            },
           ),
           if (viewModel.isLoading)
             const SliverToBoxAdapter(
@@ -201,223 +204,6 @@ class _HomeViewState extends State<HomeView> {
         ],
       ),
     );
-  }
-
-  Widget _buildNewHeroCarousel(HomeViewModel viewModel) {
-    if (viewModel.banners.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    final height = ResponsiveConfig.value(
-      context: context,
-      mobile: 200.0,
-      tablet: 280.0,
-      desktop: 280.0,
-    );
-
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(16, 18, 16, 0),
-      child: SizedBox(
-        height: height,
-        child: ClipRRect(
-          borderRadius: BorderRadius.circular(AppBorderRadius.xl),
-          child: _buildHeroCarouselContent(viewModel),
-        ),
-      ),
-    );
-  }
-
-  Widget _buildHeroCarouselContent(HomeViewModel viewModel) {
-    if (viewModel.banners.isEmpty) {
-      return const SizedBox.shrink();
-    }
-
-    return Stack(
-      children: [
-        PageView.builder(
-          controller: _bannerController,
-          itemCount: viewModel.banners.length,
-          onPageChanged: (i) => setState(() => _currentBannerIndex = i),
-          itemBuilder: (context, index) {
-            final banner = viewModel.banners[index];
-            final title = _heroTitle(banner);
-            final subtitle = _heroSubtitle(banner);
-            final description = _heroDescription(banner);
-            final imageUrl = banner.imageUrl.trim();
-            return Stack(
-              fit: StackFit.expand,
-              children: [
-                _buildHeroBackdrop(),
-                if (imageUrl.isNotEmpty)
-                  AppImage(
-                    imageUrl: ApiConfig.buildImageUrl(imageUrl),
-                    fit: BoxFit.cover,
-                  ),
-                DecoratedBox(
-                  decoration: BoxDecoration(
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Colors.black.withValues(
-                            alpha:
-                                0.55), // Dark top vignette to ensure transparent App Bar readability
-                        Colors.black.withValues(
-                            alpha:
-                                0.1), // Clear center to showcase streetwear clothes
-                        Colors.black.withValues(
-                            alpha:
-                                0.85), // Deep bottom dark block for text legibility
-                      ],
-                      stops: const [0.0, 0.4, 1.0],
-                    ),
-                  ),
-                ),
-                Positioned(
-                  left: 20,
-                  right: 20,
-                  bottom: 38,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 14, vertical: 6),
-                        decoration: BoxDecoration(
-                          gradient: AppGradients.premiumGold,
-                          borderRadius: BorderRadius.circular(30),
-                          boxShadow: [
-                            BoxShadow(
-                              color:
-                                  AppColors.secondary.withValues(alpha: 0.25),
-                              blurRadius: 10,
-                              offset: const Offset(0, 4),
-                            )
-                          ],
-                        ),
-                        child: Text(
-                          subtitle.toUpperCase(),
-                          style: const TextStyle(
-                            color: Colors.white,
-                            fontSize: 9,
-                            fontWeight: FontWeight.w900,
-                            letterSpacing: 2.2,
-                          ),
-                        ),
-                      ),
-                      const Gap(8),
-                      Text(
-                        title,
-                        style: const TextStyle(
-                          color: Colors.white,
-                          fontSize: 26,
-                          fontWeight: FontWeight.w900,
-                          height: 1.15,
-                          letterSpacing: -0.5,
-                        ),
-                      ),
-                      const Gap(10),
-                      Text(
-                        description,
-                        maxLines: 2,
-                        overflow: TextOverflow.ellipsis,
-                        style: TextStyle(
-                          color: Colors.white.withValues(alpha: 0.88),
-                          fontSize: 13,
-                          height: 1.5,
-                        ),
-                      ),
-                      const Gap(16),
-                      // Single CTA sesuai spec (bukan dua tombol)
-                      GestureDetector(
-                        onTap: () => context.push('/products'),
-                        child: Container(
-                          padding: const EdgeInsets.symmetric(
-                              horizontal: 20, vertical: 11),
-                          decoration: BoxDecoration(
-                            gradient: AppGradients.premiumGold,
-                            borderRadius:
-                                BorderRadius.circular(AppBorderRadius.sm),
-                          ),
-                          child: Text(
-                            (banner.link != null && banner.link!.isNotEmpty)
-                                ? 'LIHAT KOLEKSI'
-                                : 'BELANJA SEKARANG',
-                            style: const TextStyle(
-                              color: Colors.white,
-                              fontSize: 11,
-                              fontWeight: FontWeight.w900,
-                              letterSpacing: 1.2,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              ],
-            );
-          },
-        ),
-        Positioned(
-          bottom: 16,
-          right: 20,
-          child: Row(
-            children: List.generate(
-              viewModel.banners.length,
-              (index) => AnimatedContainer(
-                duration: const Duration(milliseconds: 300),
-                width: index == _currentBannerIndex ? 24 : 8,
-                height: 6,
-                margin: const EdgeInsets.only(right: 6),
-                decoration: BoxDecoration(
-                  gradient: index == _currentBannerIndex
-                      ? AppGradients.premiumGold
-                      : null,
-                  color: index == _currentBannerIndex
-                      ? null
-                      : Colors.white.withValues(alpha: 0.3),
-                  borderRadius: BorderRadius.circular(3),
-                ),
-              ),
-            ),
-          ),
-        ),
-      ],
-    );
-  }
-
-  Widget _buildHeroBackdrop() {
-    return Container(
-      decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-          colors: [
-            Color(0xFF000613),
-            Color(0xFF001F3F),
-            Color(0xFF735C00),
-          ],
-          stops: [0, 0.68, 1],
-        ),
-      ),
-    );
-  }
-
-  String _heroTitle(BannerModel banner) {
-    final title = banner.title.trim();
-    return title.isNotEmpty ? title : 'Kualitas Premium\nPakaian Custom';
-  }
-
-  String _heroSubtitle(BannerModel banner) {
-    final subtitle = banner.subtitle.trim();
-    return subtitle.isNotEmpty ? subtitle : 'PAKAIAN CUSTOM';
-  }
-
-  String _heroDescription(BannerModel banner) {
-    final description = banner.description?.trim();
-    if (description != null && description.isNotEmpty) return description;
-    return 'Vendor konveksi terpercaya untuk kaos, hoodie, dan kebutuhan produksi apparel.';
   }
 
   Widget _buildIntro(ThemeData theme) {

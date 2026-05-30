@@ -8,6 +8,7 @@ class BannerModel extends Equatable {
   final String? description;
   final String imageUrl;
   final String? link;
+  final String? ctaText;
 
   const BannerModel({
     required this.id,
@@ -16,6 +17,7 @@ class BannerModel extends Equatable {
     this.description,
     required this.imageUrl,
     this.link,
+    this.ctaText,
   });
 
   factory BannerModel.fromJson(Map<String, dynamic> json) {
@@ -29,9 +31,10 @@ class BannerModel extends Equatable {
                 (json['imageURL'] as String?) ?? 
                 (json['image'] as String?) ?? '',
       link: (json['link'] as String?) ?? (json['ctaLink'] as String?) ?? (json['cta_link'] as String?),
+      ctaText: (json['ctaText'] as String?) ?? (json['cta_text'] as String?) ?? (json['ctaLabel'] as String?),
     );
   }
 
   @override
-  List<Object?> get props => [id, title, subtitle, description, imageUrl, link];
+  List<Object?> get props => [id, title, subtitle, description, imageUrl, link, ctaText];
 }

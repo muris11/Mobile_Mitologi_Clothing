@@ -71,7 +71,7 @@ class _HomeHeroSectionState extends State<HomeHeroSection> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             SizedBox(
-              height: 500,
+              height: 560,
               child: Stack(
                 children: [
                   PageView.builder(
@@ -98,8 +98,13 @@ class _HomeHeroSectionState extends State<HomeHeroSection> {
                                   gradient: LinearGradient(
                                     begin: Alignment.topCenter,
                                     end: Alignment.bottomCenter,
-                                    colors: [Color(0x22000000), Color(0x11000000), Color(0xCC0D1726)],
-                                    stops: [0.0, 0.45, 1.0],
+                                    colors: [
+                                      Color(0x33000000),
+                                      Color(0x11000000),
+                                      Color(0x99000000),
+                                      Color(0xEE08101C)
+                                    ],
+                                    stops: [0.0, 0.4, 0.75, 1.0],
                                   ),
                                 ),
                               ),
@@ -110,64 +115,93 @@ class _HomeHeroSectionState extends State<HomeHeroSection> {
                     },
                   ),
                   Positioned(
-                    left: 28,
-                    right: 28,
-                    bottom: 28,
+                    left: 20,
+                    right: 20,
+                    bottom: 24,
                     child: GlassContainer(
-                      padding: const EdgeInsets.all(24),
+                      padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 26),
                       borderRadius: BorderRadius.circular(28),
-                      blur: 20,
-                      color: AppColors.primary.withValues(alpha: 0.28),
-                      border: Border.all(color: Colors.white.withValues(alpha: 0.18)),
+                      blur: 24,
+                      color: AppColors.primary.withValues(alpha: 0.35),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.15)),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          Text(
-                            settings?.siteTagline ?? 'Koleksi Eksklusif',
-                            style: AppTextStyles.manrope(
-                              fontSize: 11,
-                              fontWeight: FontWeight.w900,
-                              color: AppColors.secondaryContainer,
-                              letterSpacing: 2.4,
+                          Container(
+                            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+                            decoration: BoxDecoration(
+                              gradient: AppGradients.premiumGold,
+                              borderRadius: BorderRadius.circular(30),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: AppColors.secondary.withValues(alpha: 0.25),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
+                                )
+                              ],
+                            ),
+                            child: Text(
+                              (settings?.siteTagline ?? 'Koleksi Eksklusif').toUpperCase(),
+                              style: AppTextStyles.manrope(
+                                fontSize: 9,
+                                fontWeight: FontWeight.w900,
+                                color: Colors.white,
+                                letterSpacing: 2.5,
+                              ),
                             ),
                           ),
-                          const Gap(10),
+                          const Gap(14),
                           Text(
                             banner.title,
                             style: AppTextStyles.notoSerif(
                               fontSize: 34,
-                              fontWeight: FontWeight.w800,
+                              fontWeight: FontWeight.w900,
                               color: Colors.white,
-                              height: 1.08,
+                              height: 1.15,
+                              letterSpacing: -0.5,
                             ),
                           ),
                           const Gap(10),
                           Text(
                             (banner.description?.isNotEmpty ?? false)
                                 ? banner.description!
-                                : 'Dirancang dengan detail, dibuat untuk tampil percaya diri.',
+                                : 'Dirancang dengan detail presisi, dibuat untuk kenyamanan dan visual streetwear modern.',
                             style: AppTextStyles.manrope(
-                              fontSize: 14,
+                              fontSize: 13,
                               fontWeight: FontWeight.w500,
-                              color: Colors.white.withValues(alpha: 0.86),
+                              color: Colors.white.withValues(alpha: 0.88),
                               height: 1.6,
                             ),
                           ),
-                          const Gap(18),
-                          Wrap(
-                            spacing: 12,
-                            runSpacing: 12,
+                          const Gap(22),
+                          Column(
                             children: [
-                              LuxuryButton(
-                                label: 'Eksplor Katalog',
-                                icon: PhosphorIconsRegular.arrowUpRight,
-                                onPressed: () => context.go('/products'),
+                              SizedBox(
+                                width: double.infinity,
+                                child: LuxuryButton(
+                                  label: (banner.ctaText != null && banner.ctaText!.isNotEmpty)
+                                      ? banner.ctaText!
+                                      : (banner.link != null && banner.link!.isNotEmpty)
+                                          ? 'Lihat Koleksi'
+                                          : 'Eksplor Katalog',
+                                  icon: PhosphorIconsRegular.arrowUpRight,
+                                  onPressed: () {
+                                    final route = (banner.link != null && banner.link!.isNotEmpty)
+                                        ? banner.link!
+                                        : '/products';
+                                    context.go(route);
+                                  },
+                                ),
                               ),
-                              LuxuryButton(
-                                label: 'Cerita Brand',
-                                icon: PhosphorIconsRegular.images,
-                                variant: LuxuryButtonVariant.secondary,
-                                onPressed: () => context.go('/portfolio'),
+                              const Gap(10),
+                              SizedBox(
+                                width: double.infinity,
+                                child: LuxuryButton(
+                                  label: 'Cerita Brand',
+                                  icon: PhosphorIconsRegular.images,
+                                  variant: LuxuryButtonVariant.secondary,
+                                  onPressed: () => context.go('/portfolio'),
+                                ),
                               ),
                             ],
                           ),
@@ -178,22 +212,29 @@ class _HomeHeroSectionState extends State<HomeHeroSection> {
                   Positioned(
                     top: 24,
                     right: 24,
-                    child: Row(
-                      children: List.generate(banners.length, (index) {
-                        final isActive = widget.currentBannerIndex == index;
-                        return AnimatedContainer(
-                          duration: const Duration(milliseconds: 220),
-                          margin: const EdgeInsets.only(left: 6),
-                          width: isActive ? 24 : 8,
-                          height: 8,
-                          decoration: BoxDecoration(
-                            color: isActive
-                                ? Colors.white
-                                : Colors.white.withValues(alpha: 0.35),
-                            borderRadius: BorderRadius.circular(999),
-                          ),
-                        );
-                      }),
+                    child: GlassContainer(
+                      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+                      borderRadius: BorderRadius.circular(20),
+                      blur: 10,
+                      color: Colors.black.withValues(alpha: 0.2),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.1)),
+                      child: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: List.generate(banners.length, (index) {
+                          final isActive = widget.currentBannerIndex == index;
+                          return AnimatedContainer(
+                            duration: const Duration(milliseconds: 300),
+                            margin: EdgeInsets.only(left: index == 0 ? 0 : 6),
+                            width: isActive ? 20 : 6,
+                            height: 6,
+                            decoration: BoxDecoration(
+                              gradient: isActive ? AppGradients.premiumGold : null,
+                              color: isActive ? null : Colors.white.withValues(alpha: 0.4),
+                              borderRadius: BorderRadius.circular(99),
+                            ),
+                          );
+                        }),
+                      ),
                     ),
                   ),
                 ],
