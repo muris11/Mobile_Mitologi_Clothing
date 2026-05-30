@@ -22,7 +22,7 @@ const _promos = [
   {
     'title': 'Diskon Member Baru',
     'subtitle': 'Diskon 10% untuk pembelian pertama',
-    'badge': 'New Member',
+    'badge': 'Member Baru',
     'desc':
         'Daftar sekarang dan dapatkan diskon 10% untuk pembelian pertama Anda!',
     'color': 0xFF7C3AED,
@@ -33,7 +33,7 @@ const _promos = [
   {
     'title': 'Cashback Pembelian Bulk',
     'subtitle': 'Cashback hingga 15% untuk pesanan partai',
-    'badge': 'Bulk Order',
+    'badge': 'Pesanan Partai',
     'desc':
         'Pesan dalam jumlah besar (min. 24 pcs) dan dapatkan cashback hingga 15%.',
     'color': 0xFFB45309,

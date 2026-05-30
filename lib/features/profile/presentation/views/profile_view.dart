@@ -9,6 +9,7 @@ import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_m
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
 
 import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_alert.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -688,48 +689,19 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  void _handleLogout(BuildContext context, AuthViewModel authVM) {
-    showDialog(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(
-          'Keluar dari Akun?',
-          style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w800),
-        ),
-        content: Text(
-          'Apakah Anda yakin ingin keluar dari akun ini?',
-          style: AppTextStyles.plusJakartaSans(fontSize: 14),
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => ctx.pop(),
-            child: Text(
-              'Batal',
-              style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w600),
-            ),
-          ),
-          FilledButton(
-            onPressed: () {
-              authVM.logout();
-              ctx.pop();
-            },
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.error,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10)),
-            ),
-            child: Text(
-              'Keluar',
-              style: AppTextStyles.plusJakartaSans(
-                fontWeight: FontWeight.w700,
-                color: Colors.white,
-              ),
-            ),
-          ),
-        ],
-      ),
+  Future<void> _handleLogout(BuildContext context, AuthViewModel authVM) async {
+    final confirmed = await MitologiAlert.show(
+      context,
+      icon: PhosphorIconsRegular.signOut,
+      title: 'Keluar dari Akun?',
+      message: 'Apakah Anda yakin ingin keluar dari akun ini?',
+      confirmLabel: 'Keluar',
+      cancelLabel: 'Batal',
+      isDestructive: true,
     );
+    if (confirmed == true) {
+      authVM.logout();
+    }
   }
   Widget _buildGuestView() {
     return Scaffold(

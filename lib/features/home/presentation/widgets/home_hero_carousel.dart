@@ -79,7 +79,7 @@ class _HomeHeroCarouselState extends State<HomeHeroCarousel> {
                       child: Text(
                         banner.title,
                         style: const TextStyle(
-                          color: AppColors.primary,
+                          color: AppColors.onSurface,
                           fontSize: 18,
                           fontWeight: FontWeight.w700,
                         ),

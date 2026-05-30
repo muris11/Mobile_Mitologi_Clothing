@@ -1,3 +1,4 @@
+import 'package:dio/dio.dart';
 import 'package:mitologi_clothing_mobile/core/utils/parser_utils.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/data/catalog_service.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_detail_model.dart';
@@ -79,7 +80,15 @@ class CatalogRepository {
   }) async {
     try {
       final response = await _catalogService.submitReview(slug, rating: rating, comment: comment);
-      return response.statusCode == 200 || response.statusCode == 201;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return true;
+      } else {
+        throw DioException(
+          requestOptions: response.requestOptions,
+          response: response,
+          type: DioExceptionType.badResponse,
+        );
+      }
     } catch (e) {
       rethrow;
     }

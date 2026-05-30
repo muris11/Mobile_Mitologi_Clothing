@@ -81,7 +81,7 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           },
         ),
         title: Text(
-          'Order #${widget.orderNumber}',
+          'Pesanan #${widget.orderNumber}',
           style: AppTextStyles.plusJakartaSans(
             fontWeight: FontWeight.w900,
             fontSize: 18,
@@ -679,36 +679,54 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
           onPopInvokedWithResult: (didPop, _) {
             if (didPop) _verificationCancelled = true;
           },
-          child: AlertDialog(
-            contentPadding:
-                const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-            content: const Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
-                SizedBox(
-                  width: 40,
-                  height: 40,
-                  child: CircularProgressIndicator(strokeWidth: 3),
-                ),
-                SizedBox(height: 20),
-                Text(
-                  'Memverifikasi\nPembayaran',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    fontWeight: FontWeight.w700,
-                    fontSize: 16,
+          child: Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: Container(
+              padding: const EdgeInsets.all(32),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(28),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.15),
+                    blurRadius: 40,
+                    offset: const Offset(0, 20),
                   ),
-                ),
-                SizedBox(height: 8),
-                Text(
-                  'Mohon tunggu sebentar\nyaa',
-                  textAlign: TextAlign.center,
-                  style: TextStyle(
-                    color: AppColors.onSurfaceVariant,
-                    fontSize: 14,
+                ],
+              ),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  const SizedBox(
+                    width: 48,
+                    height: 48,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 3,
+                      valueColor: AlwaysStoppedAnimation<Color>(AppColors.secondary),
+                    ),
                   ),
-                ),
-              ],
+                  const SizedBox(height: 24),
+                  Text(
+                    'Memverifikasi Pembayaran',
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.manrope(
+                      fontWeight: FontWeight.w800,
+                      fontSize: 17,
+                      color: AppColors.onSurface,
+                    ),
+                  ),
+                  const SizedBox(height: 8),
+                  Text(
+                    'Mohon tunggu sebentar...',
+                    textAlign: TextAlign.center,
+                    style: AppTextStyles.manrope(
+                      color: AppColors.onSurfaceVariant,
+                      fontSize: 14,
+                    ),
+                  ),
+                ],
+              ),
             ),
           ),
         ),
@@ -769,27 +787,138 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
     final controller = TextEditingController();
     final confirmed = await showDialog<bool>(
       context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Ajukan Pengembalian Dana',
-            style: TextStyle(fontWeight: FontWeight.w800)),
-        content: TextField(
-          controller: controller,
-          maxLines: 3,
-          decoration: const InputDecoration(
-            hintText: 'Jelaskan alasan pengembalian dana...',
-            border: OutlineInputBorder(),
+      builder: (ctx) => Dialog(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 32),
+        child: Container(
+          padding: const EdgeInsets.all(28),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(28),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withValues(alpha: 0.15),
+                blurRadius: 40,
+                offset: const Offset(0, 20),
+              ),
+            ],
+          ),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Container(
+                    width: 44,
+                    height: 44,
+                    decoration: BoxDecoration(
+                      color: AppColors.error.withValues(alpha: 0.08),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(
+                      PhosphorIconsRegular.arrowCounterClockwise,
+                      color: AppColors.error,
+                      size: 22,
+                    ),
+                  ),
+                  const Gap(16),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Ajukan Pengembalian Dana',
+                          style: AppTextStyles.manrope(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w800,
+                            color: AppColors.onSurface,
+                          ),
+                        ),
+                        Text(
+                          'Ceritakan alasan Anda',
+                          style: AppTextStyles.manrope(
+                            fontSize: 12,
+                            color: AppColors.onSurfaceVariant,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+              const Gap(20),
+              TextField(
+                controller: controller,
+                maxLines: 4,
+                style: AppTextStyles.manrope(fontSize: 14, color: AppColors.onSurface),
+                decoration: InputDecoration(
+                  hintText: 'Jelaskan alasan pengembalian dana...',
+                  hintStyle: AppTextStyles.manrope(fontSize: 14, color: AppColors.onSurfaceVariant.withValues(alpha: 0.6)),
+                  filled: true,
+                  fillColor: AppColors.surfaceContainerLow,
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: AppColors.outlineVariant),
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: AppColors.outlineVariant.withValues(alpha: 0.5)),
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(16),
+                    borderSide: BorderSide(color: AppColors.secondary, width: 1.5),
+                  ),
+                  contentPadding: const EdgeInsets.all(16),
+                ),
+              ),
+              const Gap(20),
+              Column(
+                children: [
+                  SizedBox(
+                    width: double.infinity,
+                    height: 50,
+                    child: FilledButton(
+                      onPressed: () => Navigator.pop(ctx, true),
+                      style: FilledButton.styleFrom(
+                        backgroundColor: AppColors.error,
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                        elevation: 0,
+                      ),
+                      child: Text(
+                        'Kirim Pengajuan',
+                        style: AppTextStyles.manrope(
+                          fontWeight: FontWeight.w800,
+                          color: Colors.white,
+                          fontSize: 14,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Gap(8),
+                  SizedBox(
+                    width: double.infinity,
+                    height: 44,
+                    child: TextButton(
+                      onPressed: () => Navigator.pop(ctx, false),
+                      style: TextButton.styleFrom(
+                        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(14)),
+                      ),
+                      child: Text(
+                        'Batal',
+                        style: AppTextStyles.manrope(
+                          fontWeight: FontWeight.w600,
+                          color: AppColors.onSurfaceVariant,
+                        ),
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Batal'),
-          ),
-          FilledButton(
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Kirim'),
-          ),
-        ],
       ),
     );
 

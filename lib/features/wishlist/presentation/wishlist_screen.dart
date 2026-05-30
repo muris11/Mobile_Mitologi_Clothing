@@ -156,10 +156,10 @@ class _WishlistScreenState extends State<WishlistScreen> {
     return TweenAnimationBuilder<double>(
       tween: Tween(begin: 0.0, end: 1.0),
       duration: Duration(milliseconds: 400 + (index * 50)),
-      curve: Curves.easeOutBack,
+      curve: Curves.easeOutCubic,
       builder: (context, value, child) {
         return Opacity(
-          opacity: value.clamp(0.0, 1.0),
+          opacity: value < 0.0 ? 0.0 : (value > 1.0 ? 1.0 : value),
           child: Transform.translate(
             offset: Offset(0, (1 - value) * 20),
             child: child,

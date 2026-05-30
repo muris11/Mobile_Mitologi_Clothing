@@ -65,7 +65,7 @@ class _AboutScreenState extends State<AboutScreen> {
               child: Container(
                 color: Colors.white,
                 child: PremiumSectionHeader(
-                  eyebrow: 'ABOUT US',
+                  eyebrow: 'TENTANG KAMI',
                   title: settings.siteName ?? 'Mitologi Clothing',
                   subtitle: settings.aboutHeadline ?? settings.siteTagline ?? '',
                   padding: const EdgeInsets.fromLTRB(20, 24, 20, 32),

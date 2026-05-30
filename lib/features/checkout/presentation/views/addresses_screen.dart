@@ -9,6 +9,7 @@ import 'package:mitologi_clothing_mobile/features/checkout/data/shipping_service
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_alert.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -51,20 +52,14 @@ class _AddressesScreenState extends State<AddressesScreen> {
   }
 
   Future<void> _deleteAddress(AddressModel address) async {
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        title: const Text('Hapus Alamat?'),
-        content: const Text('Apakah Anda yakin ingin menghapus alamat ini?'),
-        actions: [
-          TextButton(onPressed: () => ctx.pop(false), child: const Text('Batal')),
-          FilledButton(
-            onPressed: () => ctx.pop(true),
-            style: FilledButton.styleFrom(backgroundColor: AppColors.error),
-            child: const Text('Hapus'),
-          ),
-        ],
-      ),
+    final confirm = await MitologiAlert.show(
+      context,
+      icon: PhosphorIconsRegular.mapPinSimple,
+      title: 'Hapus Alamat?',
+      message: 'Apakah Anda yakin ingin menghapus alamat "${address.label}"? Tindakan ini tidak dapat dibatalkan.',
+      confirmLabel: 'Hapus',
+      cancelLabel: 'Batal',
+      isDestructive: true,
     );
 
     if (confirm == true && mounted) {

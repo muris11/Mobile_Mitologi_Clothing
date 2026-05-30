@@ -414,72 +414,71 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
     final bottomPadding = bottomInset > 0 ? 12.0 : 32.0;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 10, 16, bottomPadding),
+      padding: EdgeInsets.fromLTRB(16, 12, 16, bottomPadding),
       decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(
           top: BorderSide(
-            color: AppColors.outlineVariant.withValues(alpha: 0.5),
-            width: 0.8,
+            color: AppColors.outlineVariant.withValues(alpha: 0.3),
+            width: 1.0,
           ),
         ),
       ),
-      child: Row(
-        children: [
-          Expanded(
-            child: Container(
-              height: 48,
-              padding: const EdgeInsets.fromLTRB(16, 0, 6, 0),
-              decoration: BoxDecoration(
-                color: AppColors.surfaceContainerLowest,
-                borderRadius: BorderRadius.circular(24),
-                border: Border.all(
-                  color: AppColors.outlineVariant.withValues(alpha: 0.6),
-                ),
-              ),
-              child: Row(
-                children: [
-                  Expanded(
-                    child: TextField(
-                      controller: _controller,
-                      style: AppTextStyles.plusJakartaSans(fontSize: 14),
-                      decoration: InputDecoration(
-                        hintText: 'Ketik pesan...',
-                        hintStyle: AppTextStyles.plusJakartaSans(
-                          color:
-                              AppColors.outline.withValues(alpha: 0.6),
-                        ),
-                        border: InputBorder.none,
-                        isDense: true,
-                        contentPadding:
-                            const EdgeInsets.symmetric(vertical: 14),
-                      ),
-                      onSubmitted: (_) => _handleSend(),
-                      textInputAction: TextInputAction.send,
-                    ),
-                  ),
-                  const SizedBox(width: 4),
-                  GestureDetector(
-                    onTap: _handleSend,
-                    child: Container(
-                      width: 36,
-                      height: 36,
-                      decoration: const BoxDecoration(
-                        color: AppColors.primary,
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.send_rounded,
-                        color: Colors.white,
-                        size: 16,
-                      ),
-                    ),
-                  ),
-                ],
-              ),
+      child: SafeArea(
+        top: false,
+        bottom: bottomInset == 0,
+        child: Container(
+          height: 48,
+          padding: const EdgeInsets.fromLTRB(16, 0, 6, 0),
+          decoration: BoxDecoration(
+            color: AppColors.surfaceContainerLowest,
+            borderRadius: BorderRadius.circular(24),
+            border: Border.all(
+              color: AppColors.outlineVariant.withValues(alpha: 0.6),
             ),
           ),
-        ],
+          child: Row(
+            children: [
+              Expanded(
+                child: TextField(
+                  controller: _controller,
+                  style: AppTextStyles.plusJakartaSans(fontSize: 14),
+                  decoration: InputDecoration(
+                    hintText: 'Ketik pesan...',
+                    hintStyle: AppTextStyles.plusJakartaSans(
+                      color: AppColors.outline.withValues(alpha: 0.6),
+                    ),
+                    border: InputBorder.none,
+                    enabledBorder: InputBorder.none,
+                    focusedBorder: InputBorder.none,
+                    disabledBorder: InputBorder.none,
+                    contentPadding: const EdgeInsets.symmetric(vertical: 14),
+                    isDense: true,
+                  ),
+                  onSubmitted: (_) => _handleSend(),
+                  textInputAction: TextInputAction.send,
+                ),
+              ),
+              const SizedBox(width: 4),
+              GestureDetector(
+                onTap: _handleSend,
+                child: Container(
+                  width: 36,
+                  height: 36,
+                  decoration: const BoxDecoration(
+                    color: AppColors.primary,
+                    shape: BoxShape.circle,
+                  ),
+                  child: const Icon(
+                    Icons.send_rounded,
+                    color: Colors.white,
+                    size: 16,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
       ),
     );
   }

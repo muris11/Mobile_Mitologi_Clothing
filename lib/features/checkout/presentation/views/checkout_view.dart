@@ -547,36 +547,54 @@ class _CheckoutViewState extends State<CheckoutView> {
         onPopInvokedWithResult: (didPop, _) {
           if (didPop) _verificationCancelled = true;
         },
-        child: AlertDialog(
-          contentPadding:
-              const EdgeInsets.symmetric(horizontal: 32, vertical: 24),
-          content: const Column(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              SizedBox(
-                width: 40,
-                height: 40,
-                child: CircularProgressIndicator(strokeWidth: 3),
-              ),
-              SizedBox(height: 20),
-              Text(
-                'Memverifikasi\nPembayaran',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  fontWeight: FontWeight.w700,
-                  fontSize: 16,
+        child: Dialog(
+          backgroundColor: Colors.transparent,
+          elevation: 0,
+          child: Container(
+            padding: const EdgeInsets.all(32),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(28),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.15),
+                  blurRadius: 40,
+                  offset: const Offset(0, 20),
                 ),
-              ),
-              SizedBox(height: 8),
-              Text(
-                'Mohon tunggu sebentar\nyaa',
-                textAlign: TextAlign.center,
-                style: TextStyle(
-                  color: AppColors.onSurfaceVariant,
-                  fontSize: 14,
+              ],
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const SizedBox(
+                  width: 48,
+                  height: 48,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 3,
+                    valueColor: AlwaysStoppedAnimation<Color>(AppColors.secondary),
+                  ),
                 ),
-              ),
-            ],
+                const SizedBox(height: 24),
+                Text(
+                  'Memverifikasi Pembayaran',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.manrope(
+                    fontWeight: FontWeight.w800,
+                    fontSize: 17,
+                    color: AppColors.onSurface,
+                  ),
+                ),
+                const SizedBox(height: 8),
+                Text(
+                  'Mohon tunggu sebentar...',
+                  textAlign: TextAlign.center,
+                  style: AppTextStyles.manrope(
+                    color: AppColors.onSurfaceVariant,
+                    fontSize: 14,
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ),

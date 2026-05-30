@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_alert.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 
@@ -167,33 +168,15 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
   }
 
   Future<bool> _onWillPop() async {
-    final confirm = await showDialog<bool>(
-      context: context,
-      builder: (ctx) => AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
-        title: Text(
-          'Batalkan Pembayaran?',
-          style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w800),
-        ),
-        content: const Text(
+    final confirm = await MitologiAlert.show(
+      context,
+      icon: PhosphorIconsRegular.xCircle,
+      title: 'Batalkan Pembayaran?',
+      message:
           'Pesanan tetap tersimpan. Kamu bisa melanjutkan pembayaran nanti dari halaman Detail Pesanan.',
-        ),
-        actions: [
-          TextButton(
-            onPressed: () => Navigator.pop(ctx, false),
-            child: const Text('Lanjutkan Bayar'),
-          ),
-          FilledButton(
-            style: FilledButton.styleFrom(
-              backgroundColor: AppColors.primary,
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12)),
-            ),
-            onPressed: () => Navigator.pop(ctx, true),
-            child: const Text('Ya, Batalkan'),
-          ),
-        ],
-      ),
+      confirmLabel: 'Ya, Batalkan',
+      cancelLabel: 'Lanjutkan Bayar',
+      isDestructive: false,
     );
     if (confirm == true) {
       if (!mounted) return false;

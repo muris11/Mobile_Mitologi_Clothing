@@ -1318,7 +1318,9 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
       } else {
         final errorMsg = context.read<CatalogViewModel>().error;
         setState(() {
-          _errorMessage = errorMsg ?? 'Gagal mengirim ulasan. Silakan coba lagi.';
+          _errorMessage = errorMsg != null && errorMsg.isNotEmpty 
+              ? errorMsg 
+              : 'Gagal mengirim ulasan. Silakan coba lagi.';
         });
       }
     }

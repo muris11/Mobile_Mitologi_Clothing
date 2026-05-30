@@ -122,7 +122,7 @@ class _HomeCategoryPricelistSectionState
                       Text(
                         item.priceRange,
                         style: const TextStyle(
-                          color: AppColors.primary,
+                          color: AppColors.secondary,
                           fontWeight: FontWeight.w800,
                           fontSize: 14,
                         ),
@@ -135,12 +135,12 @@ class _HomeCategoryPricelistSectionState
               Row(
                 children: [
                   const Icon(Icons.info_outline,
-                      size: 14, color: AppColors.primary),
+                      size: 14, color: AppColors.onSurfaceVariant),
                   const Gap(6),
                   Text(
                     'Min. order: ${selected.minOrder}',
-                    style: const TextStyle(
-                      color: AppColors.primary,
+                    style: TextStyle(
+                      color: AppColors.onSurfaceVariant,
                       fontSize: 12,
                       fontWeight: FontWeight.w600,
                     ),

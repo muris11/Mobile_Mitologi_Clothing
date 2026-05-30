@@ -117,7 +117,7 @@ class _HomeViewState extends State<HomeView> {
           if (viewModel.bestSellers.isNotEmpty) ...[
             _buildSectionHeader(
               context,
-              title: 'Best Sellers',
+              title: 'Produk Terlaris',
               subtitle: 'Pilihan paling dicari minggu ini',
               onSeeAll: () => context.push('/products'),
             ),
@@ -126,7 +126,7 @@ class _HomeViewState extends State<HomeView> {
           if (viewModel.newArrivals.isNotEmpty) ...[
             _buildSectionHeader(
               context,
-              title: 'New Arrivals',
+              title: 'Koleksi Terbaru',
               subtitle: 'Koleksi terbaru minggu ini',
               onSeeAll: () => context.push('/products'),
             ),
@@ -144,7 +144,7 @@ class _HomeViewState extends State<HomeView> {
     final topPadding = MediaQuery.paddingOf(context).top;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(16, topPadding + 14, 16, 28),
+      padding: EdgeInsets.fromLTRB(16, topPadding + 14, 16, 20),
       decoration: const BoxDecoration(
         gradient: AppGradients.navyGradient,
         borderRadius: BorderRadius.vertical(
@@ -164,7 +164,7 @@ class _HomeViewState extends State<HomeView> {
                       'MITOLOGI',
                       style: TextStyle(
                         color: Colors.white,
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.w900,
                         letterSpacing: 1.5,
                         height: 1,
@@ -184,7 +184,7 @@ class _HomeViewState extends State<HomeView> {
                       'ID',
                       style: TextStyle(
                         color: AppColors.secondary,
-                        fontSize: 10,
+                        fontSize: 11,
                         fontWeight: FontWeight.w800,
                         letterSpacing: 0.5,
                         height: 1,
@@ -196,27 +196,7 @@ class _HomeViewState extends State<HomeView> {
               const CartIconButton(iconColor: Colors.white),
             ],
           ),
-          const Gap(24),
-          const Text(
-            'Crafted apparel for bold stories.',
-            style: TextStyle(
-              color: Colors.white,
-              fontSize: 24,
-              fontWeight: FontWeight.w900,
-              height: 1.15,
-            ),
-          ),
-          const Gap(8),
-          Text(
-            'Temukan koleksi premium, custom printing, dan merchandise Mitologi.',
-            style: TextStyle(
-              color: Colors.white.withValues(alpha: 0.74),
-              fontSize: 13,
-              height: 1.45,
-              fontWeight: FontWeight.w500,
-            ),
-          ),
-          const Gap(18),
+          const Gap(16),
           _buildSearchBar(),
         ],
       ),
@@ -362,7 +342,7 @@ class _HomeViewState extends State<HomeView> {
                           child: Text(
                             (banner.link != null && banner.link!.isNotEmpty)
                                 ? 'LIHAT KOLEKSI'
-                                : 'SHOP NOW',
+                                : 'BELANJA SEKARANG',
                             style: const TextStyle(
                               color: Colors.white,
                               fontSize: 11,
@@ -426,12 +406,12 @@ class _HomeViewState extends State<HomeView> {
 
   String _heroTitle(BannerModel banner) {
     final title = banner.title.trim();
-    return title.isNotEmpty ? title : 'Premium Quality\nCustom Clothing';
+    return title.isNotEmpty ? title : 'Kualitas Premium\nPakaian Custom';
   }
 
   String _heroSubtitle(BannerModel banner) {
     final subtitle = banner.subtitle.trim();
-    return subtitle.isNotEmpty ? subtitle : 'CUSTOM CLOTHING';
+    return subtitle.isNotEmpty ? subtitle : 'PAKAIAN CUSTOM';
   }
 
   String _heroDescription(BannerModel banner) {
@@ -459,7 +439,7 @@ class _HomeViewState extends State<HomeView> {
                 ),
                 const Gap(12),
                 Text(
-                  'WHO WE ARE',
+                  'TENTANG KAMI',
                   style: theme.textTheme.labelLarge?.copyWith(
                     color: AppColors.secondary,
                     fontWeight: FontWeight.w900,
@@ -479,14 +459,14 @@ class _HomeViewState extends State<HomeView> {
                   color: AppColors.onBackground,
                 ),
                 children: const [
-                  TextSpan(text: 'Premium '),
+                  TextSpan(text: 'Pakaian premium '),
                   TextSpan(
-                    text: 'mythology-inspired',
+                    text: 'bernuansa mitologi',
                     style: TextStyle(
                       color: AppColors.secondary,
                     ),
                   ),
-                  TextSpan(text: ' apparel for the modern explorer.'),
+                  TextSpan(text: ' untuk penjelajah modern.'),
                 ],
               ),
             ),
@@ -612,7 +592,7 @@ class _HomeViewState extends State<HomeView> {
                     style: const TextStyle(
                       fontWeight: FontWeight.w800,
                       fontSize: 14,
-                      color: AppColors.primary,
+                      color: AppColors.onSurface,
                       letterSpacing: -0.2,
                     ),
                   ),
@@ -662,8 +642,8 @@ class _HomeViewState extends State<HomeView> {
         children: [
           _buildSectionHeaderInline(
             context,
-            title: 'Collections',
-            subtitle: 'Browse by category',
+            title: 'Koleksi',
+            subtitle: 'Cari berdasarkan kategori',
             onSeeAll: () => context.push('/products'),
           ),
           Padding(
@@ -781,7 +761,7 @@ class _HomeViewState extends State<HomeView> {
                     children: [
                       Expanded(
                         child: Text(
-                          'EXPLORE COLLECTION',
+                          'JELAJAHI KOLEKSI',
                           style: TextStyle(
                             color: AppColors.secondary,
                             fontSize: 9,
@@ -1095,7 +1075,7 @@ class _HomeViewState extends State<HomeView> {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Text(
-              'PRICELIST',
+              'DAFTAR HARGA',
               style: TextStyle(
                 color: AppColors.secondary,
                 fontSize: 10,
@@ -1870,7 +1850,7 @@ class _CategoryPricelistWidgetState extends State<_CategoryPricelistWidget> {
                     Text(
                       item.priceRange,
                       style: TextStyle(
-                        color: AppColors.primary,
+                        color: AppColors.secondary,
                         fontWeight: FontWeight.w800,
                         fontSize: 14,
                       ),
@@ -1883,12 +1863,12 @@ class _CategoryPricelistWidgetState extends State<_CategoryPricelistWidget> {
             Row(
               children: [
                 const Icon(PhosphorIconsRegular.info,
-                    size: 14, color: AppColors.primary),
+                    size: 14, color: AppColors.onSurfaceVariant),
                 const Gap(6),
                 Text(
                   'Min. order: ${selected.minOrder}',
-                  style: const TextStyle(
-                    color: AppColors.primary,
+                  style: TextStyle(
+                    color: AppColors.onSurfaceVariant,
                     fontSize: 12,
                     fontWeight: FontWeight.w600,
                   ),
