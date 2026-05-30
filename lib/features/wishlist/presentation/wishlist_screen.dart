@@ -159,7 +159,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
       curve: Curves.easeOutBack,
       builder: (context, value, child) {
         return Opacity(
-          opacity: value,
+          opacity: value.clamp(0.0, 1.0),
           child: Transform.translate(
             offset: Offset(0, (1 - value) * 20),
             child: child,
