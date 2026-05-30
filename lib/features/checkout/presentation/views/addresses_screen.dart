@@ -8,6 +8,7 @@ import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_reposit
 import 'package:mitologi_clothing_mobile/features/checkout/data/shipping_service.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -147,19 +148,27 @@ class _AddressesScreenState extends State<AddressesScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leadingWidth: 64,
+        leading: PremiumBackButton(onPressed: () => context.pop()),
+        title: Text(
           'Alamat Pengiriman',
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+          style: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w900,
+            fontSize: 18,
+            color: AppColors.primary,
+          ),
         ),
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0.8),
-          child: Container(height: 0.8, color: AppColors.outlineVariant),
+          preferredSize: const Size.fromHeight(0.5),
+          child: Container(
+            height: 0.5,
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
         ),
       ),
       body: _isLoading
@@ -734,7 +743,7 @@ class _AddressFormSheetState extends State<_AddressFormSheet> {
         ),
         DropdownButtonFormField<T>(
           isExpanded: true,
-          value: value,
+          initialValue: value,
           hint: Text(hint, style: const TextStyle(fontSize: 14), overflow: TextOverflow.ellipsis),
           items: items.map((item) {
             return DropdownMenuItem<T>(

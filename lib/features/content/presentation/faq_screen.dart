@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 const _faqCategories = [
   {'key': 'umum', 'label': 'Umum'},
@@ -139,12 +139,58 @@ class _FaqScreenState extends State<FaqScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leading: Padding(
+          padding: const EdgeInsets.only(left: 12),
+          child: Container(
+            width: 40,
+            height: 40,
+            decoration: BoxDecoration(
+              color: Colors.white,
+              shape: BoxShape.circle,
+              border: Border.all(
+                color: AppColors.outlineVariant.withValues(alpha: 0.5),
+              ),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 8,
+                  offset: const Offset(0, 2),
+                ),
+              ],
+            ),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                borderRadius: BorderRadius.circular(20),
+                onTap: () => context.pop(),
+                child: const Icon(
+                  PhosphorIconsRegular.caretLeft,
+                  color: AppColors.primary,
+                  size: 20,
+                ),
+              ),
+            ),
+          ),
         ),
-        title: const Text('FAQ',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
+        leadingWidth: 64,
+        title: Text(
+          'FAQ',
+          style: AppTextStyles.plusJakartaSans(
+            fontSize: 18,
+            fontWeight: FontWeight.w900,
+            color: AppColors.primary,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.5),
+          child: Container(
+            height: 0.5,
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
+        ),
       ),
       body: Column(
         children: [
@@ -241,11 +287,10 @@ class _FaqItemState extends State<_FaqItem> {
                   Expanded(
                     child: Text(
                       widget.question,
-                      style: TextStyle(
+                      style: AppTextStyles.plusJakartaSans(
                         fontWeight: FontWeight.w700,
                         fontSize: 14,
-                        color:
-                            _isOpen ? AppColors.primary : AppColors.onSurface,
+                        color: _isOpen ? AppColors.primary : AppColors.onSurface,
                       ),
                     ),
                   ),
@@ -271,7 +316,7 @@ class _FaqItemState extends State<_FaqItem> {
               padding: const EdgeInsets.fromLTRB(16, 0, 16, 16),
               child: Text(
                 widget.answer,
-                style: const TextStyle(
+                style: AppTextStyles.plusJakartaSans(
                   color: AppColors.onSurfaceVariant,
                   fontSize: 13,
                   height: 1.6,

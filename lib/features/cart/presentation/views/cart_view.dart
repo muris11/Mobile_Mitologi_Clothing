@@ -9,6 +9,7 @@ import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/empty_state.dart';
 import 'package:mitologi_clothing_mobile/features/cart/domain/models/cart_model.dart';
 import 'package:mitologi_clothing_mobile/features/cart/presentation/cart_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -38,29 +39,49 @@ class _CartViewState extends State<CartView> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leading: PremiumBackButton(onPressed: () => context.pop()),
+        leadingWidth: 64,
+        title: Text(
           'Keranjang',
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
+          style: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w900,
+            fontSize: 20,
+            color: AppColors.primary,
+          ),
         ),
         actions: [
           if (cart != null && cart.items.isNotEmpty)
             Padding(
-              padding: const EdgeInsets.only(right: 12),
+              padding: const EdgeInsets.only(right: 16),
               child: Center(
-                child: Text(
-                  '${cart.items.length} item',
-                  style: AppTextStyles.bodyMedium.copyWith(
-                    color: AppColors.primary,
-                    fontWeight: FontWeight.w600,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: AppColors.primary.withValues(alpha: 0.08),
+                    borderRadius: BorderRadius.circular(20),
+                  ),
+                  child: Text(
+                    '${cart.items.length} item',
+                    style: AppTextStyles.plusJakartaSans(
+                      color: AppColors.primary,
+                      fontWeight: FontWeight.w700,
+                      fontSize: 12,
+                    ),
                   ),
                 ),
               ),
             ),
         ],
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.5),
+          child: Container(
+            height: 0.5,
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
+        ),
       ),
       body: viewModel.isLoading && cart == null
           ? const Center(child: CircularProgressIndicator())

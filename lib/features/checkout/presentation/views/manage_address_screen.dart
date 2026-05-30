@@ -6,9 +6,9 @@ import 'package:mitologi_clothing_mobile/features/checkout/data/shipping_service
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/address_model.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
-import 'package:mitologi_clothing_mobile/core/widgets/glass_container.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/luxury_button.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/premium_section_header.dart';
 
@@ -176,22 +176,26 @@ class _ManageAddressScreenState extends State<ManageAddressScreen> {
           SliverAppBar(
             backgroundColor: AppColors.background,
             elevation: 0,
+            scrolledUnderElevation: 0,
+            surfaceTintColor: Colors.transparent,
             pinned: true,
-            leading: Padding(
-              padding: const EdgeInsets.all(8),
-              child: GlassContainer(
-                padding: EdgeInsets.zero,
-                blur: 12,
-                borderRadius: AppBorderRadius.circular,
-                child: IconButton(
-                  icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 20),
-                  onPressed: () => Navigator.of(context).pop(),
-                ),
-              ),
-            ),
+            automaticallyImplyLeading: false,
+            leadingWidth: 64,
+            leading: PremiumBackButton(onPressed: () => Navigator.of(context).pop()),
             title: Text(
               _isEditing ? 'Edit Alamat' : 'Tambah Alamat',
-              style: AppTextStyles.notoSerif(fontSize: 18, fontWeight: FontWeight.w700, color: AppColors.primary),
+              style: AppTextStyles.plusJakartaSans(
+                fontSize: 18,
+                fontWeight: FontWeight.w900,
+                color: AppColors.primary,
+              ),
+            ),
+            bottom: PreferredSize(
+              preferredSize: const Size.fromHeight(0.5),
+              child: Container(
+                height: 0.5,
+                color: AppColors.outlineVariant.withValues(alpha: 0.5),
+              ),
             ),
           ),
           SliverToBoxAdapter(

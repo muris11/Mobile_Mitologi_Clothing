@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
-import 'package:shimmer/shimmer.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 
 class AppImage extends StatelessWidget {

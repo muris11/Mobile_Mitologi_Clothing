@@ -7,8 +7,7 @@ import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
-import 'package:mitologi_clothing_mobile/widgets/common/cart_icon_button.dart';
-import 'package:mitologi_clothing_mobile/widgets/common/loading_indicator.dart';
+
 import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
@@ -53,23 +52,11 @@ class _ProfileViewState extends State<ProfileView> {
                     onRefresh: () => profileVM.fetchProfileData(),
                     child: CustomScrollView(
                       slivers: [
-                        MitologiSliverAppBar(
+                        const MitologiSliverAppBar(
                           pageTitle: 'Akun Saya',
-                          actions: [
-                            const CartIconButton(),
-                            IconButton(
-                              icon: const Icon(
-                                PhosphorIconsRegular.signOut,
-                                color: AppColors.primary,
-                              ),
-                              onPressed: () => _handleLogout(context, authVM),
-                              tooltip: 'Keluar',
-                            ),
-                            const Gap(8),
-                          ],
                         ),
                         _buildHeader(profileVM.user ?? authVM.user),
-                        _buildMenuSection(context),
+                        _buildMenuSection(context, authVM),
                         if (profileVM.orders.isNotEmpty)
                           _buildRecentOrders(profileVM),
                         const SliverToBoxAdapter(child: Gap(32)),
@@ -96,14 +83,17 @@ class _ProfileViewState extends State<ProfileView> {
           margin: const EdgeInsets.fromLTRB(16, 16, 16, 0),
           padding: const EdgeInsets.all(20),
           decoration: BoxDecoration(
-            color: Colors.white,
+            gradient: AppGradients.navyGradient,
             borderRadius: BorderRadius.circular(24),
-            border: Border.all(color: AppColors.outlineVariant),
+            border: Border.all(
+              color: AppColors.secondary.withValues(alpha: 0.3),
+              width: 1.0,
+            ),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withValues(alpha: 0.05),
-                blurRadius: 10,
-                offset: const Offset(0, 4),
+                color: AppColors.primary.withValues(alpha: 0.15),
+                blurRadius: 16,
+                offset: const Offset(0, 8),
               ),
             ],
           ),
@@ -119,13 +109,7 @@ class _ProfileViewState extends State<ProfileView> {
                   width: 60,
                   height: 60,
                   decoration: BoxDecoration(
-                    gradient: avatarUrl == null
-                        ? LinearGradient(
-                            colors: [AppColors.primary, AppColors.primaryContainer],
-                            begin: Alignment.topLeft,
-                            end: Alignment.bottomRight,
-                          )
-                        : null,
+                    color: AppColors.primary,
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: avatarUrl != null
@@ -156,20 +140,31 @@ class _ProfileViewState extends State<ProfileView> {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text(
-                      user?.name ?? 'Pengguna',
-                      style: AppTextStyles.plusJakartaSans(
-                        fontSize: 18,
-                        fontWeight: FontWeight.w800,
-                        color: AppColors.primary,
-                      ),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: Text(
+                            user?.name ?? 'Pengguna',
+                            style: AppTextStyles.plusJakartaSans(
+                              fontSize: 18,
+                              fontWeight: FontWeight.w800,
+                              color: Colors.white,
+                            ),
+                          ),
+                        ),
+                        const Icon(
+                          PhosphorIconsRegular.pencilSimple,
+                          color: AppColors.secondary,
+                          size: 16,
+                        ),
+                      ],
                     ),
-                    const Gap(2),
+                    const Gap(4),
                     Text(
                       user?.email ?? '',
                       style: AppTextStyles.plusJakartaSans(
                         fontSize: 13,
-                        color: AppColors.onSurfaceVariant,
+                        color: Colors.white.withValues(alpha: 0.7),
                         fontWeight: FontWeight.w500,
                       ),
                     ),
@@ -188,11 +183,7 @@ class _ProfileViewState extends State<ProfileView> {
       width: 60,
       height: 60,
       decoration: BoxDecoration(
-        gradient: LinearGradient(
-          colors: [AppColors.primary, AppColors.primaryContainer],
-          begin: Alignment.topLeft,
-          end: Alignment.bottomRight,
-        ),
+        color: AppColors.primary,
         borderRadius: BorderRadius.circular(20),
       ),
       child: Center(
@@ -208,7 +199,7 @@ class _ProfileViewState extends State<ProfileView> {
     );
   }
 
-  Widget _buildMenuSection(BuildContext context) {
+  Widget _buildMenuSection(BuildContext context, AuthViewModel authVM) {
     final menuItems = [
       _MenuItem(
         icon: PhosphorIconsRegular.shoppingBag,
@@ -291,6 +282,42 @@ class _ProfileViewState extends State<ProfileView> {
                   final isLast = i == menuItems.length - 1;
                   return _buildMenuItem(item, isLast);
                 }),
+              ),
+            ),
+            const Gap(16),
+            InkWell(
+              onTap: () => _handleLogout(context, authVM),
+              borderRadius: BorderRadius.circular(16),
+              child: Container(
+                width: double.infinity,
+                padding: const EdgeInsets.symmetric(vertical: 14),
+                decoration: BoxDecoration(
+                  color: AppColors.promoRedSoft,
+                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(
+                    color: AppColors.promoRed.withValues(alpha: 0.3),
+                    width: 1.0,
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    const Icon(
+                      PhosphorIconsRegular.signOut,
+                      color: AppColors.promoRed,
+                      size: 20,
+                    ),
+                    const Gap(8),
+                    Text(
+                      'Keluar dari Akun',
+                      style: AppTextStyles.plusJakartaSans(
+                        color: AppColors.promoRed,
+                        fontSize: 14,
+                        fontWeight: FontWeight.w800,
+                      ),
+                    ),
+                  ],
+                ),
               ),
             ),
           ],
@@ -704,65 +731,114 @@ class _ProfileViewState extends State<ProfileView> {
   Widget _buildGuestView() {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: Colors.white,
-        elevation: 0,
-        scrolledUnderElevation: 0,
-        title: Text(
-          'Akun Saya',
-          style: AppTextStyles.plusJakartaSans(
-            fontSize: 18,
-            fontWeight: FontWeight.w800,
-            color: AppColors.primary,
+      body: CustomScrollView(
+        slivers: [
+          const MitologiSliverAppBar(
+            pageTitle: 'Akun Saya',
           ),
-        ),
-        centerTitle: false,
-      ),
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.all(32),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(PhosphorIconsRegular.userCircle,
-                  size: 80, color: AppColors.outlineVariant),
-              const Gap(16),
-              Text(
-                'Belum Masuk',
-                style: AppTextStyles.plusJakartaSans(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w700,
-                  color: AppColors.primary,
-                ),
-              ),
-              const Gap(8),
-              Text(
-                'Masuk untuk melihat akun dan pesanan Anda',
-                textAlign: TextAlign.center,
-                style: AppTextStyles.plusJakartaSans(
-                  fontSize: 14,
-                  color: AppColors.onSurfaceVariant,
-                ),
-              ),
-              const Gap(24),
-              SizedBox(
-                width: double.infinity,
-                child: FilledButton(
-                  onPressed: () => context.go('/login'),
-                  style: FilledButton.styleFrom(
-                    backgroundColor: AppColors.primary,
-                    foregroundColor: Colors.white,
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
+          SliverFillRemaining(
+            hasScrollBody: false,
+            child: Center(
+              child: Padding(
+                padding: const EdgeInsets.all(24),
+                child: Container(
+                  padding: const EdgeInsets.all(32),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    border: Border.all(color: AppColors.outlineVariant),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.04),
+                        blurRadius: 16,
+                        offset: const Offset(0, 8),
+                      ),
+                    ],
                   ),
-                  child: const Text('Masuk'),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(20),
+                        decoration: BoxDecoration(
+                          color: AppColors.primary.withValues(alpha: 0.05),
+                          shape: BoxShape.circle,
+                        ),
+                        child: const Icon(
+                          PhosphorIconsRegular.userCircle,
+                          size: 64,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const Gap(24),
+                      Text(
+                        'Belum Masuk',
+                        style: AppTextStyles.plusJakartaSans(
+                          fontSize: 20,
+                          fontWeight: FontWeight.w800,
+                          color: AppColors.primary,
+                        ),
+                      ),
+                      const Gap(8),
+                      Text(
+                        'Masuk atau daftar sekarang untuk melacak pesanan, menyimpan wishlist, dan mendapatkan penawaran eksklusif.',
+                        textAlign: TextAlign.center,
+                        style: AppTextStyles.plusJakartaSans(
+                          fontSize: 13,
+                          color: AppColors.onSurfaceVariant,
+                          height: 1.5,
+                        ),
+                      ),
+                      const Gap(24),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: FilledButton(
+                          onPressed: () => context.go('/login'),
+                          style: FilledButton.styleFrom(
+                            backgroundColor: AppColors.primary,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            'Masuk ke Akun',
+                            style: AppTextStyles.plusJakartaSans(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 14,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const Gap(12),
+                      SizedBox(
+                        width: double.infinity,
+                        height: 48,
+                        child: OutlinedButton(
+                          onPressed: () => context.go('/register'),
+                          style: OutlinedButton.styleFrom(
+                            side: const BorderSide(color: AppColors.outlineVariant),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                          ),
+                          child: Text(
+                            'Daftar Baru',
+                            style: AppTextStyles.plusJakartaSans(
+                              fontWeight: FontWeight.w800,
+                              fontSize: 14,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               ),
-            ],
+            ),
           ),
-        ),
+        ],
       ),
     );
   }

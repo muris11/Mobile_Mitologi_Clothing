@@ -6,6 +6,7 @@ import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/profile/data/profile_repository.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -91,19 +92,27 @@ class _OrdersListScreenState extends State<OrdersListScreen> {
     return Scaffold(
       backgroundColor: AppColors.background,
       appBar: AppBar(
-        backgroundColor: Colors.white,
+        backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leading: PremiumBackButton(onPressed: () => context.pop()),
+        leadingWidth: 64,
+        title: Text(
           'Pesanan Saya',
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+          style: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w900,
+            fontSize: 18,
+            color: AppColors.primary,
+          ),
         ),
         bottom: PreferredSize(
-          preferredSize: const Size.fromHeight(0.8),
-          child: Container(height: 0.8, color: AppColors.outlineVariant),
+          preferredSize: const Size.fromHeight(0.5),
+          child: Container(
+            height: 0.5,
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
         ),
       ),
       body: _isLoading

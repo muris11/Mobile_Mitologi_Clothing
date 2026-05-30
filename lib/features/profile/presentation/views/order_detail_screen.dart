@@ -5,12 +5,14 @@ import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/config/shop_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/domain/models/order_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/views/midtrans_payment_screen.dart';
 import 'package:mitologi_clothing_mobile/features/profile/data/profile_repository.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
@@ -63,10 +65,11 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
         automaticallyImplyLeading: false,
-        leadingWidth: 56,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 24),
+        leadingWidth: 64,
+        leading: PremiumBackButton(
           onPressed: () {
             if (context.mounted) {
               if (context.canPop()) {
@@ -76,14 +79,21 @@ class _OrderDetailScreenState extends State<OrderDetailScreen> {
               }
             }
           },
-          splashRadius: 24,
-          padding: EdgeInsets.zero,
-          constraints: const BoxConstraints(minWidth: 48, minHeight: 48),
-          tooltip: 'Kembali',
         ),
         title: Text(
           'Order #${widget.orderNumber}',
-          style: const TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+          style: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w900,
+            fontSize: 18,
+            color: AppColors.primary,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.5),
+          child: Container(
+            height: 0.5,
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
         ),
       ),
       body: _isLoading

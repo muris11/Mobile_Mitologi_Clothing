@@ -5,6 +5,7 @@ import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_button.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
@@ -108,16 +109,17 @@ class _ForgotPasswordViewState extends State<ForgotPasswordView> {
             Center(
               child: TextButton.icon(
                 onPressed: () => context.go('/login'),
-                icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 16),
+                icon: const Icon(PhosphorIconsRegular.caretLeft, size: 16),
                 style: TextButton.styleFrom(
                   foregroundColor: AppColors.onSurfaceVariant,
                   padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
                 ),
-                label: const Text(
+                label: Text(
                   'Kembali ke Login',
-                  style: TextStyle(
+                  style: AppTextStyles.plusJakartaSans(
                     fontWeight: FontWeight.w700,
                     letterSpacing: 0.5,
+                    color: AppColors.onSurfaceVariant,
                   ),
                 ),
               ),

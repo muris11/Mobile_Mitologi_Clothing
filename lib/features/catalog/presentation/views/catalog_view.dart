@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
+import 'package:mitologi_clothing_mobile/core/utils/responsive_utils.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/presentation/catalog_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
@@ -207,7 +208,8 @@ class _CatalogViewState extends State<CatalogView> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             hintText: 'Min',
-                            hintStyle: AppTextStyles.plusJakartaSans(fontSize: 13),
+                            hintStyle:
+                                AppTextStyles.plusJakartaSans(fontSize: 13),
                           ),
                           style: AppTextStyles.plusJakartaSans(fontSize: 14),
                         ),
@@ -224,7 +226,8 @@ class _CatalogViewState extends State<CatalogView> {
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
                             hintText: 'Max',
-                            hintStyle: AppTextStyles.plusJakartaSans(fontSize: 13),
+                            hintStyle:
+                                AppTextStyles.plusJakartaSans(fontSize: 13),
                           ),
                           style: AppTextStyles.plusJakartaSans(fontSize: 14),
                         ),
@@ -248,7 +251,8 @@ class _CatalogViewState extends State<CatalogView> {
                           borderRadius: BorderRadius.circular(14),
                         ),
                       ),
-                      child: const Text('Terapkan', style: TextStyle(fontWeight: FontWeight.w700)),
+                      child: const Text('Terapkan',
+                          style: TextStyle(fontWeight: FontWeight.w700)),
                     ),
                   ),
                 ],
@@ -290,9 +294,13 @@ class _CatalogViewState extends State<CatalogView> {
               padding: const EdgeInsets.fromLTRB(16, 16, 16, 8),
               child: Container(
                 decoration: BoxDecoration(
-                  color: AppColors.surfaceContainerLow,
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(color: AppColors.outlineVariant),
+                  color: AppColors.surface,
+                  borderRadius: BorderRadius.circular(AppBorderRadius.full),
+                  border: Border.all(
+                    color: AppColors.outlineVariant.withValues(alpha: 0.7),
+                    width: 0.5,
+                  ),
+                  boxShadow: [AppShadows.cardSoft],
                 ),
                 child: TextField(
                   controller: _searchController,
@@ -328,7 +336,7 @@ class _CatalogViewState extends State<CatalogView> {
                     errorBorder: InputBorder.none,
                     contentPadding: const EdgeInsets.symmetric(
                       horizontal: 16,
-                      vertical: 14,
+                      vertical: 12,
                     ),
                   ),
                 ),
@@ -352,7 +360,9 @@ class _CatalogViewState extends State<CatalogView> {
                           label: cat.name,
                           isSelected: _selectedCategoryHandle == cat.slug,
                           onTap: () => _selectCategory(
-                            _selectedCategoryHandle == cat.slug ? null : cat.slug,
+                            _selectedCategoryHandle == cat.slug
+                                ? null
+                                : cat.slug,
                           ),
                         )),
                   ],
@@ -412,7 +422,9 @@ class _CatalogViewState extends State<CatalogView> {
             SliverFillRemaining(
               child: ErrorState(
                 message: viewModel.error ?? 'Gagal memuat produk',
-                onRetry: () => context.read<CatalogViewModel>().searchProducts(query: _activeQuery),
+                onRetry: () => context
+                    .read<CatalogViewModel>()
+                    .searchProducts(query: _activeQuery),
               ),
             )
           else if (viewModel.products.isEmpty)
@@ -433,11 +445,11 @@ class _CatalogViewState extends State<CatalogView> {
             SliverPadding(
               padding: const EdgeInsets.fromLTRB(16, 12, 16, 32),
               sliver: SliverGrid(
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  childAspectRatio: 0.75, // Standard product card ratio 3:4
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: ResponsiveConfig.getGridColumnCount(context),
+                  childAspectRatio: 0.55,
                   crossAxisSpacing: 12,
-                  mainAxisSpacing: 12,
+                  mainAxisSpacing: 16,
                 ),
                 delegate: SliverChildBuilderDelegate(
                   (context, index) {
@@ -453,7 +465,8 @@ class _CatalogViewState extends State<CatalogView> {
                       builder: (context, wishlist, _) => ProductCard(
                         product: product,
                         isInWishlist: wishlist.isInWishlist(product.id),
-                        onWishlistToggle: () => wishlist.toggleWishlist(product.id),
+                        onWishlistToggle: () =>
+                            wishlist.toggleWishlist(product.id),
                       ),
                     );
                   },
@@ -496,7 +509,7 @@ class _CatalogViewState extends State<CatalogView> {
           ),
         ),
         SizedBox(
-          height: 280, // Sesuai dengan height ProductCard 3:4 ratio
+          height: 320,
           child: ListView.builder(
             scrollDirection: Axis.horizontal,
             padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -511,7 +524,8 @@ class _CatalogViewState extends State<CatalogView> {
                     child: ProductCard(
                       product: product,
                       isInWishlist: wishlist.isInWishlist(product.id),
-                      onWishlistToggle: () => wishlist.toggleWishlist(product.id),
+                      onWishlistToggle: () =>
+                          wishlist.toggleWishlist(product.id),
                     ),
                   );
                 },
@@ -545,7 +559,8 @@ class _CategoryChip extends StatelessWidget {
         margin: const EdgeInsets.only(right: 8),
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         decoration: BoxDecoration(
-          color: isSelected ? AppColors.surfaceContainerLow : Colors.transparent,
+          color:
+              isSelected ? AppColors.surfaceContainerLow : Colors.transparent,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isSelected ? AppColors.onSurface : AppColors.outlineVariant,
@@ -557,7 +572,8 @@ class _CategoryChip extends StatelessWidget {
           style: AppTextStyles.plusJakartaSans(
             fontSize: 13,
             fontWeight: isSelected ? FontWeight.w800 : FontWeight.w600,
-            color: isSelected ? AppColors.onSurface : AppColors.onSurfaceVariant,
+            color:
+                isSelected ? AppColors.onSurface : AppColors.onSurfaceVariant,
           ),
         ),
       ),
@@ -585,7 +601,9 @@ class _FilterChipButton extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
         decoration: BoxDecoration(
-          color: isActive ? AppColors.secondary.withValues(alpha: 0.1) : Colors.white,
+          color: isActive
+              ? AppColors.secondary.withValues(alpha: 0.1)
+              : Colors.white,
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color: isActive ? AppColors.secondary : AppColors.outlineVariant,
@@ -594,8 +612,11 @@ class _FilterChipButton extends StatelessWidget {
         child: Row(
           mainAxisSize: MainAxisSize.min,
           children: [
-            Icon(icon, size: 14,
-                color: isActive ? AppColors.secondary : AppColors.onSurfaceVariant),
+            Icon(icon,
+                size: 14,
+                color: isActive
+                    ? AppColors.secondary
+                    : AppColors.onSurfaceVariant),
             const SizedBox(width: 6),
             Text(
               label,

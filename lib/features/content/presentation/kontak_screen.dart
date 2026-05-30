@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/site_settings_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
@@ -60,17 +61,40 @@ class _KontakScreenState extends State<KontakScreen> {
             expandedHeight: 140,
             backgroundColor: AppColors.primary,
             surfaceTintColor: Colors.transparent,
-            leading: IconButton(
-              icon: const Icon(PhosphorIconsRegular.arrowLeft,
-                  color: Colors.white),
-              onPressed: () => context.pop(),
+            automaticallyImplyLeading: false,
+            leading: Padding(
+              padding: const EdgeInsets.only(left: 12),
+              child: Container(
+                width: 40,
+                height: 40,
+                decoration: BoxDecoration(
+                  color: Colors.white.withValues(alpha: 0.15),
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.white.withValues(alpha: 0.3),
+                  ),
+                ),
+                child: Material(
+                  color: Colors.transparent,
+                  child: InkWell(
+                    borderRadius: BorderRadius.circular(20),
+                    onTap: () => context.pop(),
+                    child: const Icon(
+                      PhosphorIconsRegular.caretLeft,
+                      color: Colors.white,
+                      size: 20,
+                    ),
+                  ),
+                ),
+              ),
             ),
+            leadingWidth: 64,
             flexibleSpace: FlexibleSpaceBar(
               titlePadding:
                   const EdgeInsets.only(left: 56, bottom: 16, right: 16),
-              title: const Text(
+              title: Text(
                 'Hubungi Kami',
-                style: TextStyle(
+                style: AppTextStyles.plusJakartaSans(
                   color: Colors.white,
                   fontSize: 18,
                   fontWeight: FontWeight.w900,

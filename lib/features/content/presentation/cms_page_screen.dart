@@ -1,13 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:flutter_html/flutter_html.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/features/content/domain/models/content_models.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/loading_indicator.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
+import 'package:go_router/go_router.dart';
 import 'package:provider/provider.dart';
 
 import 'content_provider.dart';
@@ -47,12 +48,16 @@ class CmsPageScreen extends StatelessWidget {
                 elevation: 0,
                 backgroundColor: AppColors.surface.withValues(alpha: 0.95),
                 surfaceTintColor: Colors.transparent,
+                automaticallyImplyLeading: false,
+                leadingWidth: 64,
+                leading: PremiumBackButton(onPressed: () => context.pop()),
                 title: Text(
                   page.title.toUpperCase(),
                   style: AppTextStyles.plusJakartaSans(
                     fontSize: 16,
                     fontWeight: FontWeight.w800,
                     letterSpacing: 1.5,
+                    color: AppColors.primary,
                   ),
                 ),
                 centerTitle: true,
@@ -105,4 +110,3 @@ class CmsPageScreen extends StatelessWidget {
     );
   }
 }
-

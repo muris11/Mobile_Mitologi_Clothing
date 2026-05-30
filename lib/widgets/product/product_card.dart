@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/catalog/domain/models/product_model.dart';

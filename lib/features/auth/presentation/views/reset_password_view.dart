@@ -8,6 +8,7 @@ import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_button.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/animated_snackbar.dart';
 import 'package:mitologi_clothing_mobile/features/auth/presentation/auth_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 
 import 'auth_scaffold.dart';
 
@@ -120,10 +121,8 @@ class _ResetPasswordViewState extends State<ResetPasswordView> {
           children: [
             Align(
               alignment: Alignment.centerLeft,
-              child: IconButton(
+              child: PremiumBackButton(
                 onPressed: () => context.go('/login'),
-                icon: const Icon(PhosphorIconsRegular.arrowLeft),
-                tooltip: 'Kembali ke login',
               ),
             ),
             const AuthLabel(text: 'Alamat Email'),

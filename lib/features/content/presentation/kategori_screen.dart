@@ -3,9 +3,11 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/app_image.dart';
 import 'package:mitologi_clothing_mobile/features/home/domain/models/category_model.dart';
 import 'package:mitologi_clothing_mobile/features/home/presentation/home_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -19,13 +21,25 @@ class KategoriScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leading: PremiumBackButton(onPressed: () => context.pop()),
+        leadingWidth: 64,
+        title: Text(
           'Kategori Produk',
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+          style: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w900,
+            fontSize: 18,
+            color: AppColors.primary,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.5),
+          child: Container(
+            height: 0.5,
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
         ),
       ),
       body: Consumer<HomeViewModel>(

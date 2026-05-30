@@ -4,11 +4,9 @@ import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/glass_container.dart';
-import 'package:mitologi_clothing_mobile/core/widgets/luxury_button.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/premium_section_header.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 const _steps = [
   {

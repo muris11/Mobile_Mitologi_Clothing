@@ -292,7 +292,7 @@ class _AuthTextFieldState extends State<AuthTextField> {
       keyboardType: widget.keyboardType,
       textInputAction: widget.textInputAction,
       validator: widget.validator,
-      style: const TextStyle(
+      style: AppTextStyles.plusJakartaSans(
         fontWeight: FontWeight.w700,
         color: AppColors.primary,
         fontSize: 15,

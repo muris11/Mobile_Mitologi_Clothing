@@ -1,1312 +1,2518 @@
-# DESIGN — Mitologi Clothing Mobile Commerce Experience
-## Premium UI/UX Redesign Specification for Flutter Mobile App
+# design.md — Redesign UI/UX Mitologi Clothing Mobile
 
-**Dokumen:** `design.md`  
-**Versi:** 1.0 — Mobile UI Redesign Direction  
-**Produk:** Mitologi Clothing — Fashion & Merchandise E-Commerce  
-**Platform target:** Flutter Mobile App — Android dan iOS  
-**Ruang lingkup:** Tampilan, visual hierarchy, layout, typography, reusable UI component, animation, state UI, responsive behavior, dan pengalaman interaksi antarlayar  
-**Di luar ruang lingkup:** Perubahan business logic, endpoint API, model data, state management, autentikasi, perhitungan cart, payment logic Midtrans, recommendation algorithm, route contract, backend, web storefront, atau dashboard admin  
-**Arah visual:** fashion-commerce modern, premium, editorial, cepat dipakai, terasa personal, dan lebih bersih daripada marketplace promo-heavy generik  
-**Sumber konteks project:** Proposal Mitologi Clothing menjelaskan mobile client Flutter dengan alur katalog, detail produk, pencarian/filter, wishlist, cart, checkout, pembayaran Midtrans, profile, riwayat pesanan, dan AI recommendation.
+## 1. Tujuan Redesign
 
----
+Redesign ini bertujuan membuat aplikasi **Mitologi Clothing Mobile** terlihat lebih modern, simple, rapi, premium, dan responsive tanpa mengubah logic aplikasi yang sudah ada.
 
-## 0. Instruksi Utama untuk Developer / AI Coding Agent
+Fokus redesign:
 
-Dokumen ini adalah aturan redesign **UI-only** untuk aplikasi Flutter Mitologi Clothing. Implementasikan desain secara bertahap tanpa merusak alur aplikasi yang telah berjalan.
-
-### 0.1 Aturan non-negotiable
-
-1. **Pertahankan tema warna yang saat ini sudah digunakan di project.** Jangan mengganti warna brand utama dengan warna Shopee, Tokopedia, TikTok Shop, atau marketplace lain. Warna existing harus diekstrak dari `ThemeData`, `ColorScheme`, constants, extension, atau widget lama lalu dirapikan menjadi token semantik.
-2. **Jangan mengubah logika kode.** Dilarang mengganti repository, provider/bloc/controller, API service, model JSON, payment flow, Midtrans integration, recommendation service, validation rules, route name, maupun data dummy/real yang telah dipakai aplikasi.
-3. **Fokus hanya pada presentation layer.** Perubahan diperbolehkan pada widget UI, composition layout, padding, typography, iconography, asset placement, theme styling, animation visual, loading/error/empty state, dan responsiveness.
-4. **Tidak menyalin satu marketplace tertentu.** Ambil pola terbaik dari commerce modern—pencarian cepat, katalog efisien, discovery visual, detail produk meyakinkan, checkout tenang—kemudian jadikan pengalaman unik untuk fashion brand Mitologi Clothing.
-5. **Fashion-first, bukan promo-chaos.** Produk, fotografi, varian, size, rekomendasi outfit, serta kepercayaan transaksi harus menjadi fokus visual. Promo boleh terlihat menarik tetapi tidak membuat layar ramai, murah, atau sulit dibaca.
-6. **No emoji sebagai icon UI.** Gunakan `Icons`/Material Symbols atau SVG icon yang konsisten. Emoji hanya dapat muncul sebagai isi review dari data pengguna apabila memang berasal dari backend.
-7. **Jangan menambahkan fitur yang belum ada pada project.** Bagian seperti video/live, voucher, review, alamat, notifikasi, tracking, atau onboarding hanya didesain apabila screen/data tersebut sudah tersedia atau memang sedang diimplementasikan secara terpisah.
-8. **Setiap state wajib rapi:** loading, empty, error, offline, disabled, success, out of stock, item unavailable, payment pending, payment success, dan payment failed.
-
-### 0.2 Definition of Done redesign
-
-Redesign dianggap selesai apabila:
-
-- semua screen customer-facing memakai satu design system konsisten;
-- warna existing tetap menjadi identitas utama;
-- user dapat menemukan produk, memilih varian, masuk cart, checkout, membayar, dan melihat pesanan tanpa kebingungan;
-- UI tidak memanggil API baru atau mengubah proses bisnis;
-- tampilan nyaman pada ponsel kecil hingga tablet/foldable;
-- seluruh CTA, label status, harga, size, payment status, dan error mudah dibaca;
-- aplikasi terasa sebagai brand fashion profesional, bukan sekadar template Flutter e-commerce.
+* Memperbaiki tampilan visual seluruh screen.
+* Membuat layout lebih rapi dan mudah dibaca.
+* Membuat pengalaman belanja terasa seperti gabungan dari marketplace modern seperti Shopee, Tokopedia, TikTok Shop, dan fashion commerce premium.
+* Menjaga identitas brand Mitologi Clothing dengan warna utama navy dan gold.
+* Membuat typography lebih konsisten.
+* Membuat spacing, radius, grid, dan card lebih seragam.
+* Membuat aplikasi tetap ringan dan mudah dikembangkan.
+* Tidak mengubah API, repository, provider, route, model, cart logic, checkout logic, payment logic, atau business logic lain.
 
 ---
 
-## 1. Konteks Produk dan Sasaran Redesign
+## 2. Prinsip Utama Desain
 
-### 1.1 Identitas produk
+### 2.1 Simple
 
-Mitologi Clothing adalah platform e-commerce untuk produk fashion dan merchandise. Mobile application Flutter merupakan salah satu client dalam ekosistem yang terhubung dengan backend, web storefront, Midtrans payment, dan AI recommendation service. Karena domainnya fashion, visual aplikasi harus mendukung keputusan pembelian yang sangat dipengaruhi oleh gambar produk, detail bahan, ukuran, pilihan warna, kecocokan gaya, dan rasa percaya terhadap brand.
+Tampilan tidak boleh terlalu ramai. Walaupun terinspirasi dari marketplace besar, desain Mitologi Clothing harus tetap bersih.
 
-### 1.2 Masalah desain yang hendak diperbaiki
+Prinsip simple:
 
-Versi UI sekarang dinilai masih kurang menarik, terasa aneh, dan belum memberi kesan e-commerce modern. Redesign tidak boleh berhenti pada mengganti warna atau memperbesar card. Masalah yang wajib dibereskan melalui design system ini:
+* Kurangi dekorasi berlebihan.
+* Gunakan card yang bersih.
+* Hindari terlalu banyak gradient dalam satu screen.
+* Gunakan icon seperlunya.
+* Gunakan whitespace yang cukup.
+* Jangan menaruh terlalu banyak informasi dalam satu area kecil.
 
-- tampilan belum terasa premium dan konsisten antarscreen;
-- hirarki teks, harga, CTA, dan informasi pendukung belum jelas;
-- card produk kemungkinan terlalu generik atau padat;
-- halaman home/katalog/detail belum membangun pengalaman discovery fashion;
-- alur cart–checkout–payment perlu lebih tenang, jelas, dan terpercaya;
-- recommendation AI perlu ditampilkan sebagai nilai tambah brand, bukan sekadar section produk acak;
-- spacing, radius, shadow, icon, skeleton, empty/error state, dan animation perlu memiliki standar yang sama.
+### 2.2 Rapi
 
-### 1.3 Sasaran pengalaman pengguna
+Semua elemen harus memiliki alignment yang jelas.
 
-Pengguna harus merasakan pengalaman berikut:
+Aturan rapi:
 
-1. **Cepat memahami brand** sejak membuka home: fashionable, terpercaya, dan curated.
-2. **Mudah menemukan produk** melalui search, kategori, filter, dan rekomendasi.
-3. **Yakin sebelum membeli** melalui PDP yang rapi: foto, nama, harga, varian, ukuran, detail, stok, dan CTA yang jelas.
-4. **Checkout tanpa cemas** melalui ringkasan biaya, alamat/pengiriman apabila tersedia, pemilihan payment, serta status Midtrans yang transparan.
-5. **Terasa personal** melalui recommendation yang relevan untuk style/produk yang diminati.
-6. **Nyaman dipakai kembali** melalui wishlist, riwayat pesanan, profile, serta state aplikasi yang konsisten.
+* Semua section punya padding horizontal konsisten.
+* Semua title section rata kiri.
+* Semua product card dalam grid harus punya tinggi yang konsisten.
+* Semua button utama punya radius dan tinggi yang sama.
+* Semua screen menggunakan spacing system yang sama.
 
----
+### 2.3 Premium
 
-## 2. Benchmark Synthesis: Mengambil Kekuatan, Bukan Meniru
+Karena brand clothing dan printing, aplikasi harus terasa lebih premium dibanding marketplace biasa.
 
-Redesign ini boleh terasa lebih matang daripada aplikasi commerce umum karena menggabungkan pola terbaik secara selektif, namun tetap membangun identitas Mitologi Clothing sendiri.
+Ciri premium:
 
-| Sumber inspirasi pola | Kekuatan yang diambil | Cara diterapkan di Mitologi Clothing | Yang tidak boleh ditiru |
-|---|---|---|---|
-| Marketplace besar seperti Tokopedia | pencarian cepat, kategori mudah dijelajahi, informasi transaksi jelas | search bar dominan, filter efektif, cart/checkout terstruktur | branding, warna, logo, atau layout copy-paste |
-| Promo-driven commerce seperti Shopee | urgency promo dan benefit belanja terlihat jelas | promo chip/benefit card yang terkendali, harga diskon terbaca | halaman terlalu ramai, banner bertumpuk, kompetisi warna berlebihan |
-| Discovery/social commerce seperti TikTok Shop | produk ditemukan melalui visual dan konteks pemakaian | hero editorial, rekomendasi “Complete the Look”, image-led discovery | membangun fitur LIVE/video apabila tidak tersedia di aplikasi |
-| Premium fashion storefront | photography-first, white space, trust, fokus pada koleksi | gambar besar, type rapi, product detail elegan, curated sections | tampilan terlalu kosong hingga fungsi commerce sulit ditemukan |
+* Warna navy sebagai dasar kepercayaan.
+* Gold sebagai aksen eksklusif.
+* Typography tegas tapi tetap modern.
+* Product image lebih dominan.
+* Card tidak terlalu banyak border.
+* Shadow halus, bukan shadow berat.
+* CTA dibuat jelas dan elegan.
 
-### 2.1 Positioning visual yang dipilih
+### 2.4 Marketplace Friendly
 
-**Mitologi Clothing = Curated Fashion Commerce with Smart Personalization.**
+User tetap harus merasa aplikasi ini mudah digunakan seperti marketplace.
 
-Aplikasi tidak harus terlihat seperti marketplace massal yang menjual semuanya. Ia harus terasa seperti brand fashion yang memiliki katalog terkurasi, tetapi tetap memiliki kenyamanan transaksi kelas marketplace: cepat dicari, mudah ditambahkan ke wishlist/cart, checkout jelas, dan pembayaran terpercaya.
+Ciri marketplace friendly:
 
-### 2.2 Formula pengalaman UI
+* Search mudah ditemukan.
+* Product card langsung menampilkan gambar, nama, harga, badge, dan wishlist.
+* Filter mudah dipakai.
+* Cart mudah diakses.
+* Checkout ringkas.
+* Bottom navigation konsisten.
+* Harga dan promo mudah terlihat.
 
-- **Kecepatan marketplace:** search, kategori, filter, cart badge, checkout ringkas.
-- **Discovery commerce:** gambar produk menjadi pusat perhatian, koleksi, recommendation personal.
-- **Premium fashion:** typography bersih, spacing lapang, foto konsisten, CTA tidak berisik.
-- **Trust commerce:** status pembayaran dan pesanan eksplisit, total harga transparan, feedback action jelas.
+### 2.5 Social Commerce Feel
 
----
+Sentuhan TikTok Shop dapat diterapkan melalui:
 
-## 3. Guardrails Teknis: Redesign Tanpa Mengubah Logika
-
-### 3.1 Lapisan yang boleh disentuh
-
-Perubahan UI dapat dilakukan pada:
-
-- file theme (`ThemeData`, `ColorScheme`, `TextTheme`, component themes);
-- widget tampilan screen;
-- reusable UI widgets seperti product card, search bar, button, bottom sheet, chip, skeleton;
-- layout wrapper, spacing, padding, safe area, grid behavior;
-- icon, image aspect ratio, placeholder, animation transisi visual;
-- pengelompokan widget presentasional agar rapi, selama callback/data tetap sama;
-- `Semantics`, tooltip, visual focus, dan accessibility UI.
-
-### 3.2 Lapisan yang tidak boleh diubah
-
-Jangan mengubah:
-
-- nama route dan tujuan route yang sudah aktif;
-- parameter callback seperti `onAddToCart`, `onCheckout`, `onPay`, `onToggleWishlist`, `onFilterChanged`;
-- pengambilan dan pemetaan data dari API;
-- state management apa pun yang sudah digunakan (`Provider`, `Riverpod`, `Bloc`, `GetX`, controller, setState, atau lainnya);
-- model `Product`, `Cart`, `Order`, `Payment`, `User`, `Recommendation`;
-- field JSON dan request/response API;
-- autentikasi, cart calculation, discount calculation, stok, quantity restriction, payment flow, Midtrans token/webhook handling;
-- algoritma AI recommendation atau penentuan produk rekomendasi;
-- database, backend, web storefront, admin dashboard.
-
-### 3.3 Cara aman menerapkan redesign
-
-1. Audit file existing dan identifikasi seluruh screen serta widget reusable.
-2. Temukan sumber warna existing; jadikan semantic design tokens tanpa mengganti nilai brand.
-3. Buat atau rapikan komponen presentasional kecil terlebih dahulu.
-4. Redesign screen satu per satu dengan mempertahankan parameter dan callback lama.
-5. Setelah setiap screen, uji alur: tampil data, tap CTA, navigation, loading, empty, error.
-6. Jalankan golden/screenshot comparison atau minimal rekam seluruh flow sebelum dan sesudah.
-7. Jangan refactor arsitektur data bersamaan dengan redesign UI.
+* Quick view bottom sheet.
+* Product preview yang visual.
+* Section portfolio yang lebih image-first.
+* CTA cepat seperti “Tambah ke Keranjang”.
+* Badge populer, promo, dan best seller.
+* Animasi ringan ketika tap wishlist atau add to cart.
 
 ---
 
-## 4. Visual Direction: Premium Fashion Commerce
+## 3. Design Direction
 
-### 4.1 Mood dan karakter visual
+### 3.1 Nama Konsep
 
-Gunakan kata kunci berikut sebagai kontrol kualitas desain:
+**Mitologi Premium Commerce UI**
 
-- **Modern:** rapi, responsif, hierarki jelas, tidak tampak seperti template lama.
-- **Editorial:** gambar produk dan koleksi mendapat ruang yang layak.
-- **Premium:** warna brand dipakai penuh kontrol, bukan dibanjirkan pada setiap elemen.
-- **Personal:** recommendation terasa relevan dan dibingkai dengan bahasa yang manusiawi.
-- **Trustworthy:** harga, payment, order state, stok, dan CTA mudah diverifikasi pengguna.
-- **Fast:** konten utama segera terlihat; skeleton dan state tidak menghambat orientasi.
+Konsep ini menggabungkan:
 
-### 4.2 Hal yang harus dihindari
+* Clean marketplace layout.
+* Fashion product discovery.
+* Premium navy-gold branding.
+* Responsive mobile-first experience.
+* Simple and elegant checkout.
 
-- gradient berlebihan pada setiap card;
-- shadow tebal dan gelap seperti UI lama;
-- radius berbeda-beda tanpa aturan;
-- terlalu banyak badge promo bertabrakan;
-- text kecil, abu-abu pucat, atau kontras rendah;
-- image produk dengan ukuran tidak seragam;
-- semua elemen memakai primary color sehingga tidak ada hierarchy;
-- animation berlebihan yang memperlambat belanja;
-- bottom navigation yang terlalu tinggi atau penuh menu;
-- desain checkout yang penuh banner promosi sehingga pengguna ragu dengan total bayar.
+### 3.2 Mood Visual
+
+Mood desain:
+
+* Clean
+* Premium
+* Modern
+* Trustworthy
+* Fast
+* Friendly
+* Fashion-oriented
+* Easy to scan
+
+### 3.3 Referensi Rasa Desain
+
+Bukan meniru mentah-mentah, tetapi mengambil pola terbaik:
+
+#### Dari Shopee
+
+* Product grid cepat dibaca.
+* Badge promo jelas.
+* CTA belanja cepat.
+* Banyak item terlihat dalam satu layar.
+
+#### Dari Tokopedia
+
+* Layout lebih rapi dan bersih.
+* Filter lebih terstruktur.
+* Informasi produk terasa lebih trustworthy.
+* Checkout terasa formal dan jelas.
+
+#### Dari TikTok Shop
+
+* Product discovery lebih visual.
+* Quick action terasa cepat.
+* Gambar produk lebih dominan.
+* Interaksi terasa ringan dan engaging.
+
+#### Dari Fashion Commerce Premium
+
+* Typography lebih elegan.
+* Spacing lebih lega.
+* Hero section lebih brand-oriented.
+* Warna lebih terkendali.
+* Detail produk lebih storytelling.
 
 ---
 
-## 5. Color System — Pertahankan Tema Existing
+## 4. Batasan Redesign
 
-### 5.1 Aturan warna terpenting
+Redesign hanya boleh menyentuh:
 
-**Jangan menentukan warna brand baru dari dokumen ini.** Nilai warna final harus diambil dari project Flutter saat ini. Design agent wajib memeriksa, secara berurutan:
+* `core/theme/app_colors.dart`
+* `core/theme/app_theme.dart`
+* `core/theme/app_text_styles.dart`
+* `core/theme/app_spacing.dart`
+* `core/utils/responsive_utils.dart`
+* `core/widgets/*`
+* `widgets/common/*`
+* `widgets/shared/*`
+* Layout widget pada screen presentation
+* Padding, margin, radius, shadow
+* Typography
+* Product card UI
+* App bar UI
+* Bottom navigation UI
+* Section layout
+* Empty state
+* Loading state
+* Error state
+* Skeleton state
+* Bottom sheet UI
+* Dialog UI
+* Form UI
 
-1. `ThemeData` / `ColorScheme` di file app theme;
-2. file constants seperti `colors.dart`, `app_colors.dart`, `theme.dart`, atau extension sejenis;
-3. warna tombol/navbar/logo yang saat ini menjadi identitas aplikasi;
-4. asset logo/brand guideline apabila tersedia.
+Redesign tidak boleh mengubah:
 
-Setelah ditemukan, warna tersebut dipindahkan atau dipetakan ke token semantik berikut tanpa mengganti nuansa brand.
+* API endpoint
+* Dio configuration
+* Repository behavior
+* Provider state logic
+* ChangeNotifier flow
+* GoRouter route path
+* Cart calculation
+* Checkout calculation
+* Payment Midtrans behavior
+* RajaOngkir behavior
+* Auth token storage
+* Model parsing
+* Business rules
 
-### 5.2 Token warna semantik
+---
 
-| Token | Mengambil dari warna existing | Penggunaan wajib |
-|---|---|---|
-| `brandPrimary` | primary existing | CTA utama, selected nav, focus, highlight terukur |
-| `brandPrimaryContainer` | tonal/light version dari primary existing | selected chip, banner ringan, recommendation highlight |
-| `brandSecondary` | secondary/accent existing bila ada | aksen koleksi atau elemen dekoratif terbatas |
-| `surfacePage` | background existing atau neutral harmonis | latar halaman utama |
-| `surfaceCard` | surface existing | product card, info card, sheet |
-| `surfaceElevated` | surface paling terang/tinggi | sticky bottom CTA, floating search, modal |
-| `textPrimary` | text dominant existing | heading, nama produk, harga utama |
-| `textSecondary` | muted existing yang masih terbaca | metadata, helper, subtitle |
-| `outlineSoft` | divider/border existing | card border, input outline, separator |
-| `success` | status existing | payment success, delivered, in-stock sesuai penggunaan |
-| `warning` | status existing | payment pending, low-stock |
-| `error` | status existing | failed payment, validation error, out of stock |
-| `scrim` | derived neutral | overlay bottom sheet/dialog/image |
+## 5. Design Tokens
 
-### 5.3 Prinsip pemakaian warna
+## 5.1 Color System
 
-- Rasio visual kira-kira: neutral/background dominan, text dan image sebagai isi utama, brand primary hanya pada action/selected state/brand moment.
-- Tombol utama memakai `brandPrimary`; tombol sekunder memakai outline atau tonal container, bukan warna brand lain.
-- Harga utama memakai `textPrimary`, sementara diskon/badge boleh memakai semantic token yang konsisten.
-- Jangan menambahkan warna kompetitor, khususnya hijau/oranye/merah khas marketplace lain, apabila tidak menjadi bagian theme existing.
-- Status payment tidak hanya dibedakan berdasarkan warna; selalu sertakan icon dan label teks.
-- Hero/banner boleh menggunakan visual yang sesuai theme, tetapi tidak mengubah brand palette.
-
-### 5.4 Flutter theming direction
-
-Aplikasi disarankan memakai satu sumber theme sebagai UI foundation:
+### Primary Brand Colors
 
 ```dart
-// Conceptual only: map values from the existing project, do not replace brand colors.
-ThemeData buildAppTheme(CurrentBrandPalette existing) {
-  final colorScheme = ColorScheme.fromSeed(
-    seedColor: existing.primary,
-    brightness: Brightness.light,
-  ).copyWith(
-    primary: existing.primary,
-    secondary: existing.secondary,
-    error: existing.error,
-  );
+primary: Color(0xFF0C1A2E)
+primarySoft: Color(0xFF132A46)
+primaryDark: Color(0xFF07111F)
+secondary: Color(0xFFCA8A04)
+secondarySoft: Color(0xFFF6C766)
+secondaryDark: Color(0xFF9A6700)
+```
 
-  return ThemeData(
-    useMaterial3: true,
-    colorScheme: colorScheme,
-    scaffoldBackgroundColor: existing.pageBackground,
-    // Apply text, card, input, button and navigation component themes here.
-  );
+### Background Colors
+
+```dart
+background: Color(0xFFF8FAFC)
+backgroundWarm: Color(0xFFFBF7EF)
+surface: Color(0xFFFFFFFF)
+surfaceSoft: Color(0xFFF1F5F9)
+surfaceMuted: Color(0xFFEFF3F8)
+```
+
+### Text Colors
+
+```dart
+textPrimary: Color(0xFF111827)
+textSecondary: Color(0xFF475569)
+textTertiary: Color(0xFF64748B)
+textMuted: Color(0xFF94A3B8)
+textInverse: Color(0xFFFFFFFF)
+```
+
+### Border Colors
+
+```dart
+border: Color(0xFFE2E8F0)
+borderSoft: Color(0xFFF1F5F9)
+borderDark: Color(0xFFCBD5E1)
+```
+
+### Semantic Colors
+
+```dart
+success: Color(0xFF16A34A)
+successSoft: Color(0xFFEAF7EE)
+warning: Color(0xFFF59E0B)
+warningSoft: Color(0xFFFFF7E6)
+error: Color(0xFFDC2626)
+errorSoft: Color(0xFFFEECEC)
+info: Color(0xFF2563EB)
+infoSoft: Color(0xFFEFF6FF)
+```
+
+### Promo Colors
+
+```dart
+promoRed: Color(0xFFE11D48)
+promoOrange: Color(0xFFF97316)
+promoPink: Color(0xFFDB2777)
+flashSale: Color(0xFFFF4D00)
+discount: Color(0xFFEF4444)
+```
+
+### Shadow Colors
+
+```dart
+shadowSoft: Color(0x14000000)
+shadowMedium: Color(0x22000000)
+shadowNavy: Color(0x260C1A2E)
+shadowGold: Color(0x33CA8A04)
+```
+
+---
+
+## 5.2 Gradient System
+
+Gradient tidak boleh dipakai berlebihan. Gunakan hanya untuk area tertentu.
+
+### Hero Gradient
+
+```dart
+LinearGradient(
+  colors: [
+    Color(0xFF0C1A2E),
+    Color(0xFF132A46),
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+)
+```
+
+### Gold CTA Gradient
+
+```dart
+LinearGradient(
+  colors: [
+    Color(0xFFF6C766),
+    Color(0xFFCA8A04),
+  ],
+  begin: Alignment.topLeft,
+  end: Alignment.bottomRight,
+)
+```
+
+### Promo Gradient
+
+```dart
+LinearGradient(
+  colors: [
+    Color(0xFFFF4D00),
+    Color(0xFFE11D48),
+  ],
+  begin: Alignment.centerLeft,
+  end: Alignment.centerRight,
+)
+```
+
+### Soft Background Gradient
+
+```dart
+LinearGradient(
+  colors: [
+    Color(0xFFF8FAFC),
+    Color(0xFFFBF7EF),
+  ],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
+)
+```
+
+---
+
+## 5.3 Radius System
+
+Gunakan radius konsisten.
+
+```dart
+radiusXs: 6
+radiusSm: 10
+radiusMd: 14
+radiusLg: 18
+radiusXl: 24
+radius2xl: 32
+radiusFull: 999
+```
+
+Penggunaan:
+
+| Komponen       |                    Radius |
+| -------------- | ------------------------: |
+| Small badge    |                       999 |
+| Input field    |                        14 |
+| Product card   |                        18 |
+| Image product  |                        16 |
+| Bottom sheet   | 28 top-left, 28 top-right |
+| Primary button |                        16 |
+| Icon button    |                        14 |
+| Promo banner   |                        24 |
+| Dialog         |                        28 |
+
+---
+
+## 5.4 Spacing System
+
+Gunakan base 4.
+
+```dart
+space2: 2
+space4: 4
+space6: 6
+space8: 8
+space10: 10
+space12: 12
+space14: 14
+space16: 16
+space20: 20
+space24: 24
+space28: 28
+space32: 32
+space40: 40
+space48: 48
+space64: 64
+```
+
+Default spacing:
+
+| Area                              | Spacing |
+| --------------------------------- | ------: |
+| Screen horizontal padding mobile  |      16 |
+| Screen horizontal padding tablet  |      24 |
+| Screen horizontal padding desktop |      32 |
+| Section vertical gap              |      24 |
+| Card inner padding                |   14-16 |
+| Product grid gap mobile           |      12 |
+| Product grid gap tablet           |      16 |
+| Button icon gap                   |       8 |
+| Title-subtitle gap                |       6 |
+| Form field gap                    |      14 |
+| Checkout block gap                |      16 |
+
+---
+
+# 6. Typography System
+
+## 6.1 Font Utama
+
+Font utama tetap:
+
+```dart
+Plus Jakarta Sans
+```
+
+Alasan:
+
+* Modern.
+* Cocok untuk marketplace.
+* Cocok untuk brand fashion.
+* Mudah dibaca.
+* Sudah dipakai di project.
+* Terasa lebih premium dibanding font default.
+
+## 6.2 Prinsip Typography
+
+Typography harus:
+
+* Mudah dibaca di mobile.
+* Tidak terlalu kecil.
+* Tidak terlalu berat.
+* Konsisten antar screen.
+* Menonjolkan harga dan CTA.
+* Membuat hierarchy jelas antara title, subtitle, body, label, dan metadata.
+
+## 6.3 Font Weight
+
+Gunakan weight berikut:
+
+| Weight        | Penggunaan                          |
+| ------------- | ----------------------------------- |
+| 400 Regular   | Body text, deskripsi                |
+| 500 Medium    | Label, menu, metadata penting       |
+| 600 SemiBold  | Section title, product name, button |
+| 700 Bold      | Harga, screen title, hero title     |
+| 800 ExtraBold | Hero headline tertentu saja         |
+
+Hindari menggunakan 800 terlalu sering agar tidak terasa berat.
+
+---
+
+## 6.4 Type Scale Mobile
+
+### Display
+
+Untuk hero title besar.
+
+```dart
+displayLarge: 34sp / 42 line height / weight 800
+displayMedium: 30sp / 38 line height / weight 800
+displaySmall: 26sp / 34 line height / weight 700
+```
+
+### Headline
+
+Untuk judul screen dan section besar.
+
+```dart
+headlineLarge: 24sp / 32 line height / weight 700
+headlineMedium: 22sp / 30 line height / weight 700
+headlineSmall: 20sp / 28 line height / weight 700
+```
+
+### Title
+
+Untuk card title, section title kecil, form group title.
+
+```dart
+titleLarge: 18sp / 26 line height / weight 700
+titleMedium: 16sp / 24 line height / weight 600
+titleSmall: 14sp / 20 line height / weight 600
+```
+
+### Body
+
+Untuk teks umum.
+
+```dart
+bodyLarge: 16sp / 24 line height / weight 400
+bodyMedium: 14sp / 22 line height / weight 400
+bodySmall: 12sp / 18 line height / weight 400
+```
+
+### Label
+
+Untuk button, badge, tab, metadata.
+
+```dart
+labelLarge: 14sp / 20 line height / weight 700
+labelMedium: 12sp / 18 line height / weight 600
+labelSmall: 11sp / 16 line height / weight 600
+```
+
+---
+
+## 6.5 Type Scale Tablet
+
+Tablet membutuhkan sedikit peningkatan size.
+
+```dart
+displayLarge: 40sp
+displayMedium: 34sp
+displaySmall: 30sp
+
+headlineLarge: 28sp
+headlineMedium: 24sp
+headlineSmall: 22sp
+
+titleLarge: 20sp
+titleMedium: 17sp
+titleSmall: 15sp
+
+bodyLarge: 17sp
+bodyMedium: 15sp
+bodySmall: 13sp
+
+labelLarge: 15sp
+labelMedium: 13sp
+labelSmall: 12sp
+```
+
+---
+
+## 6.6 Type Scale Desktop / Wide Screen
+
+Jika app dijalankan di desktop/web Flutter, jangan membuat teks terlalu besar.
+
+```dart
+displayLarge: 44sp
+displayMedium: 38sp
+displaySmall: 32sp
+
+headlineLarge: 30sp
+headlineMedium: 26sp
+headlineSmall: 23sp
+
+titleLarge: 21sp
+titleMedium: 18sp
+titleSmall: 15sp
+
+bodyLarge: 17sp
+bodyMedium: 15sp
+bodySmall: 13sp
+
+labelLarge: 15sp
+labelMedium: 13sp
+labelSmall: 12sp
+```
+
+---
+
+## 6.7 Typography per Komponen
+
+### AppBar Title
+
+```dart
+fontSize: 18
+fontWeight: FontWeight.w700
+letterSpacing: -0.2
+color: textPrimary
+```
+
+### Section Title
+
+```dart
+fontSize: 18
+fontWeight: FontWeight.w700
+height: 1.25
+letterSpacing: -0.2
+```
+
+### Section Subtitle
+
+```dart
+fontSize: 13
+fontWeight: FontWeight.w400
+height: 1.45
+color: textSecondary
+```
+
+### Product Name
+
+```dart
+fontSize: 13
+fontWeight: FontWeight.w600
+height: 1.35
+maxLines: 2
+overflow: TextOverflow.ellipsis
+```
+
+### Product Price
+
+```dart
+fontSize: 15
+fontWeight: FontWeight.w800
+height: 1.2
+color: primary
+```
+
+### Old Price
+
+```dart
+fontSize: 11
+fontWeight: FontWeight.w500
+decoration: TextDecoration.lineThrough
+color: textMuted
+```
+
+### Discount Badge
+
+```dart
+fontSize: 10
+fontWeight: FontWeight.w800
+letterSpacing: 0.2
+color: Colors.white
+```
+
+### Button Text
+
+```dart
+fontSize: 14
+fontWeight: FontWeight.w700
+letterSpacing: 0.1
+```
+
+### Bottom Nav Label
+
+```dart
+fontSize: 11
+fontWeight selected: FontWeight.w700
+fontWeight unselected: FontWeight.w500
+```
+
+### Form Label
+
+```dart
+fontSize: 13
+fontWeight: FontWeight.w600
+color: textPrimary
+```
+
+### Input Text
+
+```dart
+fontSize: 14
+fontWeight: FontWeight.w500
+color: textPrimary
+```
+
+### Helper Text
+
+```dart
+fontSize: 12
+fontWeight: FontWeight.w400
+color: textSecondary
+```
+
+---
+
+# 7. Layout System
+
+## 7.1 Breakpoint
+
+Gunakan breakpoint sederhana.
+
+```dart
+compact: width < 600
+medium: 600 <= width < 1024
+expanded: width >= 1024
+```
+
+Atau:
+
+```dart
+mobileSmall: width < 360
+mobile: 360 - 599
+tablet: 600 - 1023
+desktop: >= 1024
+```
+
+## 7.2 Max Content Width
+
+Agar layout tidak terlalu melebar di tablet/desktop:
+
+```dart
+maxContentWidthMobile: double.infinity
+maxContentWidthTablet: 720
+maxContentWidthDesktop: 1180
+```
+
+Pada desktop:
+
+```dart
+Center(
+  child: ConstrainedBox(
+    constraints: BoxConstraints(maxWidth: 1180),
+    child: child,
+  ),
+)
+```
+
+## 7.3 Screen Padding
+
+```dart
+mobile: EdgeInsets.symmetric(horizontal: 16)
+tablet: EdgeInsets.symmetric(horizontal: 24)
+desktop: EdgeInsets.symmetric(horizontal: 32)
+```
+
+## 7.4 Section Layout
+
+Setiap section wajib memakai pola:
+
+```dart
+Column(
+  crossAxisAlignment: CrossAxisAlignment.start,
+  children: [
+    SectionHeader(),
+    SizedBox(height: 12),
+    SectionContent(),
+  ],
+)
+```
+
+Jarak antar section:
+
+```dart
+mobile: 24
+tablet: 32
+desktop: 40
+```
+
+---
+
+# 8. Product Grid Layout
+
+## 8.1 Mobile Grid
+
+Untuk mobile:
+
+```dart
+crossAxisCount: 2
+crossAxisSpacing: 12
+mainAxisSpacing: 14
+childAspectRatio: 0.62 - 0.68
+```
+
+Product image ratio:
+
+```dart
+AspectRatio(aspectRatio: 3 / 4)
+```
+
+## 8.2 Tablet Grid
+
+Untuk tablet:
+
+```dart
+crossAxisCount: 3
+crossAxisSpacing: 16
+mainAxisSpacing: 18
+childAspectRatio: 0.66
+```
+
+## 8.3 Desktop Grid
+
+Untuk desktop:
+
+```dart
+crossAxisCount: 4 atau 5
+crossAxisSpacing: 18
+mainAxisSpacing: 22
+childAspectRatio: 0.70
+```
+
+## 8.4 Product Card Structure
+
+Urutan isi product card:
+
+1. Image produk
+2. Badge promo atau status
+3. Wishlist button di pojok kanan atas image
+4. Nama produk
+5. Harga
+6. Old price / discount jika ada
+7. Mini metadata seperti kategori atau sold count jika tersedia
+8. Quick action optional
+
+Struktur visual:
+
+```text
+┌────────────────────┐
+│ Image              │
+│     ♡              │
+│ PROMO              │
+├────────────────────┤
+│ Product Name       │
+│ Rp 120.000         │
+│ Rp 150.000  -20%   │
+│ Best Seller        │
+└────────────────────┘
+```
+
+## 8.5 Product Card Style
+
+```dart
+background: surface
+borderRadius: 18
+border: 1px borderSoft
+shadow: soft
+padding: 8 for image area, 10-12 for content
+```
+
+Image:
+
+```dart
+borderRadius: 16
+background: surfaceSoft
+fit: BoxFit.cover
+```
+
+Wishlist button:
+
+```dart
+size: 34
+background: Colors.white.withOpacity(0.92)
+radius: 999
+iconSize: 18
+```
+
+Badge:
+
+```dart
+height: 22
+padding horizontal: 8
+radius: 999
+fontSize: 10
+fontWeight: 800
+```
+
+---
+
+# 9. AppBar Design
+
+## 9.1 Home AppBar
+
+Home tidak perlu app bar terlalu formal.
+
+Isi:
+
+* Logo / brand name
+* Search bar kecil
+* Cart icon
+* Chatbot icon optional
+
+Layout:
+
+```text
+[Mitologi]      [Search] [Cart]
+```
+
+Atau:
+
+```text
+[Logo Mitologi]
+[Search produk, kategori, portfolio...]
+```
+
+Rekomendasi untuk mobile:
+
+* Logo dan cart di row pertama.
+* Search bar full width di bawahnya.
+* AppBar bisa sticky ketika scroll.
+
+## 9.2 Catalog AppBar
+
+Catalog butuh search dominan.
+
+```text
+[Back optional] [Search produk...] [Filter]
+```
+
+Search bar:
+
+```dart
+height: 46
+radius: 16
+background: surfaceSoft
+border: borderSoft
+```
+
+## 9.3 Product Detail AppBar
+
+PDP harus clean.
+
+Isi:
+
+* Back button
+* Share button
+* Wishlist button
+* Cart button
+
+Gunakan transparent appbar saat image di atas, berubah solid ketika scroll.
+
+## 9.4 Checkout AppBar
+
+Checkout harus formal.
+
+```text
+[Back] Checkout
+```
+
+Tidak perlu banyak icon.
+
+---
+
+# 10. Bottom Navigation
+
+Project memakai 5 tab:
+
+* Beranda
+* Katalog
+* Wishlist
+* Portfolio
+* Akun
+
+## 10.1 Mobile Bottom Navigation
+
+Style:
+
+```dart
+height: 72-80
+background: white
+border top: borderSoft
+shadow: soft upward
+selected color: primary
+unselected color: textMuted
+indicator: soft navy/gold pill
+```
+
+Selected item:
+
+* Icon filled.
+* Label bold.
+* Ada pill background tipis.
+
+Unselected item:
+
+* Icon regular.
+* Label medium.
+* Tidak ada background.
+
+## 10.2 Tablet Navigation
+
+Untuk tablet portrait masih boleh bottom nav.
+
+Untuk tablet landscape atau desktop, bisa gunakan NavigationRail tetapi hanya jika tidak mengubah routing.
+
+Rekomendasi adaptive:
+
+```dart
+if width >= 1024:
+  use side navigation rail
+else:
+  use bottom navigation
+```
+
+Namun kalau ingin minim risiko, tetap pakai bottom nav di semua device, tetapi content diberi max width.
+
+---
+
+# 11. Home Screen Layout
+
+Home screen saat ini besar dan kompleks. Redesign harus membuatnya lebih modular.
+
+## 11.1 Urutan Section Home
+
+Urutan yang disarankan:
+
+1. Header + search
+2. Hero carousel
+3. Quick category chips
+4. Promo / flash deal strip
+5. Featured products
+6. Categories
+7. Portfolio preview
+8. Printing methods
+9. Why choose us
+10. Testimonials
+11. Partners
+12. Order flow
+13. CTA contact / chatbot
+
+## 11.2 Home Header
+
+Style:
+
+```dart
+background: primary gradient
+border bottom radius: 28
+padding top: safe area + 16
+padding horizontal: 16
+padding bottom: 18
+```
+
+Isi:
+
+* Greeting / brand
+* Cart icon
+* Search bar
+* Mini quick links
+
+Contoh copy:
+
+```text
+Mitologi Clothing
+Custom apparel, printing, dan produk fashion pilihan.
+```
+
+## 11.3 Search Bar Home
+
+Search bar harus terasa seperti marketplace.
+
+```dart
+height: 48
+radius: 16
+background: white
+icon: search
+placeholder: "Cari produk, kategori, atau portfolio..."
+```
+
+## 11.4 Hero Carousel
+
+Hero jangan terlalu tinggi.
+
+Mobile:
+
+```dart
+height: 180 - 220
+radius: 24
+```
+
+Tablet:
+
+```dart
+height: 260 - 320
+```
+
+Isi hero:
+
+* Image / background
+* Title pendek
+* Subtitle
+* CTA
+* Badge kecil
+
+Jangan menaruh terlalu banyak teks di hero.
+
+## 11.5 Category Chips
+
+Gunakan horizontal scroll.
+
+```text
+[Kaos] [Hoodie] [Jersey] [Printing] [Promo] [Portfolio]
+```
+
+Style:
+
+```dart
+height: 38
+radius: 999
+background selected: primary
+background unselected: surface
+border: borderSoft
+```
+
+## 11.6 Featured Product Section
+
+Section header:
+
+```text
+Produk Pilihan
+Lihat semua
+```
+
+Gunakan product grid 2 kolom mobile.
+
+Untuk home, tampilkan maksimal 4 atau 6 produk agar tidak terlalu panjang.
+
+## 11.7 Promo Strip
+
+Promo strip bisa seperti marketplace.
+
+```dart
+height: 76
+radius: 20
+background: promo gradient
+```
+
+Isi:
+
+```text
+Promo Custom Apparel
+Diskon khusus untuk pemesanan batch dan komunitas
+[Claim]
+```
+
+## 11.8 Portfolio Preview
+
+Karena Mitologi Clothing punya portfolio, tampilkan sebagai visual proof.
+
+Layout mobile:
+
+* Horizontal card 160x200
+* Image dominan
+* Category badge
+* Project title
+
+---
+
+# 12. Catalog Screen Layout
+
+## 12.1 Catalog Header
+
+Isi:
+
+* Search field
+* Filter button
+* Sort button
+* Category horizontal chips
+
+## 12.2 Product Grid
+
+Gunakan grid adaptive.
+
+Mobile:
+
+```dart
+2 columns
+```
+
+Tablet:
+
+```dart
+3 columns
+```
+
+Desktop:
+
+```dart
+4-5 columns
+```
+
+## 12.3 Filter UI
+
+Filter sebaiknya bottom sheet.
+
+Isi filter:
+
+* Category
+* Price range
+* Sort
+* Availability
+* Promo
+* Reset button
+* Apply button
+
+Bottom sheet style:
+
+```dart
+radius top: 28
+padding: 20
+drag handle
+sticky bottom action
+```
+
+## 12.4 Empty Catalog
+
+Empty state:
+
+```text
+Produk tidak ditemukan
+Coba ubah kata kunci atau filter pencarian.
+[Reset Filter]
+```
+
+Gunakan icon box/search.
+
+---
+
+# 13. Product Detail Page Layout
+
+## 13.1 Struktur PDP
+
+Urutan:
+
+1. Image gallery
+2. Product info
+3. Price
+4. Variant selector
+5. Quantity selector
+6. Description
+7. Specification
+8. Reviews/testimonials jika ada
+9. Related products
+10. Sticky bottom CTA
+
+## 13.2 Image Gallery
+
+Mobile:
+
+```dart
+AspectRatio 1:1 atau 4:5
+```
+
+Gunakan:
+
+* PageView
+* Indicator dots
+* Thumbnail optional
+
+## 13.3 Product Info
+
+Nama produk:
+
+```dart
+titleLarge 18sp bold
+maxLines optional 3
+```
+
+Harga:
+
+```dart
+20sp / 22sp
+fontWeight 800
+color primary
+```
+
+Badge:
+
+```text
+Best Seller
+Custom Ready
+Preorder
+Promo
+```
+
+## 13.4 Variant Selector
+
+Variant jangan terlihat seperti form biasa. Buat chip.
+
+```dart
+ChoiceChip
+radius: 999
+selected background: primary
+unselected background: surface
+```
+
+## 13.5 Sticky Bottom CTA
+
+PDP wajib punya CTA sticky.
+
+```text
+[Chat] [Keranjang] [Beli Sekarang]
+```
+
+Atau:
+
+```text
+[Tambah ke Keranjang] [Checkout]
+```
+
+Mobile:
+
+* CTA full width bottom.
+* SafeArea bottom.
+* Shadow top.
+
+---
+
+# 14. Cart Screen Layout
+
+## 14.1 Cart Item Card
+
+Isi:
+
+* Checkbox optional
+* Product image
+* Product name
+* Variant
+* Price
+* Quantity stepper
+* Remove button
+
+Layout:
+
+```text
+[img] Product name      [x]
+      Variant
+      Rp xxx
+      [-] 1 [+]
+```
+
+## 14.2 Cart Summary
+
+Sticky bottom:
+
+```text
+Total
+Rp xxx.xxx
+[Checkout]
+```
+
+Style:
+
+```dart
+background: white
+border top: borderSoft
+shadow: soft upward
+```
+
+## 14.3 Empty Cart
+
+```text
+Keranjang masih kosong
+Yuk pilih produk custom favoritmu.
+[Belanja Sekarang]
+```
+
+---
+
+# 15. Checkout Screen Layout
+
+Checkout harus paling jelas dan tidak ramai.
+
+## 15.1 Urutan Checkout
+
+1. Address card
+2. Shipping method
+3. Payment method
+4. Order items summary
+5. Price breakdown
+6. Notes optional
+7. Pay button
+
+## 15.2 Address Card
+
+Style:
+
+```dart
+background: surface
+radius: 18
+padding: 16
+border: borderSoft
+```
+
+Isi:
+
+* Label alamat
+* Recipient
+* Phone
+* Full address
+* Change button
+
+## 15.3 Price Breakdown
+
+Gunakan list rapi:
+
+```text
+Subtotal        Rp xxx
+Ongkir          Rp xxx
+Diskon          -Rp xxx
+Total           Rp xxx
+```
+
+Total:
+
+```dart
+fontSize: 18
+fontWeight: 800
+color: primary
+```
+
+## 15.4 Checkout CTA
+
+Button:
+
+```dart
+height: 52
+radius: 16
+background: primary
+text: Bayar Sekarang
+```
+
+---
+
+# 16. Wishlist Screen
+
+Wishlist harus seperti catalog grid tapi lebih personal.
+
+## 16.1 Layout
+
+* Header simple.
+* Product grid 2 column.
+* Remove wishlist icon jelas.
+* CTA ke detail produk.
+
+## 16.2 Empty State
+
+```text
+Wishlist masih kosong
+Simpan produk favoritmu agar mudah ditemukan lagi.
+[Jelajahi Produk]
+```
+
+---
+
+# 17. Profile Screen
+
+Profile screen harus lebih rapi dan tidak terlalu banyak card berat.
+
+## 17.1 Header Profile
+
+```dart
+background: primary gradient
+radius bottom: 28
+```
+
+Isi:
+
+* Avatar
+* Name
+* Email / phone
+* Edit profile button
+
+## 17.2 Menu List
+
+Gunakan grouped menu.
+
+Group 1:
+
+* Pesanan Saya
+* Alamat
+* Wishlist
+
+Group 2:
+
+* FAQ
+* Kebijakan Privasi
+* Syarat & Ketentuan
+
+Group 3:
+
+* Ubah Password
+* Logout
+
+Menu item style:
+
+```dart
+height: 56
+icon container 36
+title 14 semibold
+chevron right
+```
+
+---
+
+# 18. Auth Screen
+
+Auth screen harus clean dan premium.
+
+## 18.1 Login Layout
+
+```text
+Logo
+Welcome Back
+Email
+Password
+Forgot password
+Login button
+Register link
+```
+
+## 18.2 Background
+
+Gunakan soft gradient:
+
+```dart
+backgroundWarm to background
+```
+
+Tambahkan decorative shape navy/gold tipis, jangan terlalu ramai.
+
+## 18.3 Form Field
+
+```dart
+height: 52
+radius: 16
+filled: true
+fillColor: white
+border: borderSoft
+```
+
+---
+
+# 19. CMS Pages
+
+CMS page seperti About, FAQ, Kontak, Layanan, Panduan Ukuran harus seragam.
+
+## 19.1 CMS Header
+
+```dart
+title
+subtitle optional
+breadcrumb optional
+```
+
+## 19.2 Content Card
+
+Setiap content block gunakan:
+
+```dart
+background: white
+radius: 20
+padding: 16
+border: borderSoft
+```
+
+## 19.3 FAQ
+
+FAQ pakai accordion.
+
+```dart
+radius: 16
+expanded background: surfaceSoft
+title: 14 semibold
+body: 13 regular
+```
+
+---
+
+# 20. Chatbot Screen
+
+Chatbot harus terasa seperti assistant commerce.
+
+## 20.1 Layout
+
+* Header: “Mitologi Assistant”
+* Bubble chat
+* Input sticky bottom
+* Suggested prompt chips
+
+## 20.2 Bubble
+
+User bubble:
+
+```dart
+align right
+background primary
+text white
+radius 18
+```
+
+Bot bubble:
+
+```dart
+align left
+background surface
+text textPrimary
+border borderSoft
+radius 18
+```
+
+## 20.3 Suggested Prompt
+
+Contoh:
+
+```text
+"Cari hoodie custom"
+"Berapa estimasi ongkir?"
+"Lihat promo"
+"Cara order custom?"
+```
+
+---
+
+# 21. Button System
+
+## 21.1 Primary Button
+
+```dart
+height: 50-52
+radius: 16
+background: primary
+text: white
+fontWeight: 700
+```
+
+## 21.2 Secondary Button
+
+```dart
+height: 50
+radius: 16
+background: secondarySoft
+text: primary
+```
+
+## 21.3 Outline Button
+
+```dart
+height: 48
+radius: 16
+border: primary
+text: primary
+```
+
+## 21.4 Ghost Button
+
+```dart
+height: 44
+background: transparent
+text: primary
+```
+
+## 21.5 Danger Button
+
+```dart
+background: error
+text: white
+```
+
+---
+
+# 22. Input System
+
+## 22.1 Text Field
+
+```dart
+height: 52
+radius: 16
+fillColor: surface
+border: borderSoft
+focusedBorder: primary
+errorBorder: error
+```
+
+## 22.2 Search Field
+
+```dart
+height: 46-48
+radius: 16 atau 999
+prefixIcon: search
+suffixIcon: clear/filter optional
+```
+
+## 22.3 Dropdown
+
+Gunakan bottom sheet untuk pilihan panjang.
+
+Untuk pilihan pendek gunakan dropdown biasa.
+
+---
+
+# 23. Card System
+
+## 23.1 Standard Card
+
+```dart
+background: surface
+radius: 18
+padding: 16
+border: borderSoft
+shadow: very soft
+```
+
+## 23.2 Product Card
+
+```dart
+radius: 18
+padding: 8
+image radius: 16
+```
+
+## 23.3 Promo Card
+
+```dart
+radius: 22
+gradient: promo/brand
+padding: 16
+```
+
+## 23.4 Info Card
+
+```dart
+background: infoSoft
+border: transparent
+radius: 16
+```
+
+## 23.5 Warning Card
+
+```dart
+background: warningSoft
+border: warning with opacity
+radius: 16
+```
+
+---
+
+# 24. Badge System
+
+## 24.1 Promo Badge
+
+```dart
+background: promoRed
+text: white
+radius: 999
+fontSize: 10
+fontWeight: 800
+```
+
+## 24.2 Category Badge
+
+```dart
+background: surfaceSoft
+text: textSecondary
+radius: 999
+fontSize: 11
+fontWeight: 600
+```
+
+## 24.3 Premium Badge
+
+```dart
+background: secondarySoft
+text: primary
+radius: 999
+fontSize: 11
+fontWeight: 800
+```
+
+## 24.4 Status Badge
+
+Success:
+
+```dart
+background: successSoft
+text: success
+```
+
+Warning:
+
+```dart
+background: warningSoft
+text: warning
+```
+
+Error:
+
+```dart
+background: errorSoft
+text: error
+```
+
+---
+
+# 25. Image System
+
+## 25.1 Product Image
+
+Wajib menggunakan cached image dengan shimmer.
+
+Default:
+
+```dart
+fit: BoxFit.cover
+background: surfaceSoft
+borderRadius: 16
+```
+
+## 25.2 Error Image
+
+Jika image gagal:
+
+* Tampilkan icon image.
+* Background surfaceSoft.
+* Text optional “Gambar tidak tersedia”.
+
+## 25.3 Skeleton Image
+
+Skeleton harus mengikuti bentuk asli image.
+
+Product card skeleton:
+
+* Image block 3:4.
+* Text line 2 buah.
+* Price line.
+
+---
+
+# 26. Loading State
+
+## 26.1 Full Page Loading
+
+Gunakan loading center:
+
+```text
+Memuat data...
+```
+
+Dengan spinner kecil.
+
+## 26.2 Skeleton Loading
+
+Untuk home dan catalog jangan pakai full spinner terus.
+
+Gunakan skeleton:
+
+* Hero skeleton
+* Category chip skeleton
+* Product grid skeleton
+* Card skeleton
+
+## 26.3 Button Loading
+
+Button loading harus menjaga width/height.
+
+```dart
+CircularProgressIndicator size 18
+```
+
+---
+
+# 27. Empty State
+
+Setiap empty state harus punya:
+
+* Icon/illustration
+* Title
+* Description
+* CTA optional
+
+Format:
+
+```text
+Title: 16 bold
+Description: 13 regular
+CTA: primary button
+```
+
+Contoh:
+
+```text
+Belum ada produk
+Produk akan tampil di sini setelah tersedia.
+```
+
+---
+
+# 28. Error State
+
+Error harus user-friendly.
+
+Jangan tampilkan error teknis langsung.
+
+Contoh:
+
+```text
+Gagal memuat data
+Periksa koneksi internet kamu lalu coba lagi.
+[Coba Lagi]
+```
+
+Jika error dari API spesifik, mapping lewat `error_mapper.dart`.
+
+---
+
+# 29. Motion & Animation
+
+Animasi harus ringan.
+
+## 29.1 Duration
+
+```dart
+fast: 120ms
+normal: 200ms
+slow: 320ms
+```
+
+## 29.2 Curve
+
+```dart
+Curves.easeOutCubic
+Curves.easeInOutCubic
+```
+
+## 29.3 Animasi yang Disarankan
+
+* Fade in section.
+* Scale button saat tap.
+* Wishlist heart micro interaction.
+* Add to cart bottom sheet slide.
+* Skeleton shimmer.
+* Cart badge bounce kecil.
+* Bottom nav selected indicator animation.
+
+## 29.4 Animasi yang Dihindari
+
+* Animasi terlalu lama.
+* Banyak animasi bersamaan.
+* Parallax berat.
+* Blur terlalu banyak.
+* Confetti terus-menerus.
+
+---
+
+# 30. Responsive Rules Detail
+
+## 30.1 Mobile Small `< 360`
+
+* Padding horizontal 14.
+* Grid tetap 2 kolom, gap 10.
+* Product name max 2 lines.
+* Hero height 170.
+* Bottom nav label boleh lebih kecil 10sp.
+
+## 30.2 Mobile Normal `360 - 599`
+
+* Padding horizontal 16.
+* Grid 2 kolom.
+* Hero height 190-220.
+* Search bar 48.
+* Bottom nav normal.
+
+## 30.3 Tablet `600 - 1023`
+
+* Padding 24.
+* Content max width 720.
+* Product grid 3 kolom.
+* Hero height 280.
+* Product detail bisa 2 column ringan:
+
+  * image di atas tetap boleh untuk portrait.
+  * landscape bisa image kiri, info kanan.
+
+## 30.4 Desktop / Web `>= 1024`
+
+* Content max width 1180.
+* Product grid 4-5 kolom.
+* Detail page 2 column:
+
+  * gallery kiri
+  * product info kanan
+* Checkout 2 column:
+
+  * form kiri
+  * summary kanan sticky
+* Bottom nav bisa tetap atau diganti NavigationRail jika aman.
+
+---
+
+# 31. Screen-by-Screen Redesign Checklist
+
+## 31.1 Splash
+
+* Logo centered.
+* Background primary atau soft gradient.
+* Loading subtle.
+* Jangan terlalu lama.
+
+## 31.2 Login
+
+* Clean form.
+* CTA jelas.
+* Password visibility icon.
+* Forgot password mudah terlihat.
+
+## 31.3 Register
+
+* Field spacing 14.
+* Button sticky jika keyboard aman.
+* Link login jelas.
+
+## 31.4 Home
+
+* Header marketplace.
+* Search prominent.
+* Hero modern.
+* Category chips.
+* Product grid.
+* Portfolio preview.
+* CTA chatbot/contact.
+
+## 31.5 Catalog
+
+* Search sticky.
+* Filter bottom sheet.
+* Grid adaptive.
+* Sort mudah.
+
+## 31.6 Product Detail
+
+* Image besar.
+* Price jelas.
+* Variant chip.
+* Sticky CTA.
+* Description rapi.
+* Related product grid.
+
+## 31.7 Cart
+
+* Item card clean.
+* Quantity stepper mudah.
+* Total sticky.
+* Checkout CTA jelas.
+
+## 31.8 Checkout
+
+* Step jelas.
+* Address card.
+* Shipping card.
+* Payment card.
+* Summary sticky.
+* Pay button jelas.
+
+## 31.9 Wishlist
+
+* Grid sama dengan catalog.
+* Empty state bagus.
+* Remove wishlist mudah.
+
+## 31.10 Portfolio
+
+* Visual grid.
+* Filter category chips.
+* Detail image-first.
+
+## 31.11 Profile
+
+* Header premium.
+* Menu grouped.
+* Logout jelas tapi tidak terlalu dominan.
+
+## 31.12 Orders
+
+* Status tabs.
+* Order card.
+* Timeline di detail order.
+* CTA bayar ulang jika belum bayar.
+
+## 31.13 CMS
+
+* Content card konsisten.
+* Typography rapi.
+* Jangan terlalu panjang tanpa section.
+
+## 31.14 Chatbot
+
+* Bubble rapi.
+* Prompt chips.
+* Input sticky.
+
+---
+
+# 32. Component Refactor Recommendation
+
+Karena project punya duplikasi widget di:
+
+* `lib/core/widgets`
+* `lib/widgets/common`
+* `lib/widgets/shared`
+* `lib/widgets/product`
+
+Maka aturan baru:
+
+## 32.1 Single Source of Truth
+
+Komponen base pindahkan ke:
+
+```text
+lib/core/widgets/
+```
+
+Komponen shared app pindahkan ke:
+
+```text
+lib/widgets/shared/
+```
+
+Komponen feature-specific tetap di:
+
+```text
+lib/features/<feature>/presentation/widgets/
+```
+
+## 32.2 Product Card
+
+Gunakan satu product card utama:
+
+```text
+lib/widgets/shared/product_card.dart
+```
+
+Jika butuh variasi:
+
+```dart
+enum ProductCardVariant {
+  compact,
+  regular,
+  horizontal,
+  featured,
 }
 ```
 
-Kode di atas hanya arah implementasi visual. Nilai warna tetap wajib berasal dari theme project yang sudah ada.
+Jangan punya banyak file product_card berbeda dengan behavior berbeda.
 
----
+## 32.3 Section Header
 
-## 6. Typography System
+Gunakan satu:
 
-### 6.1 Pilihan font
+```text
+lib/core/widgets/section_header.dart
+```
 
-Typography boleh diperbarui walaupun warna tetap sama. Untuk Mitologi Clothing, arah font yang direkomendasikan:
-
-- **Utama:** `Plus Jakarta Sans` karena terasa modern, bersih, ramah, dan cocok untuk brand digital Indonesia.
-- **Alternatif sangat aman:** `Inter` apabila project sudah menggunakannya atau tim ingin font utilitarian yang ringan.
-- **Fallback:** `system-ui` / default platform apabila menambah font tidak diizinkan.
-
-**Aturan implementasi:** jangan menambah dependency font pada tahap UI tanpa persetujuan project. Jika `google_fonts` atau asset font telah tersedia, gunakan; jika belum, terapkan type scale pada font existing terlebih dahulu.
-
-### 6.2 Tone typography
-
-- Judul koleksi boleh tegas dan editorial, tidak harus memakai uppercase seluruhnya.
-- Harga harus menjadi informasi paling cepat terbaca setelah gambar/nama produk.
-- Body product detail harus nyaman dibaca, bukan terlalu kecil atau terlalu rapat.
-- Label status dan CTA harus singkat, kuat, serta konsisten.
-
-### 6.3 Type scale mobile
-
-| Token | Size | Weight | Line height | Letter spacing | Penggunaan |
-|---|---:|---:|---:|---:|---|
-| `displayHero` | 30–34sp | 700 | 1.12 | -0.6 | hero editorial home/collection |
-| `headlinePage` | 24sp | 700 | 1.20 | -0.3 | title utama screen |
-| `headlineSection` | 20sp | 700 | 1.25 | -0.2 | title section home/detail |
-| `titleCard` | 15–16sp | 600 | 1.30 | 0 | nama card/list title |
-| `pricePrimary` | 18–20sp | 700 | 1.20 | -0.2 | harga detail/total utama |
-| `priceCard` | 15–16sp | 700 | 1.20 | 0 | harga product card |
-| `bodyLarge` | 16sp | 400/500 | 1.50 | 0 | description lead/payment explanation |
-| `body` | 14sp | 400 | 1.50 | 0 | description, metadata |
-| `label` | 12sp | 600 | 1.30 | 0.1 | chip, tab, badge, metadata |
-| `caption` | 11–12sp | 400/500 | 1.35 | 0.1 | helper, secondary note |
-| `button` | 15sp | 600 | 1.20 | 0.1 | semua CTA |
-| `navLabel` | 11–12sp | 600 | 1.20 | 0 | bottom navigation |
-
-### 6.4 Rules typography
-
-- Maksimal dua weight dominan per screen: regular dan semibold/bold.
-- Nama produk pada grid maksimal dua baris dengan ellipsis.
-- Jangan memotong harga atau status pesanan.
-- Gunakan formatter harga existing; desain tidak boleh mengubah format nominal/logika mata uang.
-- Minimal ukuran teks body interaktif 14sp; jangan membuat CTA/status penting sangat kecil.
-- Text scaling perangkat harus tetap menghasilkan layout dapat digunakan; jangan mematikan text scale.
-
----
-
-## 7. Layout Foundation dan Spacing
-
-### 7.1 Grid dasar
-
-Gunakan sistem spacing berbasis kelipatan 4 agar seluruh screen konsisten.
-
-| Token | Nilai | Penggunaan |
-|---|---:|---|
-| `space2` | 2px | optical adjustment sangat kecil |
-| `space4` | 4px | jarak icon-label mini |
-| `space8` | 8px | internal badge, gap item kecil |
-| `space12` | 12px | chip, compact row |
-| `space16` | 16px | padding horizontal mobile default, card content |
-| `space20` | 20px | section compact |
-| `space24` | 24px | gap antarkomponen utama |
-| `space32` | 32px | gap antarsection home/detail |
-| `space40` | 40px | section separator premium |
-| `space48` | 48px | large hero/content breathing room |
-
-### 7.2 Mobile screen layout
-
-- Padding horizontal default screen: **16px** pada ponsel kecil; **20px** pada ponsel lebar.
-- Jangan menempelkan card atau tulisan ke tepi layar.
-- Section home menggunakan vertical gap 28–36px untuk memberi kesan premium.
-- Grid produk menggunakan gap 12px; image ratio tetap konsisten.
-- Sticky CTA di product detail/cart/checkout harus menghormati safe area bottom.
-
-### 7.3 Radius
-
-| Token | Nilai | Penggunaan |
-|---|---:|---|
-| `radiusXs` | 6px | badge kecil |
-| `radiusSm` | 10px | chip, compact container |
-| `radiusMd` | 14px | input, small card, icon button |
-| `radiusLg` | 18px | product card, promo/recommendation card |
-| `radiusXl` | 24px | modal sheet, hero card, payment status card |
-| `radiusFull` | 999px | pill CTA/chip sesuai kebutuhan |
-
-**Rule:** jangan mencampur radius tajam dan ultra-rounded secara acak. Product imagery/card memakai `radiusLg`, input dan normal button memakai `radiusMd` atau `radiusFull` sesuai theme final.
-
-### 7.4 Elevation dan border
-
-Fashion premium lebih baik menggunakan border halus dan layering daripada shadow gelap.
-
-| Komponen | Style |
-|---|---|
-| Product card default | border tipis lembut atau tanpa border di atas page neutral; shadow sangat halus opsional |
-| Search floating/header | surface elevated + shadow lembut saat scroll |
-| Sticky checkout bar | top border lembut + shadow hanya ke atas |
-| Bottom sheet/dialog | elevated surface + scrim terkontrol |
-| Selected card/chip | border/tonal primary; bukan shadow tebal |
-
----
-
-## 8. Photography, Asset, dan Iconography
-
-### 8.1 Product image direction
-
-Karena Mitologi Clothing menjual fashion/merchandise, image bukan dekorasi—image adalah konten utama.
-
-- Gunakan rasio gambar produk konsisten: **3:4** untuk grid fashion; detail dapat memakai carousel 1:1 atau 3:4 mengikuti asset yang paling stabil.
-- Product card tidak boleh menampilkan gambar dengan crop tidak konsisten antarkartu.
-- Utamakan `BoxFit.cover` dengan area produk tetap terbaca; gunakan placeholder neutral saat image loading/failed.
-- Banner koleksi sebaiknya editorial: satu foto hero yang kuat, text singkat, satu CTA; bukan tumpukan grafis promo.
-- Image background harus sinkron dengan theme existing, tidak menambah palet brand kompetitor.
-
-### 8.2 Icon system
-
-- Gunakan satu gaya icon: rounded/outlined secara konsisten.
-- Icon ukuran standar: 20px di input/list, 22–24px di action utama/nav, 16px di badge/meta.
-- Wishlist: heart outline ketika belum dipilih, filled dengan brand/status color ketika dipilih.
-- Cart badge harus terbaca namun tidak mendominasi header.
-- Status payment/order memakai icon + teks, jangan warna saja.
-
-### 8.3 Logo and brand moment
-
-- Logo Mitologi Clothing harus mendapat ruang bersih pada splash/auth/home header apabila sudah tersedia.
-- Jangan mengganti logo atau memodifikasi warna logo tanpa asset resmi project.
-- Jangan menampilkan logo kompetitor atau UI yang membuat app terlihat sebagai marketplace lain.
-
----
-
-## 9. Motion dan Interaction Feel
-
-### 9.1 Prinsip motion
-
-Motion harus memperjelas action, bukan memperlambat belanja.
-
-| Interaksi | Animasi yang disarankan | Durasi |
-|---|---|---:|
-| Tap card menuju detail | native route transition / subtle shared feel bila sudah ada | platform default / 220–300ms |
-| Wishlist toggle | scale kecil + fill transition | 160–220ms |
-| Add to cart feedback | toast/snackbar atau mini confirmation | 180–250ms |
-| Filter bottom sheet muncul | slide-up platform pattern | 250–320ms |
-| Tab/category change | subtle fade/slide | 160–240ms |
-| Skeleton ke konten | crossfade halus | 180–240ms |
-| Payment status berhasil | icon transition minimal; tidak carnival | 240–420ms |
-
-### 9.2 Haptic dan feedback
-
-- Gunakan haptic ringan hanya jika project sudah memiliki support/utility atau dapat dilakukan tanpa menambah kompleksitas logic.
-- Setiap action penting harus memberi feedback UI: add cart, wishlist, apply filter, retry, pay, copy order id apabila memang tersedia.
-- Tidak boleh ada tombol terasa tidak merespons hanya karena request sedang diproses: tampilkan loading/disabled state.
-
----
-
-## 10. Information Architecture Mobile
-
-### 10.1 Bottom navigation
-
-Gunakan bottom navigation maksimum 4–5 destinasi utama, bergantung pada route yang **sudah ada**. Struktur rekomendasi untuk customer mobile:
-
-| Destination | Tujuan UX | Catatan implementasi |
-|---|---|---|
-| Beranda | discovery dan entrypoint personal | pertahankan route home existing |
-| Katalog / Explore | browse semua produk/filter | gunakan label yang cocok dengan project existing |
-| Wishlist | item tersimpan | hanya jika fitur sudah ada |
-| Keranjang | item siap dibeli + badge quantity | badge mengambil state existing |
-| Profil | akun, pesanan, pengaturan | tidak membuat fitur baru |
-
-**Rule:** jika app existing hanya memiliki empat destinasi, jangan menambah tab baru hanya demi desain. Cart boleh tetap sebagai action header bila arsitektur lama demikian.
-
-### 10.2 Global navigation behavior
-
-- Home dan catalog boleh memiliki persistent bottom nav.
-- Product detail membuka layar penuh dengan back button dan wishlist/cart action.
-- Checkout dan payment sebaiknya meminimalkan distraksi; bottom nav dapat tidak tampil bila alur existing sudah demikian.
-- Semua back/navigation harus mempertahankan behavior dan route existing.
-
----
-
-## 11. Global Component Library
-
-Seluruh screen harus dibangun dari komponen visual konsisten. Nama widget berikut bersifat rekomendasi; jangan merusak struktur project jika widget dengan nama berbeda sudah ada.
-
-### 11.1 `AppTopBar`
-
-**Kegunaan:** header standar dengan back/title/actions atau home greeting/search.
-
-**Spesifikasi visual:**
-
-- height efektif 56–64px di luar safe area;
-- background menyatu dengan page atau elevated setelah scroll;
-- title memakai `headlineSection` atau `titleCard` tergantung screen;
-- action icon button area tap minimal 44×44px;
-- cart badge kecil, jelas, dan tidak menutupi icon.
-
-### 11.2 `CommerceSearchBar`
-
-**Kegunaan:** search entry pada home/catalog.
-
-**Anatomy:** leading search icon, hint text, optional filter icon/camera only bila sudah tersedia, tap/callback existing.
-
-**Visual:**
-
-- height 48–52px;
-- radius `radiusFull` atau `radiusMd` konsisten;
-- surface ringan, outline soft, focused state menggunakan primary;
-- hint contoh: `Cari kaos, hoodie, atau merchandise`;
-- jangan membuat search terlalu kecil atau sekadar icon.
-
-### 11.3 `CategoryChip` / `FilterChip`
-
-- horizontal scroll bila banyak kategori;
-- selected menggunakan `brandPrimaryContainer` + text primary kuat;
-- unselected surface neutral dengan outline;
-- memiliki clear selected visual selain warna apabila memungkinkan;
-- tap target nyaman.
-
-### 11.4 `ProductCard`
-
-**Komponen terpenting katalog.**
-
-**Anatomy wajib berdasarkan data yang tersedia:**
-
-1. image 3:4 dengan rounded corner;
-2. badge opsional: `Baru`, `Diskon`, `Recommended`, atau stock state hanya bila datanya ada;
-3. wishlist icon overlay kanan atas;
-4. product name maksimal dua baris;
-5. price utama;
-6. original price/discount/rating hanya jika data existing tersedia;
-7. optional quick-add hanya bila callback existing aman.
-
-**Visual rules:**
-
-- jangan memasukkan terlalu banyak informasi ke card;
-- gambar harus mengambil porsi terbesar;
-- nama item di bawah gambar, tidak menimpa image kecuali badge kecil;
-- price dipertegas, metadata sekunder redup namun tetap terbaca;
-- seluruh card dapat ditap menuju detail sesuai callback lama;
-- wishlist memiliki feedback selected.
-
-### 11.5 `CollectionHeroCard`
-
-**Kegunaan:** section editorial home untuk koleksi/banner yang sudah tersedia atau dapat memetakan produk featured existing.
-
-- image besar dengan overlay ringan hanya agar teks terbaca;
-- heading maksimal dua baris;
-- CTA satu saja seperti `Jelajahi Koleksi`;
-- tidak meletakkan empat tombol di hero;
-- tidak membuat promo countdown apabila data tidak tersedia.
-
-### 11.6 `PriceBlock`
-
-- harga utama paling dominan;
-- original price dicoret bila memang tersedia dari data;
-- discount label berupa chip singkat;
-- installment, voucher, atau promo hanya tampil bila data/app sudah mendukungnya;
-- total payment di checkout selalu memiliki hirarki lebih kuat daripada savings.
-
-### 11.7 `PrimaryButton` dan `SecondaryButton`
-
-| Type | Visual | Use case |
-|---|---|---|
-| Primary | filled `brandPrimary`, text on-primary | `Beli Sekarang`, `Lanjut Pembayaran`, `Bayar Sekarang` |
-| Secondary | tonal/outline | `Tambah ke Keranjang`, `Lihat Detail`, `Coba Lagi` |
-| Destructive | semantic error, digunakan hemat | hapus item/logout apabila sudah ada |
-| Text action | text primary/icon | `Lihat Semua`, `Ubah`, `Pilih Semua` |
-
-- height CTA utama: 52–56px;
-- CTA penting tidak menggunakan disabled opacity terlalu rendah; masih harus terbaca;
-- loading state menahan double tap tanpa mengubah alur bisnis.
-
-### 11.8 `QuantityStepper`
-
-- minus, value, plus di container rapi;
-- tap target minimal nyaman;
-- disabled state jelas ketika quantity tidak dapat berkurang/bertambah berdasarkan logic existing;
-- tidak mengubah min/max quantity dari logic saat ini.
-
-### 11.9 `OrderStatusBadge` / `PaymentStatusCard`
-
-- status ditulis jelas: `Menunggu Pembayaran`, `Pembayaran Berhasil`, `Sedang Diproses`, `Dikirim`, `Selesai`, atau state existing;
-- selalu icon + teks + warna status;
-- payment status card di halaman hasil pembayaran memiliki title, penjelasan singkat, order/total jika tersedia, serta CTA lanjutan.
-
-### 11.10 `EmptyState`, `ErrorState`, `SkeletonState`
-
-- visual minimal dan konsisten, dapat memakai SVG/image existing atau simple icon;
-- empty state memberi next best action;
-- error state punya tombol `Coba Lagi` bila callback retry sudah ada;
-- skeleton mengikuti ukuran komponen final agar tidak ada layout shift besar.
-
----
-
-## 12. Screen Specification — Beranda / Home
-
-### 12.1 Tujuan screen
-
-Membangun kesan pertama premium sekaligus memudahkan pengguna masuk ke produk yang relevan dengan cepat.
-
-### 12.2 Urutan konten rekomendasi
-
-Susunan mengikuti data/fitur yang memang sudah ada. Jangan membuat section tanpa data.
-
-1. Safe-area top header: brand/greeting ringan + action cart/notification bila existing.
-2. Search bar jelas dan mudah ditap.
-3. Hero koleksi atau promotion utama, satu fokus visual.
-4. Category chips horizontal.
-5. Section `Pilihan untuk Kamu` / rekomendasi AI apabila service/data sudah tersedia.
-6. Section `Produk Terbaru` atau `Koleksi Populer` berdasarkan data existing.
-7. Section curated seperti `Lengkapi Gayamu` apabila rekomendasi compatibility sudah terhubung.
-8. Bottom navigation.
-
-### 12.3 Header home
-
-- Gunakan background bersih; jangan padat banner.
-- Apabila terdapat nama pengguna, copy: `Halo, [Nama]` di label kecil dan `Temukan gaya barumu` sebagai title ringkas.
-- Apabila tidak ada nama user, tampilkan logo/title Mitologi Clothing dan tagline pendek.
-- Action cart harus terlihat dan memuat badge count dari state existing.
-
-### 12.4 Hero utama
-
-- Tinggi: sekitar 188–224px pada mobile normal.
-- Radius: `radiusXl`.
-- Konten: eyebrow kecil, heading pendek, optional supporting line, CTA.
-- Satu hero aktif sudah cukup; carousel hanya jika sebelumnya telah tersedia dan benar-benar diperlukan.
-- Jika menggunakan carousel existing, indikator dibuat minimal dan tidak mengambil perhatian produk.
-
-### 12.5 Rekomendasi AI di home
-
-Recommendation merupakan keunggulan produk Mitologi Clothing. Tampilan harus lebih menarik daripada product list biasa.
-
-**Header:**
-- title: `Pilihan untuk Kamu` atau label existing;
-- subtitle opsional: `Disesuaikan dari produk yang kamu sukai` hanya jika klaim sesuai logic/data;
-- action: `Lihat Semua` bila route tersedia.
-
-**Card treatment:**
-- gunakan product card yang sama dengan badge tonal kecil `Recommended` atau icon sparkle abstrak non-emoji;
-- jangan mengklaim AI mengetahui preferensi tertentu yang tidak dikirim sistem;
-- bila data rekomendasi kosong, tampilkan fallback section sesuai state existing, bukan data palsu.
-
-### 12.6 Home loading/empty/error
-
-- Loading: skeleton untuk header, hero, chips, dan satu baris product cards.
-- Error load sebagian: screen tetap bisa menampilkan section yang berhasil; gagal recommendation tidak harus merusak seluruh halaman apabila logic existing mendukung partial UI.
-- Jika tidak ada produk: empty state profesional `Produk belum tersedia` dengan action refresh bila ada.
-
----
-
-## 13. Screen Specification — Katalog / Explore / Search Results
-
-### 13.1 Tujuan screen
-
-Menyajikan seluruh produk dalam cara yang cepat dipindai, mudah disaring, dan tetap terlihat premium.
-
-### 13.2 Struktur katalog
-
-1. App bar: title + cart action.
-2. Search field atau search trigger sticky pada scroll bila sudah tersedia.
-3. Horizontal category/filter chips.
-4. Sorting/filter toolbar ringkas: jumlah produk bila tersedia, `Filter`, `Urutkan`.
-5. Product grid dua kolom di ponsel.
-6. Pagination/infinite loading state mengikuti logic lama.
-
-### 13.3 Product grid
-
-- Dua kolom untuk lebar ponsel normal; jangan memaksa tiga kolom sehingga informasi fashion sempit.
-- Aspect ratio image 3:4.
-- Horizontal gap 12px; vertical gap 20–24px.
-- Product card height menyesuaikan text maksimal dua baris dan harga.
-- Tablet dapat menggunakan 3–4 kolom berdasarkan available width.
-
-### 13.4 Filter dan sorting
-
-- Tampilkan filter dalam modal bottom sheet bila implementasi existing mendukung.
-- Filter chip active terlihat jelas.
-- Tombol `Reset` dan `Terapkan` hanya menghubungkan callback/filter state existing.
-- Jangan menambahkan opsi filter yang tidak tersedia dari data backend/local existing.
-- Pilihan size/color/category hanya muncul jika sudah didukung aplikasi.
-
-### 13.5 Search experience
-
-- Initial state: tampilkan hint atau recent/popular hanya bila data tersedia.
-- Search result: tampilkan query dan jumlah result bila telah diketahui dari state.
-- Empty result copy: `Produk tidak ditemukan` dan saran mengubah kata kunci/filter.
-- Debounce/API logic tidak boleh diubah pada redesign UI kecuali diminta dalam task terpisah.
-
----
-
-## 14. Screen Specification — Product Detail Page (PDP)
-
-### 14.1 Tujuan screen
-
-Mengubah ketertarikan visual menjadi keputusan beli dengan rasa yakin dan tanpa informasi berantakan.
-
-### 14.2 Layout PDP mobile
-
-1. Full-width image gallery/carousel di bagian atas.
-2. Floating/back header actions: back, wishlist, cart/share bila sudah tersedia.
-3. Product info block: category/label kecil, nama produk, harga, diskon bila ada.
-4. Variant selection: warna/size apabila datanya ada.
-5. Stock/availability state.
-6. Description/material/detail expandable.
-7. Recommendation section: `Padukan dengan` / `Kamu mungkin suka` sesuai data existing.
-8. Sticky bottom action: `Tambah ke Keranjang` + `Beli Sekarang`, atau struktur action yang already exists.
-
-### 14.3 Gallery
-
-- Gambar menjadi fokus dengan background clean.
-- Indikator posisi gambar minimal.
-- Jangan overlay text marketing besar pada gambar produk detail.
-- Image failed state elegan dan tidak merusak ukuran layout.
-
-### 14.4 Variant/size selection
-
-- Jika user wajib memilih size/variant, UI harus terlihat sebagai langkah penting sebelum CTA.
-- Selected variant menggunakan tonal primary/border jelas.
-- Out-of-stock menggunakan disabled style dan label bila datanya tersedia.
-- Error pilih varian harus dekat dengan control, bukan hanya snackbar jauh dari konteks.
-- Redesign hanya mengubah penyajian; rules validasi tetap berasal dari logic existing.
-
-### 14.5 Description dan product trust
-
-- Detail produk menggunakan accordion/collapsible bila kontennya panjang dan widget lama memungkinkan.
-- Tampilkan atribut yang benar-benar tersedia: bahan, ukuran, care instruction, kategori, stock, atau lainnya.
-- Jangan membuat rating, review, shipping promise, authenticity guarantee, atau return policy apabila tidak berasal dari data/requirement.
-
-### 14.6 Sticky CTA PDP
-
-- Berada di bawah layar dengan safe-area padding.
-- Surface elevated dan top border tipis.
-- `Tambah ke Keranjang` secondary; `Beli Sekarang` primary jika kedua action ada.
-- Apabila hanya ada satu action existing, tampilkan satu tombol utama full-width; jangan membuat flow baru.
-- Tampilkan loading/disabled sesuai state callback existing.
-
----
-
-## 15. Screen Specification — Wishlist
-
-### 15.1 Tujuan screen
-
-Memberi ruang penyimpanan produk yang terasa curated dan mengajak pengguna melanjutkan pembelian tanpa tekanan.
-
-### 15.2 Layout
-
-- App bar: title `Wishlist` dan jumlah item bila tersedia.
-- Gunakan grid dua kolom agar konsisten dengan katalog.
-- Tombol heart selected mudah diakses pada setiap card.
-- Optional action ke cart hanya bila fitur existing mendukungnya.
-
-### 15.3 Empty state
-
-- Icon/illustration ringan.
-- Heading: `Wishlist kamu masih kosong`.
-- Supporting copy: `Simpan produk favoritmu untuk dilihat lagi nanti.`
-- CTA: `Jelajahi Produk` menuju route catalog/home existing.
-
----
-
-## 16. Screen Specification — Keranjang / Cart
-
-### 16.1 Tujuan screen
-
-Memastikan pengguna mengerti item yang akan dibeli dan total sementara sebelum menuju checkout.
-
-### 16.2 Struktur cart
-
-1. App bar `Keranjang` + optional select/delete action existing.
-2. Item list yang mudah dipindai.
-3. Voucher/promo hanya apabila sudah menjadi fitur aplikasi.
-4. Ringkasan harga singkat.
-5. Sticky checkout area: total + CTA `Checkout`.
-
-### 16.3 Cart item card
-
-**Anatomy:**
-
-- thumbnail konsisten 72–88px;
-- nama produk maksimal dua baris;
-- variant/size sebagai secondary line bila ada;
-- harga jelas;
-- quantity stepper;
-- remove/wishlist action hanya bila existing.
-
-**Rules:**
-
-- apabila produk unavailable/out-of-stock didukung oleh state, tampilkan banner kecil dan disable checkout item sesuai logic;
-- quantity button tidak boleh mengubah aturan stok/minimum;
-- item card tidak boleh terlalu tinggi akibat metadata yang tidak penting.
-
-### 16.4 Cart summary sticky bar
-
-- tampilkan label `Total` dan nominal utama;
-- CTA primary `Checkout`;
-- biaya pengiriman/pembayaran final dapat ditampilkan di checkout jika memang belum tersedia pada tahap cart;
-- jangan menyembunyikan total di bawah bottom nav/safe area.
-
-### 16.5 Empty cart
-
-Copy rekomendasi:
-
-- title: `Keranjangmu masih kosong`;
-- description: `Temukan produk Mitologi Clothing yang cocok untuk gayamu.`;
-- CTA: `Mulai Belanja`.
-
----
-
-## 17. Screen Specification — Checkout dan Midtrans Payment
-
-### 17.1 Tujuan screen
-
-Membuat proses pembayaran terasa aman, sederhana, dan transparan. Pada tahap ini desain harus tenang: kurangi distraction, promosional overload, dan navigasi yang tidak perlu.
-
-### 17.2 Struktur checkout
-
-Gunakan section cards terpisah dengan urutan mengikuti data/flow existing:
-
-1. App bar `Checkout`.
-2. Alamat pengiriman apabila fitur tersedia.
-3. Ringkasan item pesanan.
-4. Opsi pengiriman apabila fitur tersedia.
-5. Metode pembayaran / entry Midtrans sesuai flow existing.
-6. Price breakdown: subtotal, pengiriman, potongan, biaya lain hanya jika datanya benar-benar tersedia.
-7. Grand total.
-8. CTA sticky `Lanjut Pembayaran` / `Bayar Sekarang`.
-
-### 17.3 Price breakdown
-
-- Grand total adalah angka paling kuat dalam screen.
-- Semua biaya yang tersedia harus menggunakan label mudah dipahami.
-- Jangan menciptakan diskon/free shipping palsu hanya untuk tampilan.
-- Jika backend hanya memberi total, tampilkan data tersebut dengan jujur tanpa simulasi breakdown.
-
-### 17.4 Payment flow UI
-
-- Saat token/payment page sedang diproses, tampilkan loading state dengan copy jelas: `Menyiapkan pembayaran...`.
-- Saat user diarahkan ke atau kembali dari Midtrans, jangan membuat asumsi status sukses sebelum state dari sistem menyatakannya.
-- Payment state yang perlu memiliki tampilan berbeda apabila tersedia pada logic: pending, success/settlement, failed/deny/cancel/expire.
-
-### 17.5 Payment status screen
-
-| Status | Visual tone | Heading | CTA yang sesuai route existing |
-|---|---|---|---|
-| Success | success icon + calm positive card | `Pembayaran berhasil` | `Lihat Pesanan` / `Kembali Belanja` |
-| Pending | warning/neutral icon | `Menunggu pembayaran` | `Lihat Detail Pembayaran` / `Cek Status` jika ada |
-| Failed | error icon tanpa panic visual | `Pembayaran belum berhasil` | `Coba Bayar Lagi` jika logic mendukung |
-| Expired/Cancelled | neutral/error-soft | `Pembayaran berakhir` | route tindakan existing |
-
-- Status harus sama dengan data aplikasi; UI dilarang mengubah payment decision.
-- Jangan mengklaim order dikirim sebelum status pesanan memang menyatakan demikian.
-
----
-
-## 18. Screen Specification — Pesanan dan Detail Pesanan
-
-### 18.1 Daftar pesanan
-
-- App bar: `Pesanan Saya`.
-- Filter tabs/chips berdasarkan status existing, misalnya semua/diproses/dikirim/selesai jika data mendukung.
-- Order card menampilkan order reference/date, item preview, total, status badge, dan CTA `Lihat Detail`.
-- Status text lebih penting daripada dekorasi warna.
-
-### 18.2 Detail pesanan
-
-Urutan blok yang dianjurkan:
-
-1. status order utama;
-2. payment status jika berbeda/tersedia;
-3. item yang dibeli;
-4. alamat/pengiriman jika tersedia;
-5. payment/price summary;
-6. action lanjutan sesuai feature existing.
-
-Timeline order hanya digunakan jika backend/state sudah menyediakan data tahap tracking. Jangan membuat tracking timeline dummy.
-
----
-
-## 19. Screen Specification — AI Recommendation Experience
-
-### 19.1 Peran recommendation dalam brand
-
-Recommendation adalah pembeda Mitologi Clothing dari toko fashion biasa. Namun UI harus jujur: menampilkan rekomendasi yang dikirim service, bukan mengarang alasan personalisasi.
-
-### 19.2 Jenis tampilan yang dapat digunakan sesuai data
-
-| Data/fitur yang tersedia | Section label yang sesuai | UI treatment |
-|---|---|---|
-| daftar rekomendasi general/personal | `Pilihan untuk Kamu` | horizontal product cards / grid |
-| item kompatibel dengan PDP | `Padukan dengan Produk Ini` | horizontal pair/product cards |
-| related/similar products | `Produk Serupa` | grid/list sederhana |
-| fallback popular products | `Sedang Banyak Disukai` hanya jika benar dari data | regular product section tanpa klaim AI |
-
-### 19.3 Rules recommendation UI
-
-- Gunakan badge `Recommended` dengan style lembut, bukan neon/heboh.
-- Hindari kalimat seperti “AI membaca gaya kamu” kecuali memang ada penjelasan dan data yang mendukung.
-- Jika recommendation gagal, katalog/detail tetap usable; tampilkan fallback UI hanya jika logic telah menanganinya.
-- Section recommendation tidak boleh menggeser CTA product detail hingga sulit dijangkau.
-
----
-
-## 20. Screen Specification — Profil, Akun, dan Autentikasi
-
-### 20.1 Profile
-
-- Header profil sederhana: avatar atau initial, nama/email dari data existing.
-- Menu dikelompokkan: pesanan, wishlist, alamat/payment apabila ada, pengaturan, bantuan/logout apabila ada.
-- Gunakan list tiles clean dengan icon konsisten dan separator lembut.
-- Jangan menampilkan statistik palsu atau membership tier yang tidak tersedia.
-
-### 20.2 Login/Register bila tersedia
-
-- Design fashion-premium: logo, title singkat, input lega, CTA utama terlihat.
-- Keyboard-safe layout; field tidak tertutup keyboard.
-- Input error dekat dengan field dan konsisten.
-- Social login hanya tampil jika benar-benar berfungsi.
-- Jangan mengubah validasi atau authentication flow.
-
-### 20.3 Copy tone
-
-Gunakan Bahasa Indonesia yang ringkas, natural, dan konsisten:
-
-- `Masuk` bukan bergantian dengan `Login` tanpa alasan.
-- `Buat Akun` atau `Daftar` pilih satu sesuai wording existing dan pertahankan.
-- `Keluar dari akun` untuk destructive confirmation, bukan label ambigu.
-
----
-
-## 21. State Design System
-
-### 21.1 Loading state
-
-- Gunakan skeleton sesuai struktur final, bukan spinner layar penuh untuk seluruh kasus.
-- Spinner diperbolehkan untuk action kecil seperti submit payment/login.
-- Product grid skeleton: gambar, dua text bars, price line.
-- Cart/checkout skeleton jangan menampilkan nominal palsu.
-
-### 21.2 Empty state matrix
-
-| Screen | Title | Supporting text | CTA |
-|---|---|---|---|
-| Search result | `Produk tidak ditemukan` | `Coba gunakan kata kunci lain atau hapus filter.` | `Reset Filter` bila callback ada |
-| Wishlist | `Wishlist kamu masih kosong` | `Simpan produk favorit untuk dilihat kembali.` | `Jelajahi Produk` |
-| Cart | `Keranjangmu masih kosong` | `Temukan produk yang cocok untuk gayamu.` | `Mulai Belanja` |
-| Orders | `Belum ada pesanan` | `Pesanan yang kamu buat akan tampil di sini.` | `Belanja Sekarang` |
-| Recommendation | `Belum ada rekomendasi` | `Jelajahi koleksi kami terlebih dahulu.` | action hanya bila route tersedia |
-
-### 21.3 Error state
-
-- Error umum: icon sederhana, title jelas, penjelasan pendek, CTA `Coba Lagi`.
-- Error pembayaran harus lebih spesifik bila state menyediakan pesan; jangan mereduksi payment failure menjadi generic network error.
-- Error image hanya mengganti thumbnail, tidak menutup akses informasi produk.
-
-### 21.4 Disabled state
-
-- Tombol disabled tetap terbaca; gunakan fill/outline muted dengan text kontras cukup.
-- Jelaskan sebab disable ketika penting, misalnya varian belum dipilih atau item habis, berdasarkan state existing.
-
----
-
-## 22. Accessibility dan Usability Standards
-
-Redesign wajib membuat aplikasi lebih mudah dipakai, bukan hanya lebih cantik.
-
-### 22.1 Touch target
-
-- Semua icon button/tappable element: target interaksi minimal sekitar 44–48px.
-- Product wishlist overlay memiliki background/surface agar tetap terlihat pada foto terang/gelap.
-- Quantity stepper tidak dibuat terlalu kecil.
-
-### 22.2 Contrast dan readable UI
-
-- Text utama harus jelas di atas surface/image.
-- Overlay pada hero digunakan secukupnya agar title terbaca.
-- Primary button memiliki contrast yang cukup berdasarkan warna existing.
-- Secondary/muted text tidak dibuat terlalu pucat.
-- Status tidak bergantung pada warna: selalu ada teks/icon.
-
-### 22.3 Semantics
-
-Untuk implementasi widget custom, tambahkan semantics yang relevan tanpa menyentuh logic:
-
-- product card: nama produk dan harga;
-- wishlist button: `Tambahkan ke wishlist` / `Hapus dari wishlist`;
-- cart badge: jumlah item;
-- quantity control: aksi tambah/kurangi;
-- payment status: status dibacakan secara jelas.
-
-### 22.4 Text scaling dan orientation
-
-- Jangan menonaktifkan text scaling.
-- Judul atau CTA tidak boleh overflow ketika font device membesar.
-- App harus tetap usable ketika orientasi berubah atau pada window lebih lebar jika project mendukungnya.
-
----
-
-## 23. Responsive dan Adaptive Flutter Behavior
-
-### 23.1 Breakpoint berbasis available width
-
-Gunakan `LayoutBuilder` atau `MediaQuery.sizeOf(context)` sesuai ruang layout yang dibutuhkan. Jangan sekadar menebak berdasarkan jenis device.
-
-| Available width | Behavior utama |
-|---:|---|
-| `< 360px` | padding 12–16px; grid dua kolom dengan content sangat ringkas; CTA tidak terpotong |
-| `360–599px` | default mobile experience; grid dua kolom; bottom navigation |
-| `600–839px` | tablet compact/foldable; grid 3 kolom; max content width bila detail terlalu luas |
-| `>= 840px` | tablet landscape; grid 3–4 kolom; optional navigation rail hanya bila arsitektur UI memang memerlukannya |
-
-### 23.2 SafeArea
-
-- Sticky bottom CTA, bottom navigation, checkout bar, dan modal action wajib aman dari gesture area/notch.
-- Hero boleh edge-to-edge apabila memang didesain demikian, tetapi action/header tidak boleh tertutup status bar.
-
-### 23.3 Large screen layout
-
-- Jangan meregangkan product detail text/full-width hingga sulit dibaca pada tablet.
-- PDP tablet dapat menempatkan image dan informasi produk berdampingan hanya sebagai presentational adaptation, dengan data/callback tetap sama.
-- Catalog tablet menggunakan grid lebih banyak kolom, bukan memperbesar card tanpa batas.
-
----
-
-## 24. Flutter Component Theme Direction
-
-Bagian ini adalah panduan presentasional. Sesuaikan nama file dan struktur project existing; jangan memindahkan arsitektur aplikasi tanpa kebutuhan.
-
-### 24.1 Component theme yang dirapikan
-
-- `textTheme`
-- `filledButtonTheme`
-- `outlinedButtonTheme`
-- `iconButtonTheme`
-- `inputDecorationTheme`
-- `cardTheme`
-- `chipTheme`
-- `navigationBarTheme`
-- `bottomSheetTheme`
-- `snackBarTheme`
-- `dividerTheme`
-
-### 24.2 Contoh aturan styling konseptual
+Props:
 
 ```dart
-// Styling direction only — preserve existing ColorScheme values.
-ThemeData themeFromExisting(ThemeData current) {
-  final c = current.colorScheme;
-  return current.copyWith(
-    useMaterial3: true,
-    scaffoldBackgroundColor: c.surface,
-    cardTheme: CardThemeData(
-      elevation: 0,
-      color: c.surface,
-      shape: RoundedRectangleBorder(
-        borderRadius: BorderRadius.circular(18),
-        side: BorderSide(color: c.outlineVariant.withValues(alpha: .45)),
-      ),
-    ),
-    inputDecorationTheme: InputDecorationTheme(
-      filled: true,
-      fillColor: c.surfaceContainerLowest,
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: c.outlineVariant),
-      ),
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: c.outlineVariant),
-      ),
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(14),
-        borderSide: BorderSide(color: c.primary, width: 1.5),
-      ),
-    ),
-  );
+title
+subtitle
+actionText
+onActionTap
+eyebrow
+```
+
+## 32.4 App Image
+
+Gunakan satu:
+
+```text
+lib/core/widgets/app_image.dart
+```
+
+Props:
+
+```dart
+url
+width
+height
+borderRadius
+fit
+placeholderType
+```
+
+---
+
+# 33. Naming Convention
+
+Gunakan nama yang konsisten:
+
+```dart
+MitologiProductCard
+MitologiSearchBar
+MitologiSectionHeader
+MitologiBottomNav
+MitologiButton
+MitologiBadge
+MitologiInfoCard
+MitologiEmptyState
+MitologiSkeleton
+MitologiAppBar
+```
+
+Atau jika ingin lebih general:
+
+```dart
+AppProductCard
+AppSearchBar
+AppSectionHeader
+AppButton
+AppBadge
+```
+
+Pilih salah satu. Jangan campur terlalu banyak.
+
+---
+
+# 34. Implementation Priority
+
+## Phase 1 — Foundation
+
+* Rapikan `app_colors.dart`
+* Rapikan `app_text_styles.dart`
+* Rapikan `app_spacing.dart`
+* Update `app_theme.dart`
+* Tambahkan responsive helper
+* Buat base widgets
+
+## Phase 2 — Core Components
+
+* Button
+* Input
+* Search bar
+* Product card
+* Section header
+* App image
+* Badge
+* Empty state
+* Skeleton
+* Bottom sheet
+
+## Phase 3 — Main Commerce Screens
+
+* Home
+* Catalog
+* Product detail
+* Cart
+* Checkout
+* Wishlist
+
+## Phase 4 — Account & CMS
+
+* Profile
+* Orders
+* Address
+* About
+* FAQ
+* Contact
+* Portfolio
+* Policy pages
+
+## Phase 5 — Polish
+
+* Animation
+* Loading state
+* Error state
+* Micro interaction
+* Tablet layout
+* Desktop/web layout
+
+---
+
+# 35. Do and Don't
+
+## Do
+
+* Gunakan spacing konsisten.
+* Gunakan typography token.
+* Buat product image dominan.
+* Jaga CTA tetap jelas.
+* Gunakan skeleton loading.
+* Gunakan bottom sheet untuk filter.
+* Gunakan max width di layar besar.
+* Buat card ringan dan bersih.
+* Gunakan navy dan gold secara elegan.
+
+## Don't
+
+* Jangan ubah logic Provider.
+* Jangan ubah API.
+* Jangan ubah model.
+* Jangan ubah route path.
+* Jangan membuat semua section pakai gradient.
+* Jangan membuat terlalu banyak shadow.
+* Jangan membuat font terlalu kecil.
+* Jangan membuat product card terlalu padat.
+* Jangan membuat checkout terlalu ramai.
+* Jangan menampilkan error teknis langsung ke user.
+
+---
+
+# 36. Example AppTextStyles
+
+```dart
+class AppTextStyles {
+  static TextStyle get displayLarge => GoogleFonts.plusJakartaSans(
+        fontSize: 34,
+        height: 42 / 34,
+        fontWeight: FontWeight.w800,
+        letterSpacing: -0.8,
+      );
+
+  static TextStyle get headlineLarge => GoogleFonts.plusJakartaSans(
+        fontSize: 24,
+        height: 32 / 24,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.4,
+      );
+
+  static TextStyle get titleLarge => GoogleFonts.plusJakartaSans(
+        fontSize: 18,
+        height: 26 / 18,
+        fontWeight: FontWeight.w700,
+        letterSpacing: -0.2,
+      );
+
+  static TextStyle get titleMedium => GoogleFonts.plusJakartaSans(
+        fontSize: 16,
+        height: 24 / 16,
+        fontWeight: FontWeight.w600,
+      );
+
+  static TextStyle get bodyLarge => GoogleFonts.plusJakartaSans(
+        fontSize: 16,
+        height: 24 / 16,
+        fontWeight: FontWeight.w400,
+      );
+
+  static TextStyle get bodyMedium => GoogleFonts.plusJakartaSans(
+        fontSize: 14,
+        height: 22 / 14,
+        fontWeight: FontWeight.w400,
+      );
+
+  static TextStyle get bodySmall => GoogleFonts.plusJakartaSans(
+        fontSize: 12,
+        height: 18 / 12,
+        fontWeight: FontWeight.w400,
+      );
+
+  static TextStyle get labelLarge => GoogleFonts.plusJakartaSans(
+        fontSize: 14,
+        height: 20 / 14,
+        fontWeight: FontWeight.w700,
+        letterSpacing: 0.1,
+      );
+
+  static TextStyle get labelMedium => GoogleFonts.plusJakartaSans(
+        fontSize: 12,
+        height: 18 / 12,
+        fontWeight: FontWeight.w600,
+      );
+
+  static TextStyle get productName => GoogleFonts.plusJakartaSans(
+        fontSize: 13,
+        height: 18 / 13,
+        fontWeight: FontWeight.w600,
+        color: AppColors.textPrimary,
+      );
+
+  static TextStyle get productPrice => GoogleFonts.plusJakartaSans(
+        fontSize: 15,
+        height: 18 / 15,
+        fontWeight: FontWeight.w800,
+        color: AppColors.primary,
+      );
 }
 ```
 
-**Penting:** agent tidak perlu menyalin snippet ini mentah-mentah. Gunakan hanya bila cocok dengan versi Flutter dan struktur theme project.
-
-### 24.3 Penyusunan widget aman
-
-Jika project sudah memiliki widget misalnya `ProductCard`, `CustomButton`, `CustomTextField`, atau `BottomNav`, redesign komponen tersebut secara in-place lebih aman daripada mengganti semua penggunaan. Preserve constructor, parameter, callbacks, keys, dan state binding yang ada.
-
 ---
 
-## 25. Recommended Presentation-Layer File Organization
-
-Gunakan struktur ini **hanya bila** sejalan dengan project saat ini. Tidak wajib memindahkan semua file.
-
-```text
-lib/
-  core/
-    theme/
-      app_theme.dart                 # map dari warna existing
-      app_color_tokens.dart          # semantic alias, bukan palet baru
-      app_typography.dart
-      app_spacing.dart
-      app_radius.dart
-  shared/
-    widgets/
-      app_top_bar.dart
-      commerce_search_bar.dart
-      product_card.dart
-      collection_hero_card.dart
-      price_block.dart
-      app_primary_button.dart
-      app_secondary_button.dart
-      quantity_stepper.dart
-      order_status_badge.dart
-      app_empty_state.dart
-      app_error_state.dart
-      product_card_skeleton.dart
-  features/
-    home/presentation/
-    catalog/presentation/
-    product_detail/presentation/
-    wishlist/presentation/
-    cart/presentation/
-    checkout/presentation/
-    orders/presentation/
-    profile/presentation/
-```
-
-### 25.1 Warnings
-
-- Jangan memindahkan repository/service/controller ke folder baru hanya karena UI dirapikan.
-- Jangan rename field model atau endpoint agar sesuai nama widget.
-- Jangan menghapus widget lama sebelum dipastikan seluruh flow sudah menggunakan widget baru dengan benar.
-
----
-
-## 26. Visual Specification per Flow Kritis
-
-### 26.1 Flow: Discovery ke Detail
-
-**Home → Search/Kategori → Product Card → Product Detail**
-
-- pengguna selalu bisa melihat jalur menuju cart;
-- transition tidak menghilangkan konteks;
-- nama/harga pada card konsisten dengan detail;
-- selected wishlist state tetap konsisten karena menggunakan state lama, bukan local UI palsu.
-
-### 26.2 Flow: Detail ke Cart
-
-**PDP → pilih variant/size → add to cart → cart feedback**
-
-- CTA sticky tidak tertutup bottom inset;
-- error belum pilih size tampil dekat selector;
-- setelah add sukses, tampilkan feedback visual berdasarkan action result existing;
-- jangan otomatis navigasi ke cart apabila sebelumnya flow tidak demikian.
-
-### 26.3 Flow: Cart ke Payment
-
-**Cart → Checkout → Midtrans → Payment Status → Order Detail**
-
-- cart total dan checkout total mudah dibandingkan;
-- pengguna memahami sedang berada di tahap pembayaran;
-- loading/proses tidak terasa sebagai error;
-- payment success/pending/failure sangat jelas;
-- CTA sesudah payment mengikuti route dan state existing.
-
-### 26.4 Flow: Recommendation ke Purchase
-
-**Personal recommendation → PDP → add/cart/checkout**
-
-- recommendation card menggunakan product navigation biasa;
-- label personalisasi tidak berlebihan;
-- tidak ada perbedaan behavior pembelian antara produk rekomendasi dan produk katalog kecuali logic memang menentukan demikian.
-
----
-
-## 27. Content dan Microcopy Guidelines
-
-### 27.1 Voice and tone
-
-Mitologi Clothing berbicara seperti brand fashion yang ramah dan percaya diri:
-
-- ringkas;
-- modern;
-- tidak terlalu formal;
-- tidak memaksa dengan gimmick promo berlebihan;
-- jelas pada proses transaksi.
-
-### 27.2 Label CTA yang dianjurkan
-
-| Konteks | Label yang bersih |
-|---|---|
-| Hero | `Lihat Koleksi` / `Belanja Sekarang` |
-| Product card/detail | `Lihat Detail` bila dibutuhkan |
-| PDP | `Tambah ke Keranjang`, `Beli Sekarang` |
-| Cart | `Checkout` |
-| Checkout | `Lanjut Pembayaran` / `Bayar Sekarang` sesuai flow |
-| Error | `Coba Lagi` |
-| Empty wishlist/cart | `Jelajahi Produk` / `Mulai Belanja` |
-| Orders | `Lihat Pesanan` / `Lihat Detail` |
-
-### 27.3 Copy yang harus dihindari
-
-- klaim diskon, gratis ongkir, original/authentic, stock terbatas, best seller, atau rekomendasi personal tanpa data pendukung;
-- copy sangat panjang di card;
-- teks all caps terlalu banyak;
-- label action ambigu seperti `Submit` untuk checkout/payment.
-
----
-
-## 28. UI Testing dan Acceptance Checklist
-
-### 28.1 Regression guard: logic tidak berubah
-
-Sebelum merge redesign, verifikasi seluruh poin ini:
-
-- [ ] login/register tetap bekerja apabila tersedia;
-- [ ] daftar produk tetap berasal dari sumber data yang sama;
-- [ ] pencarian/filter/sorting tetap bekerja sesuai behavior lama;
-- [ ] wishlist toggle tetap tersimpan sesuai state existing;
-- [ ] add/remove/update quantity cart tetap bekerja;
-- [ ] validasi variant/size tetap sama;
-- [ ] checkout tetap membuat order sesuai flow lama;
-- [ ] Midtrans/payment integration tidak diubah;
-- [ ] payment status dan riwayat pesanan tetap tampil sesuai response asli;
-- [ ] AI recommendation tetap mengambil data dari service/state lama;
-- [ ] routes dan deep link existing tidak rusak.
-
-### 28.2 Visual quality checklist
-
-- [ ] warna brand existing tetap dipakai sebagai primary identity;
-- [ ] tidak ada screen yang terasa berasal dari design system berbeda;
-- [ ] typography hierarchy konsisten;
-- [ ] semua product images memiliki framing konsisten;
-- [ ] CTA utama terlihat jelas pada setiap alur kritis;
-- [ ] spacing rapi dan tidak penuh sesak;
-- [ ] states loading/empty/error/disabled/success memiliki tampilan khusus;
-- [ ] tidak ada overflow pada layar sempit;
-- [ ] tidak ada bottom CTA tertutup gesture bar;
-- [ ] tidak ada hardcoded warna kompetitor baru;
-- [ ] tidak ada emoji sebagai icon komponen UI;
-- [ ] tablet/landscape tetap usable.
-
-### 28.3 Accessibility checklist
-
-- [ ] tap target tombol/icon memadai;
-- [ ] contrast teks/CTA dapat dibaca;
-- [ ] status payment/order tidak mengandalkan warna saja;
-- [ ] text scale besar tidak memotong label kritis;
-- [ ] semantic label pada custom actionable widget ditambahkan;
-- [ ] focus/keyboard navigation dipertimbangkan untuk tablet/web build apabila project mendukungnya.
-
----
-
-## 29. Rencana Implementasi Bertahap
-
-Redesign jangan dilakukan sekaligus secara acak. Kerjakan dalam urutan berikut agar risiko kecil dan hasil cepat terlihat.
-
-### Phase 0 — Audit existing UI
-
-- inventaris seluruh customer-facing screen;
-- temukan theme/color/font/icon existing;
-- catat widget reused dan constructor-nya;
-- identifikasi feature yang nyata tersedia versus hanya rencana proposal;
-- screenshot semua screen sebelum redesign.
-
-**Output:** screen inventory dan mapping token warna existing.
-
-### Phase 1 — Design foundation
-
-- rapikan theme tokens tanpa mengganti brand color;
-- tetapkan type scale, spacing, radius, component styling;
-- buat standard button/input/chip/card/empty/skeleton.
-
-**Output:** app sudah memiliki komponen dasar yang konsisten.
-
-### Phase 2 — Commerce discovery
-
-- redesign home;
-- redesign catalog/search/filter;
-- redesign product card;
-- redesign recommendation section.
-
-**Output:** pengguna merasakan peningkatan utama saat browsing.
-
-### Phase 3 — Conversion flow
-
-- redesign PDP;
-- redesign wishlist/cart;
-- redesign checkout dan payment status.
-
-**Output:** alur menuju transaksi terasa profesional dan jelas.
-
-### Phase 4 — Retention/account
-
-- redesign orders/detail order;
-- redesign profile/auth screen bila tersedia;
-- lengkapkan empty/error/loading states.
-
-**Output:** pengalaman aplikasi end-to-end konsisten.
-
-### Phase 5 — QA polish
-
-- test small phone/tablet;
-- visual regression;
-- test state payment/order/recommendation;
-- inspect overflow/contrast/semantics;
-- final spacing dan animation polish.
-
----
-
-## 30. Priority Screen Matrix
-
-| Priority | Screen/Component | Alasan |
-|---:|---|---|
-| P0 | Theme foundation, typography, buttons, ProductCard | memengaruhi hampir semua screen |
-| P0 | Home, catalog, PDP | kesan pertama dan keputusan membeli |
-| P0 | Cart, checkout, payment state | menentukan kepercayaan transaksi |
-| P1 | Wishlist dan recommendations | meningkatkan personalisasi dan return usage |
-| P1 | Orders/detail order | kejelasan after-purchase |
-| P2 | Profile/auth/supporting screens | konsistensi lengkap dan retention |
-
----
-
-## 31. Handoff Prompt untuk AI Coding Agent
-
-Copy instruksi berikut ketika meminta AI mengimplementasikan UI pada repository Flutter:
-
-```text
-Baca design.md ini secara menyeluruh dan implementasikan redesign UI-only pada aplikasi Flutter Mitologi Clothing.
-
-Batas keras:
-1. Jangan mengubah business logic, API, model, state management, routes, authentication flow, cart calculation, payment/Midtrans logic, recommendation algorithm, atau backend contract.
-2. Pertahankan theme warna existing. Audit ThemeData/ColorScheme/constants pada project, lalu map ke semantic design tokens. Jangan mengganti primary/secondary brand color dengan palet baru.
-3. Refactor hanya presentation layer: ThemeData component styles, reusable visual widgets, layout, spacing, typography, icon, image treatment, empty/loading/error/payment-status views, responsive behavior, dan animasi visual ringan.
-4. Pertahankan constructor/callback/data binding widget existing kecuali perubahan murni presentasional yang backward-compatible.
-5. Jangan membuat fitur atau dummy data baru. Tampilkan hanya informasi yang sudah didukung state/data project.
-6. Terapkan screen secara bertahap: foundation → home/catalog/product detail → wishlist/cart → checkout/payment → orders/profile → QA.
-7. Setelah setiap screen selesai, uji flow existing agar tidak ada regresi fungsi.
-
-Arah visual:
-Fashion e-commerce premium, bersih, photography-first, curated, personal melalui recommendation section, cepat dipakai seperti marketplace modern, tetapi bukan clone Shopee/Tokopedia/TikTok Shop. Jangan gunakan emoji sebagai icon UI.
-
-Mulai dengan:
-- scan struktur lib/ dan theme/color existing;
-- laporkan screen/widget/theme yang ditemukan;
-- buat rencana file yang akan diedit khusus UI;
-- baru implementasikan tanpa merusak flow yang ada.
+# 37. Example Responsive Utils
+
+```dart
+enum DeviceType {
+  mobileSmall,
+  mobile,
+  tablet,
+  desktop,
+}
+
+class ResponsiveUtils {
+  static DeviceType deviceType(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
+    if (width < 360) return DeviceType.mobileSmall;
+    if (width < 600) return DeviceType.mobile;
+    if (width < 1024) return DeviceType.tablet;
+    return DeviceType.desktop;
+  }
+
+  static bool isMobile(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return width < 600;
+  }
+
+  static bool isTablet(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return width >= 600 && width < 1024;
+  }
+
+  static bool isDesktop(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+    return width >= 1024;
+  }
+
+  static double horizontalPadding(BuildContext context) {
+    final type = deviceType(context);
+
+    switch (type) {
+      case DeviceType.mobileSmall:
+        return 14;
+      case DeviceType.mobile:
+        return 16;
+      case DeviceType.tablet:
+        return 24;
+      case DeviceType.desktop:
+        return 32;
+    }
+  }
+
+  static int productGridCount(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
+    if (width < 600) return 2;
+    if (width < 1024) return 3;
+    if (width < 1280) return 4;
+    return 5;
+  }
+
+  static double maxContentWidth(BuildContext context) {
+    final width = MediaQuery.sizeOf(context).width;
+
+    if (width < 600) return double.infinity;
+    if (width < 1024) return 720;
+    return 1180;
+  }
+}
 ```
 
 ---
 
-## 32. Final Design Acceptance Statement
+# 38. Example Responsive Wrapper
 
-UI Mitologi Clothing yang baru harus terasa sebagai **mobile fashion storefront modern dengan kenyamanan marketplace dan personalisasi cerdas**, bukan sebagai template toko online biasa. Ia mengambil pelajaran dari pola commerce terbaik—discovery yang cepat, product browsing yang efisien, content visual yang menarik, checkout yang percaya diri, dan rekomendasi yang relevan—tanpa menyalin identitas aplikasi lain.
+```dart
+class AppResponsiveContainer extends StatelessWidget {
+  const AppResponsiveContainer({
+    super.key,
+    required this.child,
+    this.padding,
+  });
 
-Keberhasilan redesign dinilai bukan dari banyaknya animasi atau banner, melainkan dari hal-hal berikut:
+  final Widget child;
+  final EdgeInsetsGeometry? padding;
 
-- brand tetap dikenali melalui warna existing;
-- pengguna lebih nyaman melihat dan memilih produk;
-- detail produk terlihat lebih meyakinkan;
-- cart dan checkout lebih jelas;
-- payment status lebih terpercaya;
-- recommendation tampil bernilai;
-- seluruh improvement dilakukan tanpa mengubah logika aplikasi yang sudah bekerja.
+  @override
+  Widget build(BuildContext context) {
+    final maxWidth = ResponsiveUtils.maxContentWidth(context);
+    final horizontal = ResponsiveUtils.horizontalPadding(context);
+
+    return Center(
+      child: ConstrainedBox(
+        constraints: BoxConstraints(maxWidth: maxWidth),
+        child: Padding(
+          padding: padding ?? EdgeInsets.symmetric(horizontal: horizontal),
+          child: child,
+        ),
+      ),
+    );
+  }
+}
+```
 
 ---
 
-## 33. Referensi Desain dan Implementasi
+# 39. Example Product Grid
 
-Referensi berikut digunakan sebagai arah prinsip dan benchmark pola, bukan untuk menjiplak tampilan maupun identitas brand:
+```dart
+class AppProductGrid extends StatelessWidget {
+  const AppProductGrid({
+    super.key,
+    required this.children,
+    this.shrinkWrap = true,
+    this.physics = const NeverScrollableScrollPhysics(),
+  });
 
-1. Flutter Documentation — Adaptive and responsive design: https://docs.flutter.dev/ui/adaptive-responsive
-2. Flutter Documentation — SafeArea and MediaQuery: https://docs.flutter.dev/ui/adaptive-responsive/safearea-mediaquery
-3. Flutter Documentation — User input and accessibility: https://docs.flutter.dev/ui/adaptive-responsive/input
-4. Material Design 3 — Cards: https://m3.material.io/components/cards/overview
-5. Material Design 3 — Chips: https://m3.material.io/components/chips/overview
-6. Material Design 3 — Buttons: https://m3.material.io/components/buttons/overview
-7. Shopee Indonesia official commerce experience reference: https://shopee.co.id/
-8. TikTok Shop official commerce/discovery reference: https://ads.tiktok.com/help/article/tiktok-shopping-and-showcase
+  final List<Widget> children;
+  final bool shrinkWrap;
+  final ScrollPhysics physics;
 
+  @override
+  Widget build(BuildContext context) {
+    final count = ResponsiveUtils.productGridCount(context);
+    final isMobile = ResponsiveUtils.isMobile(context);
+
+    return GridView.builder(
+      shrinkWrap: shrinkWrap,
+      physics: physics,
+      itemCount: children.length,
+      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+        crossAxisCount: count,
+        crossAxisSpacing: isMobile ? 12 : 16,
+        mainAxisSpacing: isMobile ? 14 : 18,
+        childAspectRatio: isMobile ? 0.64 : 0.70,
+      ),
+      itemBuilder: (context, index) => children[index],
+    );
+  }
+}
+```
+
+---
+
+# 40. Final Visual Target
+
+Setelah redesign, aplikasi Mitologi Clothing harus terasa seperti:
+
+* Home rapi seperti marketplace modern.
+* Catalog cepat dipakai seperti e-commerce besar.
+* Product detail premium seperti fashion store.
+* Checkout jelas seperti aplikasi profesional.
+* Profile bersih dan mudah dipahami.
+* Portfolio visual dan meyakinkan.
+* Typography konsisten.
+* Spacing tidak berantakan.
+* Mobile nyaman.
+* Tablet tetap proporsional.
+* Desktop/web tidak melebar berlebihan.
+* Semua logic lama tetap aman.
+
+Target akhir:
+
+**Simple, clean, premium, responsive, marketplace-friendly, dan tetap punya identitas Mitologi Clothing.**
+
+[mitologi_clothing_mobile](directory;file:///c%3A/laragon/www/Mitologi%20Clothing/mitologi_clothing_mobile) buat planning lengkap untuk redesign folder ini sesuai dengan [design.md](file;file:///c%3A/laragon/www/Mitologi%20Clothing/mitologi_clothing_mobile/design.md) planning yang super duper lengkap 

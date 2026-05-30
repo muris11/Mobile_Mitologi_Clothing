@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:go_router/go_router.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/api/api_config.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/content/domain/models/content_models.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/empty_state.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/shimmer_image.dart';
 import 'package:mitologi_clothing_mobile/widgets/common/skeleton_loading.dart';
 import 'package:provider/provider.dart';
@@ -67,6 +67,9 @@ class _PortfolioDetailScreenState extends State<PortfolioDetailScreen> {
               SliverAppBar(
                 expandedHeight: 320,
                 pinned: true,
+                automaticallyImplyLeading: false,
+                leadingWidth: 64,
+                leading: PremiumBackButtonOnDark(onPressed: () => context.pop()),
                 flexibleSpace: FlexibleSpaceBar(
                   background: portfolio.imageUrl != null &&
                           portfolio.imageUrl!.isNotEmpty

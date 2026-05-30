@@ -3,10 +3,8 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
-import 'package:mitologi_clothing_mobile/core/widgets/glass_container.dart';
 import 'package:mitologi_clothing_mobile/core/widgets/premium_section_header.dart';
 import 'package:mitologi_clothing_mobile/widgets/shared/mitologi_sliver_app_bar.dart';
-import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 class KebijakanPrivasiScreen extends StatefulWidget {
   const KebijakanPrivasiScreen({super.key});
@@ -430,28 +428,7 @@ class _KebijakanPrivasiScreenState extends State<KebijakanPrivasiScreen> {
     );
   }
 
-  Widget _buildContactRow(IconData icon, String text) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Icon(icon, size: 18, color: AppColors.secondary),
-          const Gap(12),
-          Expanded(
-            child: Text(
-              text,
-              style: AppTextStyles.manrope(
-                fontSize: 13,
-                color: AppColors.onSurfaceVariant,
-                fontWeight: FontWeight.w500,
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
+
 
   Widget _buildRelatedLinks(BuildContext context) {
     return Row(

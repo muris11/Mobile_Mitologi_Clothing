@@ -245,10 +245,14 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       height: 40,
                       decoration: BoxDecoration(
                         color: Colors.white.withValues(alpha: 0.9),
-                        borderRadius: BorderRadius.circular(12),
+                        shape: BoxShape.circle,
+                        border: Border.all(
+                          color: AppColors.outlineVariant.withValues(alpha: 0.4),
+                          width: 1,
+                        ),
                       ),
-                      child: const Icon(PhosphorIconsRegular.arrowLeft,
-                          size: 20, color: AppColors.onSurface),
+                      child: const Icon(PhosphorIconsRegular.caretLeft,
+                          size: 20, color: AppColors.primary),
                     ),
                   ),
                 ),
@@ -1199,29 +1203,6 @@ class _SpecRow extends StatelessWidget {
           ),
         ),
       ],
-    );
-  }
-}
-
-class _QtyButton extends StatelessWidget {
-  final IconData icon;
-  final VoidCallback? onTap;
-
-  const _QtyButton({required this.icon, this.onTap});
-
-  @override
-  Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        width: 40,
-        height: 44,
-        alignment: Alignment.center,
-        child: Icon(icon,
-            size: 16,
-            color:
-                onTap != null ? AppColors.onSurface : AppColors.outlineVariant),
-      ),
     );
   }
 }

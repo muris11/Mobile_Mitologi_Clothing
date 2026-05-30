@@ -217,8 +217,9 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
         child: Scaffold(
           backgroundColor: AppColors.background,
           appBar: AppBar(
-            backgroundColor: Colors.white,
+            backgroundColor: AppColors.background,
             elevation: 0,
+            scrolledUnderElevation: 0,
             surfaceTintColor: Colors.transparent,
             leading: IconButton(
               icon: const Icon(PhosphorIconsRegular.x, size: 20),
@@ -301,7 +302,7 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
       child: Container(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: AppColors.background,
           border: Border(
             top: BorderSide(
               color: AppColors.outlineVariant.withValues(alpha: 0.5),
@@ -312,13 +313,17 @@ class _MidtransPaymentScreenState extends State<MidtransPaymentScreen> {
           width: double.infinity,
           child: OutlinedButton.icon(
             onPressed: () => _handleResult(MidtransPaymentResult.pending),
-            icon: const Icon(PhosphorIconsRegular.arrowLeft, size: 18),
+            icon: const Icon(PhosphorIconsRegular.caretLeft, size: 18),
             label: Text(
               'Kembali ke Aplikasi',
-              style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w700),
+              style: AppTextStyles.plusJakartaSans(
+                fontWeight: FontWeight.w700,
+                color: AppColors.primary,
+              ),
             ),
             style: OutlinedButton.styleFrom(
               padding: const EdgeInsets.symmetric(vertical: 14),
+              side: BorderSide(color: AppColors.outlineVariant),
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(14),
               ),

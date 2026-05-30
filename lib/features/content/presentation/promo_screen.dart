@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 
 const _promos = [
@@ -72,12 +74,26 @@ class PromoScreen extends StatelessWidget {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leading: PremiumBackButton(onPressed: () => context.pop()),
+        leadingWidth: 64,
+        title: Text(
+          'Promo & Penawaran',
+          style: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w900,
+            fontSize: 18,
+            color: AppColors.primary,
+          ),
         ),
-        title: const Text('Promo & Penawaran',
-            style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18)),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.5),
+          child: Container(
+            height: 0.5,
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
+        ),
       ),
       body: SingleChildScrollView(
         padding: const EdgeInsets.all(16),
@@ -86,13 +102,25 @@ class PromoScreen extends StatelessWidget {
           children: [
             _buildHero(context),
             const Gap(24),
-            const Text('Promo Aktif',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17)),
+            Text(
+              'Promo Aktif',
+              style: AppTextStyles.plusJakartaSans(
+                fontWeight: FontWeight.w800,
+                fontSize: 17,
+                color: AppColors.onBackground,
+              ),
+            ),
             const Gap(12),
             ..._promos.map((p) => _buildPromoCard(p)),
             const Gap(24),
-            const Text('Keuntungan Berbelanja',
-                style: TextStyle(fontWeight: FontWeight.w800, fontSize: 17)),
+            Text(
+              'Keuntungan Berbelanja',
+              style: AppTextStyles.plusJakartaSans(
+                fontWeight: FontWeight.w800,
+                fontSize: 17,
+                color: AppColors.onBackground,
+              ),
+            ),
             const Gap(12),
             _buildBenefitsGrid(),
             const Gap(24),
@@ -121,22 +149,33 @@ class PromoScreen extends StatelessWidget {
               color: Colors.white.withValues(alpha: 0.15),
               borderRadius: BorderRadius.circular(20),
             ),
-            child: const Text('Penawaran Terbatas',
-                style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 12,
-                    fontWeight: FontWeight.w600)),
+            child: Text(
+              'Penawaran Terbatas',
+              style: AppTextStyles.plusJakartaSans(
+                color: Colors.white,
+                fontSize: 12,
+                fontWeight: FontWeight.w600,
+              ),
+            ),
           ),
           const Gap(12),
           Text(
             'Promo Spesial\nMitologi Clothing',
-            style: Theme.of(context).textTheme.headlineMedium?.copyWith(
-                color: Colors.white, fontWeight: FontWeight.w900, height: 1.2),
+            style: AppTextStyles.plusJakartaSans(
+              color: Colors.white,
+              fontWeight: FontWeight.w900,
+              fontSize: 28,
+              height: 1.2,
+            ),
           ),
           const Gap(8),
-          const Text(
+          Text(
             'Dapatkan penawaran terbaik dan nikmati berbagai keuntungan eksklusif.',
-            style: TextStyle(color: Colors.white70, fontSize: 14, height: 1.5),
+            style: AppTextStyles.plusJakartaSans(
+              color: Colors.white70,
+              fontSize: 14,
+              height: 1.5,
+            ),
           ),
         ],
       ),
@@ -189,18 +228,24 @@ class PromoScreen extends StatelessWidget {
                           color: color.withValues(alpha: 0.15),
                           borderRadius: BorderRadius.circular(6),
                         ),
-                        child: Text(promo['badge'] as String,
-                            style: TextStyle(
-                                color: color,
-                                fontSize: 11,
-                                fontWeight: FontWeight.w700)),
+                        child: Text(
+                          promo['badge'] as String,
+                          style: AppTextStyles.plusJakartaSans(
+                            color: color,
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                          ),
+                        ),
                       ),
                       const Gap(4),
-                      Text(promo['title'] as String,
-                          style: TextStyle(
-                              fontWeight: FontWeight.w800,
-                              fontSize: 15,
-                              color: color)),
+                      Text(
+                        promo['title'] as String,
+                        style: AppTextStyles.plusJakartaSans(
+                          fontWeight: FontWeight.w800,
+                          fontSize: 15,
+                          color: color,
+                        ),
+                      ),
                     ],
                   ),
                 ),
@@ -212,15 +257,23 @@ class PromoScreen extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(promo['subtitle'] as String,
-                    style: const TextStyle(
-                        fontWeight: FontWeight.w700, fontSize: 14)),
+                Text(
+                  promo['subtitle'] as String,
+                  style: AppTextStyles.plusJakartaSans(
+                    fontWeight: FontWeight.w700,
+                    fontSize: 14,
+                    color: AppColors.onBackground,
+                  ),
+                ),
                 const Gap(6),
-                Text(promo['desc'] as String,
-                    style: const TextStyle(
-                        color: AppColors.onSurfaceVariant,
-                        fontSize: 13,
-                        height: 1.5)),
+                Text(
+                  promo['desc'] as String,
+                  style: AppTextStyles.plusJakartaSans(
+                    color: AppColors.onSurfaceVariant,
+                    fontSize: 13,
+                    height: 1.5,
+                  ),
+                ),
                 const Gap(10),
                 Row(
                   children: [
@@ -228,9 +281,13 @@ class PromoScreen extends StatelessWidget {
                         size: 14, color: AppColors.onSurfaceVariant),
                     const Gap(4),
                     Expanded(
-                      child: Text(promo['terms'] as String,
-                          style: const TextStyle(
-                              color: AppColors.onSurfaceVariant, fontSize: 11)),
+                      child: Text(
+                        promo['terms'] as String,
+                        style: AppTextStyles.plusJakartaSans(
+                          color: AppColors.onSurfaceVariant,
+                          fontSize: 11,
+                        ),
+                      ),
                     ),
                   ],
                 ),
@@ -273,12 +330,17 @@ class PromoScreen extends StatelessWidget {
                 child: Icon(b['icon'] as IconData, color: color, size: 20),
               ),
               const Gap(8),
-              Text(b['title'] as String,
-                  style: const TextStyle(
-                      fontWeight: FontWeight.w700, fontSize: 12),
-                  textAlign: TextAlign.center,
-                  maxLines: 2,
-                  overflow: TextOverflow.ellipsis),
+              Text(
+                b['title'] as String,
+                style: AppTextStyles.plusJakartaSans(
+                  fontWeight: FontWeight.w700,
+                  fontSize: 12,
+                  color: AppColors.onBackground,
+                ),
+                textAlign: TextAlign.center,
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+              ),
             ],
           ),
         );
@@ -302,16 +364,23 @@ class PromoScreen extends StatelessWidget {
         children: [
           const Icon(PhosphorIconsFill.crown, color: Colors.white, size: 36),
           const Gap(12),
-          const Text(
+          Text(
             'Jadi Member Eksklusif',
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.w900, fontSize: 18),
+            style: AppTextStyles.plusJakartaSans(
+              color: Colors.white,
+              fontWeight: FontWeight.w900,
+              fontSize: 18,
+            ),
             textAlign: TextAlign.center,
           ),
           const Gap(8),
-          const Text(
+          Text(
             'Daftar dan nikmati akses ke promo eksklusif, diskon member, dan penawaran spesial lainnya.',
-            style: TextStyle(color: Colors.white70, fontSize: 13, height: 1.5),
+            style: AppTextStyles.plusJakartaSans(
+              color: Colors.white70,
+              fontSize: 13,
+              height: 1.5,
+            ),
             textAlign: TextAlign.center,
           ),
           const Gap(16),
@@ -326,8 +395,13 @@ class PromoScreen extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
               ),
-              child: const Text('Daftar Sekarang',
-                  style: TextStyle(fontWeight: FontWeight.w800)),
+              child: Text(
+                'Daftar Sekarang',
+                style: AppTextStyles.plusJakartaSans(
+                  fontWeight: FontWeight.w800,
+                  color: const Color(0xFF7C3AED),
+                ),
+              ),
             ),
           ),
         ],

@@ -168,10 +168,36 @@ abstract final class AppTextStyles {
     color: AppColors.primary,
   );
 
+  static final TextStyle productName = GoogleFonts.plusJakartaSans(
+    fontSize: 13,
+    height: 18 / 13,
+    fontWeight: FontWeight.w600,
+    color: AppColors.primary,
+  );
+
+  static final TextStyle productPrice = GoogleFonts.plusJakartaSans(
+    fontSize: 15,
+    height: 18 / 15,
+    fontWeight: FontWeight.w800,
+    color: AppColors.primary,
+  );
+
+  static final TextStyle oldPrice = GoogleFonts.plusJakartaSans(
+    fontSize: 11,
+    fontWeight: FontWeight.w500,
+    decoration: TextDecoration.lineThrough,
+    color: AppColors.outline,
+  );
+
+  static final TextStyle discountBadge = GoogleFonts.plusJakartaSans(
+    fontSize: 10,
+    fontWeight: FontWeight.w800,
+    letterSpacing: 0.2,
+    color: Colors.white,
+  );
+
   static Future<void> preload() => GoogleFonts.pendingFonts([
         GoogleFonts.plusJakartaSans(),
         GoogleFonts.manrope(),
       ]);
 }
-
-

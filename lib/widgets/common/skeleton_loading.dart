@@ -85,7 +85,7 @@ class ShimmerState extends State<Shimmer> with SingleTickerProviderStateMixin {
                       end: Alignment(_animation.value + 1, 0),
                       colors: const [
                         Colors.transparent,
-                                        Color(0x40FFFFFF),
+                        Color(0x40FFFFFF),
                         Colors.transparent,
                       ],
                       stops: const [0.0, 0.5, 1.0],
@@ -168,7 +168,11 @@ class ProductCardSkeleton extends StatelessWidget {
       child: Container(
         decoration: BoxDecoration(
           color: AppColors.surface,
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(18),
+          border: Border.all(
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+            width: 0.5,
+          ),
           boxShadow: [AppShadows.cardSoft],
         ),
         child: Column(
@@ -176,11 +180,12 @@ class ProductCardSkeleton extends StatelessWidget {
           children: [
             Expanded(
               flex: 6,
-              child: Container(
-                decoration: const BoxDecoration(
-                  color: AppColors.surfaceContainerHigh,
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(16),
+              child: Padding(
+                padding: const EdgeInsets.all(8),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: AppColors.surfaceContainerHigh,
+                    borderRadius: BorderRadius.circular(16),
                   ),
                 ),
               ),
@@ -199,7 +204,8 @@ class ProductCardSkeleton extends StatelessWidget {
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
-                        const SkeletonBlock(width: 70, height: 16, borderRadius: 8),
+                        const SkeletonBlock(
+                            width: 70, height: 16, borderRadius: 8),
                         const SkeletonCircle(size: 28),
                       ],
                     ),
@@ -228,8 +234,8 @@ class ProductGridSkeleton extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: 2,
-        childAspectRatio: 0.7,
-        crossAxisSpacing: 16,
+        childAspectRatio: 0.55,
+        crossAxisSpacing: 12,
         mainAxisSpacing: 16,
       ),
       itemCount: itemCount,
@@ -403,7 +409,6 @@ class CartItemSkeleton extends StatelessWidget {
   }
 }
 
-
 class CartListSkeleton extends StatelessWidget {
   final int itemCount;
 
@@ -476,7 +481,6 @@ class CartListSkeleton extends StatelessWidget {
   }
 }
 
-
 class WishlistGridSkeleton extends StatelessWidget {
   final int itemCount;
 
@@ -487,9 +491,9 @@ class WishlistGridSkeleton extends StatelessWidget {
     return SliverGrid(
       gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
         crossAxisCount: ResponsiveConfig.getGridColumnCount(context),
-        childAspectRatio: 0.65,
-        crossAxisSpacing: 16,
-        mainAxisSpacing: 24,
+        childAspectRatio: 0.55,
+        crossAxisSpacing: 12,
+        mainAxisSpacing: 16,
       ),
       delegate: SliverChildBuilderDelegate(
         (context, index) => Shimmer(
@@ -513,6 +517,25 @@ class WishlistGridSkeleton extends StatelessWidget {
         ),
         childCount: itemCount,
       ),
+    );
+  }
+}
+
+class WishlistSkeleton extends StatelessWidget {
+  final int itemCount;
+
+  const WishlistSkeleton({super.key, this.itemCount = 4});
+
+  @override
+  Widget build(BuildContext context) {
+    return CustomScrollView(
+      physics: const NeverScrollableScrollPhysics(),
+      slivers: [
+        SliverPadding(
+          padding: const EdgeInsets.all(16),
+          sliver: WishlistGridSkeleton(itemCount: itemCount),
+        ),
+      ],
     );
   }
 }
@@ -673,7 +696,8 @@ class OrderDetailSkeleton extends StatelessWidget {
                         children: [
                           SkeletonBlock(height: 14, borderRadius: 7),
                           SizedBox(height: 6),
-                          SkeletonBlock(width: 100, height: 12, borderRadius: 6),
+                          SkeletonBlock(
+                              width: 100, height: 12, borderRadius: 6),
                           SizedBox(height: 6),
                           SkeletonBlock(width: 80, height: 14, borderRadius: 7),
                         ],
@@ -737,11 +761,14 @@ class ProfileSkeleton extends StatelessWidget {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          const SkeletonBlock(width: 150, height: 20, borderRadius: 10),
+                          const SkeletonBlock(
+                              width: 150, height: 20, borderRadius: 10),
                           const SizedBox(height: 8),
-                          const SkeletonBlock(width: 200, height: 14, borderRadius: 7),
+                          const SkeletonBlock(
+                              width: 200, height: 14, borderRadius: 7),
                           const SizedBox(height: 8),
-                          const SkeletonBlock(width: 100, height: 14, borderRadius: 7),
+                          const SkeletonBlock(
+                              width: 100, height: 14, borderRadius: 7),
                         ],
                       ),
                     ),
@@ -781,7 +808,8 @@ class ProfileSkeleton extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SkeletonBlock(width: 120, height: 18, borderRadius: 9),
+                    const SkeletonBlock(
+                        width: 120, height: 18, borderRadius: 9),
                     const SizedBox(height: 16),
                     ...List.generate(
                       3,
@@ -789,9 +817,12 @@ class ProfileSkeleton extends StatelessWidget {
                         padding: EdgeInsets.only(bottom: 12),
                         child: Row(
                           children: [
-                            SkeletonBlock(width: 80, height: 12, borderRadius: 6),
+                            SkeletonBlock(
+                                width: 80, height: 12, borderRadius: 6),
                             SizedBox(width: 12),
-                            Expanded(child: SkeletonBlock(height: 12, borderRadius: 6)),
+                            Expanded(
+                                child:
+                                    SkeletonBlock(height: 12, borderRadius: 6)),
                           ],
                         ),
                       ),
@@ -819,7 +850,8 @@ class AddressCardSkeleton extends StatelessWidget {
         decoration: BoxDecoration(
           color: AppColors.surface,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.5)),
+          border: Border.all(
+              color: AppColors.outlineVariant.withValues(alpha: 0.5)),
         ),
         child: const Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -897,7 +929,8 @@ class CheckoutSkeleton extends StatelessWidget {
               decoration: BoxDecoration(
                 color: AppColors.surface,
                 borderRadius: BorderRadius.circular(16),
-                border: Border.all(color: AppColors.outlineVariant.withValues(alpha: 0.5)),
+                border: Border.all(
+                    color: AppColors.outlineVariant.withValues(alpha: 0.5)),
               ),
               child: const Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -938,9 +971,11 @@ class CheckoutSkeleton extends StatelessWidget {
                           children: [
                             SkeletonBlock(height: 14, borderRadius: 7),
                             SizedBox(height: 6),
-                            SkeletonBlock(width: 100, height: 12, borderRadius: 6),
+                            SkeletonBlock(
+                                width: 100, height: 12, borderRadius: 6),
                             SizedBox(height: 6),
-                            SkeletonBlock(width: 80, height: 14, borderRadius: 7),
+                            SkeletonBlock(
+                                width: 80, height: 14, borderRadius: 7),
                           ],
                         ),
                       ),
@@ -957,9 +992,11 @@ class CheckoutSkeleton extends StatelessWidget {
                           children: [
                             SkeletonBlock(height: 14, borderRadius: 7),
                             SizedBox(height: 6),
-                            SkeletonBlock(width: 100, height: 12, borderRadius: 6),
+                            SkeletonBlock(
+                                width: 100, height: 12, borderRadius: 6),
                             SizedBox(height: 6),
-                            SkeletonBlock(width: 80, height: 14, borderRadius: 7),
+                            SkeletonBlock(
+                                width: 80, height: 14, borderRadius: 7),
                           ],
                         ),
                       ),
@@ -1043,8 +1080,10 @@ class ReviewSkeleton extends StatelessWidget {
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      const SkeletonBlock(width: 100, height: 14, borderRadius: 7),
-                      const SkeletonBlock(width: 60, height: 12, borderRadius: 6),
+                      const SkeletonBlock(
+                          width: 100, height: 14, borderRadius: 7),
+                      const SkeletonBlock(
+                          width: 60, height: 12, borderRadius: 6),
                     ],
                   ),
                   const SizedBox(height: 8),
@@ -1059,7 +1098,8 @@ class ReviewSkeleton extends StatelessWidget {
                       3,
                       (_) => Padding(
                         padding: const EdgeInsets.only(right: 8),
-                        child: SkeletonBlock(width: 72, height: 72, borderRadius: 8),
+                        child: SkeletonBlock(
+                            width: 72, height: 72, borderRadius: 8),
                       ),
                     ),
                   ),
@@ -1125,7 +1165,8 @@ class ChatMessageSkeleton extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
         child: Row(
-          mainAxisAlignment: isOutgoing ? MainAxisAlignment.end : MainAxisAlignment.start,
+          mainAxisAlignment:
+              isOutgoing ? MainAxisAlignment.end : MainAxisAlignment.start,
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             if (!isOutgoing) ...[
@@ -1133,7 +1174,9 @@ class ChatMessageSkeleton extends StatelessWidget {
               const SizedBox(width: 10),
             ],
             Column(
-              crossAxisAlignment: isOutgoing ? CrossAxisAlignment.end : CrossAxisAlignment.start,
+              crossAxisAlignment: isOutgoing
+                  ? CrossAxisAlignment.end
+                  : CrossAxisAlignment.start,
               children: [
                 Container(
                   padding: const EdgeInsets.all(14),
@@ -1166,6 +1209,27 @@ class ChatMessageSkeleton extends StatelessWidget {
   }
 }
 
+class ChatSkeleton extends StatelessWidget {
+  const ChatSkeleton({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer(
+      child: ListView(
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.fromLTRB(16, 20, 16, 120),
+        children: const [
+          ChatMessageSkeleton(),
+          ChatMessageSkeleton(isOutgoing: true),
+          ChatMessageSkeleton(),
+          ChatMessageSkeleton(isOutgoing: true),
+          ChatMessageSkeleton(),
+        ],
+      ),
+    );
+  }
+}
+
 class HomeSkeleton extends StatelessWidget {
   const HomeSkeleton({super.key});
 
@@ -1187,16 +1251,19 @@ class HomeSkeleton extends StatelessWidget {
                       const Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          SkeletonBlock(width: 100, height: 12, borderRadius: 6),
+                          SkeletonBlock(
+                              width: 100, height: 12, borderRadius: 6),
                           SizedBox(height: 6),
-                          SkeletonBlock(width: 160, height: 20, borderRadius: 10),
+                          SkeletonBlock(
+                              width: 160, height: 20, borderRadius: 10),
                         ],
                       ),
                       Row(
                         children: [
                           const SkeletonCircle(size: 40),
                           const SizedBox(width: 12),
-                          SkeletonBlock(width: 60, height: 32, borderRadius: 16),
+                          SkeletonBlock(
+                              width: 60, height: 32, borderRadius: 16),
                         ],
                       ),
                     ],
@@ -1238,7 +1305,8 @@ class HomeSkeleton extends StatelessWidget {
                             children: [
                               SkeletonCircle(size: 56),
                               SizedBox(height: 8),
-                              SkeletonBlock(width: 48, height: 10, borderRadius: 5),
+                              SkeletonBlock(
+                                  width: 48, height: 10, borderRadius: 5),
                             ],
                           ),
                         ),
@@ -1273,17 +1341,18 @@ class HomeSkeleton extends StatelessWidget {
                           child: Column(
                             children: [
                               Expanded(
-                                  child: Container(
-                                    decoration: BoxDecoration(
-                                      color: AppColors.surfaceContainerHigh,
-                                      borderRadius: BorderRadius.circular(16),
-                                    ),
+                                child: Container(
+                                  decoration: BoxDecoration(
+                                    color: AppColors.surfaceContainerHigh,
+                                    borderRadius: BorderRadius.circular(16),
                                   ),
                                 ),
+                              ),
                               const SizedBox(height: 12),
                               const SkeletonBlock(height: 14, borderRadius: 7),
                               const SizedBox(height: 6),
-                              const SkeletonBlock(width: 80, height: 14, borderRadius: 7),
+                              const SkeletonBlock(
+                                  width: 80, height: 14, borderRadius: 7),
                             ],
                           ),
                         ),
@@ -1313,7 +1382,7 @@ class PortfolioCardSkeleton extends StatelessWidget {
           borderRadius: BorderRadius.circular(24),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -1348,6 +1417,30 @@ class PortfolioCardSkeleton extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class PortfolioSkeleton extends StatelessWidget {
+  final int itemCount;
+
+  const PortfolioSkeleton({super.key, this.itemCount = 6});
+
+  @override
+  Widget build(BuildContext context) {
+    return Shimmer(
+      child: GridView.builder(
+        physics: const NeverScrollableScrollPhysics(),
+        padding: const EdgeInsets.all(16),
+        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+          crossAxisCount: ResponsiveConfig.getGridColumnCount(context),
+          childAspectRatio: 0.72,
+          crossAxisSpacing: 12,
+          mainAxisSpacing: 16,
+        ),
+        itemCount: itemCount,
+        itemBuilder: (_, __) => const PortfolioCardSkeleton(),
       ),
     );
   }
@@ -1411,7 +1504,8 @@ class PortfolioDetailSkeleton extends StatelessWidget {
                           color: Colors.white,
                           borderRadius: BorderRadius.circular(20),
                           border: Border.all(
-                            color: AppColors.outlineVariant.withOpacity(0.5),
+                            color:
+                                AppColors.outlineVariant.withValues(alpha: 0.5),
                           ),
                         ),
                         child: Column(
@@ -1422,7 +1516,8 @@ class PortfolioDetailSkeleton extends StatelessWidget {
                               child: Container(
                                 decoration: const BoxDecoration(
                                   color: AppColors.surfaceContainerHigh,
-                                  borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+                                  borderRadius: BorderRadius.vertical(
+                                      top: Radius.circular(20)),
                                 ),
                               ),
                             ),
@@ -1431,9 +1526,11 @@ class PortfolioDetailSkeleton extends StatelessWidget {
                               child: Column(
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  SkeletonBlock(width: 60, height: 10, borderRadius: 5),
+                                  SkeletonBlock(
+                                      width: 60, height: 10, borderRadius: 5),
                                   SizedBox(height: 8),
-                                  SkeletonBlock(width: 120, height: 14, borderRadius: 7),
+                                  SkeletonBlock(
+                                      width: 120, height: 14, borderRadius: 7),
                                 ],
                               ),
                             ),
@@ -1451,4 +1548,3 @@ class PortfolioDetailSkeleton extends StatelessWidget {
     );
   }
 }
-

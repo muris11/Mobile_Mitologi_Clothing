@@ -13,6 +13,7 @@ class AppSpacing {
   static const double space32 = 32;
   static const double space40 = 40;
   static const double space48 = 48;
+  static const double space64 = 64;
 
   /// Horizontal screen padding default
   static const double screenH = 16;

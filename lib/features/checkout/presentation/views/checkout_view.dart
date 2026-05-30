@@ -10,6 +10,7 @@ import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_reposit
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/checkout_view_model.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/presentation/views/midtrans_payment_screen.dart';
 import 'package:mitologi_clothing_mobile/features/profile/presentation/profile_view_model.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -41,13 +42,25 @@ class _CheckoutViewState extends State<CheckoutView> {
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leadingWidth: 64,
+        leading: PremiumBackButton(onPressed: () => context.pop()),
+        title: Text(
           'Checkout',
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 20),
+          style: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w900,
+            fontSize: 20,
+            color: AppColors.primary,
+          ),
+        ),
+        bottom: PreferredSize(
+          preferredSize: const Size.fromHeight(0.5),
+          child: Container(
+            height: 0.5,
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+          ),
         ),
       ),
       body: viewModel.isLoading

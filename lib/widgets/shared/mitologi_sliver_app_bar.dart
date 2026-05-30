@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:mitologi_clothing_mobile/core/widgets/glass_container.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
 import 'package:mitologi_clothing_mobile/core/utils/responsive_utils.dart';
@@ -45,7 +44,9 @@ class MitologiSliverAppBar extends StatelessWidget {
     );
 
     final bgColor = scrolledOpacity != null
-        ? (scrolledOpacity == 0.0 ? Colors.transparent : AppColors.background.withValues(alpha: scrolledOpacity!))
+        ? (scrolledOpacity == 0.0
+            ? Colors.transparent
+            : AppColors.background.withValues(alpha: scrolledOpacity!))
         : AppColors.background.withValues(alpha: 0.98);
 
     return SliverAppBar(
@@ -128,7 +129,9 @@ class MitologiSliverAppBar extends StatelessWidget {
                           width: 3,
                           height: 3,
                           decoration: BoxDecoration(
-                            color: contentColor != null ? contentColor!.withOpacity(0.8) : AppColors.secondary,
+                            color: contentColor != null
+                                ? contentColor!.withValues(alpha: 0.8)
+                                : AppColors.secondary,
                             shape: BoxShape.circle,
                           ),
                         ),
@@ -142,7 +145,9 @@ class MitologiSliverAppBar extends StatelessWidget {
                             fontSize: subBrandFontSize,
                             fontWeight: FontWeight.w800,
                             letterSpacing: 0.5,
-                            color: contentColor != null ? contentColor!.withOpacity(0.8) : AppColors.secondary,
+                            color: contentColor != null
+                                ? contentColor!.withValues(alpha: 0.8)
+                                : AppColors.secondary,
                             height: 1.0,
                           ),
                         ),

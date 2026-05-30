@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 
 class SectionHeader extends StatelessWidget {
@@ -38,4 +37,3 @@ class SectionHeader extends StatelessWidget {
     );
   }
 }
-

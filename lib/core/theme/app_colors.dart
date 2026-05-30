@@ -38,6 +38,19 @@ class AppColors {
   static const Color glassBorder = Color(0x22FFFFFF);
   static const Color glassSurface = Color(0xE6FFFFFF);
   static const Color glassSurfaceStrong = Color(0xF7FFFFFF);
+
+  // Status colors
+  static const Color promoRed = Color(0xFFE11D48);
+  static const Color promoRedSoft = Color(0xFFFEECEC);
+  static const Color infoBlue = Color(0xFF2563EB);
+  static const Color infoSoft = Color(0xFFEFF6FF);
+  static const Color successGreen = Color(0xFF16A34A);
+  static const Color successSoft = Color(0xFFEFFFEF);
+  static const Color warningAmber = Color(0xFFD97706);
+  static const Color warningSoft = Color(0xFFFFFBEB);
+
+  // Background warm (untuk badge best-seller)
+  static const Color backgroundWarm = Color(0xFFFBF7EF);
 }
 
 class AppShadows {
@@ -86,6 +99,15 @@ class AppGradients {
     colors: [
       AppColors.primary,
       AppColors.primaryContainer,
+    ],
+  );
+
+  static const LinearGradient navyGradient = LinearGradient(
+    begin: Alignment.topLeft,
+    end: Alignment.bottomRight,
+    colors: [
+      Color(0xFF0C1A2E),
+      Color(0xFF132A46),
     ],
   );
 

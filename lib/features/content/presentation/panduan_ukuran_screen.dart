@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
+import 'package:mitologi_clothing_mobile/core/theme/app_text_styles.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/premium_back_button.dart';
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
 
@@ -114,17 +116,29 @@ class _PanduanUkuranScreenState extends State<PanduanUkuranScreen>
       appBar: AppBar(
         backgroundColor: AppColors.background,
         elevation: 0,
-        leading: IconButton(
-          icon: const Icon(PhosphorIconsRegular.arrowLeft),
-          onPressed: () => context.pop(),
-        ),
-        title: const Text(
+        scrolledUnderElevation: 0,
+        surfaceTintColor: Colors.transparent,
+        automaticallyImplyLeading: false,
+        leadingWidth: 64,
+        leading: PremiumBackButton(onPressed: () => context.pop()),
+        title: Text(
           'Panduan Ukuran',
-          style: TextStyle(fontWeight: FontWeight.w900, fontSize: 18),
+          style: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w900,
+            fontSize: 18,
+            color: AppColors.primary,
+          ),
         ),
         bottom: TabBar(
           controller: _tabController,
-          labelStyle: const TextStyle(fontWeight: FontWeight.w700),
+          labelStyle: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w700,
+            fontSize: 13,
+          ),
+          unselectedLabelStyle: AppTextStyles.plusJakartaSans(
+            fontWeight: FontWeight.w500,
+            fontSize: 13,
+          ),
           indicatorColor: AppColors.primary,
           labelColor: AppColors.primary,
           unselectedLabelColor: AppColors.onSurfaceVariant,
