@@ -721,7 +721,10 @@ class _ProfileViewState extends State<ProfileView> {
             ),
             child: Text(
               'Keluar',
-              style: AppTextStyles.plusJakartaSans(fontWeight: FontWeight.w700),
+              style: AppTextStyles.plusJakartaSans(
+                fontWeight: FontWeight.w700,
+                color: Colors.white,
+              ),
             ),
           ),
         ],
@@ -806,6 +809,7 @@ class _ProfileViewState extends State<ProfileView> {
                             style: AppTextStyles.plusJakartaSans(
                               fontWeight: FontWeight.w800,
                               fontSize: 14,
+                              color: Colors.white,
                             ),
                           ),
                         ),

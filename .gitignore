@@ -97,3 +97,6 @@ nul
 tsconfig.json
 prd.json
 stitch/
+
+app_structure.md 
+design.md 

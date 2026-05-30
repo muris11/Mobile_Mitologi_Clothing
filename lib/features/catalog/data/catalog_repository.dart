@@ -80,8 +80,8 @@ class CatalogRepository {
     try {
       final response = await _catalogService.submitReview(slug, rating: rating, comment: comment);
       return response.statusCode == 200 || response.statusCode == 201;
-    } catch (_) {
-      return false;
+    } catch (e) {
+      rethrow;
     }
   }
 

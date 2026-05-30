@@ -1124,6 +1124,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         style: AppTextStyles.plusJakartaSans(
                           fontWeight: FontWeight.w700,
                           fontSize: isNarrow ? 11 : 13,
+                          color: Colors.white,
                         ),
                       ),
                     ),
@@ -1315,8 +1316,9 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
           title: 'Terima Kasih',
         );
       } else {
+        final errorMsg = context.read<CatalogViewModel>().error;
         setState(() {
-          _errorMessage = 'Gagal mengirim ulasan. Silakan coba lagi.';
+          _errorMessage = errorMsg ?? 'Gagal mengirim ulasan. Silakan coba lagi.';
         });
       }
     }
@@ -1488,6 +1490,7 @@ class _ReviewFormSheetState extends State<_ReviewFormSheet> {
                       style: AppTextStyles.plusJakartaSans(
                         fontWeight: FontWeight.w700,
                         fontSize: 14,
+                        color: Colors.white,
                       ),
                     ),
             ),
@@ -1934,6 +1937,7 @@ class _PremiumSizeCalculatorSheetState
                 style: AppTextStyles.plusJakartaSans(
                   fontWeight: FontWeight.w700,
                   fontSize: 14,
+                  color: Colors.white,
                 ),
               ),
             ),

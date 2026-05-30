@@ -225,7 +225,7 @@ class CatalogViewModel extends ChangeNotifier {
       }
       return success;
     } catch (e) {
-      _error = e.toString();
+      _error = ErrorMapper.mapApiError(e);
       return false;
     } finally {
       _isLoadingReviews = false;

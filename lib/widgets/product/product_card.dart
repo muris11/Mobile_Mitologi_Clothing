@@ -193,7 +193,7 @@ class ProductCard extends StatelessWidget {
                             : Icons.favorite_outline_rounded,
                         color: isInWishlist
                             ? const Color(0xFFE53935)
-                            : Colors.white,
+                            : AppColors.primary,
                         size: 16,
                       ),
                     ),
