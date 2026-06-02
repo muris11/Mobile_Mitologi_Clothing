@@ -48,23 +48,25 @@ class ChatbotProvider extends ChangeNotifier {
   }
 
   String _sanitize(String text) {
-    return text
-        .replaceAll(RegExp(r'\*\*(.+?)\*\*', dotAll: true), r'$1')
-        .replaceAll(RegExp(r'\*(.+?)\*', dotAll: true), r'$1')
-        .replaceAll(RegExp(r'__(.+?)__', dotAll: true), r'$1')
-        .replaceAll(RegExp(r'_(.+?)_', dotAll: true), r'$1')
-        .replaceAll(RegExp(r'~~(.+?)~~', dotAll: true), r'$1')
-        .replaceAll(RegExp(r'\[(.+?)\]\(.+?\)', dotAll: true), r'$1')
-        .replaceAll(RegExp(r'^#+\s*', multiLine: true), '')
-        .replaceAll(RegExp(r'^-\s', multiLine: true), '  \u2022 ')
-        .replaceAll(RegExp(r'^(\d+)\.\s', multiLine: true), r'  $1. ')
-        .replaceAll(RegExp(r'>\s?'), '')
-        .replaceAll(RegExp(r'`{1,3}[^`]*`{1,3}'), '')
+    var result = text
+        .replaceAll('**', '')
+        .replaceAll('__', '')
+        .replaceAll('~~', '')
+        .replaceAll('*', '')
+        .replaceAll('_', '')
+        .replaceAll(RegExp(r'`{1,3}.+?`{1,3}'), '')
         .replaceAll(RegExp(r'<[^>]+>'), '')
-        .replaceAll(RegExp(r'^-{3,}|_{3,}|\*{3,}', multiLine: true), '')
-        .replaceAll(RegExp(r'[ \t]+$', multiLine: true), '')
+        .replaceAllMapped(RegExp(r'\[([^\]]+)\]\([^)]+\)'), (Match m) => m[1]!)
+        .replaceAllMapped(RegExp(r'!\[([^\]]*)\]\([^)]+\)'), (Match m) => m[1]!);
+    result = result
+        .replaceAll(RegExp(r'^[#>\-*]+\s*', multiLine: true), '')
+        .replaceAll(RegExp(r'^\d+[\.\)]\s*', multiLine: true), '')
+        .replaceAll(RegExp(r'\$'), '');
+    result = result
+        .replaceAll(RegExp(r'  +'), ' ')
         .replaceAll(RegExp(r'\n{3,}'), '\n\n')
         .trim();
+    return result;
   }
 
   String _getSmartFallbackReply(String query) {
