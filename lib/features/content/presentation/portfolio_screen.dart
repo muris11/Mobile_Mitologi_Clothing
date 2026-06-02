@@ -157,7 +157,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
               ),
               const SizedBox(width: 8),
               Text(
-                'OUR JOURNEY',
+                'KARYA TERBAIK',
                 style: AppTextStyles.plusJakartaSans(
                   fontSize: 10,
                   fontWeight: FontWeight.w800,
@@ -169,7 +169,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Masterpieces',
+            'Portfolio',
             style: AppTextStyles.plusJakartaSans(
               fontSize: 32,
               fontWeight: FontWeight.w700,
@@ -179,7 +179,7 @@ class _PortfolioScreenState extends State<PortfolioScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Showcasing our best work and collaborations',
+            'Menampilkan karya terbaik dan kolaborasi kami',
             style: AppTextStyles.plusJakartaSans(
               fontSize: 14,
               color: AppColors.outline,

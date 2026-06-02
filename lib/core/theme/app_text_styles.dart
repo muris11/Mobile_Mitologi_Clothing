@@ -5,9 +5,6 @@ import 'app_colors.dart';
 
 abstract final class AppTextStyles {
   static const String fontFamily = 'PlusJakartaSans';
-  static const String notoSerifFamily = 'PlusJakartaSans';
-  static const String manropeFamily = 'Manrope';
-  static const String plusJakartaSansFamily = 'PlusJakartaSans';
 
   static TextStyle notoSerif({
     double fontSize = 14,
@@ -19,10 +16,10 @@ abstract final class AppTextStyles {
     FontStyle? fontStyle,
     List<Shadow>? shadows,
   }) {
-    return GoogleFonts.plusJakartaSans(
+    return plusJakartaSans(
       fontSize: fontSize,
       fontWeight: fontWeight,
-      color: color ?? AppColors.onSurface,
+      color: color,
       height: height,
       letterSpacing: letterSpacing,
       decoration: decoration,
@@ -41,10 +38,10 @@ abstract final class AppTextStyles {
     FontStyle? fontStyle,
     List<Shadow>? shadows,
   }) {
-    return GoogleFonts.plusJakartaSans(
+    return plusJakartaSans(
       fontSize: fontSize,
       fontWeight: fontWeight,
-      color: color ?? AppColors.onSurface,
+      color: color,
       height: height,
       letterSpacing: letterSpacing,
       decoration: decoration,

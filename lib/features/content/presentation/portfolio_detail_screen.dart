@@ -150,7 +150,7 @@ class _PortfolioDetailScreenState extends State<PortfolioDetailScreen> {
                   padding: const EdgeInsets.only(left: 24, bottom: 40),
                   sliver: SliverToBoxAdapter(
                     child: SizedBox(
-                      height: 240,
+                      height: 300,
                       child: ListView.separated(
                         scrollDirection: Axis.horizontal,
                         itemCount: others.length,
@@ -212,57 +212,112 @@ class _PortfolioDetailScreenState extends State<PortfolioDetailScreen> {
   }
 
   Widget _buildOtherCard(BuildContext context, PortfolioItem item) {
+    final cleanDescription = item.description != null
+        ? item.description!
+            .replaceAll(RegExp(r'<[^>]*>'), '')
+            .replaceAll('&nbsp;', ' ')
+            .replaceAll('&amp;', '&')
+            .replaceAll('&lt;', '<')
+            .replaceAll('&gt;', '>')
+            .replaceAll('&quot;', '"')
+            .replaceAll('&#39;', "'")
+            .trim()
+        : '';
+
     return GestureDetector(
       onTap: () {
         context.pushReplacement('/portfolio/${item.slug}');
       },
       child: Container(
-        width: 200,
-        decoration: BoxDecoration(
-          color: AppColors.surfaceContainerLowest,
-          borderRadius: BorderRadius.circular(20),
-          border: Border.all(color: AppColors.outlineVariant),
-        ),
+        width: 210,
         clipBehavior: Clip.antiAlias,
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        decoration: BoxDecoration(
+          color: AppColors.surface,
+          borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+          border: Border.all(
+            color: AppColors.outlineVariant.withValues(alpha: 0.5),
+            width: 0.5,
+          ),
+          boxShadow: [AppShadows.cardSoft],
+        ),
+        child: Stack(
           children: [
-            AspectRatio(
-              aspectRatio: 16 / 9,
-              child: ShimmerImage(
-                imageUrl: ApiConfig.buildImageUrl(item.imageUrl ?? ''),
-                fit: BoxFit.cover,
+            ShimmerImage(
+              imageUrl: ApiConfig.buildImageUrl(item.imageUrl ?? ''),
+              fit: BoxFit.cover,
+              width: 210,
+              height: 290,
+            ),
+            Positioned.fill(
+              child: DecoratedBox(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
+                    colors: [
+                      Colors.transparent,
+                      Colors.black.withValues(alpha: 0.18),
+                      Colors.black.withValues(alpha: 0.76),
+                    ],
+                    stops: const [0, 0.48, 1],
+                  ),
+                ),
               ),
             ),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.all(14),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    if (item.category != null)
-                      Text(
+            Positioned(
+              left: 12,
+              right: 12,
+              bottom: 12,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  if (item.category != null && item.category!.isNotEmpty)
+                    Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 8,
+                        vertical: 4,
+                      ),
+                      decoration: BoxDecoration(
+                        color: AppColors.secondary,
+                        borderRadius:
+                            BorderRadius.circular(AppBorderRadius.full),
+                      ),
+                      child: Text(
                         item.category!.toUpperCase(),
-                        style: AppTextStyles.plusJakartaSans(
+                        maxLines: 1,
+                        overflow: TextOverflow.ellipsis,
+                        style: AppTextStyles.discountBadge.copyWith(
                           fontSize: 9,
-                          fontWeight: FontWeight.w800,
-                          color: AppColors.secondary,
-                          letterSpacing: 1.2,
                         ),
                       ),
-                    const SizedBox(height: 6),
+                    ),
+                  const SizedBox(height: 8),
+                  Text(
+                    item.title,
+                    maxLines: 2,
+                    overflow: TextOverflow.ellipsis,
+                    style: AppTextStyles.plusJakartaSans(
+                      fontSize: 14,
+                      fontWeight: FontWeight.w800,
+                      color: Colors.white,
+                      height: 1.2,
+                    ),
+                  ),
+                  if (cleanDescription.isNotEmpty) ...[
+                    const SizedBox(height: 4),
                     Text(
-                      item.title,
-                      style: AppTextStyles.plusJakartaSans(
-                        fontSize: 14,
-                        fontWeight: FontWeight.w700,
-                        color: AppColors.primary,
-                      ),
+                      cleanDescription,
                       maxLines: 2,
                       overflow: TextOverflow.ellipsis,
+                      style: AppTextStyles.plusJakartaSans(
+                        fontSize: 10,
+                        color: Colors.white.withValues(alpha: 0.78),
+                        height: 1.35,
+                      ),
                     ),
                   ],
-                ),
+                ],
               ),
             ),
           ],

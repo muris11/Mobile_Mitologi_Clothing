@@ -64,7 +64,16 @@ class _CheckoutViewState extends State<CheckoutView> {
         ),
       ),
       body: viewModel.isLoading
-          ? const Center(child: CircularProgressIndicator())
+          ? Center(
+              child: SizedBox(
+                width: 28,
+                height: 28,
+                child: CircularProgressIndicator(
+                  strokeWidth: 3,
+                  color: AppColors.primary,
+                ),
+              ),
+            )
           : _buildCheckoutContent(viewModel, cartVM),
       bottomNavigationBar: _buildBottomBar(context, viewModel),
     );
@@ -73,7 +82,7 @@ class _CheckoutViewState extends State<CheckoutView> {
   Widget _buildCheckoutContent(
       CheckoutViewModel viewModel, CartViewModel cartVM) {
     return SingleChildScrollView(
-      padding: const EdgeInsets.all(20),
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -180,7 +189,15 @@ class _CheckoutViewState extends State<CheckoutView> {
                   color: AppColors.surfaceContainerLowest,
                   borderRadius: AppBorderRadius.lgRadius,
                 ),
-                child: const Center(child: CircularProgressIndicator()),
+                child: const Center(
+                  child: SizedBox(
+                    width: 24,
+                    height: 24,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2.5,
+                    ),
+                  ),
+                ),
               )
             else if (viewModel.error != null && viewModel.error!.contains('Gagal menghitung'))
               Container(

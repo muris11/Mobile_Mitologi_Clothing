@@ -1452,8 +1452,9 @@ class _HomeViewState extends State<HomeView> {
                 ],
               ),
             ),
-            GestureDetector(
+            InkWell(
               onTap: onSeeAll,
+              customBorder: const CircleBorder(),
               child: Container(
                 padding: const EdgeInsets.all(8),
                 decoration: BoxDecoration(
@@ -1504,8 +1505,9 @@ class _HomeViewState extends State<HomeView> {
               ],
             ),
           ),
-          GestureDetector(
+          InkWell(
             onTap: onSeeAll,
+            customBorder: const CircleBorder(),
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(

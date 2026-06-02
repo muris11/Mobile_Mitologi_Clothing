@@ -191,161 +191,123 @@ class _ProductDetailViewState extends State<ProductDetailView> {
       );
     }
 
-    return Column(
-      children: [
-        SizedBox(
-          height: MediaQuery.of(context).size.width,
-          child: Stack(
-            children: [
-              PageView.builder(
-                controller: _pageController,
-                itemCount: images.length,
-                onPageChanged: (i) => setState(() => _currentImageIndex = i),
-                itemBuilder: (context, index) {
-                  return ShimmerImage(
-                    imageUrl: ApiConfig.buildImageUrl(images[index]),
-                    fit: BoxFit.cover,
-                    width: double.infinity,
-                    height: double.infinity,
-                  );
-                },
-              ),
-              if (images.length > 1)
-                Positioned(
-                  left: 16,
-                  right: 16,
-                  bottom: 16,
+    return SizedBox(
+      height: MediaQuery.of(context).size.width,
+      child: Stack(
+        children: [
+          PageView.builder(
+            controller: _pageController,
+            itemCount: images.length,
+            onPageChanged: (i) => setState(() => _currentImageIndex = i),
+            itemBuilder: (context, index) {
+              return ShimmerImage(
+                imageUrl: ApiConfig.buildImageUrl(images[index]),
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              );
+            },
+          ),
+          if (images.length > 1)
+            Positioned(
+              left: 0,
+              right: 0,
+              bottom: 14,
+              child: Center(
+                child: Container(
+                  padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
+                  decoration: BoxDecoration(
+                    color: Colors.black.withValues(alpha: 0.2),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
+                    mainAxisSize: MainAxisSize.min,
                     children: List.generate(
                       images.length,
                       (i) => AnimatedContainer(
                         duration: const Duration(milliseconds: 200),
-                        margin: const EdgeInsets.symmetric(horizontal: 3),
-                        width: _currentImageIndex == i ? 24 : 6,
-                        height: 6,
+                        margin: const EdgeInsets.symmetric(horizontal: 2.5),
+                        width: _currentImageIndex == i ? 18 : 5,
+                        height: 5,
                         decoration: BoxDecoration(
                           color: _currentImageIndex == i
-                              ? _gold
-                              : Colors.white.withValues(alpha: 0.5),
+                              ? Colors.white
+                              : Colors.white.withValues(alpha: 0.4),
                           borderRadius: BorderRadius.circular(3),
                         ),
                       ),
                     ),
                   ),
                 ),
-              Positioned(
-                left: 8,
-                top: 8,
-                child: SafeArea(
-                  child: GestureDetector(
-                    onTap: () => context.pop(),
-                    child: Container(
-                      width: 40,
-                      height: 40,
-                      decoration: BoxDecoration(
-                        color: Colors.white.withValues(alpha: 0.9),
-                        shape: BoxShape.circle,
-                        border: Border.all(
-                          color: AppColors.outlineVariant.withValues(alpha: 0.4),
-                          width: 1,
-                        ),
-                      ),
-                      child: const Icon(PhosphorIconsRegular.caretLeft,
-                          size: 20, color: AppColors.primary),
-                    ),
+              ),
+            ),
+          Positioned(
+            left: 8,
+            top: 8,
+            child: SafeArea(
+              child: GestureDetector(
+                onTap: () => context.pop(),
+                child: Container(
+                  width: 38,
+                  height: 38,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.85),
+                    shape: BoxShape.circle,
                   ),
+                  child: const Icon(PhosphorIconsRegular.caretLeft,
+                      size: 18, color: AppColors.primary),
                 ),
               ),
-              Positioned(
-                right: 8,
-                top: 8,
-                child: SafeArea(
-                  child: Consumer<WishlistProvider>(
-                    builder: (context, wishlist, _) {
-                      final inWishlist = wishlist.isInWishlist(context
-                              .read<CatalogViewModel>()
-                              .selectedProduct
-                              ?.id ??
-                          0);
-                      return GestureDetector(
-                        onTap: () {
-                          final pid = context
-                              .read<CatalogViewModel>()
-                              .selectedProduct
-                              ?.id;
-                          if (pid != null) wishlist.toggleWishlist(pid);
-                        },
-                        child: Container(
-                          width: 40,
-                          height: 40,
-                          decoration: BoxDecoration(
-                            color: Colors.white.withValues(alpha: 0.9),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                          child: Icon(
-                            inWishlist
-                                ? PhosphorIconsFill.heart
-                                : PhosphorIconsRegular.heart,
-                            size: 20,
-                            color:
-                                inWishlist ? _gold : AppColors.onSurfaceVariant,
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
-              ),
-            ],
-          ),
-        ),
-        if (images.length > 1)
-          Container(
-            height: 72,
-            color: AppColors.background,
-            padding: const EdgeInsets.symmetric(vertical: 8),
-            child: ListView.builder(
-              scrollDirection: Axis.horizontal,
-              padding: const EdgeInsets.symmetric(horizontal: 16),
-              itemCount: images.length,
-              itemBuilder: (context, index) {
-                final isActive = index == _currentImageIndex;
-                return GestureDetector(
-                  onTap: () {
-                    _pageController.animateToPage(
-                      index,
-                      duration: const Duration(milliseconds: 300),
-                      curve: Curves.easeInOut,
-                    );
-                  },
-                  child: Container(
-                    width: 56,
-                    margin: const EdgeInsets.only(right: 8),
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(8),
-                      border: Border.all(
-                        color: isActive ? _gold : AppColors.outlineVariant,
-                        width: isActive ? 2 : 1,
-                      ),
-                    ),
-                    clipBehavior: Clip.antiAlias,
-                    child: ShimmerImage(
-                      imageUrl: ApiConfig.buildImageUrl(images[index]),
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                );
-              },
             ),
           ),
-      ],
+          Positioned(
+            right: 8,
+            top: 8,
+            child: SafeArea(
+              child: Consumer<WishlistProvider>(
+                builder: (context, wishlist, _) {
+                  final inWishlist = wishlist.isInWishlist(context
+                          .read<CatalogViewModel>()
+                          .selectedProduct
+                          ?.id ??
+                      0);
+                  return GestureDetector(
+                    onTap: () {
+                      final pid = context
+                          .read<CatalogViewModel>()
+                          .selectedProduct
+                          ?.id;
+                      if (pid != null) wishlist.toggleWishlist(pid);
+                    },
+                    child: Container(
+                      width: 38,
+                      height: 38,
+                      decoration: BoxDecoration(
+                        color: Colors.white.withValues(alpha: 0.85),
+                        shape: BoxShape.circle,
+                      ),
+                      child: Icon(
+                        inWishlist
+                            ? PhosphorIconsFill.heart
+                            : PhosphorIconsRegular.heart,
+                        size: 18,
+                        color:
+                            inWishlist ? _gold : AppColors.onSurfaceVariant,
+                      ),
+                    ),
+                  );
+                },
+              ),
+            ),
+          ),
+        ],
+      ),
     );
   }
 
   Widget _buildProductInfo(ProductDetailModel product) {
     return Padding(
-      padding: const EdgeInsets.fromLTRB(20, 16, 20, 0),
+      padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -358,37 +320,28 @@ class _ProductDetailViewState extends State<ProductDetailView> {
               color: AppColors.onSurface,
             ),
           ),
-          const Gap(10),
+          const Gap(8),
           Row(
             children: [
               if ((product.rating ?? 0) > 0) ...[
-                Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-                  decoration: BoxDecoration(
-                    color: _gold.withValues(alpha: 0.08),
-                    borderRadius: BorderRadius.circular(999),
-                    border: Border.all(color: _gold.withValues(alpha: 0.2)),
-                  ),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      const Icon(Icons.star_rounded, size: 14, color: _gold),
-                      const SizedBox(width: 3),
-                      Text(
-                        product.rating!.toStringAsFixed(1),
-                        style: AppTextStyles.plusJakartaSans(
-                          fontSize: 12,
-                          fontWeight: FontWeight.w700,
-                          color: _gold,
-                        ),
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  children: [
+                    const Icon(Icons.star_rounded, size: 14, color: _gold),
+                    const SizedBox(width: 3),
+                    Text(
+                      product.rating!.toStringAsFixed(1),
+                      style: AppTextStyles.plusJakartaSans(
+                        fontSize: 12,
+                        fontWeight: FontWeight.w700,
+                        color: _gold,
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
                 const SizedBox(width: 6),
               ],
-              if (product.reviewsCount > 0) ...[
+              if (product.reviewsCount > 0)
                 Text(
                   '${product.reviewsCount} ulasan',
                   style: AppTextStyles.plusJakartaSans(
@@ -397,15 +350,16 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                     fontWeight: FontWeight.w500,
                   ),
                 ),
-              ],
               if (product.reviewsCount > 0 && product.totalSold > 0)
-                Container(
-                  width: 3,
-                  height: 3,
-                  margin: const EdgeInsets.symmetric(horizontal: 6),
-                  decoration: const BoxDecoration(
-                    color: AppColors.outline,
-                    shape: BoxShape.circle,
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 6),
+                  child: Container(
+                    width: 3,
+                    height: 3,
+                    decoration: const BoxDecoration(
+                      color: AppColors.outline,
+                      shape: BoxShape.circle,
+                    ),
                   ),
                 ),
               if (product.totalSold > 0)
@@ -419,31 +373,36 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                 ),
             ],
           ),
-          const Gap(16),
-          Text(
-            _formatPrice(product.displayPrice),
-            style: AppTextStyles.plusJakartaSans(
-              fontSize: 26,
-              fontWeight: FontWeight.w900,
-              color: _gold,
-              height: 1.1,
-            ),
-          ),
-          if (product.onSale)
-            Padding(
-              padding: const EdgeInsets.only(top: 4),
-              child: Text(
-                _formatPrice(product.price),
+          const Gap(20),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                _formatPrice(product.displayPrice),
                 style: AppTextStyles.plusJakartaSans(
-                  fontSize: 15,
-                  color: AppColors.outline,
-                  decoration: TextDecoration.lineThrough,
-                  fontWeight: FontWeight.w500,
+                  fontSize: 26,
+                  fontWeight: FontWeight.w900,
+                  color: _gold,
+                  height: 1.1,
                 ),
               ),
-            ),
+              if (product.onSale)
+                Padding(
+                  padding: const EdgeInsets.only(top: 4),
+                  child: Text(
+                    _formatPrice(product.price),
+                    style: AppTextStyles.plusJakartaSans(
+                      fontSize: 15,
+                      color: AppColors.outline,
+                      decoration: TextDecoration.lineThrough,
+                      fontWeight: FontWeight.w500,
+                    ),
+                  ),
+                ),
+            ],
+          ),
           if (product.options.isNotEmpty) ...[
-            const Divider(height: 28),
+            const Gap(24),
             ...product.options.map((option) => _buildOptionGroup(option)),
           ],
         ],
@@ -577,35 +536,27 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   Widget _buildSpecs(ProductDetailModel product) {
     return Padding(
       padding: const EdgeInsets.fromLTRB(20, 20, 20, 0),
-      child: Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          color: AppColors.surfaceContainerLowest,
-          borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppColors.outlineVariant),
-        ),
-        child: Column(
-          children: [
+      child: Column(
+        children: [
+          _SpecRow(
+            label: 'Kategori',
+            value: product.tags.isNotEmpty ? product.tags.first : 'Produk',
+          ),
+          const _SpecDivider(),
+          _SpecRow(label: 'Stok', value: '${product.stock} tersedia'),
+          const _SpecDivider(),
+          _SpecRow(
+            label: 'Dikirim dari',
+            value: 'Cirebon, Jawa Barat',
+          ),
+          if (product.variants.firstOrNull?.sku != null) ...[
+            const _SpecDivider(),
             _SpecRow(
-              label: 'Kategori',
-              value: product.tags.isNotEmpty ? product.tags.first : 'Produk',
+              label: 'SKU',
+              value: product.variants.first.sku!,
             ),
-            const Divider(height: 20),
-            _SpecRow(label: 'Stok', value: '${product.stock} tersedia'),
-            const Divider(height: 20),
-            _SpecRow(
-              label: 'Dikirim dari',
-              value: 'Cirebon, Jawa Barat',
-            ),
-            if (product.variants.firstOrNull?.sku != null) ...[
-              const Divider(height: 20),
-              _SpecRow(
-                label: 'SKU',
-                value: product.variants.first.sku!,
-              ),
-            ],
           ],
-        ),
+        ],
       ),
     );
   }
@@ -852,13 +803,8 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   }
 
   Widget _buildReviewItem(ProductReview review) {
-    return Container(
-      padding: const EdgeInsets.all(14),
-      decoration: BoxDecoration(
-        color: AppColors.surfaceContainerLowest,
-        borderRadius: BorderRadius.circular(14),
-        border: Border.all(color: AppColors.outlineVariant),
-      ),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -906,7 +852,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             ],
           ),
           if (review.comment.isNotEmpty) ...[
-            const Gap(8),
+            const Gap(6),
             Text(
               review.comment,
               style: AppTextStyles.plusJakartaSans(
@@ -917,27 +863,41 @@ class _ProductDetailViewState extends State<ProductDetailView> {
             ),
           ],
           if (review.adminReply != null) ...[
-            const Gap(8),
-            Container(
-              padding: const EdgeInsets.all(10),
-              decoration: BoxDecoration(
-                color: AppColors.surfaceContainerLow,
-                borderRadius: BorderRadius.circular(8),
-              ),
+            const Gap(6),
+            IntrinsicHeight(
               child: Row(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Icon(PhosphorIconsRegular.storefront,
-                      size: 14, color: AppColors.primary),
-                  const SizedBox(width: 6),
+                  Container(
+                    width: 2,
+                    margin: const EdgeInsets.only(right: 10),
+                    decoration: BoxDecoration(
+                      color: AppColors.outlineVariant.withValues(alpha: 0.4),
+                      borderRadius: BorderRadius.circular(1),
+                    ),
+                  ),
                   Expanded(
-                    child: Text(
-                      review.adminReply!,
-                      style: AppTextStyles.plusJakartaSans(
-                        fontSize: 12,
-                        height: 1.4,
-                        color: AppColors.onSurface,
-                      ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          'Mitologi Clothing',
+                          style: AppTextStyles.plusJakartaSans(
+                            fontSize: 11,
+                            fontWeight: FontWeight.w700,
+                            color: AppColors.onSurfaceVariant,
+                          ),
+                        ),
+                        const SizedBox(height: 2),
+                        Text(
+                          review.adminReply!,
+                          style: AppTextStyles.plusJakartaSans(
+                            fontSize: 12,
+                            height: 1.4,
+                            color: AppColors.onSurface,
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -1005,7 +965,7 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         product.availableForSale && (variant?.availableForSale ?? true);
 
     return Container(
-      padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+      padding: const EdgeInsets.fromLTRB(20, 10, 20, 24),
       decoration: BoxDecoration(
         color: AppColors.surfaceContainerLowest,
         boxShadow: [
@@ -1021,37 +981,30 @@ class _ProductDetailViewState extends State<ProductDetailView> {
         child: LayoutBuilder(
           builder: (context, constraints) {
             final isNarrow = constraints.maxWidth < 360;
-            final qtySelectorWidth = isNarrow ? 96.0 : 120.0;
-            final qtyButtonWidth = isNarrow ? 30.0 : 40.0;
-            final spacing = isNarrow ? 6.0 : 10.0;
+            final spacing = isNarrow ? 8.0 : 12.0;
 
             return Row(
               children: [
                 Container(
                   height: 44,
-                  width: qtySelectorWidth,
+                  width: isNarrow ? 88 : 110,
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.outlineVariant),
+                    color: AppColors.surfaceContainerLow,
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       GestureDetector(
                         onTap: _quantity > 1
                             ? () => setState(() => _quantity--)
                             : null,
-                        child: Container(
-                          width: qtyButtonWidth,
-                          height: 44,
-                          alignment: Alignment.center,
-                          child: Icon(
-                            PhosphorIconsRegular.minus,
-                            size: 16,
-                            color: _quantity > 1
-                                ? AppColors.onSurface
-                                : AppColors.outlineVariant,
-                          ),
+                        child: Icon(
+                          PhosphorIconsRegular.minus,
+                          size: 16,
+                          color: _quantity > 1
+                              ? AppColors.onSurface
+                              : AppColors.outlineVariant,
                         ),
                       ),
                       Text(
@@ -1063,15 +1016,10 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       ),
                       GestureDetector(
                         onTap: () => setState(() => _quantity++),
-                        child: Container(
-                          width: qtyButtonWidth,
-                          height: 44,
-                          alignment: Alignment.center,
-                          child: const Icon(
-                            PhosphorIconsRegular.plus,
-                            size: 16,
-                            color: AppColors.onSurface,
-                          ),
+                        child: const Icon(
+                          PhosphorIconsRegular.plus,
+                          size: 16,
+                          color: AppColors.onSurface,
                         ),
                       ),
                     ],
@@ -1086,26 +1034,27 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                       style: OutlinedButton.styleFrom(
                         side: BorderSide(
                           color:
-                              canAdd ? AppColors.primary : AppColors.outlineVariant,
+                              canAdd ? AppColors.outlineVariant : AppColors.outlineVariant,
                         ),
+                        backgroundColor: Colors.white,
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: isNarrow ? 4 : 8),
                       ),
                       child: Text(
                         'Keranjang',
                         style: AppTextStyles.plusJakartaSans(
                           fontWeight: FontWeight.w700,
                           fontSize: isNarrow ? 11 : 13,
-                          color: canAdd ? AppColors.primary : AppColors.outline,
+                          color: canAdd ? AppColors.onSurface : AppColors.outline,
                         ),
                       ),
                     ),
                   ),
                 ),
-                SizedBox(width: isNarrow ? 4.0 : 8.0),
+                SizedBox(width: spacing),
                 Expanded(
+                  flex: isNarrow ? 1 : 2,
                   child: SizedBox(
                     height: 44,
                     child: FilledButton(
@@ -1117,13 +1066,12 @@ class _ProductDetailViewState extends State<ProductDetailView> {
                         shape: RoundedRectangleBorder(
                           borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: EdgeInsets.symmetric(horizontal: isNarrow ? 4 : 8),
                       ),
                       child: Text(
                         'Beli',
                         style: AppTextStyles.plusJakartaSans(
                           fontWeight: FontWeight.w700,
-                          fontSize: isNarrow ? 11 : 13,
+                          fontSize: isNarrow ? 11 : 14,
                           color: Colors.white,
                         ),
                       ),
@@ -1178,6 +1126,18 @@ class _ProductDetailViewState extends State<ProductDetailView> {
   }
 }
 
+class _SpecDivider extends StatelessWidget {
+  const _SpecDivider();
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 10),
+      child: Container(height: 1, color: AppColors.outlineVariant.withValues(alpha: 0.4)),
+    );
+  }
+}
+
 class _SpecRow extends StatelessWidget {
   final String label;
   final String value;
@@ -1194,6 +1154,7 @@ class _SpecRow extends StatelessWidget {
           style: AppTextStyles.plusJakartaSans(
             fontSize: 13,
             color: AppColors.onSurfaceVariant,
+            fontWeight: FontWeight.w500,
           ),
         ),
         Text(
@@ -1201,6 +1162,7 @@ class _SpecRow extends StatelessWidget {
           style: AppTextStyles.plusJakartaSans(
             fontSize: 13,
             fontWeight: FontWeight.w700,
+            color: AppColors.onSurface,
           ),
         ),
       ],

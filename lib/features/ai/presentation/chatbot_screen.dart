@@ -167,28 +167,34 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
           ),
         ),
       ),
-      body: Consumer<ChatbotProvider>(
-        builder: (context, provider, child) {
-          if (provider.messages.isEmpty) {
-            return _buildEmptyState();
-          }
+      body: Column(
+        children: [
+          Expanded(
+            child: Consumer<ChatbotProvider>(
+              builder: (context, provider, child) {
+                if (provider.messages.isEmpty) {
+                  return _buildEmptyState();
+                }
 
-          return ListView.builder(
-            controller: _scrollController,
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
-            itemCount:
-                provider.messages.length + (provider.isTyping ? 1 : 0),
-            itemBuilder: (context, index) {
-              if (index == provider.messages.length) {
-                return _buildTypingIndicator();
-              }
-              final message = provider.messages[index];
-              return _buildMessageBubble(message);
-            },
-          );
-        },
+                return ListView.builder(
+                  controller: _scrollController,
+                  padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+                  itemCount:
+                      provider.messages.length + (provider.isTyping ? 1 : 0),
+                  itemBuilder: (context, index) {
+                    if (index == provider.messages.length) {
+                      return _buildTypingIndicator();
+                    }
+                    final message = provider.messages[index];
+                    return _buildMessageBubble(message);
+                  },
+                );
+              },
+            ),
+          ),
+          _buildInputArea(),
+        ],
       ),
-      bottomNavigationBar: _buildInputArea(),
     );
   }
 
@@ -411,10 +417,9 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
 
   Widget _buildInputArea() {
     final bottomInset = MediaQuery.of(context).viewInsets.bottom;
-    final bottomPadding = bottomInset > 0 ? 12.0 : 32.0;
 
     return Container(
-      padding: EdgeInsets.fromLTRB(16, 12, 16, bottomPadding),
+      padding: EdgeInsets.fromLTRB(16, 12, 16, bottomInset > 0 ? 12 : 24),
       decoration: BoxDecoration(
         color: AppColors.surface,
         border: Border(

@@ -10,6 +10,8 @@ class AnimatedEmptyState extends StatelessWidget {
   final String actionLabel;
   final VoidCallback onAction;
   final Color? iconColor;
+  final Color? titleColor;
+  final Color? subtitleColor;
 
   const AnimatedEmptyState({
     super.key,
@@ -19,6 +21,8 @@ class AnimatedEmptyState extends StatelessWidget {
     required this.actionLabel,
     required this.onAction,
     this.iconColor,
+    this.titleColor,
+    this.subtitleColor,
   });
 
   @override
@@ -40,7 +44,7 @@ class AnimatedEmptyState extends StatelessWidget {
               style: AppTextStyles.plusJakartaSans(
                 fontSize: 24,
                 fontWeight: FontWeight.w700,
-                color: AppColors.primary,
+                color: titleColor ?? AppColors.primary,
               ),
               textAlign: TextAlign.center,
             ),
@@ -50,7 +54,7 @@ class AnimatedEmptyState extends StatelessWidget {
               textAlign: TextAlign.center,
               style: AppTextStyles.plusJakartaSans(
                 fontSize: 14,
-                color: AppColors.outline,
+                color: subtitleColor ?? AppColors.outline,
               ),
             ),
             const SizedBox(height: 32),
@@ -72,6 +76,7 @@ class AnimatedEmptyState extends StatelessWidget {
                 style: AppTextStyles.plusJakartaSans(
                   fontSize: 14,
                   fontWeight: FontWeight.w600,
+                  color: Colors.white,
                 ),
               ),
             ),

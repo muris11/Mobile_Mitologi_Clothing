@@ -103,7 +103,7 @@ class _ProductCardState extends State<ProductCard>
                     children: [
                       // Product image
                       ClipRRect(
-                        borderRadius: BorderRadius.circular(AppBorderRadius.lg),
+                        borderRadius: BorderRadius.circular(16),
                         child: AppImage(
                           imageUrl: ApiConfig.buildImageUrl(
                               widget.product.featuredImageUrl),

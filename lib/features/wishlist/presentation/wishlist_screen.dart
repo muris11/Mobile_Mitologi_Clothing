@@ -56,6 +56,9 @@ class _WishlistScreenState extends State<WishlistScreen> {
                       subtitle: provider.error!,
                       actionLabel: 'Coba Lagi',
                       onAction: () => provider.loadWishlist(),
+                      titleColor: Colors.white,
+                      subtitleColor: Colors.white70,
+                      iconColor: Colors.white,
                     ),
                   );
                 }
@@ -118,7 +121,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
               ),
               const SizedBox(width: 8),
               Text(
-                'CURATED SELECTION',
+                'KOLEKSI FAVORIT',
                 style: AppTextStyles.plusJakartaSans(
                   fontSize: 10,
                   fontWeight: FontWeight.w800,
@@ -130,7 +133,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           ),
           const SizedBox(height: 12),
           Text(
-            'Your Favorites',
+            'Favorit',
             style: AppTextStyles.plusJakartaSans(
               fontSize: 32,
               fontWeight: FontWeight.w700,
@@ -140,7 +143,7 @@ class _WishlistScreenState extends State<WishlistScreen> {
           ),
           const SizedBox(height: 4),
           Text(
-            'Items you\'ve saved for later',
+            'Produk yang Anda simpan untuk dilihat nanti',
             style: AppTextStyles.plusJakartaSans(
               fontSize: 14,
               color: AppColors.outline,

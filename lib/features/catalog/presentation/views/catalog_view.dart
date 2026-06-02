@@ -91,6 +91,8 @@ class _CatalogViewState extends State<CatalogView> {
 
     showModalBottomSheet(
       context: context,
+      isScrollControlled: true,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
@@ -101,161 +103,163 @@ class _CatalogViewState extends State<CatalogView> {
             bool localSortReverse = vm.sortReverse;
 
             return Padding(
-              padding: const EdgeInsets.fromLTRB(24, 12, 24, 32),
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Center(
-                    child: Container(
-                      width: 40,
-                      height: 4,
-                      decoration: BoxDecoration(
-                        color: AppColors.outlineVariant,
-                        borderRadius: BorderRadius.circular(2),
-                      ),
-                    ),
-                  ),
-                  const Gap(20),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        'Filter',
-                        style: AppTextStyles.plusJakartaSans(
-                          fontSize: 20,
-                          fontWeight: FontWeight.w800,
+              padding: EdgeInsets.fromLTRB(24, 12, 24, 24 + MediaQuery.of(context).padding.bottom),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Center(
+                      child: Container(
+                        width: 40,
+                        height: 4,
+                        decoration: BoxDecoration(
+                          color: AppColors.outlineVariant,
+                          borderRadius: BorderRadius.circular(2),
                         ),
                       ),
-                      TextButton(
-                        onPressed: () {
-                          vm.clearFilters();
-                          _minPriceController.clear();
-                          _maxPriceController.clear();
-                          Navigator.pop(sheetContext);
-                        },
-                        child: Text(
-                          'Hapus Semua',
+                    ),
+                    const Gap(20),
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          'Filter',
                           style: AppTextStyles.plusJakartaSans(
-                            color: AppColors.secondary,
-                            fontWeight: FontWeight.w700,
+                            fontSize: 20,
+                            fontWeight: FontWeight.w800,
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                  const Gap(20),
-                  Text(
-                    'Urutkan',
-                    style: AppTextStyles.plusJakartaSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const Gap(8),
-                  _SortOption(
-                    label: 'Terbaru',
-                    isSelected: localSortKey == null,
-                    onTap: () {
-                      localSortKey = null;
-                      vm.setSort(null);
-                      Navigator.pop(sheetContext);
-                    },
-                  ),
-                  _SortOption(
-                    label: 'Harga: Rendah ke Tinggi',
-                    isSelected: localSortKey == 'PRICE' && !localSortReverse,
-                    onTap: () {
-                      localSortKey = 'PRICE';
-                      localSortReverse = false;
-                      vm.setSort('PRICE', reverse: false);
-                      Navigator.pop(sheetContext);
-                    },
-                  ),
-                  _SortOption(
-                    label: 'Harga: Tinggi ke Rendah',
-                    isSelected: localSortKey == 'PRICE' && localSortReverse,
-                    onTap: () {
-                      localSortKey = 'PRICE';
-                      localSortReverse = true;
-                      vm.setSort('PRICE', reverse: true);
-                      Navigator.pop(sheetContext);
-                    },
-                  ),
-                  _SortOption(
-                    label: 'Terlaris',
-                    isSelected: localSortKey == 'BEST_SELLING',
-                    onTap: () {
-                      localSortKey = 'BEST_SELLING';
-                      vm.setSort('BEST_SELLING');
-                      Navigator.pop(sheetContext);
-                    },
-                  ),
-                  const Gap(20),
-                  Text(
-                    'Rentang Harga',
-                    style: AppTextStyles.plusJakartaSans(
-                      fontSize: 14,
-                      fontWeight: FontWeight.w700,
-                    ),
-                  ),
-                  const Gap(12),
-                  Row(
-                    children: [
-                      Expanded(
-                        child: TextField(
-                          controller: _minPriceController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: 'Min',
-                            hintStyle:
-                                AppTextStyles.plusJakartaSans(fontSize: 13),
-                          ),
-                          style: AppTextStyles.plusJakartaSans(fontSize: 14),
-                        ),
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        child: Text('—',
+                        TextButton(
+                          onPressed: () {
+                            vm.clearFilters();
+                            _minPriceController.clear();
+                            _maxPriceController.clear();
+                            Navigator.pop(sheetContext);
+                          },
+                          child: Text(
+                            'Hapus Semua',
                             style: AppTextStyles.plusJakartaSans(
-                                color: AppColors.onSurfaceVariant)),
-                      ),
-                      Expanded(
-                        child: TextField(
-                          controller: _maxPriceController,
-                          keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            hintText: 'Max',
-                            hintStyle:
-                                AppTextStyles.plusJakartaSans(fontSize: 13),
+                              color: AppColors.secondary,
+                              fontWeight: FontWeight.w700,
+                            ),
                           ),
-                          style: AppTextStyles.plusJakartaSans(fontSize: 14),
                         ),
+                      ],
+                    ),
+                    const Gap(20),
+                    Text(
+                      'Urutkan',
+                      style: AppTextStyles.plusJakartaSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
                       ),
-                    ],
-                  ),
-                  const Gap(16),
-                  SizedBox(
-                    width: double.infinity,
-                    child: FilledButton(
-                      onPressed: () {
-                        final min = double.tryParse(_minPriceController.text);
-                        final max = double.tryParse(_maxPriceController.text);
-                        vm.setPriceRange(min, max);
+                    ),
+                    const Gap(8),
+                    _SortOption(
+                      label: 'Terbaru',
+                      isSelected: localSortKey == null,
+                      onTap: () {
+                        localSortKey = null;
+                        vm.setSort(null);
                         Navigator.pop(sheetContext);
                       },
-                      style: FilledButton.styleFrom(
-                        backgroundColor: AppColors.secondary,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
-                      ),
-                      child: const Text('Terapkan',
-                          style: TextStyle(fontWeight: FontWeight.w700)),
                     ),
-                  ),
-                ],
+                    _SortOption(
+                      label: 'Harga: Rendah ke Tinggi',
+                      isSelected: localSortKey == 'PRICE' && !localSortReverse,
+                      onTap: () {
+                        localSortKey = 'PRICE';
+                        localSortReverse = false;
+                        vm.setSort('PRICE', reverse: false);
+                        Navigator.pop(sheetContext);
+                      },
+                    ),
+                    _SortOption(
+                      label: 'Harga: Tinggi ke Rendah',
+                      isSelected: localSortKey == 'PRICE' && localSortReverse,
+                      onTap: () {
+                        localSortKey = 'PRICE';
+                        localSortReverse = true;
+                        vm.setSort('PRICE', reverse: true);
+                        Navigator.pop(sheetContext);
+                      },
+                    ),
+                    _SortOption(
+                      label: 'Terlaris',
+                      isSelected: localSortKey == 'BEST_SELLING',
+                      onTap: () {
+                        localSortKey = 'BEST_SELLING';
+                        vm.setSort('BEST_SELLING');
+                        Navigator.pop(sheetContext);
+                      },
+                    ),
+                    const Gap(20),
+                    Text(
+                      'Rentang Harga',
+                      style: AppTextStyles.plusJakartaSans(
+                        fontSize: 14,
+                        fontWeight: FontWeight.w700,
+                      ),
+                    ),
+                    const Gap(12),
+                    Row(
+                      children: [
+                        Expanded(
+                          child: TextField(
+                            controller: _minPriceController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: 'Min',
+                              hintStyle:
+                                  AppTextStyles.plusJakartaSans(fontSize: 13),
+                            ),
+                            style: AppTextStyles.plusJakartaSans(fontSize: 14),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 12),
+                          child: Text('—',
+                              style: AppTextStyles.plusJakartaSans(
+                                  color: AppColors.onSurfaceVariant)),
+                        ),
+                        Expanded(
+                          child: TextField(
+                            controller: _maxPriceController,
+                            keyboardType: TextInputType.number,
+                            decoration: InputDecoration(
+                              hintText: 'Max',
+                              hintStyle:
+                                  AppTextStyles.plusJakartaSans(fontSize: 13),
+                            ),
+                            style: AppTextStyles.plusJakartaSans(fontSize: 14),
+                          ),
+                        ),
+                      ],
+                    ),
+                    const Gap(16),
+                    SizedBox(
+                      width: double.infinity,
+                      child: FilledButton(
+                        onPressed: () {
+                          final min = double.tryParse(_minPriceController.text);
+                          final max = double.tryParse(_maxPriceController.text);
+                          vm.setPriceRange(min, max);
+                          Navigator.pop(sheetContext);
+                        },
+                        style: FilledButton.styleFrom(
+                          backgroundColor: AppColors.secondary,
+                          padding: const EdgeInsets.symmetric(vertical: 14),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(14),
+                          ),
+                        ),
+                        child: const Text('Terapkan',
+                            style: TextStyle(fontWeight: FontWeight.w700)),
+                      ),
+                    ),
+                  ],
+                ),
               ),
             );
           },
@@ -451,28 +455,20 @@ class _CatalogViewState extends State<CatalogView> {
                   crossAxisSpacing: 12,
                   mainAxisSpacing: 16,
                 ),
-                delegate: SliverChildBuilderDelegate(
-                  (context, index) {
-                    if (index == viewModel.products.length) {
-                      return const Center(
-                          child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: CircularProgressIndicator(),
-                      ));
-                    }
-                    final product = viewModel.products[index];
-                    return Consumer<WishlistProvider>(
-                      builder: (context, wishlist, _) => ProductCard(
-                        product: product,
-                        isInWishlist: wishlist.isInWishlist(product.id),
-                        onWishlistToggle: () =>
-                            wishlist.toggleWishlist(product.id),
-                      ),
-                    );
-                  },
-                  childCount:
-                      viewModel.products.length + (viewModel.hasMore ? 1 : 0),
-                ),
+                  delegate: SliverChildBuilderDelegate(
+                    (context, index) {
+                      final product = viewModel.products[index];
+                      return Consumer<WishlistProvider>(
+                        builder: (context, wishlist, _) => ProductCard(
+                          product: product,
+                          isInWishlist: wishlist.isInWishlist(product.id),
+                          onWishlistToggle: () =>
+                              wishlist.toggleWishlist(product.id),
+                        ),
+                      );
+                    },
+                    childCount: viewModel.products.length,
+                  ),
               ),
             ),
         ],

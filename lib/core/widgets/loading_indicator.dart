@@ -54,7 +54,7 @@ class ErrorWidgetWithRetry extends StatelessWidget {
               const Gap(20),
               Text(
                 'Terjadi Kesalahan',
-                style: AppTextStyles.notoSerif(
+                style: AppTextStyles.plusJakartaSans(
                   fontSize: 20,
                   fontWeight: FontWeight.w700,
                   color: AppColors.primary,
@@ -64,7 +64,7 @@ class ErrorWidgetWithRetry extends StatelessWidget {
               const Gap(8),
               Text(
                 message,
-                style: AppTextStyles.manrope(
+                style: AppTextStyles.plusJakartaSans(
                   color: AppColors.onSurfaceVariant,
                   fontSize: 14,
                   height: 1.6,

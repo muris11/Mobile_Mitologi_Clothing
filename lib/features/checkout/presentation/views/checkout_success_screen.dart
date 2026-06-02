@@ -6,6 +6,7 @@ import 'package:gap/gap.dart';
 import 'package:go_router/go_router.dart';
 import 'package:mitologi_clothing_mobile/core/theme/app_colors.dart';
 import 'package:mitologi_clothing_mobile/features/checkout/data/checkout_repository.dart';
+import 'package:mitologi_clothing_mobile/widgets/common/confetti_celebration.dart' as confetti;
 import 'package:phosphor_flutter/phosphor_flutter.dart';
 import 'package:provider/provider.dart';
 
@@ -78,6 +79,7 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
           _syncing = false;
         });
         _pollTimer?.cancel();
+        confetti.showConfetti(context);
       }
     } catch (_) {
       // Keep polling on error
@@ -240,7 +242,29 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
       );
     }
 
-    return const SizedBox.shrink();
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
+      decoration: BoxDecoration(
+        color: AppColors.warningSoft,
+        borderRadius: BorderRadius.circular(999),
+        border: Border.all(color: AppColors.warningAmber.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          const Icon(PhosphorIconsRegular.clock,
+              color: AppColors.warningAmber, size: 18),
+          const Gap(8),
+          Text(
+            'Menunggu konfirmasi pembayaran...',
+            style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                  fontWeight: FontWeight.w600,
+                  color: AppColors.warningAmber,
+                ),
+          ),
+        ],
+      ),
+    );
   }
 
   Widget _buildOrderNumber(BuildContext context) {
@@ -264,23 +288,26 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
                 ),
           ),
           const Gap(12),
-          Text(
-            '#${widget.orderNumber}',
-            style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                  fontWeight: FontWeight.w900,
-                  fontFamily: 'monospace',
-                  color: AppColors.secondary,
-                  fontSize: 15,
-                ),
+          Flexible(
+            child: Text(
+              '#${widget.orderNumber}',
+              overflow: TextOverflow.ellipsis,
+              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                    fontWeight: FontWeight.w900,
+                    color: AppColors.secondary,
+                    fontSize: 15,
+                  ),
+            ),
           ),
           const Gap(8),
-          GestureDetector(
+          InkWell(
             onTap: _handleCopy,
+            borderRadius: BorderRadius.circular(6),
             child: Container(
               padding: const EdgeInsets.all(4),
               decoration: BoxDecoration(
                 color: _copied
-                    ? const Color(0xFFECFDF5)
+                    ? AppColors.successSoft
                     : Colors.transparent,
                 borderRadius: BorderRadius.circular(6),
               ),
@@ -290,7 +317,7 @@ class _CheckoutSuccessScreenState extends State<CheckoutSuccessScreen> {
                     : PhosphorIconsRegular.copy,
                 size: 16,
                 color: _copied
-                    ? const Color(0xFF059669)
+                    ? AppColors.successGreen
                     : AppColors.onSurfaceVariant,
               ),
             ),
