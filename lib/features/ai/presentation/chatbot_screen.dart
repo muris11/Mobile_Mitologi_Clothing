@@ -359,13 +359,13 @@ class _ChatbotScreenState extends State<ChatbotScreen> {
                   ),
                 ],
               ),
-              child: Text(
+              child: SelectableText(
                 message.content,
                 style: AppTextStyles.plusJakartaSans(
                   fontSize: 14,
-                  fontWeight: FontWeight.w600,
+                  fontWeight: isUser ? FontWeight.w600 : FontWeight.w500,
                   color: isUser ? Colors.white : AppColors.onSurface,
-                  height: 1.5,
+                  height: 1.6,
                 ),
               ),
             ),
