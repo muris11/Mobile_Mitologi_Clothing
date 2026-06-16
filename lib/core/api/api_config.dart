@@ -43,10 +43,6 @@ class ApiConfig {
     if (path.isEmpty) return '';
     if (path.startsWith('http')) return path;
 
-    final normalizedPath = path.startsWith('/') ? path.substring(1) : path;
-    if (normalizedPath.startsWith('storage/')) {
-      return '$storageUrl/$normalizedPath';
-    }
-    return '$storageUrl/storage/$normalizedPath';
+    return '$storageUrl/$path';
   }
 }
